@@ -38,6 +38,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    hilt {
+        enableTransformForLocalTests = true
+    }
 }
 
 dependencies {
@@ -79,8 +82,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
 
     // OkHttp
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
@@ -97,4 +101,9 @@ dependencies {
 
     // ViewBindingPropertyDelegate
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
+}
+
+
+kapt {
+    correctErrorTypes = true
 }
