@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DrivingSchool</string>
+    //Авторизация
+    <string name="login">Пройдите авторизацию</string>
 </resources>
