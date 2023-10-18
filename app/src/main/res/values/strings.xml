@@ -4,4 +4,12 @@
     <string name="login">Пройдите авторизацию</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main">Main</string>
+    <string name="enroll">Enroll</string>
+    <string name="profile">Profile</string>
+    <string name="choose_instructor">выбрать инструктора</string>
+    <string name="choose_date">выбрать дату</string>
+    <string name="choose_time">выбрать время</string>
+    <string name="enroll_to_a_lesson">Записаться</string>
+    <string name="choose_instructor_date_time">Выберите инструктора, дату, время</string>
 </resources>
