@@ -3,27 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.drivingschool.ui.fragments.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login"
+        />
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.drivingschool.ui.fragments.main.MainFragment"
-        android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/enrollFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.EnrollFragment"
-        android:label="fragment_enroll"
         tools:layout="@layout/fragment_enroll" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.drivingschool.ui.fragments.profile.ProfileFragment"
-        android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 
 </navigation>
