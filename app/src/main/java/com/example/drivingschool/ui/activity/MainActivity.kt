@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.title = "hello"
+//        supportActionBar?.setDisplayShowTitleEnabled(true)
+//        supportActionBar?.title = "hello"
         setAppBar()
     }
 
