@@ -12,6 +12,6 @@ class PreferencesHelper(context: Context) {
         get() = sharedPreferences.getBoolean(LOGIN_KEY, false)
 
     companion object {
-        const val LOGIN_KEY = "user_key"
+        const val LOGIN_KEY = "login_key"
     }
 }
