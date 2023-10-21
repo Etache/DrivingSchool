@@ -102,7 +102,8 @@ dependencies {
     // ViewBindingPropertyDelegate
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
 
-    //calendar
+    //fragment
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
 
 }
 
