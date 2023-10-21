@@ -35,6 +35,16 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             setLogin()
         }
+
+        activateViews()
+    }
+
+    private fun activateViews() {
+        if(binding.etLogin.text.isNotEmpty() && binding.etPassword.text.isNotEmpty()) {
+            binding.btnLogin.setBackgroundColor(resources.getColor(R.color.blue))
+        } else {
+            binding.btnLogin.setBackgroundColor(resources.getColor(R.color.gray_btn))
+        }
     }
 
     private fun saveToken(username: String?, password: String?) {

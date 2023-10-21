@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">DrivingSchool</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     //Fragments
@@ -18,6 +19,15 @@
     //NoInternetConnection
     <string name="no_connection">Нет соединения</string>
     <string name="check_the_internet_connection">Проверьте подключение к интернету</string>
+    <string name="full_name">Имя Фамилия Отчество</string>
+    <string name="telephone_number">+996 XXX XX XX XX</string>
+    <string name="beginning">начало</string>
+    <string name="beginning_date">29 октября</string>
+    <string name="beginning_time">11:00</string>
+    <string name="end">конец</string>
+    <string name="ending_date">29 октября</string>
+    <string name="ending_time">12:00</string>
+    <string name="cancel_lesson">Отменить занятие</string>
 
     //EnrollFragment
     <string name="choose_instructor">выбрать инструктора</string>
@@ -25,4 +35,5 @@
     <string name="choose_time">выбрать время</string>
     <string name="enroll_to_a_lesson">Записаться</string>
     <string name="choose_instructor_date_time">Выберите инструктора, дату, время</string>
+
 </resources>

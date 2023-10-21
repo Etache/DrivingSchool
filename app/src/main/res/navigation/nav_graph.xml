@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/scheduleFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -27,5 +27,10 @@
         android:name="com.example.drivingschool.ui.fragments.login.NoInternetFragment"
         android:label="fragment_no_internet"
         tools:layout="@layout/fragment_no_internet" />
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="com.example.drivingschool.ui.fragments.main.ScheduleFragment"
+        android:label="fragment_schedule"
+        tools:layout="@layout/fragment_schedule" />
 
 </navigation>
