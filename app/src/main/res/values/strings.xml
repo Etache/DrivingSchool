@@ -13,7 +13,7 @@
     <string name="login_please">Пройдите авторизацию</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
-    <string name="continue_login">Продолжить</string>
+    <string name="login_ru">Войти</string>
     <string name="login_error_text">Логин или пароль введены неверно, Попробуйте еще раз</string>
 
     //NoInternetConnection

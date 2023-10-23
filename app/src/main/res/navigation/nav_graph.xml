@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/scheduleFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -14,6 +14,7 @@
         android:id="@+id/mainFragment"
         android:name="com.example.drivingschool.ui.fragments.main.MainFragment"
         tools:layout="@layout/fragment_main" />
+
     <fragment
         android:id="@+id/enrollFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.EnrollFragment"

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.drivingschool.R
@@ -31,6 +32,13 @@ class MainFragment : Fragment() {
         if(!pref.isLoginSuccess) {
             findNavController().navigate(R.id.loginFragment)
         }
+
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
 }
