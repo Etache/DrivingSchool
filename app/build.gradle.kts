@@ -101,8 +101,10 @@ dependencies {
 
     // ViewBindingPropertyDelegate
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
-}
 
+    //calendar
+
+}
 
 kapt {
     correctErrorTypes = true

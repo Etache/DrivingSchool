@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient {
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("BASE URL")
+        .baseUrl("https://1773-185-161-50-95.ngrok-free.app/admin/users/myuser/")
         .client(provideOkHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
