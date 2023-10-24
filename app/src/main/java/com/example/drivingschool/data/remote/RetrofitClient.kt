@@ -9,13 +9,15 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient {
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("BASE URL")
+        .baseUrl("https://8ab4-185-161-50-95.ngrok-free.app/")
         .client(provideOkHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private fun provideOkHttpClient() = OkHttpClient.Builder()
-        .addInterceptor(provideLoggingInterceptor())
+        .addInterceptor(LoginInterceptor(
+            ""
+        ))
         .connectTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
@@ -24,4 +26,8 @@ class RetrofitClient {
 
     private fun provideLoggingInterceptor() =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
+    fun provideApi() : ApiService{
+        return retrofit.create(ApiService::class.java)
+    }
 }

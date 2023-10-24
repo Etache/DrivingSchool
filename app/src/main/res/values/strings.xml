@@ -1,17 +1,48 @@
 <resources>
     <string name="app_name">DrivingSchool</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //Fragments
+    <string name="logo">logo</string>
+    <string name="main">Main</string>
+    <string name="enroll">Enroll</string>
+    <string name="profile">Profile</string>
+
+    //LoginFragment
+    <string name="login_please">Пройдите авторизацию</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="continue_login">Продолжить</string>
+    <string name="login_error_text">Логин или пароль введены неверно, Попробуйте еще раз</string>
+
+    //NoInternetConnection
     <string name="no_connection">Нет соединения</string>
     <string name="check_the_internet_connection">Проверьте подключение к интернету</string>
-    <string name="logo">logo</string>
-    <string name="full_name">Имя Фамилия Отчество</string>
-    <string name="telephone_number">+996 XXX XX XX XX</string>
-    <string name="beginning">начало</string>
-    <string name="beginning_date">29 октября</string>
-    <string name="beginning_time">11:00</string>
-    <string name="end">конец</string>
-    <string name="ending_date">29 октября</string>
-    <string name="ending_time">12:00</string>
+
+    //EnrollFragment
+    <string name="choose_instructor">выбрать инструктора</string>
+    <string name="choose_date">выбрать дату</string>
+    <string name="choose_time">выбрать время</string>
+    <string name="enroll_to_a_lesson">Записаться</string>
+    <string name="choose_instructor_date_time">Выберите инструктора, дату, время</string>
+    <string name="second_name">Кузнецова</string>
+    <string name="name">Александра</string>
+
+    //CurrentLessonFragment
     <string name="cancel_lesson">Отменить занятие</string>
+    <string name="ending_time">12:00</string>
+    <string name="ending_date">29 октября</string>
+    <string name="end">Конец занятия</string>
+    <string name="beginning_time">11:00</string>
+    <string name="beginning_date">29 октября</string>
+    <string name="begin">Начало занятия</string>
+    <string name="telephone_number">+996 111 111 111</string>
+    <string name="full_name">Имя Фамилия Отчество</string>
+    <string name="current_lesson">Текущее занятие</string>
+    <string name="previous_lesson">Предыдущее занятие</string>
+    <string name="comment">Оставить комментарий</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="confirm_password">Подтвердите пароль</string>
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
 </resources>
