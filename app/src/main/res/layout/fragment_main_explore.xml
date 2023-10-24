@@ -26,14 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/no_lessons"
-            android:contentDescription="TODO"/>
+            android:contentDescription="@string/no_lesson"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="У вас пока нет занятий"
+            android:text="@string/text_no_lesson"
             android:textColor="@color/dark_gray_text"
             android:textSize="28sp"
             android:textStyle="bold" />

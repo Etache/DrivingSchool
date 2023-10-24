@@ -1,31 +1,21 @@
 package com.example.drivingschool.ui.fragments.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.drivingschool.R
 import com.example.drivingschool.databinding.FragmentMainExploreBinding
 
 
-class MainExploreFragment : Fragment() {
+class MainExploreFragment : Fragment(R.layout.fragment_main_explore) {
 
     companion object {
         const val BUNDLE_LESSON_TYPE = "bundle_media_type"
     }
 
-    private lateinit var binding: FragmentMainExploreBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMainExploreBinding.inflate(inflater, container, false)
-        return binding.root
-
-
-    }
+    private val binding by viewBinding(FragmentMainExploreBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

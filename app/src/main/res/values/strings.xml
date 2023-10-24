@@ -12,4 +12,8 @@
     <string name="choose_time">выбрать время</string>
     <string name="enroll_to_a_lesson">Записаться</string>
     <string name="choose_instructor_date_time">Выберите инструктора, дату, время</string>
+    <string name="text_no_lesson">У вас пока нет занятий</string>
+    <string name="no_lesson">no lesson</string>
+    <string name="current_lesson_text">Текущие</string>
+    <string name="previous_lesson_text">Предыдущие</string>
 </resources>

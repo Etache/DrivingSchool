@@ -1,41 +1,46 @@
 package com.example.drivingschool.ui.fragments.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.drivingschool.R
 import com.example.drivingschool.databinding.FragmentMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private lateinit var binding: FragmentMainBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val binding by viewBinding(FragmentMainBinding::bind)
+    private val tabTitles = arrayListOf(
+        getString(R.string.current_lesson_text),
+        getString(R.string.previous_lesson_text)
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPagerMain.adapter = MainExploreViewPagerAdapter(this@MainFragment)
 
-        TabLayoutMediator(binding.tabLayoutMain, binding.viewPagerMain) { tab, position ->
-            when (position) {
-                0 -> {
-                    tab.text = "Текущие"
-                }
+        setUpTabLayoutWitViewPager()
+    }
 
-                1 -> {
-                    tab.text = "Предыдущие"
-                }
-            }
+    @SuppressLint("InflateParams")
+    private fun setUpTabLayoutWitViewPager() {
+        TabLayoutMediator(binding.tabLayoutMain, binding.viewPagerMain) { tab, position ->
+            tab.text = tabTitles[position]
         }.attach()
+
+        for (i in tabTitles.indices) {
+            val textView =
+                LayoutInflater.from(requireContext())
+                    .inflate(/* resource = */ R.layout.tab_title, /* root = */
+                        null
+                    ) as TextView
+            binding.tabLayoutMain.getTabAt(i)?.customView = textView
+        }
     }
 
 
