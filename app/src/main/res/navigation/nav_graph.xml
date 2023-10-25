@@ -33,5 +33,10 @@
         android:name="com.example.drivingschool.ui.fragments.main.ScheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_schedule" />
+    <fragment
+        android:id="@+id/instructorProfileFragment"
+        android:name="com.example.drivingschool.ui.fragments.instructorProfile.InstructorProfileFragment"
+        android:label="fragment_instructor_profile"
+        tools:layout="@layout/fragment_instructor_profile" />
 
 </navigation>

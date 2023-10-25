@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.profile.ProfileFragment">
+    tools:context=".ui.fragments.instructorProfile.InstructorProfileFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -17,14 +17,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:id="@+id/ivInstructorProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_default_photo"
             android:padding="16dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/ic_default_photo" />
+            android:scaleType="centerCrop" />
 
     </androidx.cardview.widget.CardView>
+
 
     <LinearLayout
         android:id="@+id/ll_name_surname"
@@ -54,6 +55,8 @@
 
     </LinearLayout>
 
+
+
     <TextView
         android:id="@+id/tvChangePhoto"
         android:layout_width="wrap_content"
@@ -61,22 +64,49 @@
         android:layout_marginTop="8dp"
         android:text="Изменить фотографию"
         android:textColor="#655DA2"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_name_surname" />
 
     <TextView
-        android:id="@+id/number"
+        android:id="@+id/experience"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:paddingHorizontal="16dp"
         android:paddingVertical="4dp"
-        android:text="Номер телефона"
+        android:text="Стаж"
         android:textColor="@color/gray"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
+
+    <TextView
+        android:id="@+id/tvExperience"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/rectangle_bg_profile"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:text="15 лет"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/experience" />
+
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="4dp"
+        android:text="Номер телефона"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/tvExperience" />
 
     <TextView
         android:id="@+id/tvNumber"
@@ -87,26 +117,25 @@
         android:background="@drawable/rectangle_bg_profile"
         android:paddingHorizontal="16dp"
         android:paddingVertical="14dp"
-        android:text="+996 999 000 000"
+        android:text="+996 999 999"
         android:textColor="@color/gray"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/number" />
 
-
     <TextView
-        android:id="@+id/group"
+        android:id="@+id/carMake"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:paddingHorizontal="16dp"
         android:paddingVertical="4dp"
-        android:text="Группа"
+        android:text="Марка авто"
         android:textColor="@color/gray"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/tvNumber" />
 
     <TextView
-        android:id="@+id/tvGroup"
+        android:id="@+id/tvCarMake"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -117,7 +146,7 @@
         android:text="№4"
         android:textColor="@color/gray"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/group" />
+        app:layout_constraintTop_toBottomOf="@id/carMake" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangePassword"
@@ -135,25 +164,7 @@
         app:cornerRadius="5dp"
         app:icon="@drawable/ic_key_square_profile"
         app:iconTint="#365CA7"
-        app:layout_constraintTop_toBottomOf="@id/tvGroup" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnExit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#F3F3F3"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="14dp"
-        android:text="Выйти"
-        android:textAlignment="textStart"
-        android:textColor="#585858"
-        android:textSize="16sp"
-        app:cornerRadius="5dp"
-        app:icon="@drawable/ic_exit_profile"
-        app:iconTint="#E94057"
-        app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
+        app:layout_constraintTop_toBottomOf="@id/tvCarMake" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

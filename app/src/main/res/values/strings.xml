@@ -35,6 +35,9 @@
     <string name="choose_time">выбрать время</string>
     <string name="enroll_to_a_lesson">Записаться</string>
     <string name="choose_instructor_date_time">Выберите инструктора, дату, время</string>
+    <string name="confirm_exit">Подтвердите выход</string>
+    <string name="exit">Назад</string>
+    <string name="confirm">Подтвердить</string>
 
     //MainFragment
     <string name="text_no_lesson">У вас пока нет занятий</string>
