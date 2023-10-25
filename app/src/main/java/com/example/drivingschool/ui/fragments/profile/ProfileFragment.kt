@@ -63,17 +63,33 @@ class ProfileFragment : Fragment() {
 
 
     private fun pickImageFromGallery() {
-        binding.imProfile.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        binding.tvChangePhoto.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Изменить фотографию")
+            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        val intent = Intent(Intent.ACTION_PICK)
+                        intent.type = "image/*"
+                        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+                    }
+
+                    1 -> {
+                        binding.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
+                        //delete photo from api also....
+                    }
+                }
+            }
+            val dialog = builder.create()
+            dialog.show()
+
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
-            binding.imProfile.setImageURI(data?.data)
+            binding.ivProfile.setImageURI(data?.data)
         }
     }
 
