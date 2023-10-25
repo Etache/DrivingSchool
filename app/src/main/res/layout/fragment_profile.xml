@@ -20,9 +20,8 @@
             android:id="@+id/ivProfile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:padding="16dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/ic_default_photo" />
+            android:background="@drawable/ic_default_photo"
+            android:scaleType="centerCrop" />
 
     </androidx.cardview.widget.CardView>
 
@@ -61,7 +60,7 @@
         android:layout_marginTop="8dp"
         android:text="Изменить фотографию"
         android:textColor="#655DA2"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_name_surname" />

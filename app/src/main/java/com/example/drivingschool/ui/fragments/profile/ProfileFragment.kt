@@ -4,13 +4,14 @@ import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.Button
+import android.view.Window
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,8 +31,8 @@ import kotlinx.coroutines.launch
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private val viewModel : ProfileViewModel by viewModels()
-    private val preferences : PreferencesHelper by lazy {
+    private val viewModel: ProfileViewModel by viewModels()
+    private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
 
@@ -50,6 +51,24 @@ class ProfileFragment : Fragment() {
         pickImageFromGallery()
         showAlertDialog()
         showDialog()
+        showImage()
+
+    }
+
+    private fun showImage() {
+        binding.ivProfile.setOnClickListener { val dialog = Dialog(requireContext())
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.show_photo_profile)
+            val image = dialog.findViewById<ImageView>(R.id.image)
+            if (binding.ivProfile.drawable != null) {
+                image.setImageBitmap((binding.ivProfile.drawable as BitmapDrawable).bitmap)
+            } else {
+                image.setImageResource(R.drawable.ic_default_photo)
+            }
+            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
+            dialog.show()
+        }
     }
 
     private fun showDialog() {
@@ -63,10 +82,11 @@ class ProfileFragment : Fragment() {
             val btnSave = dialog.findViewById<MaterialButton>(R.id.btnSavePassword)
             val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
             btnSave?.setOnClickListener {
-                if(etOldPassword?.text?.isNotEmpty() == true) {
-                    if(etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
+                if (etOldPassword?.text?.isNotEmpty() == true) {
+                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
                         //logic
-                        Toast.makeText(requireContext(), "password changed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "password changed", Toast.LENGTH_SHORT)
+                            .show()
                         dialog.cancel()
                     } else {
                         etNewPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
@@ -77,7 +97,7 @@ class ProfileFragment : Fragment() {
                 }
 
             }
-            btnCancel?.setOnClickListener{
+            btnCancel?.setOnClickListener {
                 dialog.cancel()
             }
             dialog.show()
@@ -112,7 +132,9 @@ class ProfileFragment : Fragment() {
 
                     1 -> {
                         binding.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
+                       // binding.ivProfile.setImageResource(R.drawable.ic_default_photo)
                         //delete photo from api also....
+
                     }
                 }
             }
@@ -158,7 +180,8 @@ class ProfileFragment : Fragment() {
                     }
 
                     is UiState.Success -> {
-                        Glide.with(binding.ivProfile).load(state.data?.profile?.profilePhoto).into(binding.ivProfile)
+                        Glide.with(binding.ivProfile).load(state.data?.profile?.profilePhoto)
+                            .into(binding.ivProfile)
                         binding.tvName.text = state.data?.profile?.name
                         binding.tvSurname.text = state.data?.profile?.surname
                         binding.tvNumber.text = state.data?.profile?.phoneNumber
