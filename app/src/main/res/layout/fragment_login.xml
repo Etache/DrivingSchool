@@ -46,10 +46,10 @@
         android:id="@+id/ll_edit_texts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="92dp"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_error">
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
 
         <EditText
             android:id="@+id/et_login"

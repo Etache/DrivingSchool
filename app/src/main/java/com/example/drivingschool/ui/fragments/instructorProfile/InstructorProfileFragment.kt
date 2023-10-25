@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.example.drivingschool.R
-import com.example.drivingschool.databinding.ChangePasswordInstructorProfileBinding
+import com.example.drivingschool.databinding.ChangePasswordBottomSheetBinding
 import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 
 class InstructorProfileFragment : Fragment() {
@@ -36,8 +36,8 @@ class InstructorProfileFragment : Fragment() {
         binding.btnChangePassword.setOnClickListener {
 
             val adb = AlertDialog.Builder(requireContext())
-            val d: Dialog = adb.setView(R.layout.change_password_instructor_profile).create()
-            val binding = ChangePasswordInstructorProfileBinding.inflate(layoutInflater)
+            val d: Dialog = adb.setView(R.layout.change_password_bottom_sheet).create()
+            val binding = ChangePasswordBottomSheetBinding.inflate(layoutInflater)
             d.setContentView(binding.root)
             val lp = WindowManager.LayoutParams()
             lp.copyFrom(d.window!!.attributes)
@@ -71,7 +71,6 @@ class InstructorProfileFragment : Fragment() {
             }
             val dialog = builder.create()
             dialog.show()
-
         }
     }
 
