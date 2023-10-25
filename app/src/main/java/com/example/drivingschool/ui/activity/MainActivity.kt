@@ -3,6 +3,7 @@ package com.example.drivingschool.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -31,8 +32,8 @@ class MainActivity : AppCompatActivity() {
 
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
-        supportActionBar?.title = "hello"
+//        supportActionBar?.setDisplayShowTitleEnabled(true)
+//        supportActionBar?.title = "hello"
         setAppBar()
     }
 
@@ -51,6 +52,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.enrollFragment -> "Онлайн запись"
                 R.id.profileFragment -> "Профиль"
                 else -> "No title"
+            }
+            if(destination.id == R.id.loginFragment) {
+                supportActionBar?.hide()
+                navView.isVisible = false
+            } else {
+                supportActionBar?.show()
+                navView.isVisible = true
             }
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)

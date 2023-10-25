@@ -40,7 +40,7 @@
             android:layout_marginHorizontal="72dp"
             android:gravity="center"
             android:text="@string/check_the_internet_connection"
-            android:textColor="#B3261E"
+            android:textColor="@color/red"
             android:textSize="14sp" />
 
     </LinearLayout>
