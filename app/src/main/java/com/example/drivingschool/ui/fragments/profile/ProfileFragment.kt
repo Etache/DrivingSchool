@@ -13,8 +13,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.drivingschool.R
+import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +27,9 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
     private val viewModel : ProfileViewModel by viewModels()
+    private val preferences : PreferencesHelper by lazy {
+        PreferencesHelper(requireContext())
+    }
 
     private val PICK_IMAGE_REQUEST = 1
     override fun onCreateView(
@@ -61,7 +66,6 @@ class ProfileFragment : Fragment() {
 
     }
 
-
     private fun pickImageFromGallery() {
         binding.tvChangePhoto.setOnClickListener {
             val builder = AlertDialog.Builder(context)
@@ -91,8 +95,8 @@ class ProfileFragment : Fragment() {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             binding.ivProfile.setImageURI(data?.data)
         }
-    }
 
+    }
 
     private fun showAlertDialog() {
 
@@ -104,6 +108,8 @@ class ProfileFragment : Fragment() {
                 alert.cancel()
             }
             alertDialog.setPositiveButton(getString(R.string.confirm)) { alert, _ ->
+                preferences.isLoginSuccess = false
+                findNavController().navigate(R.id.loginFragment)
                 //логика
                 alert.cancel()
             }
@@ -121,7 +127,7 @@ class ProfileFragment : Fragment() {
                     }
 
                     is UiState.Success -> {
-                        Glide.with(binding.imProfile).load(state.data?.profile?.profilePhoto).into(binding.imProfile)
+                        Glide.with(binding.ivProfile).load(state.data?.profile?.profilePhoto).into(binding.ivProfile)
                         binding.tvName.text = state.data?.profile?.name
                         binding.tvSurname.text = state.data?.profile?.surname
                         binding.tvNumber.text = state.data?.profile?.phoneNumber
