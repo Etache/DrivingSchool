@@ -1,6 +1,10 @@
 package com.example.drivingschool.data.remote
 
 import android.content.Context
+import com.example.drivingschool.data.remote.change_password.PasswordApiService
+import com.example.drivingschool.data.remote.login.LoginApiService
+import com.example.drivingschool.data.remote.login.LoginInterceptor
+import com.example.drivingschool.data.remote.profile.ProfileApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,13 +14,13 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient(val context: Context) {
 
     val loginRetrofit = Retrofit.Builder()
-        .baseUrl("https://e6e3-185-161-50-95.ngrok-free.app/")
+        .baseUrl("https://63a7-95-87-95-188.ngrok-free.app/")
         .client(provideLoginOkHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://e6e3-185-161-50-95.ngrok-free.app/")
+        .baseUrl("https://63a7-95-87-95-188.ngrok-free.app/")
         .client(provideOkHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -36,7 +40,6 @@ class RetrofitClient(val context: Context) {
         .callTimeout(30, TimeUnit.SECONDS)
         .build()
 
-
     private fun provideLoggingInterceptor() =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
@@ -46,6 +49,10 @@ class RetrofitClient(val context: Context) {
 
     fun provideProfileApi(): ProfileApiService {
         return retrofit.create(ProfileApiService::class.java)
+    }
+
+    fun providePasswordApi(): PasswordApiService {
+        return retrofit.create(PasswordApiService::class.java)
     }
 
 }

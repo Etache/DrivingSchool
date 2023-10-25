@@ -1,4 +1,4 @@
-package com.example.drivingschool.data.remote
+package com.example.drivingschool.data.remote.login
 
 import android.content.Context
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
@@ -10,7 +10,7 @@ class LoginInterceptor(val context: Context): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val preferencesHelper = PreferencesHelper(context)
         var request = chain.request()
-        request = request.newBuilder().header("Authorization", preferencesHelper.accessToken!!).build()
+        request = request.newBuilder().header("Authorization", "Bearer ${preferencesHelper.accessToken!!}").build()
         return chain.proceed(request)
     }
 }

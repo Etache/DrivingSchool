@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ProfileResponse(
 
     @SerializedName("id") var id: Int? = null,
-    @SerializedName("profile") var profile: Profile? = Profile(),
-    @SerializedName("group") var group: Group? = Group()
+    @SerializedName("profile") var profile: Profile?,
+    @SerializedName("group") var group: Group?
 
 )
 

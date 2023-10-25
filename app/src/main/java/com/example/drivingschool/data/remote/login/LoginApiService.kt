@@ -1,4 +1,4 @@
-package com.example.drivingschool.data.remote
+package com.example.drivingschool.data.remote.login
 
 import com.example.drivingschool.data.models.LoginRequest
 import com.example.drivingschool.data.models.LoginResponse

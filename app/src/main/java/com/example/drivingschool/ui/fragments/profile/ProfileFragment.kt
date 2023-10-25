@@ -2,14 +2,12 @@ package com.example.drivingschool.ui.fragments.profile
 
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -19,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
+import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -46,13 +45,14 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //getProfileData()
+        getProfileData()
         pickImageFromGallery()
-        showAlertDialog()
-        showDialog()
+        logout()
+        changePassword()
     }
 
-    private fun showDialog() {
+    private fun changePassword() {
+
         binding.btnChangePassword.setOnClickListener {
             val dialog = BottomSheetDialog(requireContext())
             dialog.setContentView(R.layout.change_password_bottom_sheet)
@@ -65,7 +65,7 @@ class ProfileFragment : Fragment() {
             btnSave?.setOnClickListener {
                 if(etOldPassword?.text?.isNotEmpty() == true) {
                     if(etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
-                        //logic
+                        viewModel.changePassword(PasswordRequest(etOldPassword.text.toString(), etNewPassword?.text.toString()))
                         Toast.makeText(requireContext(), "password changed", Toast.LENGTH_SHORT).show()
                         dialog.cancel()
                     } else {
@@ -81,19 +81,6 @@ class ProfileFragment : Fragment() {
                 dialog.cancel()
             }
             dialog.show()
-
-//            val dialog = Dialog(requireContext())
-//            val binding = ChangePasswordStudentProfileBinding.inflate(layoutInflater)
-//            dialog.setContentView(binding.root)
-//            dialog.show()
-//            val adb = AlertDialog.Builder(requireContext())
-//            val d: Dialog = adb.setView(R.layout.change_password_student_profile).create()
-//            val lp = WindowManager.LayoutParams()
-//            lp.copyFrom(d.window!!.attributes)
-//            lp.width = WindowManager.LayoutParams.MATCH_PARENT
-//            lp.height = WindowManager.LayoutParams.MATCH_PARENT
-//            d.show()
-//            d.window!!.attributes = lp
         }
 
     }
@@ -127,10 +114,9 @@ class ProfileFragment : Fragment() {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             binding.ivProfile.setImageURI(data?.data)
         }
-
     }
 
-    private fun showAlertDialog() {
+    private fun logout() {
         binding.btnExit.setOnClickListener {
             val alertDialog = AlertDialog.Builder(requireContext())
 
@@ -151,7 +137,7 @@ class ProfileFragment : Fragment() {
     private fun getProfileData() {
         viewModel.getProfile()
         lifecycleScope.launch {
-            viewModel.profile.collect { state ->
+            viewModel.profile.observe(requireActivity()) { state ->
                 when (state) {
                     is UiState.Loading -> {
                         //TODO
@@ -163,6 +149,8 @@ class ProfileFragment : Fragment() {
                         binding.tvSurname.text = state.data?.profile?.surname
                         binding.tvNumber.text = state.data?.profile?.phoneNumber
                         binding.tvGroup.text = state.data?.group?.name
+                        Log.d("madimadi", "getProfileData in Fragment: ${state.data}")
+                        Log.d("madimadi", "token in Fragment: ${preferences.accessToken}")
                     }
 
                     is UiState.Empty -> {
