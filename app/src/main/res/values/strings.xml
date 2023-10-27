@@ -42,8 +42,6 @@
     //MainFragment
     <string name="text_no_lesson">У вас пока нет занятий</string>
     <string name="no_lesson">no lesson</string>
-    <string name="current_lesson_text">Текущие</string>
-    <string name="previous_lesson_text">Предыдущие</string>
     <string name="text_btn_cancel_lesson">Отменить занятие</string>
     <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
     <string name="comment">Комментарий</string>
