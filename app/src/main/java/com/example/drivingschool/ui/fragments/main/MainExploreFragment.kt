@@ -1,25 +1,26 @@
 package com.example.drivingschool.ui.fragments.main
 
-import android.os.Bundle
-import android.view.View
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentMainExploreBinding
 
 
-class MainExploreFragment : Fragment(R.layout.fragment_main_explore) {
+class MainExploreFragment :
+    BaseFragment<FragmentMainExploreBinding, MainExploreViewModel>(R.layout.fragment_main_explore) {
 
     companion object {
         const val BUNDLE_LESSON_TYPE = "bundle_media_type"
     }
 
-    private val binding by viewBinding(FragmentMainExploreBinding::bind)
+    override val binding by viewBinding(FragmentMainExploreBinding::bind)
+    override val viewModel: MainExploreViewModel
+        get() = TODO("Not yet implemented")
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initialize() {
+        
+        @Suppress("DEPRECATION")
         val lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
             it.getSerializable(BUNDLE_LESSON_TYPE) as? LessonType
         }
@@ -28,8 +29,8 @@ class MainExploreFragment : Fragment(R.layout.fragment_main_explore) {
         else if (lessonType == LessonType.Previous) initPreviousLessonSections()
 
         binding.rvMainExplore.adapter = LessonAdapter()
-
     }
+
 
     //Для проверки вида
     private fun initPreviousLessonSections() {
