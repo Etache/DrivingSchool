@@ -34,7 +34,6 @@ class InstructorProfileFragment : Fragment() {
 
     private fun showDialog() {
         binding.btnChangePassword.setOnClickListener {
-
             val adb = AlertDialog.Builder(requireContext())
             val d: Dialog = adb.setView(R.layout.change_password_bottom_sheet).create()
             val binding = ChangePasswordBottomSheetBinding.inflate(layoutInflater)
@@ -45,7 +44,6 @@ class InstructorProfileFragment : Fragment() {
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT
             d.show()
             d.window!!.attributes = lp
-
         }
 
     }
@@ -78,7 +76,7 @@ class InstructorProfileFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            binding.ivInstructorProfile.setImageURI(data?.data)
+            binding.ivProfile.setImageURI(data?.data)
 
         }
 

@@ -7,7 +7,7 @@ import javax.inject.Inject
 class PasswordRepository @Inject constructor(
     private val passwordApiService: PasswordApiService
 ) {
-    fun changePassword(passwordRequest: PasswordRequest) {
+    suspend fun changePassword(passwordRequest: PasswordRequest) {
         passwordApiService.changePassword(passwordRequest)
     }
 }

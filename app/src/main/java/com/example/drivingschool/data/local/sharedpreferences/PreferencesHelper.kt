@@ -24,6 +24,10 @@ class PreferencesHelper(context: Context) {
         set(value) = sharedPreferences.edit().putString(ROLE_KEY, value).apply()
         get() = sharedPreferences.getString(ROLE_KEY, null)
 
+    var password : String?
+        set(value) = sharedPreferences.edit().putString(PASSWORD_KEY, value).apply()
+        get() = sharedPreferences.getString(PASSWORD_KEY, null)
+
 
 
 
@@ -32,5 +36,6 @@ class PreferencesHelper(context: Context) {
         const val ACCESS_TOKEN_KEY = "access_key"
         const val REFRESH_TOKEN_KEY = "refresh_key"
         const val ROLE_KEY = "role_key"
+        const val PASSWORD_KEY = "password_key"
     }
 }

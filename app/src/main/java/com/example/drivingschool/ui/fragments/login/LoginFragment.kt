@@ -8,15 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.LoginRequest
 import com.example.drivingschool.databinding.FragmentLoginBinding
+import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -39,7 +44,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true){
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
             }
@@ -94,17 +99,38 @@ class LoginFragment : Fragment() {
     }
 
     private fun saveToken(username: String?, password: String?) {
-        viewModel.getToken(LoginRequest(username, password)).observe(requireActivity()) { token ->
-            preferences.accessToken = token
-            Log.d("madimadi", "accessToken: $token")
+        lifecycleScope.launch {
+            viewModel.getToken(LoginRequest(username, password))
+            viewModel.token.observe(requireActivity()) { state ->
+                when (state) {
+                    is UiState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is UiState.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        preferences.accessToken = state.data?.accessToken
+                        preferences.refreshToken = state.data?.refreshToken
+                        preferences.role = state.data?.role
+                        Log.d("madimadi", "accessToken: ${state.data}")
+                    }
+                    is UiState.Empty -> {
+                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+                    }
+                    is UiState.Error -> {
+                        Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 
     private fun setLogin() {
+        //preferences.accessToken = null
         if (binding.etLogin.text.isNotEmpty() && binding.etPassword.text.isNotEmpty()) {
-            if (binding.etLogin.text.toString() == "student" && binding.etPassword.text.toString() == "trewq321") {
-                saveToken(binding.etLogin.text.toString(), binding.etPassword.text.toString())
+            saveToken(binding.etLogin.text.toString(), binding.etPassword.text.toString())
+            if (preferences.accessToken != null) {
                 preferences.isLoginSuccess = true
+                preferences.password = binding.etPassword.text.toString()
                 findNavController().navigate(R.id.mainFragment)
             } else {
                 binding.tvError.setText(R.string.login_error_text)

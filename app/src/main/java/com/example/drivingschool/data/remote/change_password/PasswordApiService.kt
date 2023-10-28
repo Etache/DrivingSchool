@@ -8,7 +8,7 @@ import retrofit2.http.PATCH
 
 interface PasswordApiService {
     @PATCH("change_password/")
-    fun changePassword(
+    suspend fun changePassword(
         @Body requestBody : PasswordRequest
     ) : Response<ProfileResponse>
 }
