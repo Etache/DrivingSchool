@@ -2,13 +2,17 @@ package com.example.drivingschool.ui.fragments.profile
 
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -52,6 +56,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showImage()
         if (preferences.role == "student") {
             getProfileData()
             pickImageFromGallery()
@@ -62,6 +67,23 @@ class ProfileFragment : Fragment() {
             pickImageFromGalleryInstructor()
             changePasswordInstructor()
             logoutInstructor()
+        }
+
+    }
+
+    private fun showImage() {
+        binding.ivProfile.setOnClickListener { val dialog = Dialog(requireContext())
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.show_photo_profile)
+            val image = dialog.findViewById<ImageView>(R.id.image)
+            if (binding.ivProfile.drawable != null) {
+                image.setImageBitmap((binding.ivProfile.drawable as BitmapDrawable).bitmap)
+            } else {
+                image.setImageResource(R.drawable.ic_default_photo)
+            }
+            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
+            dialog.show()
         }
     }
 
@@ -89,19 +111,31 @@ class ProfileFragment : Fragment() {
                         preferences.password = etNewPassword?.text.toString()
                         Toast.makeText(requireContext(), "пароль изменен", Toast.LENGTH_SHORT)
                             .show()
-                        dialog.cancel()
-                    } else {
-                        etNewPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                        etConfirmPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
+                        if (etOldPassword?.text?.isNotEmpty() == true) {
+                            if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
+                                //logic
+                                Toast.makeText(
+                                    requireContext(),
+                                    "password changed",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                dialog.cancel()
+                            } else {
+                                etNewPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
+                                etConfirmPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
+                            }
+                        } else {
+                            etOldPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
+                        }
+
                     }
-                } else {
-                    etOldPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
+                    btnCancel?.setOnClickListener {
+                        dialog.cancel()
+                    }
+                    dialog.show()
                 }
             }
-            btnCancel?.setOnClickListener {
-                dialog.cancel()
-            }
-            dialog.show()
         }
     }
 
@@ -143,6 +177,7 @@ class ProfileFragment : Fragment() {
             }
             dialog.show()
         }
+
     }
 
     private fun pickImageFromGallery() {
@@ -200,6 +235,7 @@ class ProfileFragment : Fragment() {
                 bindingInstructor.ivProfile.setImageURI(data?.data)
             }
         }
+
     }
 
     private fun logout() {
@@ -232,6 +268,7 @@ class ProfileFragment : Fragment() {
                 preferences.isLoginSuccess = false
                 preferences.accessToken = null
                 findNavController().navigate(R.id.loginFragment)
+                //логика
                 alert.cancel()
             }
             alertDialog.create().show()
