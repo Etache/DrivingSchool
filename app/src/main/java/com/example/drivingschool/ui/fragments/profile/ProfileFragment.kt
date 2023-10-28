@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
@@ -72,7 +73,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showImage() {
-        binding.ivProfile.setOnClickListener { val dialog = Dialog(requireContext())
+        binding.ivProfile.setOnClickListener {
+            val dialog = Dialog(requireContext())
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(true)
             dialog.setContentView(R.layout.show_photo_profile)
@@ -99,7 +101,10 @@ class ProfileFragment : Fragment() {
             val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
             btnSave?.setOnClickListener {
                 if (etOldPassword?.text?.toString() == preferences.password) {
-                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length > 8) {
+                    etOldPassword?.setBackgroundResource(R.drawable.edit_text_bg)
+                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length >= 8) {
+                        etNewPassword?.setBackgroundResource(R.drawable.edit_text_bg)
+                        etConfirmPassword?.setBackgroundResource(R.drawable.edit_text_bg)
                         viewLifecycleOwner.lifecycleScope.launch {
                             viewModel.changePassword(
                                 PasswordRequest(
@@ -111,31 +116,20 @@ class ProfileFragment : Fragment() {
                         preferences.password = etNewPassword?.text.toString()
                         Toast.makeText(requireContext(), "пароль изменен", Toast.LENGTH_SHORT)
                             .show()
-                        if (etOldPassword?.text?.isNotEmpty() == true) {
-                            if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
-                                //logic
-                                Toast.makeText(
-                                    requireContext(),
-                                    "password changed",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                                dialog.cancel()
-                            } else {
-                                etNewPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                                etConfirmPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                            }
-                        } else {
-                            etOldPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                        }
-
-                    }
-                    btnCancel?.setOnClickListener {
                         dialog.cancel()
+                    } else {
+                        etNewPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
+                        etConfirmPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
                     }
-                    dialog.show()
+                } else {
+                    etOldPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
                 }
+
             }
+            btnCancel?.setOnClickListener {
+                dialog.cancel()
+            }
+            dialog.show()
         }
     }
 
@@ -143,15 +137,17 @@ class ProfileFragment : Fragment() {
         bindingInstructor.btnChangePassword.setOnClickListener {
             val dialog = BottomSheetDialog(requireContext())
             dialog.setContentView(R.layout.change_password_bottom_sheet)
+
             val etOldPassword = dialog.findViewById<EditText>(R.id.edtOldPassword)
             val etNewPassword = dialog.findViewById<EditText>(R.id.edtNewPassword)
             val etConfirmPassword = dialog.findViewById<EditText>(R.id.edtConfirmPassword)
 
             val btnSave = dialog.findViewById<MaterialButton>(R.id.btnSavePassword)
             val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
+
             btnSave?.setOnClickListener {
                 if (etOldPassword?.text?.toString() == preferences.password) {
-                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length > 8) {
+                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length >= 8) {
                         viewLifecycleOwner.lifecycleScope.launch {
                             viewModel.changePassword(
                                 PasswordRequest(
@@ -177,7 +173,6 @@ class ProfileFragment : Fragment() {
             }
             dialog.show()
         }
-
     }
 
     private fun pickImageFromGallery() {
