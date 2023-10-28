@@ -56,9 +56,9 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showImage()
         if (preferences.role == "student") {
             getProfileData()
+            showImage()
             pickImageFromGallery()
             changePassword()
             logout()
