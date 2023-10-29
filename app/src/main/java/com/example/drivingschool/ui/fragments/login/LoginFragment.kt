@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun saveToken(username: String?, password: String?) {
-        viewModel.getToken(LoginRequest(username, password)).observe(requireActivity()) { token ->
+        viewModel.getToken(LoginRequest(    username, password)).observe(requireActivity()) { token ->
             preferences.accessToken = token
             Log.d("madimadi", "accessToken: $token")
         }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    tools:context=".ui.fragments.enroll.selectInstructor.SelectInstructorFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Выберите инструктора"
+        android:textSize="20sp"
+        android:layout_marginTop="72dp"
+        android:textColor="@color/black" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_instructor_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        tools:listitem="@layout/instructor_info_item"/>
+
+
+
+</LinearLayout>

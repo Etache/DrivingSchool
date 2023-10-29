@@ -41,8 +41,16 @@
     <string name="current_lesson">Текущее занятие</string>
     <string name="previous_lesson">Предыдущее занятие</string>
     <string name="comment">Оставить комментарий</string>
+
+    //InstructorFragment
+    <string name="experience">Стаж: 15 лет</string>
+    <string name="car_name">Honda Accord</string>
+    <string name="feedback">Отзывы</string>
+
+    //ProfileFragment
     <string name="new_password">Новый пароль</string>
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="cancel">Отмена</string>
     <string name="save">Сохранить</string>
+
 </resources>
