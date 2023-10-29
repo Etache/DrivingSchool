@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
+    tools:context=".ui.fragments.main.MainExploreFragment">
+<!--    Это не окончательный вид-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_main_explore"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_main" />
+
+    <FrameLayout
+        android:id="@+id/view_no_lessons"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/no_lessons"
+            android:contentDescription="@string/no_lesson"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/text_no_lesson"
+            android:textColor="@color/dark_gray_text"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+</FrameLayout>

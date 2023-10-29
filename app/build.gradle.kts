@@ -101,8 +101,14 @@ dependencies {
 
     // ViewBindingPropertyDelegate
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
-}
 
+    //fragment
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+
+    //CircleImageView
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+}
 
 kapt {
     correctErrorTypes = true
