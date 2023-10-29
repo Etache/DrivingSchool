@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
@@ -29,9 +30,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPagerMain.adapter = MainExploreViewPagerAdapter(this@MainFragment)
 
-//        if(!pref.isLoginSuccess) {
-//            findNavController().navigate(R.id.loginFragment)
-//        }
+        if(!pref.isLoginSuccess) {
+            findNavController().navigate(R.id.loginFragment)
+        }
 
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
