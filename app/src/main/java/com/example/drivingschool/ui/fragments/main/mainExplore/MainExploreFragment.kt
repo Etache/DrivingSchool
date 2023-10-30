@@ -1,10 +1,12 @@
-package com.example.drivingschool.ui.fragments.main
+package com.example.drivingschool.ui.fragments.main.mainExplore
 
 import androidx.core.view.isVisible
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentMainExploreBinding
+import com.example.drivingschool.ui.fragments.main.lesson.LessonAdapter
+import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 
 
 class MainExploreFragment :

@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
                 android:text="Иванов"
-                android:textColor="#585858"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Иван"
-                android:textColor="#585858"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -82,7 +82,7 @@
             android:paddingVertical="4dp"
             android:text="Номер телефона"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
 
         <TextView
@@ -95,7 +95,7 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
             android:text="+996 999 000 000"
-            android:textColor="@color/gray"
+            android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/number" />
 
@@ -109,7 +109,7 @@
             android:paddingVertical="4dp"
             android:text="Группа"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvNumber" />
 
         <TextView
@@ -122,7 +122,7 @@
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
             android:text="№4"
-            android:textColor="@color/gray"
+            android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/group" />
 

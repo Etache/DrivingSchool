@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.mainDetails
+package com.example.drivingschool.ui.fragments.previousDetails
 
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
