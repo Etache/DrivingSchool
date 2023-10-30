@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomTabStyle" parent="Widget.Design.TabLayout">
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">18dp</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/dark_gray_text</item>
+    </style>
+
+    <style name="CustomRatingBar" parent="Theme.MaterialComponents">
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@android:color/holo_orange_light</item>
+    </style>
+</resources>

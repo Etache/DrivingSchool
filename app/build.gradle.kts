@@ -105,8 +105,8 @@ dependencies {
     //fragment
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 
-    // Circle ImageView
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    //CircleImageView
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 }
 

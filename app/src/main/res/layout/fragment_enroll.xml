@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="28dp"
-    tools:context=".ui.fragments.enroll.confirmEnroll.EnrollFragment">
+    tools:context=".ui.fragments.enroll.EnrollFragment">
 
     <TextView
         android:id="@+id/tv_title"

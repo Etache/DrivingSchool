@@ -36,14 +36,14 @@
     <string name="beginning_time">11:00</string>
     <string name="beginning_date">29 октября</string>
     <string name="begin">Начало занятия</string>
-    <string name="telephone_number">+996 111 111 111</string>
+    <string name="number">+996 111 111 111</string>
     <string name="full_name">Имя Фамилия Отчество</string>
     <string name="current_lesson">Текущее занятие</string>
     <string name="previous_lesson">Предыдущее занятие</string>
     <string name="comment">Оставить комментарий</string>
 
     //InstructorFragment
-    <string name="experience">Стаж: 15 лет</string>
+    <string name="experience">Стаж</string>
     <string name="car_name">Honda Accord</string>
     <string name="feedback">Отзывы</string>
 
@@ -52,5 +52,25 @@
     <string name="confirm_password">Подтвердите пароль</string>
     <string name="cancel">Отмена</string>
     <string name="save">Сохранить</string>
+    <string name="confirm_exit">Подтвердите выход</string>
+    <string name="back">Назад</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="continue_text">Продолжить</string>
+    <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
+
+    <string name="login_ru">Войти</string>
+    <string name="old_password">Старый пароль</string>
+    <string name="input_old_password">Введите старый пароль</string>
+    <string name="instructor_surname">Иванов</string>
+    <string name="instructor_name">Иван</string>
+    <string name="change_profile_photo">Изменить фотографию</string>
+    <string name="telephone_number">Номер телефона</string>
+    <string name="group">Группа</string>
+    <string name="group_number">№4</string>
+    <string name="change_password">Сменить пароль</string>
+    <string name="exit">Выйти</string>
+    <string name="experience_num">15 лет</string>
+    <string name="car_brand">Марка авто</string>
+    <string name="text_no_lesson">У вас пока нет занятий</string>
 
 </resources>
