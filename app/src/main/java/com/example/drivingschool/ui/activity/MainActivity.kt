@@ -30,8 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
-//        supportActionBar?.setDisplayShowTitleEnabled(true)
-//        supportActionBar?.title = "hello"
         setAppBar()
     }
 
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.mainFragment,
                 R.id.enrollFragment,
-                R.id.profileFragment,
+                R.id.studentProfileFragment,
             )
         )
 
@@ -48,9 +46,10 @@ class MainActivity : AppCompatActivity() {
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
                 R.id.enrollFragment -> "Онлайн запись"
-                R.id.profileFragment -> "Профиль"
+                R.id.studentProfileFragment -> "Профиль"
                 else -> "No title"
             }
+
             if(destination.id == R.id.loginFragment) {
                 supportActionBar?.hide()
                 navView.isVisible = false

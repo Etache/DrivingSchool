@@ -3,7 +3,7 @@ package com.example.drivingschool.ui.fragments.main.lesson
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.drivingschool.data.remote.LessonRequest
+import com.example.drivingschool.data.models.LessonRequest
 import com.example.drivingschool.databinding.ItemMainBinding
 
 class LessonAdapter() : RecyclerView.Adapter<LessonAdapter.ViewHolder>() {

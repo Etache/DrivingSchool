@@ -12,4 +12,5 @@
         <item name="colorControlNormal">@color/gray</item>
         <item name="colorControlActivated">@android:color/holo_orange_light</item>
     </style>
+
 </resources>
