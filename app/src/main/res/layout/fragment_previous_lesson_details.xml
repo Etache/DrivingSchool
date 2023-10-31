@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="16dp"
     android:paddingVertical="24dp"
-    tools:context=".ui.fragments.mainDetails.PreviousLessonDetailsFragment">
+    tools:context=".ui.fragments.previousDetails.PreviousLessonDetailsFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circle_image_view"

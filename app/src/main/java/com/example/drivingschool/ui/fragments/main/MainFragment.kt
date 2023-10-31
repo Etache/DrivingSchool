@@ -12,6 +12,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentMainBinding
+import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -58,5 +59,4 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             binding.tabLayoutMain.getTabAt(i)?.customView = textView
         }
     }
-
 }

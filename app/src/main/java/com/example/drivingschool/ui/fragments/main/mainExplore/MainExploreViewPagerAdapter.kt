@@ -1,8 +1,9 @@
-package com.example.drivingschool.ui.fragments.main
+package com.example.drivingschool.ui.fragments.main.mainExplore
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 
 class MainExploreViewPagerAdapter(fragment: Fragment) :
     FragmentStateAdapter(fragment.childFragmentManager, fragment.viewLifecycleOwner.lifecycle) {

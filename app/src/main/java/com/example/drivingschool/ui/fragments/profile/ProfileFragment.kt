@@ -69,7 +69,6 @@ class ProfileFragment : Fragment() {
             changePasswordInstructor()
             logoutInstructor()
         }
-
     }
 
     private fun showImage() {
