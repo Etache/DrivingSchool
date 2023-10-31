@@ -46,4 +46,5 @@
     <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
     <string name="comment">Комментарий</string>
     <string name="continue_text">Продолжить</string>
+    <string name="_0_250">(0/250)</string>
 </resources>
