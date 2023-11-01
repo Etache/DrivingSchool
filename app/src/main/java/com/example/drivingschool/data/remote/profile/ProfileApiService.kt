@@ -1,6 +1,6 @@
 package com.example.drivingschool.data.remote.profile
 
-import com.example.drivingschool.data.models.InstructorProfileResponse
+import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.ProfileResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,5 +11,5 @@ interface ProfileApiService {
     suspend fun getProfile(): Response<ProfileResponse>
 
     @GET("profile/")
-    suspend fun getInstructorProfile(): Response<InstructorProfileResponse>
+    suspend fun getInstructorProfile(): Response<InstructorResponse>
 }

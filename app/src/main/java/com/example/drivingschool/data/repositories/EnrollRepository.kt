@@ -1,8 +1,7 @@
 package com.example.drivingschool.data.repositories
 
 import com.example.drivingschool.data.models.InstructorResponse
-import com.example.drivingschool.data.models.ProfileResponse
-import com.example.drivingschool.data.remote.profile.ProfileApiService
+import com.example.drivingschool.data.remote.enroll.EnrollApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -10,20 +9,19 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class ProfileRepository @Inject constructor(
-    private val profileApiService: ProfileApiService
-) {
-    suspend fun getProfile() : Flow<UiState<ProfileResponse>> = flow {
+class EnrollRepository @Inject constructor(private val enrollApiService: EnrollApiService) {
+
+    suspend fun getInstructors(): Flow<UiState<List<InstructorResponse>>> = flow {
         emit(UiState.Loading())
-        val data = profileApiService.getProfile().body()
+        val data = enrollApiService.getInstructors().body()
         if (data != null) {
             emit(UiState.Success(data))
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getInstructorProfile() : Flow<UiState<InstructorResponse>> = flow {
+    suspend fun getInstructorById(id: Int): Flow<UiState<InstructorResponse>> = flow {
         emit(UiState.Loading())
-        val data = profileApiService.getInstructorProfile().body()
+        val data = enrollApiService.getInstructorById(id).body()
         if (data != null) {
             emit(UiState.Success(data))
         }

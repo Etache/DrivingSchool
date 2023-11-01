@@ -3,14 +3,15 @@ package com.example.drivingschool.ui.fragments.enroll.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.drivingschool.R
-import com.example.drivingschool.data.models.InstructorRequest
+import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
 
-class SelectInstructorAdapter(private val data: List<InstructorRequest>) :
+class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
     RecyclerView.Adapter<SelectInstructorAdapter.SelectViewHolder>() {
 
     private val onItemClickListener: OnItemClickListener? = null
@@ -18,7 +19,7 @@ class SelectInstructorAdapter(private val data: List<InstructorRequest>) :
     class SelectViewHolder(private val binding: InstructorInfoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(instructor: InstructorRequest) {
+        fun bind(instructor: InstructorResponse) {
             binding.tvName.text = instructor.name
             binding.tvSurname.text = instructor.surname
             binding.tvExpience.text = instructor.experience.toString()
@@ -33,7 +34,7 @@ class SelectInstructorAdapter(private val data: List<InstructorRequest>) :
 
             binding.ivInfo.setOnClickListener {
                 it.findNavController()
-                    .navigate(R.id.action_selectInstructorFragment_to_instructorInfoFragment)
+                    .navigate(R.id.action_selectInstructorFragment_to_instructorInfoFragment, bundleOf(ID_KEY to instructor.id))
             }
         }
     }
@@ -42,10 +43,7 @@ class SelectInstructorAdapter(private val data: List<InstructorRequest>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectViewHolder {
         return SelectViewHolder(
             InstructorInfoItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+                LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -63,5 +61,10 @@ class SelectInstructorAdapter(private val data: List<InstructorRequest>) :
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
+    }
+
+
+    companion object {
+        const val ID_KEY = "id"
     }
 }
