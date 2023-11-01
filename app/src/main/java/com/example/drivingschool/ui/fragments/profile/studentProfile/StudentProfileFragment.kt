@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,6 +27,7 @@ import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,16 +86,22 @@ class StudentProfileFragment : Fragment() {
         binding.btnChangePassword.setOnClickListener {
             val dialog = BottomSheetDialog(requireContext())
             dialog.setContentView(R.layout.change_password_bottom_sheet)
+            dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
             val etOldPassword = dialog.findViewById<EditText>(R.id.edtOldPassword)
             val etNewPassword = dialog.findViewById<EditText>(R.id.edtNewPassword)
             val etConfirmPassword = dialog.findViewById<EditText>(R.id.edtConfirmPassword)
 
             val btnSave = dialog.findViewById<MaterialButton>(R.id.btnSavePassword)
             val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
+
+            val tvError = dialog.findViewById<TextView>(R.id.tv_error)
+
             btnSave?.setOnClickListener {
                 if (etOldPassword?.text?.toString() == preferences.password) {
                     etOldPassword?.setBackgroundResource(R.drawable.edit_text_bg)
-                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length >= 8) {
+                    //if(etNewPassword?.text.toString().length >= 6)
+                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
                         etNewPassword?.setBackgroundResource(R.drawable.edit_text_bg)
                         etConfirmPassword?.setBackgroundResource(R.drawable.edit_text_bg)
                         viewLifecycleOwner.lifecycleScope.launch {
@@ -113,7 +121,7 @@ class StudentProfileFragment : Fragment() {
                         etConfirmPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
                     }
                 } else {
-                    etOldPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
+                    tvError?.text = "Неверный старый пароль"
                 }
 
             }
