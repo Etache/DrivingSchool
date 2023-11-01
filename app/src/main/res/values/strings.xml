@@ -18,7 +18,7 @@
 
     //NoInternetConnection
     <string name="no_connection">Нет соединения</string>
-    <string name="check_the_internet_connection">Проверьте подключение к интернету</string>
+    <string name="check_the_internet_connection">Проверьте подключение \nк интернету</string>
     <string name="full_name">Имя Фамилия Отчество</string>
     <string name="telephone_number">+996 XXX XX XX XX</string>
     <string name="beginning">начало</string>
@@ -28,6 +28,7 @@
     <string name="ending_date">29 октября</string>
     <string name="ending_time">12:00</string>
     <string name="cancel_lesson">Отменить занятие</string>
+    <string name="update_connect">Обновить соединение</string>
 
     //EnrollFragment
     <string name="choose_instructor">выбрать инструктора</string>
