@@ -2,8 +2,10 @@ package com.example.drivingschool.data.remote
 
 import android.content.Context
 import com.example.drivingschool.data.remote.change_password.PasswordApiService
+import com.example.drivingschool.data.remote.currentDetail.DetailsApiService
 import com.example.drivingschool.data.remote.login.LoginApiService
 import com.example.drivingschool.data.remote.login.LoginInterceptor
+import com.example.drivingschool.data.remote.main.MainApiService
 import com.example.drivingschool.data.remote.profile.ProfileApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -53,6 +55,14 @@ class RetrofitClient(val context: Context) {
 
     fun providePasswordApi(): PasswordApiService {
         return retrofit.create(PasswordApiService::class.java)
+    }
+
+    fun provideMainApi(): MainApiService {
+        return retrofit.create(MainApiService::class.java)
+    }
+
+    fun provideDetailsApi(): DetailsApiService {
+        return retrofit.create(DetailsApiService::class.java)
     }
 
 }

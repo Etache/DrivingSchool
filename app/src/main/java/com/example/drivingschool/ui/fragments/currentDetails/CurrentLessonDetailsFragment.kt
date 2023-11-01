@@ -10,20 +10,30 @@ import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentCurrentLessonDetailBinding
+import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.setImage
+import com.example.drivingschool.tools.showToast
+import com.example.drivingschool.tools.viewVisibility
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CurrentLessonDetailsFragment :
     BaseFragment<FragmentCurrentLessonDetailBinding, CurrentLessonDetailsViewModel>(R.layout.fragment_current_lesson_detail) {
 
     override val binding by viewBinding(FragmentCurrentLessonDetailBinding::bind)
     override val viewModel: CurrentLessonDetailsViewModel by viewModels()
 
+
     override fun initialize() {
-
-
+        viewModel.getDetails(arguments?.getString("key").toString())
     }
 
     override fun setupListeners() {
@@ -31,6 +41,44 @@ class CurrentLessonDetailsFragment :
             showCustomDialog()
         }
     }
+
+    override fun setupSubscribes() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.detailsState.collect{
+                    when (it) {
+                        is UiState.Empty -> {
+                            binding.detailsProgressBar.viewVisibility(false)
+                        }
+                        is UiState.Error -> {
+                            showToast(it.msg)
+                            binding.detailsProgressBar.viewVisibility(false)
+                        }
+                        is UiState.Loading -> {
+                            binding.apply {
+                                detailsProgressBar.viewVisibility(true)
+                            }
+                        }
+                        is UiState.Success -> {
+                            binding.detailsProgressBar.viewVisibility(false)
+                            binding.apply {
+                                tvUserName.text = it.data?.instructor?.name
+                                tvUserNumber.text = it.data?.instructor?.phone_number
+                                tvStartDate.text = it.data?.date
+                                tvEndDate.text = it.data?.date
+                                tvStartTime.text = it.data?.time
+                                tvEndTime.text = it.data?.time
+                                circleImageView.setImage(it.data?.instructor?.profile_photo.toString())
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
 
     @SuppressLint("MissingInflatedId")
     private fun showCustomDialog() {
@@ -44,18 +92,14 @@ class CurrentLessonDetailsFragment :
         val btn = customDialog.findViewById<Button>(R.id.btn_comment_confirm)
 
         edt.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 counter.text = "(${p0?.length.toString()}/250)"
 //          counter.text = getString(R.string._0_250,p0?.length.toString())
             }
 
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
+            override fun afterTextChanged(p0: Editable?) {}
 
         }
         )

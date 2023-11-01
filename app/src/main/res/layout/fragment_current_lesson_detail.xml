@@ -59,7 +59,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_schedule_start"
+                android:id="@+id/tv_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -68,7 +68,7 @@
                 tools:text="Начало" />
 
             <TextView
-                android:id="@+id/tv_schedule_start_date"
+                android:id="@+id/tv_start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
@@ -77,7 +77,7 @@
                 tools:text="29 Октября" />
 
             <TextView
-                android:id="@+id/tv_schedule_start_time"
+                android:id="@+id/tv_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -96,7 +96,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_schedule_end"
+                android:id="@+id/tv_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -105,7 +105,7 @@
                 tools:text="Конец" />
 
             <TextView
-                android:id="@+id/tv_schedule_end_date"
+                android:id="@+id/tv_end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
@@ -114,7 +114,7 @@
                 tools:text="29 Октября" />
 
             <TextView
-                android:id="@+id/tv_schedule_end_time"
+                android:id="@+id/tv_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -140,5 +140,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/details_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
