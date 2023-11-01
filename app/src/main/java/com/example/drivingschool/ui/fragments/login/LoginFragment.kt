@@ -23,6 +23,10 @@ import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/*
+* student: trewq321 - логин для студента
+* instructor: trewq321 - логин для инструктора
+* */
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
