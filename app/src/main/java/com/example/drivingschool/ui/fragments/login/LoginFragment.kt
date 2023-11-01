@@ -1,5 +1,9 @@
 package com.example.drivingschool.ui.fragments.login
 
+import android.app.Activity
+import android.content.Context
+import android.hardware.input.InputManager
+import android.inputmethodservice.InputMethodService
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -57,8 +62,14 @@ class LoginFragment : Fragment() {
 
         activateViews()
         binding.btnLogin.setOnClickListener {
+            context?.let { it1 -> hideKeyboard(context = it1, view) }
             setLogin()
         }
+    }
+
+    private fun hideKeyboard(context: Context, view: View?) {
+        val hide = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        hide.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun activateViews() {
@@ -75,7 +86,6 @@ class LoginFragment : Fragment() {
             count: Int,
             after: Int
         ) {
-            //TODO: implement later
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -108,19 +118,23 @@ class LoginFragment : Fragment() {
             viewModel.token.observe(requireActivity()) { state ->
                 when (state) {
                     is UiState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
+                        closeViews()
                     }
+
                     is UiState.Success -> {
-                        binding.progressBar.visibility = View.GONE
+                        openViews()
                         preferences.accessToken = state.data?.accessToken
                         preferences.refreshToken = state.data?.refreshToken
                         preferences.role = state.data?.role
                         Log.d("madimadi", "accessToken: ${state.data}")
                     }
+
                     is UiState.Empty -> {
                         Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
                     }
+
                     is UiState.Error -> {
+                        openViews()
                         Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -141,4 +155,26 @@ class LoginFragment : Fragment() {
             }
         }
     }
+
+    private fun closeViews() {
+        with(binding) {
+            progressBar.visibility = View.VISIBLE
+            ivLogo.visibility = View.GONE
+            tvTitle.visibility = View.GONE
+            tvError.visibility = View.GONE
+            llEditTexts.visibility = ViewGroup.GONE
+            btnLogin.visibility = View.GONE
+        }
+    }
+
+    private fun openViews() {
+        with(binding) {
+            progressBar.visibility = View.GONE
+            ivLogo.visibility = View.VISIBLE
+            tvTitle.visibility = View.VISIBLE
+            llEditTexts.visibility = ViewGroup.VISIBLE
+            btnLogin.visibility = View.VISIBLE
+        }
+    }
+
 }
