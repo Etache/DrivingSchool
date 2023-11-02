@@ -2,22 +2,24 @@ package com.example.drivingschool.ui.fragments.profile.studentProfile
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ContentResolver
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -26,12 +28,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.PasswordRequest
-import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
@@ -47,11 +47,13 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
+
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class StudentProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: ProfileViewModel by viewModels()
+
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
@@ -68,12 +70,12 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(preferences.role == "instructor") {
+        if (preferences.role == "instructor") {
             findNavController().navigate(R.id.instructorProfileFragment)
         } else {
             getProfileData()
             showImage()
-            pickImageFromGaller()
+            pickImageFromGallery()
             changePassword()
             logout()
         }
@@ -83,13 +85,12 @@ class ProfileFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
-                //               viewModel.getProfile()
                 lifecycleScope.launch {
+                    viewModel.getProfile()
                     viewModel.profile.observe(requireActivity()) { state ->
                         when (state) {
                             is UiState.Success -> {
-                                Glide.with(binding.ivProfile).load(imageUri)
-                                    .into(binding.ivProfile)
+                                Glide.with(binding.ivProfile).load(imageUri).into(binding.ivProfile)
                                 uploadImage(imageUri)
                             }
 
@@ -120,9 +121,10 @@ class ProfileFragment : Fragment() {
 
     private fun changePassword() {
         binding.btnChangePassword.setOnClickListener {
+
             val dialog = BottomSheetDialog(requireContext())
             dialog.setContentView(R.layout.change_password_bottom_sheet)
-            dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            //dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
             val etOldPassword = dialog.findViewById<EditText>(R.id.edtOldPassword)
             val etNewPassword = dialog.findViewById<EditText>(R.id.edtNewPassword)
@@ -131,33 +133,35 @@ class ProfileFragment : Fragment() {
             val btnSave = dialog.findViewById<MaterialButton>(R.id.btnSavePassword)
             val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
 
-            val tvError = dialog.findViewById<TextView>(R.id.tv_error)
-
             btnSave?.setOnClickListener {
-                if (etOldPassword?.text?.toString() == preferences.password) {
-                    etOldPassword?.setBackgroundResource(R.drawable.edit_text_bg)
-                    //if(etNewPassword?.text.toString().length >= 6)
-                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
-                        etNewPassword?.setBackgroundResource(R.drawable.edit_text_bg)
-                        etConfirmPassword?.setBackgroundResource(R.drawable.edit_text_bg)
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.changePassword(
-                                PasswordRequest(
-                                    etOldPassword?.text.toString(),
-                                    etNewPassword?.text.toString()
-                                )
-                            )
+                if (etOldPassword?.text.toString().isNotEmpty() && etNewPassword?.text.toString()
+                        .isNotEmpty() && etConfirmPassword?.text.toString().isNotEmpty()
+                ) {
+                    if (etOldPassword?.text?.toString() == preferences.password) {
+                        if (etNewPassword?.text.toString().length >= 6) {
+                            if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
+                                etNewPassword?.setBackgroundResource(R.drawable.edit_text_bg)
+                                etConfirmPassword?.setBackgroundResource(R.drawable.edit_text_bg)
+                                viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.changePassword(
+                                        PasswordRequest(
+                                            etOldPassword?.text.toString(),
+                                            etNewPassword?.text.toString()
+                                        )
+                                    )
+                                }
+                                preferences.password = etNewPassword?.text.toString()
+                                showAlertDialog("Пароль успешно изменен")
+                                dialog.cancel()
+                            } else {
+                                showAlertDialog("Пароли не совпадают")
+                            }
+                        } else {
+                            showAlertDialog("Пароль должен содержать не менее 6 символов")
                         }
-                        preferences.password = etNewPassword?.text.toString()
-                        Toast.makeText(requireContext(), "пароль изменен", Toast.LENGTH_SHORT)
-                            .show()
-                        dialog.cancel()
                     } else {
-                        etNewPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                        etConfirmPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
+                        showAlertDialog("Неверный старый пароль")
                     }
-                } else {
-                    tvError?.text = "Неверный старый пароль"
                 }
             }
             btnCancel?.setOnClickListener {
@@ -165,6 +169,13 @@ class ProfileFragment : Fragment() {
             }
             dialog.show()
         }
+    }
+
+    private fun showAlertDialog(message: String) {
+        val alert = AlertDialog.Builder(requireContext())
+        alert.setMessage(message)
+        alert.setPositiveButton("OK", null)
+        alert.show()
     }
 
     private fun pickImageFromGallery() {
@@ -180,7 +191,6 @@ class ProfileFragment : Fragment() {
                     }
 
                     1 -> {
-
                         viewModel.deleteProfilePhoto()
                         //binding.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
                         //delete photo from api also....
@@ -190,32 +200,6 @@ class ProfileFragment : Fragment() {
             val dialog = builder.create()
             dialog.show()
         }
-    }
-
-    fun pickImageFromGaller() {
-
-        binding.tvChangePhoto.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle("Изменить фотографию")
-            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
-                when (which) {
-                    0 -> {
-                        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        pickImageResult.launch(intent)
-                    }
-
-                    1 -> {
-
-                        viewModel.deleteProfilePhoto()
-                        //binding.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
-                        //delete photo from api also....
-                    }
-                }
-            }
-            val dialog = builder.create()
-            dialog.show()
-        }
-
     }
 
     private fun uploadImage(imageUri: Uri?) {
@@ -224,7 +208,8 @@ class ProfileFragment : Fragment() {
                 requireContext().contentResolver.openFileDescriptor(uri, "r", null) ?: return
 
             val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(uri))
+            val file =
+                File(requireContext().cacheDir, requireContext().contentResolver.getFileName(uri))
             val outputStream = FileOutputStream(file)
             inputStream.copyTo(outputStream)
 
@@ -275,8 +260,8 @@ class ProfileFragment : Fragment() {
 //
 //                            else -> {}
 //                        }
-     //               }
-  //              }
+    //               }
+    //              }
 //            } else {
 //                bindingInstructor.ivProfile.setImageURI(data?.data)
 //            }
@@ -335,7 +320,7 @@ class ProfileFragment : Fragment() {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
                         Glide.with(binding.ivProfile).load(state.data?.profilePhoto)
-                            .into(binding.ivProfile)
+                            .into(binding.ivProfile) //doesn't work
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber

@@ -13,4 +13,13 @@
         <item name="colorControlActivated">@android:color/holo_orange_light</item>
     </style>
 
+    <style name="Widget.MyApp.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="enableEdgeToEdge">true</item>
+    </style>
+
+    <style name="Theme.MyApp.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.MyApp.BottomSheet.Modal</item>
+    </style>
+
 </resources>
