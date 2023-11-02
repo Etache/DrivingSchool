@@ -2,12 +2,9 @@ package com.example.drivingschool.ui.fragments.profile
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Activity.RESULT_CANCELED
-import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -59,26 +56,22 @@ class ProfileFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
-
- //               viewModel.getProfile()
-                lifecycleScope.launch {
-                    viewModel.profile.observe(requireActivity()) { state ->
-                        when (state) {
-                            is UiState.Success -> {
-                                Glide.with(binding.ivProfile).load(imageUri)
-                                    .into(binding.ivProfile)
-                                uploadImage(imageUri)
-                            }
-
-                            else -> {}
+                uploadImage(imageUri)
+                viewModel.profile.observe(requireActivity()) { state ->
+                    when (state) {
+                        is UiState.Success -> {
+                            viewModel.getProfile()
+                            Glide.with(this).load(imageUri)
+                                .into(binding.ivProfile)
                         }
-                        binding.ivProfile.setImageURI(imageUri)
+
+                        else -> {}
                     }
                 }
             }
         }
 
-    private val PICK_IMAGE_REQUEST = 1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -97,7 +90,7 @@ class ProfileFragment : Fragment() {
         if (preferences.role == "student") {
             getProfileData()
             showImage()
-            pickImageFromGaller()
+            pickImageFromGallery()
             changePassword()
             logout()
         } else {
@@ -218,6 +211,31 @@ class ProfileFragment : Fragment() {
         }
     }
 
+
+    private fun pickImageFromGalleryInstructor() {
+        binding.tvChangePhoto.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Изменить фотографию")
+            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
+                when (which) {
+                    0 -> {
+                        val intent =
+                            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        pickImageResult.launch(intent)
+                    }
+
+                    1 -> {
+                        bindingInstructor.ivProfile.setImageDrawable(null)
+                        viewModel.deleteProfilePhoto()
+                    }
+                }
+            }
+            val dialog = builder.create()
+            dialog.show()
+        }
+    }
+
+
     private fun pickImageFromGallery() {
         binding.tvChangePhoto.setOnClickListener {
             val builder = AlertDialog.Builder(context)
@@ -225,90 +243,46 @@ class ProfileFragment : Fragment() {
             builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
                 when (which) {
                     0 -> {
-                        val intent = Intent(Intent.ACTION_PICK)
-                        intent.type = "image/*"
-                        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-                    }
-
-                    1 -> {
-
-                        viewModel.deleteProfilePhoto()
-                        //binding.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
-                        //delete photo from api also....
-                    }
-                }
-            }
-            val dialog = builder.create()
-            dialog.show()
-        }
-    }
-
-    private fun pickImageFromGalleryInstructor() {
-        bindingInstructor.tvChangePhoto.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle("Изменить фотографию")
-            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
-                when (which) {
-                    0 -> {
-                        val intent = Intent(Intent.ACTION_PICK)
-                        intent.type = "image/*"
-                        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-                    }
-
-                    1 -> {
-                        bindingInstructor.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
-                        //delete photo from api also....
-                    }
-                }
-            }
-            val dialog = builder.create()
-            dialog.show()
-        }
-    }
-
-
-
-    fun pickImageFromGaller() {
-
-        binding.tvChangePhoto.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle("Изменить фотографию")
-            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
-                when (which) {
-                    0 -> {
-                        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        val intent =
+                            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                         pickImageResult.launch(intent)
                     }
 
                     1 -> {
-
+                        binding.ivProfile.setImageDrawable(null)
                         viewModel.deleteProfilePhoto()
-                        //binding.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
-                        //delete photo from api also....
                     }
                 }
             }
             val dialog = builder.create()
             dialog.show()
         }
-
     }
 
     private fun uploadImage(imageUri: Uri?) {
         imageUri?.let { uri ->
             val parcelFileDescriptor =
                 requireContext().contentResolver.openFileDescriptor(uri, "r", null) ?: return
-
             val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-            val file = File(requireContext().cacheDir, requireContext().contentResolver.getFileName(uri))
+            val file =
+                File(requireContext().cacheDir, requireContext().contentResolver.getFileName(uri))
             val outputStream = FileOutputStream(file)
             inputStream.copyTo(outputStream)
-
             val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
-
             binding.ivProfile.setImageURI(imageUri)
-            viewModel.uploadImage(multipartBody)
+            viewModel.updateProfilePhoto(multipartBody)
+            viewModel.profile.observe(requireActivity()) { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        viewModel.getProfile()
+                        Glide.with(this).load(imageUri)
+                            .into(binding.ivProfile)
+                    }
+
+                    else -> {}
+                }
+            }
         }
     }
 
@@ -324,60 +298,6 @@ class ProfileFragment : Fragment() {
         return name
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
-//            if (preferences.role == "student") {
-//
-//                val selectedImageUri = data?.data
-//                binding.ivProfile.setImageURI(selectedImageUri)
-//
-//
-//                   // val filePath = selectedImageUri?.let { getPathFromUri(it) }
-////                    val filePath = getPathFromUri(requireContext(), selectedImageUri!!)
-////                    val file = File(filePath!!)
-//
-//
-//                viewModel.updateProfilePhoto(selectedImageUri)
-//
-//                viewModel.getProfile()
-//                lifecycleScope.launch {
-//                    viewModel.profile.observe(requireActivity()) { state ->
-//                        when (state) {
-//                            is UiState.Success -> {
-//                                Glide.with(binding.ivProfile).load(data?.data)
-//                                    .into(binding.ivProfile)
-//                            }
-//
-//                            else -> {}
-//                        }
-     //               }
-  //              }
-//            } else {
-//                bindingInstructor.ivProfile.setImageURI(data?.data)
-//            }
-//        }
-//    }
-
-
-//    @SuppressLint("Range")
-//    fun getPathFromUri(uri1: Context, uri: Uri): String {
-//        var cursor = requireContext().contentResolver.query(uri, null, null, null, null)
-//        cursor?.moveToFirst()
-//        var documentId = cursor?.getString(0)
-//        documentId = documentId?.substring(documentId.lastIndexOf(":") + 1)
-//        cursor?.close()
-//
-//        cursor = requireContext().contentResolver.query(
-//            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//            null, MediaStore.Images.Media._ID + " = ? ", arrayOf(documentId), null
-//        )
-//        cursor?.moveToFirst()
-//        val path = cursor?.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-//        cursor?.close()
-//
-//        return path ?: ""
-//    }
 
     private fun logout() {
         binding.btnExit.setOnClickListener {
