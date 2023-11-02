@@ -1,6 +1,5 @@
 package com.example.drivingschool.ui.fragments.profile
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +14,6 @@ import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,8 +24,6 @@ class ProfileViewModel @Inject constructor(
 
     private var _profile = MutableLiveData<UiState<ProfileResponse>>()
     val profile: LiveData<UiState<ProfileResponse>> = _profile
-
-          //var profilePhoto = MutableLiveData<UiState<String>?>()
 
     private var _instructorProfile = MutableLiveData<UiState<InstructorProfileResponse>>()
     val instructorProfile: LiveData<UiState<InstructorProfileResponse>> = _instructorProfile
@@ -59,22 +55,19 @@ class ProfileViewModel @Inject constructor(
     fun deleteProfilePhoto() {
         viewModelScope.launch {
             profileRepository.deleteProfilePhoto()
-            //profilePhoto.value = null
         }
     }
 
-    fun uploadImage(image: MultipartBody.Part) = viewModelScope.launch {
-        profileRepository.updateProfilePhoto(image)
-    }
 
-//        fun uploadImage(image: MultipartBody.Part) = viewModelScope.launch {
+//    fun uploadImage(image: MultipartBody.Part) = viewModelScope.launch {
 //        profileRepository.updateProfilePhoto(image).collect{
 //            _profile.postValue(it)
 //        }
-
-    }
-//    fun updateProfilePhoto(file: File) {
-//        viewModelScope.launch {
-//            profileRepository.updateProfilePhoto(file)
-//        }
 //    }
+
+
+    fun updateProfilePhoto(image: MultipartBody.Part) = viewModelScope.launch {
+        profileRepository.updateProfilePhoto(image)
+    }
+}
+
