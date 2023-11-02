@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
     fun getToken(loginRequest: LoginRequest) = viewModelScope.launch {
         loginRepository.login(loginRequest).collect {
             _token.postValue(it)
-            Log.d("madimadi", "getProfile: $_token")
+//            Log.d("madimadi", "getProfile: $_token")
         }
     }
 }

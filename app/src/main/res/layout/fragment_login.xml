@@ -92,6 +92,7 @@
         android:background="@drawable/button_bg"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/login_ru"
+        android:enabled="false"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="20sp"

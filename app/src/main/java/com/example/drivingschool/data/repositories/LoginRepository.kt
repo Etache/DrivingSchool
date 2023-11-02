@@ -2,6 +2,7 @@ package com.example.drivingschool.data.repositories
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.drivingschool.R
 import com.example.drivingschool.data.models.LoginRequest
 import com.example.drivingschool.data.models.LoginResponse
 import com.example.drivingschool.data.models.ProfileResponse
@@ -40,6 +41,8 @@ class LoginRepository @Inject constructor(
         val data = loginApiService.login(loginRequest).body()
         if (data != null) {
             emit(UiState.Success(data))
+        } else {
+            emit(UiState.Error(R.string.login_error_text))
         }
     }.flowOn(Dispatchers.IO)
 }
