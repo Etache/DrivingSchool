@@ -28,4 +28,8 @@ object AppModule {
     @Provides
     @Singleton
     fun providePasswordApiService(retrofitClient: RetrofitClient) = retrofitClient.providePasswordApi()
+
+    @Provides
+    @Singleton
+    fun provideEnrollApiService(retrofitClient: RetrofitClient) = retrofitClient.provideEnrollApi()
 }

@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment -> "Главная страница"
                 R.id.enrollFragment -> "Онлайн запись"
                 R.id.profileFragment -> "Профиль"
+                R.id.selectInstructorFragment -> "Профиль" //change
                 else -> "No title"
             }
             if(destination.id == R.id.loginFragment) {

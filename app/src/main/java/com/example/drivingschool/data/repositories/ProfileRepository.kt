@@ -1,6 +1,6 @@
 package com.example.drivingschool.data.repositories
 
-import com.example.drivingschool.data.models.InstructorProfileResponse
+import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.ProfileResponse
 import com.example.drivingschool.data.remote.profile.ProfileApiService
 import com.example.drivingschool.tools.UiState
@@ -22,7 +22,7 @@ class ProfileRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getInstructorProfile(): Flow<UiState<InstructorProfileResponse>> = flow {
+    suspend fun getInstructorProfile(): Flow<UiState<InstructorResponse>> = flow {
         emit(UiState.Loading())
         val data = profileApiService.getInstructorProfile().body()
         if (data != null) {
@@ -30,17 +30,26 @@ class ProfileRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
+
     suspend fun deleteProfilePhoto() {
-        profileApiService.deleteProfilePhoto()
+        profileApiService.deleteStudentProfilePhoto()
     }
 
     suspend fun updateProfilePhoto(image: MultipartBody.Part) =
-        profileApiService.updateProfilePhoto(image)
+        profileApiService.updateStudentProfilePhoto(image)
 
 
 //    suspend fun updateProfilePhoto(image: MultipartBody.Part) : Flow<UiState<ProfileResponse>> = flow {
 //        emit(UiState.Loading())
-//        val data = profileApiService.updateProfilePhoto(image).body()
+//        val data = profileApiService.updateStudentProfilePhoto(image).body()
+//        if (data != null) {
+//            emit(UiState.Success(data))
+//        }
+//    }.flowOn(Dispatchers.IO)
+//
+//    suspend fun deleteProfilePhoto() : Flow<UiState<ProfileResponse>> = flow {
+//        emit(UiState.Loading())
+//        val data = profileApiService.deleteStudentProfilePhoto().body()
 //        if (data != null) {
 //            emit(UiState.Success(data))
 //        }

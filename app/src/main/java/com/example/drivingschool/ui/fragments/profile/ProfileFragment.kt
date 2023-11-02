@@ -79,6 +79,7 @@ class ProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
+                viewModel.getProfile()
                 viewModel.profile.observe(requireActivity()) { state ->
                     when (state) {
                         is UiState.Loading -> {
@@ -87,7 +88,7 @@ class ProfileFragment : Fragment() {
 
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
-                            Picasso.get().load(imageUri).into(binding.ivProfile)
+                            Picasso.get().load(state.data?.profilePhoto).into(binding.ivProfile)
                         }
 
                         else -> {}

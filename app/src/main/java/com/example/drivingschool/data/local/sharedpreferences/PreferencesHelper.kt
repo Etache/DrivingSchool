@@ -2,7 +2,6 @@ package com.example.drivingschool.data.local.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.sql.Struct
 
 class PreferencesHelper(context: Context) {
 

@@ -134,7 +134,7 @@
         android:visibility="visible"
         android:backgroundTint="@color/super_light_gray"
         android:gravity="start|center"
-        android:text="@string/text_btn_cancel_lesson"
+        android:text="@string/cancel_lesson"
         android:textColor="@color/violet"
         app:cornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
