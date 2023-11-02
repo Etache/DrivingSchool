@@ -46,4 +46,7 @@
     <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
     <string name="comment">Комментарий</string>
     <string name="continue_text">Продолжить</string>
+    <string name="change_photo">Изменить фотографию</string>
+    <string name="delete_photo">Удалить фото</string>
+    <string name="choose_photo">Выбрать фото</string>
 </resources>

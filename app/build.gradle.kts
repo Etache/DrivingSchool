@@ -108,6 +108,9 @@ dependencies {
     //CircleImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
+    //picasso to show images
+    implementation("com.squareup.picasso:picasso:2.71828")
+
 }
 
 kapt {

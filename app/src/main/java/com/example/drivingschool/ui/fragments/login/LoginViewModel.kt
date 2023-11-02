@@ -19,10 +19,6 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ): ViewModel(){
 
-//    fun getToken(loginRequest: LoginRequest): LiveData<List<String?>> {
-//        return loginRepository.login(loginRequest)
-//    }
-
     private var _token = MutableLiveData<UiState<LoginResponse>>()
     val token: LiveData<UiState<LoginResponse>> = _token
 

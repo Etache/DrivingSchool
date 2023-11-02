@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_no_internet" />
     <fragment
         android:id="@+id/instructorProfileFragment"
-        android:name="com.example.drivingschool.ui.fragments.instructorProfile.InstructorProfileFragment"
+        android:name="com.example.drivingschool.ui.fragments.profile.instructorProfile.InstructorProfileFragment"
         android:label="fragment_instructor_profile"
         tools:layout="@layout/fragment_instructor_profile" />
     <fragment

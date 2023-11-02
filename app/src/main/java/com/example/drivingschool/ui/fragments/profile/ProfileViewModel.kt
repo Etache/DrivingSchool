@@ -37,7 +37,6 @@ class ProfileViewModel @Inject constructor(
         profileRepository.getProfile().collect {
             _profile.postValue(it)
             Log.d("madimadi", "getProfile: $_profile")
-
         }
     }
 
