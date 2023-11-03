@@ -10,13 +10,12 @@ import javax.inject.Inject
 
 class DetailsRepository @Inject constructor(
     private val apiService: DetailsApiService
-){
+) {
     suspend fun getCurrentDetails(id: String) = flow {
-        Log.e("ololo", "getLessonDetails: passed", )
         emit(UiState.Loading())
         val response = apiService.getCurrent(id)
         Log.e("ololo", "getLessonDetails: ${response.body()}")
-        if (response != null) {
+        if (response.isSuccessful) {
             emit(UiState.Success(response.body()))
         } else {
             emit(UiState.Empty())
@@ -24,11 +23,10 @@ class DetailsRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     suspend fun getPreviousDetails(id: String) = flow {
-        Log.e("ololo", "getLessonDetails: passed", )
         emit(UiState.Loading())
         val response = apiService.getPrevious(id)
         Log.e("ololo", "getLessonDetails: ${response.body()}")
-        if (response != null) {
+        if (response.isSuccessful) {
             emit(UiState.Success(response.body()))
         } else {
             emit(UiState.Empty())

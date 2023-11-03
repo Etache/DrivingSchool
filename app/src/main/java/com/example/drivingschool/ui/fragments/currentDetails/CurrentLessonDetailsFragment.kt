@@ -15,6 +15,7 @@ import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.setImage
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

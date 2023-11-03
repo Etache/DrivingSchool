@@ -13,7 +13,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/main"
-        android:src="@drawable/schedule_profile_ic"
+        android:src="@drawable/ic_default_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

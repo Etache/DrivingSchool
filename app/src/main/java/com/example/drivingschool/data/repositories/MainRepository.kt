@@ -11,18 +11,20 @@ class MainRepository @Inject constructor(
     private val mainApiService: MainApiService
 ) {
 
-    suspend fun getCurrentLessons()= flow {
+    suspend fun getCurrentLessons() = flow {
         emit(UiState.Loading())
         val response = mainApiService.getCurrent().body()
-        if (response!= null) {
+        if (response != null) {
             emit(UiState.Success(response))
+        } else {
+            emit(UiState.Empty())
         }
     }.flowOn(Dispatchers.IO)
 
     suspend fun getPreviousLessons() = flow {
         emit(UiState.Loading())
         val response = mainApiService.getPrevious().body()
-        if (response!= null) {
+        if (response != null) {
             emit(UiState.Success(response))
         } else {
             emit(UiState.Empty())
