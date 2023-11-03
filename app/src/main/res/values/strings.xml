@@ -47,4 +47,5 @@
     <string name="comment">Комментарий</string>
     <string name="continue_text">Продолжить</string>
     <string name="password_description">Пароль должен содержать не менее 6 символов, включая цифры, буквы и специальные символы (!$@%)</string>
+    <string name="ok">OK</string>
 </resources>

@@ -121,61 +121,9 @@ class StudentProfileFragment : Fragment() {
 
     private fun changePassword() {
         binding.btnChangePassword.setOnClickListener {
-
-            val dialog = BottomSheetDialog(requireContext())
-            dialog.setContentView(R.layout.change_password_bottom_sheet)
-            //dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-            val etOldPassword = dialog.findViewById<EditText>(R.id.edtOldPassword)
-            val etNewPassword = dialog.findViewById<EditText>(R.id.edtNewPassword)
-            val etConfirmPassword = dialog.findViewById<EditText>(R.id.edtConfirmPassword)
-
-            val btnSave = dialog.findViewById<MaterialButton>(R.id.btnSavePassword)
-            val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
-
-            btnSave?.setOnClickListener {
-                if (etOldPassword?.text.toString().isNotEmpty() && etNewPassword?.text.toString()
-                        .isNotEmpty() && etConfirmPassword?.text.toString().isNotEmpty()
-                ) {
-                    if (etOldPassword?.text?.toString() == preferences.password) {
-                        if (etNewPassword?.text.toString().length >= 6) {
-                            if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
-                                etNewPassword?.setBackgroundResource(R.drawable.edit_text_bg)
-                                etConfirmPassword?.setBackgroundResource(R.drawable.edit_text_bg)
-                                viewLifecycleOwner.lifecycleScope.launch {
-                                    viewModel.changePassword(
-                                        PasswordRequest(
-                                            etOldPassword?.text.toString(),
-                                            etNewPassword?.text.toString()
-                                        )
-                                    )
-                                }
-                                preferences.password = etNewPassword?.text.toString()
-                                showAlertDialog("Пароль успешно изменен")
-                                dialog.cancel()
-                            } else {
-                                showAlertDialog("Пароли не совпадают")
-                            }
-                        } else {
-                            showAlertDialog("Пароль должен содержать не менее 6 символов")
-                        }
-                    } else {
-                        showAlertDialog("Неверный старый пароль")
-                    }
-                }
-            }
-            btnCancel?.setOnClickListener {
-                dialog.cancel()
-            }
-            dialog.show()
+            val fragment = com.example.drivingschool.ui.fragments.profile.BottomSheetDialog()
+            fragment.show(parentFragmentManager, "TAG")
         }
-    }
-
-    private fun showAlertDialog(message: String) {
-        val alert = AlertDialog.Builder(requireContext())
-        alert.setMessage(message)
-        alert.setPositiveButton("OK", null)
-        alert.show()
     }
 
     private fun pickImageFromGallery() {
