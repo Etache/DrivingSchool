@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
@@ -64,7 +63,7 @@ class ProfileFragment : Fragment() {
             changePassword()
             logout()
         } else {
-            getInstructorProfileData()
+//            getInstructorProfileData()
             pickImageFromGalleryInstructor()
             changePasswordInstructor()
             logoutInstructor()
@@ -304,41 +303,41 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun getInstructorProfileData() {
-        viewModel.getInstructorProfile()
-        lifecycleScope.launch {
-            viewModel.instructorProfile.observe(requireActivity()) { state ->
-                when (state) {
-                    is UiState.Loading -> {
-                        bindingInstructor.progressBar.visibility = View.VISIBLE
-                        bindingInstructor.mainContainer.visibility = View.GONE
-                    }
-
-                    is UiState.Success -> {
-                        bindingInstructor.progressBar.visibility = View.GONE
-                        bindingInstructor.mainContainer.visibility = View.VISIBLE
-                        Glide.with(bindingInstructor.ivProfile).load(state.data?.profilePhoto)
-                            .into(bindingInstructor.ivProfile)
-                        bindingInstructor.tvName.text = state.data?.name
-                        bindingInstructor.tvSurname.text = state.data?.surname
-                        bindingInstructor.tvNumber.text = state.data?.phoneNumber
-                        bindingInstructor.tvExperience.text = state.data?.experience.toString()
-                        bindingInstructor.tvCar.text = state.data?.car
-                        Log.d("madimadi", "getInstructorProfileData in Fragment: ${state.data}")
-                        Log.d("madimadi", "tokenInstructor in Fragment: ${preferences.accessToken}")
-                    }
-
-                    is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
-                    }
-
-                    is UiState.Error -> {
-                        Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
+//    private fun getInstructorProfileData() {
+//        viewModel.getInstructorProfile()
+//        lifecycleScope.launch {
+//            viewModel.instructorProfile.observe(requireActivity()) { state ->
+//                when (state) {
+//                    is UiState.Loading -> {
+//                        bindingInstructor.progressBar.visibility = View.VISIBLE
+//                        bindingInstructor.mainContainer.visibility = View.GONE
+//                    }
+//
+//                    is UiState.Success -> {
+//                        bindingInstructor.progressBar.visibility = View.GONE
+//                        bindingInstructor.mainContainer.visibility = View.VISIBLE
+//                        Glide.with(bindingInstructor.ivProfile).load(state.data?.profilePhoto)
+//                            .into(bindingInstructor.ivProfile)
+//                        bindingInstructor.tvName.text = state.data?.name
+//                        bindingInstructor.tvSurname.text = state.data?.surname
+//                        bindingInstructor.tvNumber.text = state.data?.phoneNumber
+//                        bindingInstructor.tvExperience.text = state.data?.experience.toString()
+//                        bindingInstructor.tvCar.text = state.data?.car
+//                        Log.d("madimadi", "getInstructorProfileData in Fragment: ${state.data}")
+//                        Log.d("madimadi", "tokenInstructor in Fragment: ${preferences.accessToken}")
+//                    }
+//
+//                    is UiState.Empty -> {
+//                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                    is UiState.Error -> {
+//                        Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 }
 

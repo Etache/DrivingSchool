@@ -65,7 +65,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/dark_gray_text"
                 android:textSize="20sp"
-                tools:text="Начало" />
+                android:text="@string/start" />
 
             <TextView
                 android:id="@+id/tv_start_date"
@@ -102,7 +102,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/dark_gray_text"
                 android:textSize="20sp"
-                tools:text="Конец" />
+                android:text="@string/end_text" />
 
             <TextView
                 android:id="@+id/tv_end_date"
@@ -133,7 +133,7 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         android:backgroundTint="@color/super_light_gray"
-        android:gravity="start|center"
+        android:gravity="center"
         android:text="@string/text_btn_cancel_lesson"
         android:textColor="@color/violet"
         app:cornerRadius="4dp"

@@ -47,4 +47,7 @@
     <string name="comment">Комментарий</string>
     <string name="continue_text">Продолжить</string>
     <string name="_0_250">(0/250)</string>
+    <string name="practical_driving">Практическое вождение</string>
+    <string name="start">Начало</string>
+    <string name="end_text">Конец</string>
 </resources>

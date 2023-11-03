@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/currentLessonDetailsFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -36,12 +36,12 @@
     <fragment
         android:id="@+id/currentLessonDetailsFragment"
         android:name="com.example.drivingschool.ui.fragments.currentDetails.CurrentLessonDetailsFragment"
-        android:label="fragment_current_lesson_detail"
+        android:label="Текущие"
         tools:layout="@layout/fragment_current_lesson_detail" />
     <fragment
         android:id="@+id/previousLessonDetailsFragment"
         android:name="com.example.drivingschool.ui.fragments.previousDetails.PreviousLessonDetailsFragment"
-        android:label="fragment_previous_lesson_details"
+        android:label="Предыдущие"
         tools:layout="@layout/fragment_previous_lesson_details" />
     <fragment
         android:id="@+id/mainExploreFragment"

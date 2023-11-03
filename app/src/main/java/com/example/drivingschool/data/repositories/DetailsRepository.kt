@@ -1,5 +1,6 @@
 package com.example.drivingschool.data.repositories
 
+import android.util.Log
 import com.example.drivingschool.data.remote.currentDetail.DetailsApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
@@ -10,11 +11,25 @@ import javax.inject.Inject
 class DetailsRepository @Inject constructor(
     private val apiService: DetailsApiService
 ){
-    suspend fun getLessonDetails(id: String) = flow {
+    suspend fun getCurrentDetails(id: String) = flow {
+        Log.e("ololo", "getLessonDetails: passed", )
         emit(UiState.Loading())
-        val response = apiService.getDetails(id).body()
+        val response = apiService.getCurrent(id)
+        Log.e("ololo", "getLessonDetails: ${response.body()}")
         if (response != null) {
-            emit(UiState.Success(response))
+            emit(UiState.Success(response.body()))
+        } else {
+            emit(UiState.Empty())
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun getPreviousDetails(id: String) = flow {
+        Log.e("ololo", "getLessonDetails: passed", )
+        emit(UiState.Loading())
+        val response = apiService.getPrevious(id)
+        Log.e("ololo", "getLessonDetails: ${response.body()}")
+        if (response != null) {
+            emit(UiState.Success(response.body()))
         } else {
             emit(UiState.Empty())
         }

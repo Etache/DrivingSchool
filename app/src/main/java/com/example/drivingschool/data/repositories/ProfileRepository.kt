@@ -1,6 +1,6 @@
 package com.example.drivingschool.data.repositories
 
-import com.example.drivingschool.data.models.InstructorProfileResponse
+//import com.example.drivingschool.data.models.InstructorProfileResponse
 import com.example.drivingschool.data.models.ProfileResponse
 import com.example.drivingschool.data.remote.profile.ProfileApiService
 import com.example.drivingschool.tools.UiState
@@ -21,11 +21,11 @@ class ProfileRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getInstructorProfile() : Flow<UiState<InstructorProfileResponse>> = flow {
-        emit(UiState.Loading())
-        val data = profileApiService.getInstructorProfile().body()
-        if (data != null) {
-            emit(UiState.Success(data))
-        }
-    }.flowOn(Dispatchers.IO)
+//    suspend fun getInstructorProfile() : Flow<UiState<InstructorProfileResponse>> = flow {
+//        emit(UiState.Loading())
+//        val data = profileApiService.getInstructorProfile().body()
+//        if (data != null) {
+//            emit(UiState.Success(data))
+//        }
+//    }.flowOn(Dispatchers.IO)
 }

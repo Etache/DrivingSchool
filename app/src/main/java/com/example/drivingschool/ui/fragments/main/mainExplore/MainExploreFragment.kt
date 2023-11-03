@@ -31,6 +31,7 @@ class MainExploreFragment :
     override val viewModel: MainExploreViewModel by viewModels()
 
     private lateinit var adapter: LessonAdapter
+    private var lessonType: LessonType? = null
 
     override fun initialize() {
 
@@ -38,7 +39,7 @@ class MainExploreFragment :
         binding.rvMainExplore.adapter = adapter
 
         @Suppress("DEPRECATION")
-        val lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
+        lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
             it.getSerializable(BUNDLE_LESSON_TYPE) as? LessonType
         }
 
@@ -48,9 +49,19 @@ class MainExploreFragment :
     }
 
     private fun onClick(id: String) {
-        val bundle = Bundle()
-        bundle.putString("key", id)
-        findNavController().navigate(R.id.currentLessonDetailsFragment, bundle)
+
+        if (lessonType == LessonType.Current) {
+            val bundle = Bundle()
+            //Позже вырошу ключи в другой класс
+            bundle.putString("key", id)
+            findNavController().navigate(R.id.currentLessonDetailsFragment, bundle)
+        } else if (lessonType == LessonType.Previous) {
+            val bundle = Bundle()
+            //Позже вырошу ключи в другой класс
+            bundle.putString("key", id)
+            findNavController().navigate(R.id.previousLessonDetailsFragment, bundle)
+        }
+
     }
 
     //Для проверки вида

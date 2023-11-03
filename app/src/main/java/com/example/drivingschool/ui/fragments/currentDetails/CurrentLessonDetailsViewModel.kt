@@ -21,7 +21,7 @@ class CurrentLessonDetailsViewModel @Inject constructor(
 
 
     fun getDetails(id: String) = viewModelScope.launch {
-        repository.getLessonDetails(id).collect{
+        repository.getCurrentDetails(id).collect{
             _detailsState.value = it
         }
     }
