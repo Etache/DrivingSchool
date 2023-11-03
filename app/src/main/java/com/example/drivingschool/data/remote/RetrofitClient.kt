@@ -2,6 +2,7 @@ package com.example.drivingschool.data.remote
 
 import android.content.Context
 import com.example.drivingschool.data.remote.change_password.PasswordApiService
+import com.example.drivingschool.data.remote.enroll.EnrollApiService
 import com.example.drivingschool.data.remote.login.LoginApiService
 import com.example.drivingschool.data.remote.login.LoginInterceptor
 import com.example.drivingschool.data.remote.profile.ProfileApiService
@@ -55,4 +56,8 @@ class RetrofitClient(val context: Context) {
         return retrofit.create(PasswordApiService::class.java)
     }
 
+
+    fun provideEnrollApi() : EnrollApiService {
+        return retrofit.create(EnrollApiService::class.java)
+    }
 }

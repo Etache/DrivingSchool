@@ -1,6 +1,6 @@
 package com.example.drivingschool.data.remote.profile
 
-import com.example.drivingschool.data.models.InstructorProfileResponse
+import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.ProfileResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -16,13 +16,13 @@ interface ProfileApiService {
     suspend fun getProfile(): Response<ProfileResponse>
 
     @GET("profile/")
-    suspend fun getInstructorProfile(): Response<InstructorProfileResponse>
+    suspend fun getInstructorProfile(): Response<InstructorResponse>
 
     @Multipart
     @PUT("change_pp/")
-    suspend fun updateProfilePhoto(@Part photo: MultipartBody.Part): Response<ProfileResponse>
+    suspend fun updateStudentProfilePhoto(@Part photo: MultipartBody.Part): Response<ProfileResponse>
 
     @DELETE("delete_pp/")
-    suspend fun deleteProfilePhoto(): Response<ProfileResponse>
+    suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
 
 }

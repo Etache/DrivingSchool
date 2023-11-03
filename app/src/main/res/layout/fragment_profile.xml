@@ -27,7 +27,8 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@drawable/ic_default_photo"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:contentDescription="profile photo" />
 
         </androidx.cardview.widget.CardView>
 
@@ -46,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
                 android:text="Иванов"
-                android:textColor="#585858"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <TextView
@@ -54,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Иван"
-                android:textColor="#585858"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -65,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Изменить фотографию"
+        android:text="@string/change_profile_photo"
         android:textColor="#655DA2"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,9 +80,9 @@
             android:layout_marginTop="60dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="4dp"
-            android:text="Номер телефона"
+            android:text="@string/telephone_number"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
 
         <TextView
@@ -93,8 +94,8 @@
             android:background="@drawable/rectangle_bg_profile"
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
-            android:text="+996 999 000 000"
-            android:textColor="@color/gray"
+            android:textColor="@color/black"
+            android:text="@string/number"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/number" />
 
@@ -106,9 +107,9 @@
             android:layout_marginTop="8dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="4dp"
-            android:text="Группа"
+            android:text="@string/group"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvNumber" />
 
         <TextView
@@ -120,8 +121,8 @@
             android:background="@drawable/rectangle_bg_profile"
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
-            android:text="№4"
-            android:textColor="@color/gray"
+            android:textColor="@color/black"
+            android:text="@string/group_number"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/group" />
 
@@ -134,7 +135,7 @@
             android:backgroundTint="#F3F3F3"
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
-            android:text="Сменить пароль"
+            android:text="@string/change_password"
             android:textAlignment="textStart"
             android:textColor="#5883CB"
             android:textSize="16sp"
@@ -152,7 +153,7 @@
             android:backgroundTint="#F3F3F3"
             android:paddingHorizontal="8dp"
             android:paddingVertical="14dp"
-            android:text="Выйти"
+            android:text="@string/exit"
             android:textAlignment="textStart"
             android:textColor="#585858"
             android:textSize="16sp"

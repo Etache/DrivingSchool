@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
@@ -33,6 +34,7 @@ import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -46,10 +48,30 @@ import java.io.FileOutputStream
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var bindingInstructor: FragmentInstructorProfileBinding
     private val viewModel: ProfileViewModel by viewModels()
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentProfileBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (preferences.role == "instructor") {
+            findNavController().navigate(R.id.instructorProfileFragment)
+        } else {
+            getProfileData()
+            showImage()
+            pickImageFromGallery()
+            changePassword()
+            logout()
+        }
     }
 
     private val pickImageResult =
@@ -57,12 +79,16 @@ class ProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
+                viewModel.getProfile()
                 viewModel.profile.observe(requireActivity()) { state ->
                     when (state) {
+                        is UiState.Loading -> {
+                            binding.progressBar.visibility = View.VISIBLE
+                        }
+
                         is UiState.Success -> {
-                            viewModel.getProfile()
-                            Glide.with(this).load(imageUri)
-                                .into(binding.ivProfile)
+                            binding.progressBar.visibility = View.GONE
+                            Picasso.get().load(state.data?.profilePhoto).into(binding.ivProfile)
                         }
 
                         else -> {}
@@ -70,37 +96,6 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return if (preferences.role == "student") {
-            binding = FragmentProfileBinding.inflate(layoutInflater)
-            binding.root
-        } else {
-            bindingInstructor = FragmentInstructorProfileBinding.inflate(layoutInflater)
-            bindingInstructor.root
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (preferences.role == "student") {
-            getProfileData()
-            showImage()
-            pickImageFromGallery()
-            changePassword()
-            logout()
-        } else {
-            getInstructorProfileData()
-            pickImageFromGalleryInstructor()
-            changePasswordInstructor()
-            logoutInstructor()
-        }
-
-    }
 
     private fun showImage() {
         binding.ivProfile.setOnClickListener {
@@ -131,59 +126,10 @@ class ProfileFragment : Fragment() {
             val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
             btnSave?.setOnClickListener {
                 if (etOldPassword?.text?.toString() == preferences.password) {
-                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length > 8) {
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.changePassword(
-                                PasswordRequest(
-                                    etOldPassword?.text.toString(),
-                                    etNewPassword?.text.toString()
-                                )
-                            )
-                        }
-                        preferences.password = etNewPassword?.text.toString()
-                        Toast.makeText(requireContext(), "пароль изменен", Toast.LENGTH_SHORT)
-                            .show()
-                        if (etOldPassword?.text?.isNotEmpty() == true) {
-                            if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString()) {
-                                //logic
-                                Toast.makeText(
-                                    requireContext(),
-                                    "password changed",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                                dialog.cancel()
-                            } else {
-                                etNewPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                                etConfirmPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                            }
-                        } else {
-                            etOldPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                        }
-
-                    }
-                    btnCancel?.setOnClickListener {
-                        dialog.cancel()
-                    }
-                    dialog.show()
-                }
-            }
-        }
-    }
-
-    private fun changePasswordInstructor() {
-        bindingInstructor.btnChangePassword.setOnClickListener {
-            val dialog = BottomSheetDialog(requireContext())
-            dialog.setContentView(R.layout.change_password_bottom_sheet)
-            val etOldPassword = dialog.findViewById<EditText>(R.id.edtOldPassword)
-            val etNewPassword = dialog.findViewById<EditText>(R.id.edtNewPassword)
-            val etConfirmPassword = dialog.findViewById<EditText>(R.id.edtConfirmPassword)
-
-            val btnSave = dialog.findViewById<MaterialButton>(R.id.btnSavePassword)
-            val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
-            btnSave?.setOnClickListener {
-                if (etOldPassword?.text?.toString() == preferences.password) {
-                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length > 8) {
+                    etOldPassword?.setBackgroundResource(R.drawable.edit_text_bg)
+                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length >= 8) {
+                        etNewPassword?.setBackgroundResource(R.drawable.edit_text_bg)
+                        etConfirmPassword?.setBackgroundResource(R.drawable.edit_text_bg)
                         viewLifecycleOwner.lifecycleScope.launch {
                             viewModel.changePassword(
                                 PasswordRequest(
@@ -203,6 +149,7 @@ class ProfileFragment : Fragment() {
                 } else {
                     etOldPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
                 }
+
             }
             btnCancel?.setOnClickListener {
                 dialog.cancel()
@@ -211,36 +158,16 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
-    private fun pickImageFromGalleryInstructor() {
-        binding.tvChangePhoto.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            builder.setTitle("Изменить фотографию")
-            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
-                when (which) {
-                    0 -> {
-                        val intent =
-                            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        pickImageResult.launch(intent)
-                    }
-
-                    1 -> {
-                        bindingInstructor.ivProfile.setImageDrawable(null)
-                        viewModel.deleteProfilePhoto()
-                    }
-                }
-            }
-            val dialog = builder.create()
-            dialog.show()
-        }
-    }
-
-
     private fun pickImageFromGallery() {
         binding.tvChangePhoto.setOnClickListener {
             val builder = AlertDialog.Builder(context)
-            builder.setTitle("Изменить фотографию")
-            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
+            builder.setTitle(getString(R.string.change_photo))
+            builder.setItems(
+                arrayOf(
+                    getString(R.string.choose_photo),
+                    getString(R.string.delete_photo)
+                )
+            ) { dialog, which ->
                 when (which) {
                     0 -> {
                         val intent =
@@ -270,19 +197,7 @@ class ProfileFragment : Fragment() {
             inputStream.copyTo(outputStream)
             val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
-            binding.ivProfile.setImageURI(imageUri)
             viewModel.updateProfilePhoto(multipartBody)
-            viewModel.profile.observe(requireActivity()) { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        viewModel.getProfile()
-                        Glide.with(this).load(imageUri)
-                            .into(binding.ivProfile)
-                    }
-
-                    else -> {}
-                }
-            }
         }
     }
 
@@ -297,7 +212,6 @@ class ProfileFragment : Fragment() {
         }
         return name
     }
-
 
     private fun logout() {
         binding.btnExit.setOnClickListener {
@@ -317,25 +231,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun logoutInstructor() {
-        bindingInstructor.btnExit.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(requireContext())
-
-            alertDialog.setTitle(getString(R.string.confirm_exit))
-            alertDialog.setNegativeButton(getString(R.string.exit)) { alert, _ ->
-                alert.cancel()
-            }
-            alertDialog.setPositiveButton(getString(R.string.confirm)) { alert, _ ->
-                preferences.isLoginSuccess = false
-                preferences.accessToken = null
-                findNavController().navigate(R.id.loginFragment)
-                //логика
-                alert.cancel()
-            }
-            alertDialog.create().show()
-        }
-    }
-
     private fun getProfileData() {
         viewModel.getProfile()
         lifecycleScope.launch {
@@ -349,50 +244,14 @@ class ProfileFragment : Fragment() {
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
-                        Glide.with(binding.ivProfile).load(state.data?.profilePhoto)
-                            .into(binding.ivProfile)
+                        Picasso.get().load(state.data?.profilePhoto).into(binding.ivProfile)
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber
                         binding.tvGroup.text = state.data?.group?.name
                         Log.d("madimadi", "getProfileData in Fragment: ${state.data}")
                         Log.d("madimadi", "token in Fragment: ${preferences.accessToken}")
-                    }
-
-                    is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
-                    }
-
-                    is UiState.Error -> {
-                        Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getInstructorProfileData() {
-        viewModel.getInstructorProfile()
-        lifecycleScope.launch {
-            viewModel.instructorProfile.observe(requireActivity()) { state ->
-                when (state) {
-                    is UiState.Loading -> {
-                        bindingInstructor.progressBar.visibility = View.VISIBLE
-                        bindingInstructor.mainContainer.visibility = View.GONE
-                    }
-
-                    is UiState.Success -> {
-                        bindingInstructor.progressBar.visibility = View.GONE
-                        bindingInstructor.mainContainer.visibility = View.VISIBLE
-                        Glide.with(bindingInstructor.ivProfile).load(state.data?.profilePhoto)
-                            .into(bindingInstructor.ivProfile)
-                        bindingInstructor.tvName.text = state.data?.name
-                        bindingInstructor.tvSurname.text = state.data?.surname
-                        bindingInstructor.tvNumber.text = state.data?.phoneNumber
-                        bindingInstructor.tvExperience.text = state.data?.experience.toString()
-                        bindingInstructor.tvCar.text = state.data?.car
-                        Log.d("madimadi", "getInstructorProfileData in Fragment: ${state.data}")
-                        Log.d("madimadi", "tokenInstructor in Fragment: ${preferences.accessToken}")
+                        Log.d("madimadi", "token in Fragment: ${preferences.accessToken}")
                     }
 
                     is UiState.Empty -> {

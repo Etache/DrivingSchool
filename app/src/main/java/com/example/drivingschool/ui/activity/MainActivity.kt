@@ -1,11 +1,9 @@
 package com.example.drivingschool.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -51,6 +49,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment -> "Главная страница"
                 R.id.enrollFragment -> "Онлайн запись"
                 R.id.profileFragment -> "Профиль"
+                R.id.selectInstructorFragment -> "Профиль" //change
                 else -> "No title"
             }
             if(destination.id == R.id.loginFragment) {

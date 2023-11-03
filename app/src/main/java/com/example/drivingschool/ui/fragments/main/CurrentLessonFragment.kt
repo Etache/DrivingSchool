@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.drivingschool.R
 
-class ScheduleFragment : Fragment() {
+class CurrentLessonFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +17,6 @@ class ScheduleFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_schedule, container, false)
+        return inflater.inflate(R.layout.fragment_current_lesson, container, false)
     }
 }

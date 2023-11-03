@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.enroll
+package com.example.drivingschool.ui.fragments.enroll.confirmEnroll
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
