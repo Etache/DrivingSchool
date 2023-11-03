@@ -28,10 +28,10 @@ class ProfileViewModel @Inject constructor(
     private var _instructorProfile = MutableLiveData<UiState<InstructorResponse>>()
     val instructorProfile: LiveData<UiState<InstructorResponse>> = _instructorProfile
 
-    init {
-        getProfile()
-        getInstructorProfile()
-    }
+//    init {
+//        getProfile()
+//        getInstructorProfile()
+//    }
 
     fun getProfile() = viewModelScope.launch {
         profileRepository.getProfile().collect {

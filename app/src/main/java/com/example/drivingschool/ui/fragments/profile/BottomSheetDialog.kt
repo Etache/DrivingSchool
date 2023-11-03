@@ -3,16 +3,21 @@ package com.example.drivingschool.ui.fragments.profile
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.provider.Settings.Global.getString
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.databinding.ChangePasswordBottomSheetBinding
+import com.example.drivingschool.ui.activity.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -21,10 +26,16 @@ import kotlinx.coroutines.launch
 class BottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: ChangePasswordBottomSheetBinding
-    private val viewModel: ProfileViewModel by viewModels()
+    //private val viewModel: ProfileViewModel by viewModels()
+    private lateinit var viewModel : ProfileViewModel
 
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -32,13 +43,13 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = ChangePasswordBottomSheetBinding.inflate(inflater, container, false)
+        binding = ChangePasswordBottomSheetBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        changePassword()
+        //changePassword()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -53,6 +64,7 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
                 setupFullHeight(it)
                 behaviour.state = BottomSheetBehavior.STATE_EXPANDED
             }
+            changePassword()
         }
         return dialog
     }
@@ -64,49 +76,36 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     private fun changePassword() {
-        //dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        //dialog.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-
-        val etOldPassword = binding.tvOldPassword
-        val etNewPassword = binding.tvNewPassword
-        val etConfirmPassword = binding.tvConfirmPassword
-        val tvError = binding.tvError
-
-        val btnSave = binding.btnSavePassword
-        val btnCancel = binding.btnCancel
-
-        btnSave.setOnClickListener {
-            if (etOldPassword.text.toString().isNotEmpty() && etNewPassword.text.toString().isNotEmpty() && etConfirmPassword.text.toString().isNotEmpty()) {
-                if (etOldPassword.text?.toString() == preferences.password) {
-                    if (etNewPassword.text.toString().length >= 6) {
-                        if (etNewPassword.text.toString() == etConfirmPassword.text.toString()) {
-                            etNewPassword.setBackgroundResource(R.drawable.edit_text_bg)
-                            etConfirmPassword.setBackgroundResource(R.drawable.edit_text_bg)
+        binding.btnSavePassword.setOnClickListener {
+            if (binding.edtOldPassword.text.isNotEmpty() && binding.edtNewPassword.text.isNotEmpty() && binding.edtConfirmPassword.text.isNotEmpty()) {
+                if (binding.edtOldPassword.text.toString() == preferences.password) {
+                    if (binding.edtNewPassword.text.toString().length >= 6) {
+                        if (binding.edtNewPassword.text.toString() == binding.edtConfirmPassword.text.toString()) {
                             viewLifecycleOwner.lifecycleScope.launch {
                                 viewModel.changePassword(
                                     PasswordRequest(
-                                        etOldPassword.text.toString(),
-                                        etNewPassword.text.toString()
+                                        binding.edtOldPassword.text.toString(),
+                                        binding.edtNewPassword.text.toString()
                                     )
                                 )
                             }
-                            preferences.password = etNewPassword.text.toString()
+                            preferences.password = binding.edtNewPassword.text.toString()
                             showAlertDialog("Пароль успешно изменен")
                             dialog?.dismiss()
                         } else {
-                            tvError.text = "Пароли не совпадают"
+                            binding.tvError.text = "Пароли не совпадают"
                         }
                     } else {
-                        tvError.text = "Пароль должен содержать не менее 6 символов";
+                        binding.tvError.text = "Пароль должен содержать не менее 6 символов"
                     }
                 } else {
-                    tvError.text = "Неверный старый пароль";
+                    binding.tvError.text = "Неверный старый пароль";
                 }
             } else {
-                tvError.text = "Заполните все поля"
+                binding.tvError.text = "Заполните все поля"
             }
         }
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             dialog?.dismiss()
         }
     }
@@ -114,7 +113,7 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
     private fun showAlertDialog(message: String) {
         val alert = AlertDialog.Builder(requireContext())
         alert.setMessage(message)
-        alert.setPositiveButton(getString(R.string.ok), null)
+        alert.setPositiveButton("ok", null)
         alert.show()
     }
 }

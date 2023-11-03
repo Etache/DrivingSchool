@@ -51,9 +51,14 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
+                R.id.currentLessonFragment -> "Главная страница"
+                R.id.previousLessonFragment -> "Главная страница"
+                R.id.currentLessonDetailsFragment -> "Главная страница"
+                R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
-                R.id.selectInstructorFragment -> "Профиль"
+                R.id.instructorInfoFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
+                R.id.instructorProfileFragment -> "Профиль"
                 else -> "No title"
             }
             if(destination.id == R.id.loginFragment) {
