@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.drivingschool.ui.fragments.login.LoginFragment"
-        tools:layout="@layout/fragment_login"
-        />
+        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.drivingschool.ui.fragments.main.MainFragment"

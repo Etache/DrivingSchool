@@ -14,14 +14,14 @@ import javax.inject.Inject
 @HiltViewModel
 class PreviousLessonDetailsViewModel @Inject constructor(
     private val repository: DetailsRepository
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _detailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
     val detailsState = _detailsState.asStateFlow()
 
 
     fun getDetails(id: String) = viewModelScope.launch {
-        repository.getPreviousDetails(id).collect{
+        repository.getPreviousDetails(id).collect {
             _detailsState.value = it
         }
     }

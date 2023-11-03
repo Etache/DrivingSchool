@@ -13,6 +13,9 @@ import com.example.drivingschool.databinding.FragmentMainExploreBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
+import com.example.drivingschool.ui.fragments.BundleKeys.BUNDLE_LESSON_TYPE
+import com.example.drivingschool.ui.fragments.BundleKeys.MAIN_TO_CURRENT_KEY
+import com.example.drivingschool.ui.fragments.BundleKeys.MAIN_TO_PREVIOUS_KEY
 import com.example.drivingschool.ui.fragments.main.lesson.LessonAdapter
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,10 +25,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainExploreFragment :
     BaseFragment<FragmentMainExploreBinding, MainExploreViewModel>(R.layout.fragment_main_explore) {
-
-    companion object {
-        const val BUNDLE_LESSON_TYPE = "bundle_media_type"
-    }
 
     override val binding by viewBinding(FragmentMainExploreBinding::bind)
     override val viewModel: MainExploreViewModel by viewModels()
@@ -52,19 +51,16 @@ class MainExploreFragment :
 
         if (lessonType == LessonType.Current) {
             val bundle = Bundle()
-            //Позже вырошу ключи в другой класс
-            bundle.putString("key", id)
+            bundle.putString(MAIN_TO_CURRENT_KEY, id)
             findNavController().navigate(R.id.currentLessonDetailsFragment, bundle)
         } else if (lessonType == LessonType.Previous) {
             val bundle = Bundle()
-            //Позже вырошу ключи в другой класс
-            bundle.putString("key", id)
+            bundle.putString(MAIN_TO_PREVIOUS_KEY, id)
             findNavController().navigate(R.id.previousLessonDetailsFragment, bundle)
         }
 
     }
 
-    //Для проверки вида
     private fun initCurrentLessonSections() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -107,8 +103,6 @@ class MainExploreFragment :
         }
     }
 
-
-    //Для проверки вида
     private fun initPreviousLessonSections() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -150,6 +144,5 @@ class MainExploreFragment :
             }
         }
     }
-
 
 }

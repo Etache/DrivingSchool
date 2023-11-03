@@ -12,9 +12,9 @@ import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentCurrentLessonDetailBinding
 import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.tools.setImage
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
+import com.example.drivingschool.ui.fragments.BundleKeys
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,8 +27,8 @@ class CurrentLessonDetailsFragment :
     override val viewModel: CurrentLessonDetailsViewModel by viewModels()
 
     override fun initialize() {
-        Log.e("ololololo", "initialize: ${arguments?.getString("key")}")
-        viewModel.getDetails(arguments?.getString("key") ?: "1")
+        Log.e("ololo", "initialize: ${arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY)}")
+        viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1")
     }
 
     override fun setupListeners() {
@@ -71,7 +71,15 @@ class CurrentLessonDetailsFragment :
                                 tvEndDate.text = it.data?.date
                                 tvStartTime.text = it.data?.time
                                 tvEndTime.text = it.data?.time
-                                circleImageView.setImage(it.data?.instructor?.profile_photo)
+
+                                val httpsImageUrl = it.data?.instructor?.profile_photo?.replace(
+                                    "http://",
+                                    "https://"
+                                )
+                                Picasso.get()
+                                    .load(httpsImageUrl)
+                                    .placeholder(R.drawable.ic_default_photo)
+                                    .into(circleImageView)
                             }
                         }
 
@@ -118,17 +126,19 @@ class CurrentLessonDetailsFragment :
 
     private fun showCancelAlert() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Вы точно хотите отменить занятие?")
+            .setTitle(getString(R.string.cancel_lesson_text))
             .setCancelable(true)
             .setPositiveButton(
-                "Подтвердить",
-                DialogInterface.OnClickListener { dialogInterface, i ->
+                getString(R.string.confirm),
+                DialogInterface.OnClickListener { dialogInterface, _ ->
                     dialogInterface.cancel()
                     showToast("Вы отменили занятия")
                 })
-            .setNegativeButton("Назад", DialogInterface.OnClickListener { dialogInterface, i ->
-                dialogInterface.cancel()
-            })
+            .setNegativeButton(
+                getString(R.string.back),
+                DialogInterface.OnClickListener { dialogInterface, _ ->
+                    dialogInterface.cancel()
+                })
             .show()
 
     }

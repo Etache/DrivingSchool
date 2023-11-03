@@ -50,4 +50,6 @@
     <string name="practical_driving">Практическое вождение</string>
     <string name="start">Начало</string>
     <string name="end_text">Конец</string>
+    <string name="cancel_lesson_text">Вы точно хотите отменить занятие?</string>
+    <string name="back">Назад</string>
 </resources>

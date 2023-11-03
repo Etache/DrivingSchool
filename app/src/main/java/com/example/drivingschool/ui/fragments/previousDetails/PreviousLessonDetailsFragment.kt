@@ -10,9 +10,9 @@ import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentPreviousLessonDetailsBinding
 import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.tools.setImage
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
+import com.example.drivingschool.ui.fragments.BundleKeys
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,8 +25,8 @@ class PreviousLessonDetailsFragment :
     override val viewModel: PreviousLessonDetailsViewModel by viewModels()
 
     override fun initialize() {
-        Log.e("ololololo", "initialize: ${arguments?.getString("key")}")
-        viewModel.getDetails(arguments?.getString("key") ?: "1")
+        Log.e("ololololo", "initialize: ${arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY)}")
+        viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY) ?: "1")
     }
 
     override fun setupSubscribes() {
@@ -60,7 +60,12 @@ class PreviousLessonDetailsFragment :
                                 tvPreviousStartTime.text = it.data?.time
                                 tvPreviousEndTime.text = it.data?.time
 
-                                circleImageView.setImage(it.data?.instructor?.profile_photo)
+                                val httpsImageUrl = it.data?.instructor?.profile_photo?.replace("http://", "https://")
+                                Picasso.get()
+                                    .load(httpsImageUrl)
+                                    .placeholder(R.drawable.ic_default_photo)
+                                    .into(circleImageView)
+
                             }
                         }
 

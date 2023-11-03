@@ -24,11 +24,11 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
         android:paddingTop="6dp"
+        android:text="@string/practical_driving"
         android:textColor="@color/dark_gray_text"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        android:text="@string/practical_driving" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <TextView
         android:id="@+id/tv_date"

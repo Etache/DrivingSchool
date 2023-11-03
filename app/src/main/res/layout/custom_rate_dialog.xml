@@ -30,13 +30,13 @@
         android:theme="@style/CustomRatingBar" />
 
     <TextView
+        android:id="@+id/tv_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/comment"
-        android:id="@+id/tv_comment"
         android:textColor="@color/dark_gray_text"
         android:textSize="12sp" />
 
@@ -45,12 +45,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="no comment"
+        android:background="@color/white"
+        android:fontFamily="@font/roboto_regular"
         android:inputType="textMultiLine"
         android:labelFor="@+id/tv_comment"
-        android:background="@color/white"
+        android:maxLength="250"
         android:minHeight="48dp"
         android:padding="6dp"
-        android:maxLength="250"
         tools:hint="write comment here" />
 
     <TextView

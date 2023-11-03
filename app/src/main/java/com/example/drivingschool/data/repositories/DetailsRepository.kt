@@ -1,7 +1,7 @@
 package com.example.drivingschool.data.repositories
 
 import android.util.Log
-import com.example.drivingschool.data.remote.currentDetail.DetailsApiService
+import com.example.drivingschool.data.remote.detail.DetailsApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow

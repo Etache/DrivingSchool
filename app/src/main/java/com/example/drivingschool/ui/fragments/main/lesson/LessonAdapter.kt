@@ -7,24 +7,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.databinding.ItemMainBinding
 
-class LessonAdapter(private val onClick: (String) -> Unit) : RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
+class LessonAdapter(private val onClick: (String) -> Unit) :
+    RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
 
     private var lessons = arrayListOf<LessonsItem>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(it : List<LessonsItem>) {
+    fun updateList(it: List<LessonsItem>) {
         lessons = it as ArrayList<LessonsItem>
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(lesson : LessonsItem) {
+    inner class ViewHolder(private val binding: ItemMainBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(lesson: LessonsItem) {
             binding.apply {
                 tvTitle.text = "${lesson.instructor?.surname} ${lesson.instructor?.name}"
                 tvDate.text = lesson.date
                 tvTime.text = lesson.time
             }
-
             itemView.setOnClickListener {
                 onClick(lesson.id.toString())
             }

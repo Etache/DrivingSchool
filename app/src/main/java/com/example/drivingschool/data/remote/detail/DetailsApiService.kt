@@ -1,4 +1,4 @@
-package com.example.drivingschool.data.remote.currentDetail
+package com.example.drivingschool.data.remote.detail
 
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import retrofit2.Response
@@ -13,9 +13,5 @@ interface DetailsApiService {
 
     @GET("lessons/details/{id}")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
-
-//    @PUT("lessons/cancel/")
-//    suspend fun cancelLesson(@Query("lesson_id") lessonId: String)
-
 
 }
