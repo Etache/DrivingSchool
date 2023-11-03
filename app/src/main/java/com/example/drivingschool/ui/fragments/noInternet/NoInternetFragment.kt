@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.login
+package com.example.drivingschool.ui.fragments.noInternet
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.drivingschool.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoInternetFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

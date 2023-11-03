@@ -36,14 +36,14 @@
                 android:layout_height="wrap_content"
                 android:text="Фамилия"
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_bold"/>
+                android:fontFamily="@font/roboto_bold_"/>
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Имя"
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/roboto_bold_"
                 android:layout_marginStart="5dp"/>
         </LinearLayout>
 
