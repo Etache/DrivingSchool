@@ -13,7 +13,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/main"
-        android:src="@drawable/schedule_profile_ic"
+        android:src="@drawable/ic_default_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,10 +65,10 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/dark_gray_text"
                 android:textSize="20sp"
-                tools:text="Начало" />
+                android:text="@string/start" />
 
             <TextView
-                android:id="@+id/tv_schedule_start_date"
+                android:id="@+id/tv_previous_start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
@@ -77,7 +77,7 @@
                 tools:text="29 Октября" />
 
             <TextView
-                android:id="@+id/tv_schedule_start_time"
+                android:id="@+id/tv_previous_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -102,7 +102,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/dark_gray_text"
                 android:textSize="20sp"
-                tools:text="Конец" />
+                android:text="@string/end_text" />
 
             <TextView
                 android:id="@+id/tv_schedule_end_date"
@@ -114,7 +114,7 @@
                 tools:text="29 Октября" />
 
             <TextView
-                android:id="@+id/tv_schedule_end_time"
+                android:id="@+id/tv_previous_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -138,7 +138,7 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_start_end"
-        tools:text="Комментарии" />
+        android:text="@string/comment" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circle_comment_image"
@@ -159,7 +159,7 @@
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/circle_comment_image"
         app:layout_constraintTop_toTopOf="@id/circle_comment_image"
-        tools:text="Иванов Иван Иванович" />
+        android:text="Иванов Иван Иванович" />
 
     <RatingBar
         android:id="@+id/rb_comment_small"
@@ -183,7 +183,7 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/circle_comment_image"
         app:layout_constraintStart_toEndOf="@id/rb_comment_small"
-        tools:text="25  Октября" />
+        android:text="25  Октября" />
 
     <TextView
         android:id="@+id/tv_comment_body"
@@ -196,7 +196,7 @@
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/rb_comment_small"
         app:layout_constraintTop_toBottomOf="@id/circle_comment_image"
-        tools:text="Lorem ipsum dolor sit amet consectetur. Sapien turpis elementum quis gravida
+        android:text="Lorem ipsum dolor sit amet consectetur. Sapien turpis elementum quis gravida
          augue placerat neque. Nibh nunc nulla tellus scelerisque sit diam facilisis. Eu euismod
          mi tellus augue. In cras et elementum risus faucibus. Lectus suspendisse aliquet nisi
          erat facilisis egestas eros. Dolor lectus massa egestas magna sem mi massa tempus risus.
@@ -208,5 +208,15 @@
         android:layout_marginTop="14dp"
         android:background="@color/gray"
         app:layout_constraintTop_toBottomOf="@id/tv_comment_body" />
+
+    <ProgressBar
+        android:id="@+id/details_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

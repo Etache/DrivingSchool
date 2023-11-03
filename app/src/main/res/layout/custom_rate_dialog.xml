@@ -8,8 +8,6 @@
     android:paddingHorizontal="16dp"
     android:paddingVertical="20dp">
 
-    <!--  Это не окончательный вид  -->
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,16 +41,30 @@
         android:textSize="12sp" />
 
     <EditText
+        android:id="@+id/et_comment_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="no comment"
-        android:inputType="textLongMessage"
+        android:inputType="textMultiLine"
         android:labelFor="@+id/tv_comment"
+        android:background="@color/white"
         android:minHeight="48dp"
         android:padding="6dp"
+        android:maxLength="250"
         tools:hint="write comment here" />
 
+    <TextView
+        android:id="@+id/tv_comment_character_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/_0_250"
+        android:textColor="@color/gray"
+        android:textSize="12sp" />
+
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_comment_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"

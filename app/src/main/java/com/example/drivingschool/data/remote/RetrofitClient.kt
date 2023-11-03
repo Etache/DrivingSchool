@@ -3,8 +3,10 @@ package com.example.drivingschool.data.remote
 import android.content.Context
 import com.example.drivingschool.data.remote.change_password.PasswordApiService
 import com.example.drivingschool.data.remote.enroll.EnrollApiService
+import com.example.drivingschool.data.remote.currentDetail.DetailsApiService
 import com.example.drivingschool.data.remote.login.LoginApiService
 import com.example.drivingschool.data.remote.login.LoginInterceptor
+import com.example.drivingschool.data.remote.main.MainApiService
 import com.example.drivingschool.data.remote.profile.ProfileApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,7 +17,7 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient(val context: Context) {
 
     val loginRetrofit = Retrofit.Builder()
-        .baseUrl("https://80c6-94-143-197-187.ngrok-free.app/")
+        .baseUrl("https://80c6-94-143-197-187.ngrok-free.app")
         .client(provideLoginOkHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -60,4 +62,12 @@ class RetrofitClient(val context: Context) {
     fun provideEnrollApi() : EnrollApiService {
         return retrofit.create(EnrollApiService::class.java)
     }
+    fun provideMainApi(): MainApiService {
+        return retrofit.create(MainApiService::class.java)
+    }
+
+    fun provideDetailsApi(): DetailsApiService {
+        return retrofit.create(DetailsApiService::class.java)
+    }
+
 }

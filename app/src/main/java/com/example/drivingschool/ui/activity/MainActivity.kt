@@ -1,9 +1,13 @@
 package com.example.drivingschool.ui.activity
 
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NavUtils
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -33,6 +37,14 @@ class MainActivity : AppCompatActivity() {
         setAppBar()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            findNavController(R.id.nav_host_fragment).navigateUp()
+            Toast.makeText(this, "Home button pressed", Toast.LENGTH_SHORT).show()
+        }
+        return true
+    }
+
     private fun setAppBar() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -48,9 +60,11 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
+                R.id.currentLessonDetailsFragment -> "Текущие"
+                R.id.previousLessonDetailsFragment -> "Предыдущие"
                 R.id.currentLessonFragment -> "Главная страница"
                 R.id.previousLessonFragment -> "Главная страница"
                 R.id.currentLessonDetailsFragment -> "Главная страница"

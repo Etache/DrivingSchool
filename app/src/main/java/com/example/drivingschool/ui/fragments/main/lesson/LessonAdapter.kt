@@ -1,36 +1,33 @@
 package com.example.drivingschool.ui.fragments.main.lesson
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.models.LessonRequest
 import com.example.drivingschool.databinding.ItemMainBinding
 
-class LessonAdapter() : RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
+class LessonAdapter(private val onClick: (String) -> Unit) : RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
 
-    // Для проверки
-    val list = listOf(
-        LessonRequest("Иванов Иван Иванович", "Практическое вождение", "12.12.23", "9:41"),
-        LessonRequest("Иванов Иван ", "Практическое вождение 2", "01.01.23", "9:41"),
-        LessonRequest("Иванов Иван Иванович", "Практическое вождение", "12.12.23", "9:41"),
-        LessonRequest("Иванов Иван ", "Практическое вождение 2", "01.01.23", "9:41"),
-        LessonRequest("Иванов Иван Иванович", "Практическое вождение", "12.12.23", "9:41"),
-        LessonRequest("Иванов Иван ", "Практическое вождение 2", "01.01.23", "9:41"),
-        LessonRequest("Иванов Иван Иванович", "Практическое вождение", "12.12.23", "9:41"),
-        LessonRequest("Иванов Иван ", "Практическое вождение 2", "01.01.23", "9:41"),
-        LessonRequest("Иванов Иван Иванович", "Практическое вождение", "12.12.23", "9:41"),
-        LessonRequest("Иванов Иван ", "Практическое вождение 2", "01.01.23", "9:41"),
+    private var lessons = arrayListOf<LessonsItem>()
 
-        )
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(it : List<LessonsItem>) {
+        lessons = it as ArrayList<LessonsItem>
+        notifyDataSetChanged()
+    }
 
-
-    class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(lessonRequest: LessonRequest) {
+    inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(lesson : LessonsItem) {
             binding.apply {
-                tvTitle.text = lessonRequest.title
-                tvDescription.text = lessonRequest.desc
-                tvDate.text = lessonRequest.date
-                tvTime.text = lessonRequest.time
+                tvTitle.text = "${lesson.instructor?.surname} ${lesson.instructor?.name}"
+                tvDate.text = lesson.date
+                tvTime.text = lesson.time
+            }
+
+            itemView.setOnClickListener {
+                onClick(lesson.id.toString())
             }
         }
 
@@ -46,9 +43,11 @@ class LessonAdapter() : RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
         )
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = lessons.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(lessons[position])
     }
+
+
 }

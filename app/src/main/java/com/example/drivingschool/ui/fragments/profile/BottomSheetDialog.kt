@@ -26,8 +26,9 @@ import kotlinx.coroutines.launch
 class BottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: ChangePasswordBottomSheetBinding
+
     //private val viewModel: ProfileViewModel by viewModels()
-    private lateinit var viewModel : ProfileViewModel
+    private lateinit var viewModel: ProfileViewModel
 
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
