@@ -41,6 +41,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment,
                 R.id.enrollFragment,
                 R.id.profileFragment,
+                R.id.selectInstructorFragment,
+                R.id.selectDateTimeFragment,
+                R.id.instructorInfoFragment,
             )
         )
 
@@ -49,10 +52,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment -> "Главная страница"
                 R.id.enrollFragment -> "Онлайн запись"
                 R.id.profileFragment -> "Профиль"
-                R.id.selectInstructorFragment -> "Профиль" //change
+                R.id.selectInstructorFragment -> "Онлайн запись"
+                R.id.selectDateTimeFragment -> "Онлайн запись"
+                R.id.instructorInfoFragment -> "Онлайн запись"
                 else -> "No title"
             }
-            if(destination.id == R.id.loginFragment) {
+            if (destination.id == R.id.loginFragment) {
                 supportActionBar?.hide()
                 navView.isVisible = false
             } else {

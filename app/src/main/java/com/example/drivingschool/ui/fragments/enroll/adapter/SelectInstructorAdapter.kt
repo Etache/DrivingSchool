@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
+import com.squareup.picasso.Picasso
 
 class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
     RecyclerView.Adapter<SelectInstructorAdapter.SelectViewHolder>() {
@@ -25,12 +25,18 @@ class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
             binding.tvExpience.text = instructor.experience.toString()
             binding.rbRating.rating = instructor.rate!!.toFloat()
 
-            Glide
-                .with(binding.ivProfileImage)
-                .load(instructor.profilePhoto)
-                .circleCrop()
-                .placeholder(R.drawable.default_pfp)
+            val httpsImageUrl = instructor.profilePhoto?.replace("http://", "https://")
+            Picasso.get()
+                .load(httpsImageUrl)
+                .placeholder(R.drawable.ic_default_photo)
                 .into(binding.ivProfileImage)
+
+//            Glide
+//                .with(binding.ivProfileImage)
+//                .load(instructor.profilePhoto)
+//                .circleCrop()
+//                .placeholder(R.drawable.default_pfp)
+//                .into(binding.ivProfileImage)
 
             binding.ivInfo.setOnClickListener {
                 it.findNavController()

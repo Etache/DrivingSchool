@@ -75,5 +75,8 @@
     <string name="fish_text">Lorem ipsum dolor sit amet consectetur. Sapien turpis elementum quis gravida augue placerat neque. Nibh nunc nulla tellus scelerisque sit diam facilisis. Eu euismod mi tellus augue. In cras et elementum risus faucibus. Lectus suspendisse aliquet nisi erat facilisis egestas eros. Dolor lectus massa egestas magna sem mi massa tempus risus. Aliquam scelerisque vel massa etiam volutpat amet. porttitor</string>
     <string name="profile_photo">profile photo</string>
     <string name="select_instructor">Выберите инструктора</string>
+    <string name="ok">Ок</string>
+    <string name="select_date">Выберите дату</string>
+    <string name="select_time">Выберите время</string>
 
 </resources>
