@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/mainFragment"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_main_blue"
         android:title="@string/main" />
 
     <item
         android:id="@+id/selectInstructorFragment"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_enroll_blue"
         android:title="@string/enroll" />
 
     <item
-        android:id="@+id/profileFragment"
-        android:icon="@drawable/ic_profile"
+        android:id="@+id/studentProfileFragment"
+        android:icon="@drawable/ic_profile_blue"
         android:title="@string/profile" />
 
 </menu>

@@ -30,8 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
-//        supportActionBar?.setDisplayShowTitleEnabled(true)
-//        supportActionBar?.title = "hello"
         setAppBar()
     }
 
@@ -39,17 +37,23 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.mainFragment,
-                R.id.enrollFragment,
-                R.id.profileFragment,
+                R.id.selectInstructorFragment,
+                R.id.studentProfileFragment,
+                R.id.instructorProfileFragment,
+                R.id.instructorInfoFragment,
+                R.id.currentLessonFragment,
+                R.id.currentLessonDetailsFragment,
+                R.id.previousLessonDetailsFragment,
+                R.id.previousLessonFragment
             )
         )
 
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
-                R.id.enrollFragment -> "Онлайн запись"
-                R.id.profileFragment -> "Профиль"
-                R.id.selectInstructorFragment -> "Профиль" //change
+                R.id.selectInstructorFragment -> "Онлайн запись"
+                R.id.selectInstructorFragment -> "Профиль"
+                R.id.studentProfileFragment -> "Профиль"
                 else -> "No title"
             }
             if(destination.id == R.id.loginFragment) {

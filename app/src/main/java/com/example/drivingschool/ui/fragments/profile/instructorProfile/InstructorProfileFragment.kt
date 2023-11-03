@@ -33,6 +33,7 @@ import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -41,6 +42,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
+@AndroidEntryPoint
 class InstructorProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentInstructorProfileBinding

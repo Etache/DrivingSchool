@@ -16,14 +16,6 @@
         tools:layout="@layout/fragment_main" />
 
     <fragment
-        android:id="@+id/enrollFragment"
-        android:name="com.example.drivingschool.ui.fragments.enroll.confirmEnroll.EnrollFragment"
-        tools:layout="@layout/fragment_enroll" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.drivingschool.ui.fragments.profile.ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
         android:id="@+id/noInternetFragment"
         android:name="com.example.drivingschool.ui.fragments.noInternet.NoInternetFragment"
         android:label="fragment_no_internet"
@@ -73,5 +65,10 @@
         android:name="com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreFragment"
         android:label="fragment_main_explore"
         tools:layout="@layout/fragment_main_explore" />
+    <fragment
+        android:id="@+id/studentProfileFragment"
+        android:name="com.example.drivingschool.ui.fragments.profile.studentProfile.StudentProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>
