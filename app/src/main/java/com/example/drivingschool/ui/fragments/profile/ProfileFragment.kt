@@ -34,8 +34,11 @@ import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -88,7 +91,11 @@ class ProfileFragment : Fragment() {
 
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
-                            Picasso.get().load(state.data?.profilePhoto).into(binding.ivProfile)
+                            Picasso.get().load(state.data?.profilePhoto).memoryPolicy(
+                                MemoryPolicy.NO_CACHE
+                            )
+                                .networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
+
                         }
 
                         else -> {}

@@ -51,13 +51,12 @@ class SelectInstructorFragment : Fragment() {
                         Toast.makeText(requireContext(), "state error: ${uiState.msg}", Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Loading -> {
-                        Toast.makeText(requireContext(), "wait...", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "wait...", Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Empty -> {
                         Toast.makeText(requireContext(), "state is empty", Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
         }
 
