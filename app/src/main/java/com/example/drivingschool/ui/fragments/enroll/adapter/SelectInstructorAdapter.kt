@@ -22,22 +22,28 @@ class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
         fun bind(instructor: InstructorResponse) {
             binding.tvName.text = instructor.name
             binding.tvSurname.text = instructor.surname
-            binding.tvExpience.text = instructor.experience.toString()
             binding.rbRating.rating = instructor.rate!!.toFloat()
 
+            // ------------------------------------
+            val yearString: String
+            val experience = instructor.experience
+            val lastDigit = experience!! % 10
+            yearString = when {
+                experience % 100 in 11..14  -> "лет"
+                lastDigit == 1                    -> "год"
+                lastDigit in 2..4           -> "года"
+                else                              -> "лет"
+            }
+            binding.tvExpience.text = "Стаж: ${instructor.experience.toString()} $yearString"
+
+            // ------------------------------------
             val httpsImageUrl = instructor.profilePhoto?.replace("http://", "https://")
             Picasso.get()
                 .load(httpsImageUrl)
                 .placeholder(R.drawable.ic_default_photo)
                 .into(binding.ivProfileImage)
 
-//            Glide
-//                .with(binding.ivProfileImage)
-//                .load(instructor.profilePhoto)
-//                .circleCrop()
-//                .placeholder(R.drawable.default_pfp)
-//                .into(binding.ivProfileImage)
-
+            // ------------------------------------
             binding.ivInfo.setOnClickListener {
                 it.findNavController()
                     .navigate(R.id.action_selectInstructorFragment_to_instructorInfoFragment, bundleOf(ID_KEY to instructor.id))
@@ -68,7 +74,6 @@ class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
     interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
-
 
     companion object {
         const val ID_KEY = "id"

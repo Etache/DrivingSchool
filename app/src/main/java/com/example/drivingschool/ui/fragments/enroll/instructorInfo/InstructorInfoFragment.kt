@@ -1,5 +1,6 @@
 package com.example.drivingschool.ui.fragments.enroll.instructorInfo
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -44,6 +45,7 @@ class InstructorInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         adapter = InstructorCommentAdapter(commentsList)
         binding.rvInstructorProfileComments.adapter = adapter
         binding.rvInstructorProfileComments.layoutManager = LinearLayoutManager(context)
@@ -58,6 +60,7 @@ class InstructorInfoFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun getInstructorProfile() {
         viewModel.getInstructorById(id = id!!)
         lifecycleScope.launch {
@@ -73,22 +76,25 @@ class InstructorInfoFragment : Fragment() {
 
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
-                        binding.tvExpienceNum.text = state.data?.experience.toString()
                         binding.tvNumber.text = state.data?.phoneNumber
                         binding.tvCarName.text = state.data?.car
+
+                        val yearString: String
+                        val experience = state.data?.experience
+                        val lastDigit = experience!! % 10
+                        yearString = when {
+                            experience % 100 in 11..14  -> "лет"
+                            lastDigit == 1                    -> "год"
+                            lastDigit in 2..4           -> "года"
+                            else                              -> "лет"
+                        }
+                        binding.tvExpienceNum.text = "Стаж: ${state.data?.experience.toString()} $yearString"
 
                         val httpsImageUrl = state.data?.profilePhoto?.replace("http://", "https://")
                         Picasso.get()
                             .load(httpsImageUrl)
                             .placeholder(R.drawable.ic_default_photo)
                             .into(binding.ivProfileImage)
-
-//                        Glide
-//                            .with(binding.ivProfileImage)
-//                            .load(state.data?.profilePhoto)
-//                            .circleCrop()
-//                            .placeholder(R.drawable.default_pfp)
-//                            .into(binding.ivProfileImage)
 
                         Log.d("madimadi", "getInstructorDetails in fragment: ${state.data}")
                     }
