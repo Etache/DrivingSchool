@@ -34,13 +34,13 @@ class MainExploreFragment :
 
     override fun initialize() {
 
-        adapter = LessonAdapter(this::onClick)
-        binding.rvMainExplore.adapter = adapter
-
         @Suppress("DEPRECATION")
         lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
             it.getSerializable(BUNDLE_LESSON_TYPE) as? LessonType
         }
+
+        adapter = LessonAdapter(this::onClick, requireContext(), lessonType)
+        binding.rvMainExplore.adapter = adapter
 
         if (lessonType == LessonType.Current) initCurrentLessonSections()
         else if (lessonType == LessonType.Previous) initPreviousLessonSections()

@@ -27,6 +27,14 @@ class PreviousLessonDetailsFragment :
     override fun initialize() {
         Log.e("ololololo", "initialize: ${arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY)}")
         viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY) ?: "1")
+
+        binding.tvCommentBody.setOnClickListener {
+            if (binding.tvCommentBody.maxHeight > 60){
+                binding.tvCommentBody.maxHeight = 60
+            } else {
+                binding.tvCommentBody.maxHeight = 400
+            }
+        }
     }
 
     override fun setupSubscribes() {
