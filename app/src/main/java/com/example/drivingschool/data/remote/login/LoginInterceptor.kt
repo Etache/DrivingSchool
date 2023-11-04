@@ -1,9 +1,7 @@
 package com.example.drivingschool.data.remote.login
 
-import android.app.Application
-import android.content.Context
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
-import com.example.drivingschool.data.models.RefreshTokenRequest
+import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -30,7 +28,7 @@ class LoginInterceptor @Inject constructor(
             val refreshedAccessToken = runBlocking {
                 refreshToken()
             }
-            response.close()
+
             if (refreshedAccessToken != null) {
                 val newRequest = request.newBuilder()
                     .header("Authorization", "Bearer $refreshedAccessToken")

@@ -1,9 +1,8 @@
 package com.example.drivingschool.data.repositories
 
 import com.example.drivingschool.R
-import com.example.drivingschool.data.models.LoginRequest
-import com.example.drivingschool.data.models.LoginResponse
-import com.example.drivingschool.data.models.RefreshTokenResponse
+import com.example.drivingschool.data.models.login.LoginRequest
+import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.remote.login.LoginApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
