@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
-//        supportActionBar?.setDisplayShowTitleEnabled(true)
-//        supportActionBar?.title = "hello"
         setAppBar()
     }
 
@@ -51,18 +49,30 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.mainFragment,
-                R.id.enrollFragment,
-                R.id.profileFragment,
+                R.id.selectInstructorFragment,
+                R.id.studentProfileFragment,
+                R.id.instructorProfileFragment,
+                R.id.instructorInfoFragment,
+                R.id.currentLessonFragment,
+                R.id.currentLessonDetailsFragment,
+                R.id.previousLessonDetailsFragment,
+                R.id.previousLessonFragment
             )
         )
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
-                R.id.enrollFragment -> "Онлайн запись"
-                R.id.profileFragment -> "Профиль"
                 R.id.currentLessonDetailsFragment -> "Текущие"
                 R.id.previousLessonDetailsFragment -> "Предыдущие"
+                R.id.currentLessonFragment -> "Главная страница"
+                R.id.previousLessonFragment -> "Главная страница"
+                R.id.currentLessonDetailsFragment -> "Главная страница"
+                R.id.previousLessonDetailsFragment -> "Главная страница"
+                R.id.selectInstructorFragment -> "Онлайн запись"
+                R.id.instructorInfoFragment -> "Онлайн запись"
+                R.id.studentProfileFragment -> "Профиль"
+                R.id.instructorProfileFragment -> "Профиль"
                 else -> "No title"
             }
             if(destination.id == R.id.loginFragment) {
@@ -73,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                 navView.isVisible = true
             }
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
         }
 
         setupActionBarWithNavController(navController, appBarConfiguration)

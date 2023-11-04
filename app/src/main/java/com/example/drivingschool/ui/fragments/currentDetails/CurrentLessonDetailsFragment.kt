@@ -27,7 +27,7 @@ class CurrentLessonDetailsFragment :
     override val viewModel: CurrentLessonDetailsViewModel by viewModels()
 
     override fun initialize() {
-        Log.e("ololo", "initialize: ${arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY)}")
+        Log.e("ololololo", "initialize: ${arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY)}")
         viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1")
     }
 
@@ -48,7 +48,7 @@ class CurrentLessonDetailsFragment :
                         }
 
                         is UiState.Error -> {
-                            showToast(it.msg)
+                            showToast(it.msg.toString())
                             binding.detailsProgressBar.viewVisibility(false)
                             showToast("UiState.Error")
                         }
@@ -64,8 +64,9 @@ class CurrentLessonDetailsFragment :
                             Log.e("ololo", "setupSubscribes: $it")
                             showToast("UiState.Success")
                             binding.apply {
+                                val last = it.data?.instructor?.lastname ?: ""
                                 tvUserName.text =
-                                    "${it.data?.instructor?.surname} ${it.data?.instructor?.name}"
+                                    "${it.data?.instructor?.surname} ${it.data?.instructor?.name} $last"
                                 tvUserNumber.text = it.data?.instructor?.phone_number
                                 tvStartDate.text = it.data?.date
                                 tvEndDate.text = it.data?.date
@@ -81,16 +82,16 @@ class CurrentLessonDetailsFragment :
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(circleImageView)
                             }
-                        }
 
+                        }
                     }
                 }
             }
         }
+
     }
 
-
-//    @SuppressLint("MissingInflatedId")
+    //    @SuppressLint("MissingInflatedId")
 //    private fun showCustomDialog() {
 //        val builder = AlertDialog.Builder(requireContext())
 //        val customDialog = LayoutInflater.from(requireContext()).inflate(R.layout.custom_rate_dialog, null)
@@ -123,23 +124,24 @@ class CurrentLessonDetailsFragment :
 //        val dialog = builder.create()
 //        dialog.show()
 //    }
-
     private fun showCancelAlert() {
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.cancel_lesson_text))
             .setCancelable(true)
             .setPositiveButton(
                 getString(R.string.confirm),
-                DialogInterface.OnClickListener { dialogInterface, _ ->
+                DialogInterface.OnClickListener { dialogInterface, i ->
                     dialogInterface.cancel()
                     showToast("Вы отменили занятия")
                 })
             .setNegativeButton(
                 getString(R.string.back),
-                DialogInterface.OnClickListener { dialogInterface, _ ->
+                DialogInterface.OnClickListener { dialogInterface, i ->
                     dialogInterface.cancel()
                 })
             .show()
 
     }
+
+
 }

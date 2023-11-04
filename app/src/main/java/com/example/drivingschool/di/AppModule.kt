@@ -31,6 +31,10 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideEnrollApiService(retrofitClient: RetrofitClient) = retrofitClient.provideEnrollApi()
+
+    @Provides
+    @Singleton
     fun provideMainApiService(retrofitClient: RetrofitClient) = retrofitClient.provideMainApi()
 
     @Provides

@@ -1,4 +1,4 @@
-package com.example.drivingschool.data.remote
+package com.example.drivingschool.data.models
 
 // Это просто класс муляж
 data class LessonRequest(

@@ -40,14 +40,14 @@ class PreviousLessonDetailsFragment :
     override fun setupSubscribes() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.detailsState.collect{
+                viewModel.detailsState.collect {
                     when (it) {
                         is UiState.Empty -> {
                             showToast("UiState.Empty")
                             binding.detailsProgressBar.viewVisibility(false)
                         }
                         is UiState.Error -> {
-                            showToast(it.msg)
+                            showToast(it.msg.toString())
                             binding.detailsProgressBar.viewVisibility(false)
                             showToast("UiState.Error")
                         }
@@ -61,7 +61,9 @@ class PreviousLessonDetailsFragment :
                             Log.e("ololo", "setupSubscribes: $it")
                             showToast("UiState.Success")
                             binding.apply {
-                                tvUserName.text = "${it.data?.instructor?.surname} ${it.data?.instructor?.name}"
+                                val last = it.data?.instructor?.lastname ?: ""
+                                tvUserName.text =
+                                    "${it.data?.instructor?.surname} ${it.data?.instructor?.name} $last"
                                 tvUserNumber.text = it.data?.instructor?.phone_number
                                 tvPreviousStartDate.text = it.data?.date
                                 tvScheduleEndDate.text = it.data?.date

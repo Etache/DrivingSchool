@@ -13,4 +13,3 @@ fun View.viewVisibility(visibility: Boolean) {
 fun Fragment.showToast(msg: String) {
     Toast.makeText(this.requireContext(), msg, Toast.LENGTH_SHORT).show()
 }
-

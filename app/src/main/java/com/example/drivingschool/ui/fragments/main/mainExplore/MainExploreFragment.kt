@@ -75,7 +75,7 @@ class MainExploreFragment :
                         }
 
                         is UiState.Error -> {
-                            showToast(it.msg)
+                            showToast(it.msg.toString())
                         }
 
                         is UiState.Loading -> {
@@ -117,7 +117,7 @@ class MainExploreFragment :
                         }
 
                         is UiState.Error -> {
-                            showToast(it.msg)
+                            showToast(it.msg.toString())
                         }
 
                         is UiState.Loading -> {

@@ -19,13 +19,13 @@
         android:id="@+id/view_no_lessons"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_gravity="center">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/no_lesson"
+            android:contentDescription="@string/text_no_lesson"
             android:src="@drawable/no_lessons" />
 
         <TextView
