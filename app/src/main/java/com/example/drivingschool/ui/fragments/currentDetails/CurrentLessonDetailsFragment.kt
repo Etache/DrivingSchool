@@ -44,24 +44,28 @@ class CurrentLessonDetailsFragment :
                         is UiState.Empty -> {
                             showToast("UiState.Empty")
                             binding.detailsProgressBar.viewVisibility(false)
+                            binding.mainContainer.viewVisibility(true)
                         }
 
                         is UiState.Error -> {
                             showToast(it.msg.toString())
                             binding.detailsProgressBar.viewVisibility(false)
+                            binding.mainContainer.viewVisibility(true)
                             showToast("UiState.Error")
                         }
 
                         is UiState.Loading -> {
                             binding.apply {
                                 detailsProgressBar.viewVisibility(true)
+                                mainContainer.viewVisibility(false)
                             }
                         }
 
                         is UiState.Success -> {
                             binding.detailsProgressBar.viewVisibility(false)
+                            binding.mainContainer.viewVisibility(true)
                             Log.e("ololo", "setupSubscribes: $it")
-                            showToast("UiState.Success")
+                            //showToast("UiState.Success")
                             binding.apply {
                                 tvUserName.text =
                                     "${it.data?.instructor?.surname} ${it.data?.instructor?.name}"
@@ -125,7 +129,7 @@ class CurrentLessonDetailsFragment :
                 "Подтвердить",
                 DialogInterface.OnClickListener { dialogInterface, i ->
                     dialogInterface.cancel()
-                    showToast("Вы отменили занятия")
+                    showToast("Вы отменили занятие")
                 })
             .setNegativeButton("Назад", DialogInterface.OnClickListener { dialogInterface, i ->
                 dialogInterface.cancel()

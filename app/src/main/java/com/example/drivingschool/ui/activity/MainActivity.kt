@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.drivingschool.R
+import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
+    private val preferences: PreferencesHelper by lazy {
+        PreferencesHelper(this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,6 +39,11 @@ class MainActivity : AppCompatActivity() {
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
         setAppBar()
+
+        if(preferences.role == "instructor"){
+            navView.menu.clear() //clear old inflated items.
+            navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -56,7 +65,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.currentLessonFragment,
                 R.id.currentLessonDetailsFragment,
                 R.id.previousLessonDetailsFragment,
-                R.id.previousLessonFragment
+                R.id.previousLessonFragment,
+                R.id.selectInstructorFragment,
+                R.id.selectDateTimeFragment,
+                R.id.instructorInfoFragment,
             )
         )
 
@@ -75,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.instructorProfileFragment -> "Профиль"
                 else -> "No title"
             }
-            if(destination.id == R.id.loginFragment) {
+            if (destination.id == R.id.loginFragment) {
                 supportActionBar?.hide()
                 navView.isVisible = false
             } else {

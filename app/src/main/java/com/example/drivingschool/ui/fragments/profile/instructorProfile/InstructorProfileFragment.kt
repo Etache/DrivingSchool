@@ -32,6 +32,8 @@ import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -73,7 +75,8 @@ class InstructorProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
-                viewModel.profile.observe(requireActivity()) { state ->
+                viewModel.getInstructorProfile()
+                viewModel.instructorProfile.observe(requireActivity()) { state ->
                     when (state) {
                         is UiState.Loading -> {
                             binding.progressBar.visibility = View.VISIBLE
@@ -81,7 +84,10 @@ class InstructorProfileFragment : Fragment() {
 
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
-                            Picasso.get().load(imageUri).into(binding.ivProfile)
+                            Picasso.get().load(state.data?.profilePhoto).memoryPolicy(
+                                MemoryPolicy.NO_CACHE
+                            ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
+
                         }
 
                         else -> {}
@@ -109,43 +115,8 @@ class InstructorProfileFragment : Fragment() {
 
     private fun changePasswordInstructor() {
         binding.btnChangePassword.setOnClickListener {
-            val dialog = BottomSheetDialog(requireContext())
-            dialog.setContentView(R.layout.change_password_bottom_sheet)
-
-            val etOldPassword = dialog.findViewById<EditText>(R.id.edtOldPassword)
-            val etNewPassword = dialog.findViewById<EditText>(R.id.edtNewPassword)
-            val etConfirmPassword = dialog.findViewById<EditText>(R.id.edtConfirmPassword)
-
-            val btnSave = dialog.findViewById<MaterialButton>(R.id.btnSavePassword)
-            val btnCancel = dialog.findViewById<MaterialButton>(R.id.btnCancel)
-
-            btnSave?.setOnClickListener {
-                if (etOldPassword?.text?.toString() == preferences.password) {
-                    if (etNewPassword?.text.toString() == etConfirmPassword?.text.toString() && etNewPassword?.text.toString().length >= 8) {
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewModel.changePassword(
-                                PasswordRequest(
-                                    etOldPassword?.text.toString(),
-                                    etNewPassword?.text.toString()
-                                )
-                            )
-                        }
-                        preferences.password = etNewPassword?.text.toString()
-                        Toast.makeText(requireContext(), "пароль изменен", Toast.LENGTH_SHORT)
-                            .show()
-                        dialog.cancel()
-                    } else {
-                        etNewPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                        etConfirmPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                    }
-                } else {
-                    etOldPassword?.setBackgroundResource(R.drawable.bg_et_change_password_error)
-                }
-            }
-            btnCancel?.setOnClickListener {
-                dialog.cancel()
-            }
-            dialog.show()
+            val fragment = com.example.drivingschool.ui.fragments.profile.BottomSheetDialog()
+            fragment.show(parentFragmentManager, "TAG")
         }
     }
 
@@ -215,6 +186,9 @@ class InstructorProfileFragment : Fragment() {
             alertDialog.setPositiveButton(getString(R.string.confirm)) { alert, _ ->
                 preferences.isLoginSuccess = false
                 preferences.accessToken = null
+                preferences.refreshToken = null
+                preferences.password = null
+                preferences.role = null
                 findNavController().navigate(R.id.loginFragment)
                 alert.cancel()
             }

@@ -85,10 +85,7 @@ class StudentProfileFragment : Fragment() {
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
                             Picasso.get().load(state.data?.profilePhoto).memoryPolicy(
-                                MemoryPolicy.NO_CACHE
-                            )
-                                .networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
-
+                                MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
                         }
 
                         else -> {}
@@ -187,6 +184,9 @@ class StudentProfileFragment : Fragment() {
             alertDialog.setPositiveButton(getString(R.string.confirm)) { alert, _ ->
                 preferences.isLoginSuccess = false
                 preferences.accessToken = null
+                preferences.refreshToken = null
+                preferences.password = null
+                preferences.role = null
                 findNavController().navigate(R.id.loginFragment)
                 alert.cancel()
             }
