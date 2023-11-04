@@ -29,7 +29,8 @@ class LessonAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(lesson: LessonsItem, position: Int) {
             binding.apply {
-                tvTitle.text = lesson.instructor?.surname + lesson.instructor?.name
+                val last = lesson.instructor?.lastname ?: ""
+                tvTitle.text = "${lesson.instructor?.surname} ${lesson.instructor?.name} $last"
                 tvDate.text = lesson.date
                 tvTime.text = lesson.time
             }
