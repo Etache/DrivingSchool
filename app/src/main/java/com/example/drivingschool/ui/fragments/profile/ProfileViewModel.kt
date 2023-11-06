@@ -1,18 +1,22 @@
 package com.example.drivingschool.ui.fragments.profile
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.drivingschool.data.models.InstructorProfileResponse
+import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
 import com.example.drivingschool.data.repositories.PasswordRepository
 import com.example.drivingschool.data.repositories.ProfileRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,8 +28,8 @@ class ProfileViewModel @Inject constructor(
     private var _profile = MutableLiveData<UiState<ProfileResponse>>()
     val profile: LiveData<UiState<ProfileResponse>> = _profile
 
-    private var _instructorProfile = MutableLiveData<UiState<InstructorProfileResponse>>()
-    val instructorProfile: LiveData<UiState<InstructorProfileResponse>> = _instructorProfile
+    private var _instructorProfile = MutableLiveData<UiState<InstructorResponse>>()
+    val instructorProfile: LiveData<UiState<InstructorResponse>> = _instructorProfile
 
     init {
         getProfile()
@@ -46,8 +50,24 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+//    fun changePassword(passwordRequest: PasswordRequest) = viewModelScope.launch{
+//        passwordRepository.changePassword(passwordRequest).collect{
+//            Log.d("madimadi", "changePassword: password changed $passwordRequest")
+//        }
+//    }
+
     suspend fun changePassword(passwordRequest: PasswordRequest) {
         passwordRepository.changePassword(passwordRequest)
     }
 
+    fun deleteProfilePhoto() {
+        viewModelScope.launch {
+            profileRepository.deleteProfilePhoto()
+        }
+    }
+
+    fun updateProfilePhoto(image: MultipartBody.Part) = viewModelScope.launch {
+        profileRepository.updateProfilePhoto(image)
+    }
 }
+

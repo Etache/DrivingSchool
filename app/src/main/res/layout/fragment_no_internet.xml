@@ -55,7 +55,7 @@
         android:layout_marginHorizontal="80dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/button_no_internet"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/roboto_bold_"
         android:text="@string/update_connect"
         android:textAllCaps="false"
         android:textColor="@color/white"

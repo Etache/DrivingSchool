@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/i_info_background"
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="16dp"
+    android:layout_marginBottom="16dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_profile_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/iv_profile_image"
+        app:layout_constraintTop_toTopOf="@id/iv_profile_image"
+        app:layout_constraintBottom_toBottomOf="@id/iv_profile_image">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_surname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/instructor_surname"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"/>
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"
+                android:layout_marginStart="5dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_expience"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/experience"
+            android:textSize="14sp"
+            android:textColor="#545454"
+            />
+
+        <RatingBar
+            android:id="@+id/rb_rating"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:progressTint="#FDCF08"
+            android:numStars="5"
+            android:rating="3"
+            android:stepSize="1" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_info"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/info_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="info button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

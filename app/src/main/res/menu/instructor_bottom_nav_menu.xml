@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainFragment"
+        android:icon="@drawable/ic_main_blue"
+        android:title="@string/main" />
+
+    <item
+        android:id="@+id/selectInstructorFragment"
+        android:icon="@drawable/ic_enroll_blue"
+        android:title="@string/enroll" />
+
+    <item
+        android:id="@+id/instructorProfileFragment"
+        android:icon="@drawable/ic_profile_blue"
+        android:title="@string/profile" />
+
+</menu>

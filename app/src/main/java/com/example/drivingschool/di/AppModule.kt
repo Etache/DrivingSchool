@@ -1,18 +1,12 @@
 package com.example.drivingschool.di
 
 import android.content.Context
-import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
-import com.example.drivingschool.data.remote.login.LoginApiService
-import com.example.drivingschool.data.remote.login.LoginInterceptor
+import com.example.drivingschool.data.remote.RetrofitClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -21,28 +15,29 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): LoginApiService {
-        return Retrofit.Builder()
-            .baseUrl("https://80c6-94-143-197-187.ngrok-free.app/")
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(LoginApiService::class.java)
-    }
+    fun provideRetrofitClient(@ApplicationContext  context: Context) = RetrofitClient(context)
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(helper: PreferencesHelper): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(LoginInterceptor(helper))
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .callTimeout(30, TimeUnit.SECONDS)
-            .build()
-    }
+    fun provideLoginApiService(retrofitClient: RetrofitClient) = retrofitClient.provideLoginApi()
 
     @Provides
     @Singleton
-    fun providesPreferencesHelper(@ApplicationContext context: Context) = PreferencesHelper(context)
+    fun provideProfileApiService(retrofitClient: RetrofitClient) = retrofitClient.provideProfileApi()
+
+    @Provides
+    @Singleton
+    fun providePasswordApiService(retrofitClient: RetrofitClient) = retrofitClient.providePasswordApi()
+
+    @Provides
+    @Singleton
+    fun provideEnrollApiService(retrofitClient: RetrofitClient) = retrofitClient.provideEnrollApi()
+
+    @Provides
+    @Singleton
+    fun provideMainApiService(retrofitClient: RetrofitClient) = retrofitClient.provideMainApi()
+
+    @Provides
+    @Singleton
+    fun provideDetailsApiService(retrofitClient: RetrofitClient) = retrofitClient.provideDetailsApi()
 }

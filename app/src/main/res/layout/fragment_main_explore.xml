@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
-    tools:context=".ui.fragments.main.MainExploreFragment">
+    tools:context=".ui.fragments.main.mainExplore.MainExploreFragment">
 <!--    Это не окончательный вид-->
 
     <androidx.recyclerview.widget.RecyclerView
@@ -20,13 +20,14 @@
         android:id="@+id/view_no_lessons"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:visibility="gone"
         android:layout_gravity="center">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/no_lessons"
-            android:contentDescription="@string/no_lesson"/>
+            android:contentDescription="no lesson"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -38,4 +39,13 @@
             android:textSize="28sp"
             android:textStyle="bold" />
     </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/main_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/blue"
+        android:layout_gravity="center"
+        android:visibility="visible"/>
+
 </FrameLayout>

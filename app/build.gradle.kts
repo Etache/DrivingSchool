@@ -102,11 +102,17 @@ dependencies {
     // ViewBindingPropertyDelegate
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
 
-    //fragment
+    // Fragment
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 
-    //CircleImageView
+    // CircleImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    // Flexbox Layout
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+
+    // Picasso
+    implementation("com.squareup.picasso:picasso:2.8")
 
 }
 
