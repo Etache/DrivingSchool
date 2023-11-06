@@ -30,7 +30,7 @@ class SelectInstructorFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSelectInstructorBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -40,21 +40,32 @@ class SelectInstructorFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.getInstructors()
             viewModel.instructors.observe(requireActivity()) { uiState ->
-                when(uiState) {
+                when (uiState) {
+                    is UiState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.clContainer.visibility = View.GONE
+                    }
+
                     is UiState.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.clContainer.visibility = View.VISIBLE
                         val instructors = uiState.data
                         adapter = SelectInstructorAdapter(instructors ?: emptyList())
                         binding.rvInstructorList.adapter = adapter
                         Log.d("madimadi", "instructors list in fragment: ${uiState.data}")
                     }
+
                     is UiState.Error -> {
-                        Toast.makeText(requireContext(), "state error: ${uiState.msg}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "state error: ${uiState.msg}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                    is UiState.Loading -> {
-                        Toast.makeText(requireContext(), "wait...", Toast.LENGTH_LONG).show()
-                    }
+
                     is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "state is empty", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "state is empty", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 

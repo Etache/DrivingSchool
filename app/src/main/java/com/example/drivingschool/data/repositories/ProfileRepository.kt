@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 class ProfileRepository @Inject constructor(
     private val profileApiService: ProfileApiService
@@ -41,18 +42,16 @@ class ProfileRepository @Inject constructor(
 
 //    suspend fun updateProfilePhoto(image: MultipartBody.Part) : Flow<UiState<ProfileResponse>> = flow {
 //        emit(UiState.Loading())
-//        val data = profileApiService.updateStudentProfilePhoto(image).body()
-//        if (data != null) {
-//            emit(UiState.Success(data))
-//        }
-//    }.flowOn(Dispatchers.IO)
-//
-//    suspend fun deleteProfilePhoto() : Flow<UiState<ProfileResponse>> = flow {
-//        emit(UiState.Loading())
-//        val data = profileApiService.deleteStudentProfilePhoto().body()
+//        val data = profileApiService.updateProfilePhoto(image).body()
 //        if (data != null) {
 //            emit(UiState.Success(data))
 //        }
 //    }.flowOn(Dispatchers.IO)
 
+
+//    suspend fun updateProfilePhoto(file: File) {
+//        val reqFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+//        val body = MultipartBody.Part.createFormData("upload", file.name, reqFile)
+//        profileApiService.updateProfilePhoto(body)
+//    }
 }

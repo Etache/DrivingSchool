@@ -20,6 +20,7 @@
         android:id="@+id/view_no_lessons"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:visibility="gone"
         android:layout_gravity="center">
 
         <ImageView
@@ -38,4 +39,13 @@
             android:textSize="28sp"
             android:textStyle="bold" />
     </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/main_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/blue"
+        android:layout_gravity="center"
+        android:visibility="visible"/>
+
 </FrameLayout>

@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingVertical="12dp">
+    android:paddingTop="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile_photo"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -27,6 +27,7 @@
             android:fontFamily="@font/roboto_medium"
             android:text="@string/instructor_name"
             android:textSize="20sp"
+            android:textColor="#545454"
             app:layout_constraintStart_toEndOf="@id/iv_profile_photo"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -38,6 +39,7 @@
             android:fontFamily="@font/roboto_medium"
             android:text="@string/instructor_surname"
             android:textSize="20sp"
+            android:textColor="#545454"
             app:layout_constraintStart_toEndOf="@id/tv_name"
             app:layout_constraintTop_toTopOf="@id/tv_name"/>
 
@@ -50,6 +52,7 @@
             android:numStars="5"
             android:rating="4"
             android:stepSize="1"
+            android:progressTint="#FDCF08"
             app:layout_constraintStart_toStartOf="@id/tv_name"
             app:layout_constraintTop_toTopOf="@id/tv_comment_date"
             app:layout_constraintBottom_toBottomOf="@id/tv_comment_date" />
@@ -77,6 +80,12 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:layout_marginTop="20dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"
+        android:layout_marginTop="15dp"/>
 
 
 </LinearLayout>

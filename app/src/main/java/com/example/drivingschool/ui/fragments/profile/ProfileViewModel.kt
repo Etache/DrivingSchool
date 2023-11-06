@@ -1,5 +1,6 @@
 package com.example.drivingschool.ui.fragments.profile
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +13,10 @@ import com.example.drivingschool.data.repositories.PasswordRepository
 import com.example.drivingschool.data.repositories.ProfileRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,7 +50,13 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun changePassword(passwordRequest: PasswordRequest) = viewModelScope.launch{
+//    fun changePassword(passwordRequest: PasswordRequest) = viewModelScope.launch{
+//        passwordRepository.changePassword(passwordRequest).collect{
+//            Log.d("madimadi", "changePassword: password changed $passwordRequest")
+//        }
+//    }
+
+    suspend fun changePassword(passwordRequest: PasswordRequest) {
         passwordRepository.changePassword(passwordRequest)
     }
 
@@ -56,13 +65,6 @@ class ProfileViewModel @Inject constructor(
             profileRepository.deleteProfilePhoto()
         }
     }
-
-
-//    fun uploadImage(image: MultipartBody.Part) = viewModelScope.launch {
-//        profileRepository.updateProfilePhoto(image).collect{
-//            _profile.postValue(it)
-//        }
-//    }
 
     fun updateProfilePhoto(image: MultipartBody.Part) = viewModelScope.launch {
         profileRepository.updateProfilePhoto(image)

@@ -16,62 +16,54 @@
         tools:layout="@layout/fragment_main" />
 
     <fragment
-        android:id="@+id/enrollFragment"
-        android:name="com.example.drivingschool.ui.fragments.enroll.confirmEnroll.EnrollFragment"
-        tools:layout="@layout/fragment_enroll" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.drivingschool.ui.fragments.profile.ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
-    <fragment
         android:id="@+id/noInternetFragment"
         android:name="com.example.drivingschool.ui.fragments.noInternet.NoInternetFragment"
-        android:label="fragment_no_internet"
         tools:layout="@layout/fragment_no_internet" />
     <fragment
         android:id="@+id/currentLessonFragment"
         android:name="com.example.drivingschool.ui.fragments.main.CurrentLessonFragment"
-        android:label="fragment_current_lesson"
         tools:layout="@layout/fragment_current_lesson" />
     <fragment
         android:id="@+id/previousLessonFragment"
         android:name="com.example.drivingschool.ui.fragments.main.PreviousLessonFragment"
-        android:label="fragment_previous_lesson"
         tools:layout="@layout/fragment_previous_lesson" />
     <fragment
         android:id="@+id/selectInstructorFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment"
-        android:label="fragment_select_instructor"
         tools:layout="@layout/fragment_select_instructor" >
         <action
             android:id="@+id/action_selectInstructorFragment_to_instructorInfoFragment"
             app:destination="@id/instructorInfoFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/instructorInfoFragment"
-        android:name="com.example.drivingschool.ui.fragments.enroll.selectInstructor.InstructorInfoFragment"
-        android:label="fragment_instructor_info"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorInfo.InstructorInfoFragment"
         tools:layout="@layout/fragment_instructor_info" />
     <fragment
         android:id="@+id/currentLessonDetailsFragment"
         android:name="com.example.drivingschool.ui.fragments.currentDetails.CurrentLessonDetailsFragment"
-        android:label="fragment_current_lesson_detail"
+        android:label="Текущие"
         tools:layout="@layout/fragment_current_lesson_detail" />
     <fragment
         android:id="@+id/previousLessonDetailsFragment"
         android:name="com.example.drivingschool.ui.fragments.previousDetails.PreviousLessonDetailsFragment"
-        android:label="fragment_previous_lesson_details"
+        android:label="Предыдущие"
         tools:layout="@layout/fragment_previous_lesson_details" />
     <fragment
         android:id="@+id/instructorProfileFragment"
         android:name="com.example.drivingschool.ui.fragments.profile.instructorProfile.InstructorProfileFragment"
-        android:label="fragment_instructor_profile"
         tools:layout="@layout/fragment_instructor_profile" />
     <fragment
         android:id="@+id/mainExploreFragment"
         android:name="com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreFragment"
-        android:label="fragment_main_explore"
         tools:layout="@layout/fragment_main_explore" />
+    <fragment
+        android:id="@+id/studentProfileFragment"
+        android:name="com.example.drivingschool.ui.fragments.profile.studentProfile.StudentProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/selectDateTimeFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.selectDate.SelectDateTimeFragment"
+        tools:layout="@layout/fragment_select_date_time" />
 
 </navigation>

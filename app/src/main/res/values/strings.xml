@@ -20,6 +20,7 @@
     <string name="no_connection">Нет соединения</string>
     <string name="check_the_internet_connection">Проверьте подключение \nк интернету</string>
     <string name="full_name">Имя Фамилия Отчество</string>
+    <string name="telephone_number">Номер телефона</string>
     <string name="beginning">начало</string>
     <string name="update_connect">Обновить соединение</string>
 
@@ -43,7 +44,7 @@
     <string name="number">+996 111 111 111</string>
     <string name="current_lesson">Текущее занятие</string>
     <string name="previous_lesson">Предыдущее занятие</string>
-    <string name="comment">Оставить комментарий</string>
+    <string name="write_comment">Оставить комментарий</string>
 
     //InstructorFragment
     <string name="experience">Стаж: </string>
@@ -69,7 +70,6 @@
     <string name="instructor_surname">Иванов</string>
     <string name="instructor_name">Иван</string>
     <string name="change_profile_photo">Изменить фотографию</string>
-    <string name="telephone_number">Номер телефона</string>
     <string name="group">Группа</string>
     <string name="group_number">№4</string>
     <string name="change_password">Сменить пароль</string>
@@ -80,5 +80,16 @@
     <string name="fish_text">Lorem ipsum dolor sit amet consectetur. Sapien turpis elementum quis gravida augue placerat neque. Nibh nunc nulla tellus scelerisque sit diam facilisis. Eu euismod mi tellus augue. In cras et elementum risus faucibus. Lectus suspendisse aliquet nisi erat facilisis egestas eros. Dolor lectus massa egestas magna sem mi massa tempus risus. Aliquam scelerisque vel massa etiam volutpat amet. porttitor</string>
     <string name="profile_photo">profile photo</string>
     <string name="select_instructor">Выберите инструктора</string>
+    <string name="ok">Ок</string>
+    <string name="select_date">Выберите дату</string>
+    <string name="select_time">Выберите время</string>
 
+    <string name="password_description">Пароль должен содержать не менее 6 символов, включая цифры, буквы и специальные символы (!$@%)</string>
+    <string name="ok_upperCase">OK</string>
+    <string name="comment">Комментарий</string>
+    <string name="_0_250">(0/250)</string>
+    <string name="practical_driving">Практическое вождение</string>
+    <string name="start">Начало</string>
+    <string name="end_text">Конец</string>
+    <string name="text_btn_cancel_lesson">Отменить занятие</string>
 </resources>
