@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NavUtils
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -67,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.previousLessonDetailsFragment,
                 R.id.previousLessonFragment,
                 R.id.selectInstructorFragment,
+                R.id.enrollInstructorFragment,
                 R.id.selectDateTimeFragment,
                 R.id.instructorInfoFragment,
             )
@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.currentLessonDetailsFragment -> "Главная страница"
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
+                R.id.enrollInstructorFragment -> "Онлайн запись"
                 R.id.instructorInfoFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"

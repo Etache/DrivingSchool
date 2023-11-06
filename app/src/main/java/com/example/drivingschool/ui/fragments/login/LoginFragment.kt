@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,11 +23,6 @@ import com.example.drivingschool.databinding.FragmentLoginBinding
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
-/*
-* student: trewq123 - логин для студента
-* instructor: trewq321 - логин для инструктора
-* */
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -64,11 +58,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun activateViews() {
-        with(binding) {
-            etLogin.addTextChangedListener(loginTextWatcher(etLogin))
-            etPassword.addTextChangedListener(loginTextWatcher(etPassword))
-        }
+    private fun hideKeyboard(context: Context, view: View?) {
+        val hide = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        hide.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun setLogin() {
@@ -88,11 +80,8 @@ class LoginFragment : Fragment() {
 
                     is UiState.Success -> {
                         preferences.accessToken = state.data?.accessToken
-                        Log.e("kamino", "access: ${preferences.accessToken}")
                         preferences.refreshToken = state.data?.refreshToken
-                        Log.e("kamino", "refresh: ${preferences.refreshToken}")
                         preferences.role = state.data?.role
-                        Log.e("kamino", "role: ${preferences.role}")
                         if (preferences.accessToken != null) {
                             preferences.isLoginSuccess = true
                             preferences.password = binding.etPassword.text.toString()
@@ -114,9 +103,11 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun hideKeyboard(context: Context, view: View?) {
-        val hide = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        hide.hideSoftInputFromWindow(view?.windowToken, 0)
+    private fun activateViews() {
+        with(binding) {
+            etLogin.addTextChangedListener(loginTextWatcher(etLogin))
+            etPassword.addTextChangedListener(loginTextWatcher(etPassword))
+        }
     }
 
     private fun loginTextWatcher(editText: EditText) = object : TextWatcher {

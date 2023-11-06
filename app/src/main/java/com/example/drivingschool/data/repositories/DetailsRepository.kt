@@ -1,7 +1,7 @@
 package com.example.drivingschool.data.repositories
 
 import android.util.Log
-import com.example.drivingschool.data.remote.currentDetail.DetailsApiService
+import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class DetailsRepository @Inject constructor(
-    private val apiService: DetailsApiService
+    private val apiService: DrivingApiService
 ) {
     suspend fun getCurrentDetails(id: String) = flow {
         emit(UiState.Loading())
