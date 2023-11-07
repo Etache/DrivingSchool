@@ -12,7 +12,6 @@ import com.example.drivingschool.databinding.FragmentEnrollInstructorBinding
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class EnrollInstructorFragment :
     BaseFragment<FragmentEnrollInstructorBinding, EnrollViewModel>(R.layout.fragment_enroll_instructor) {
 
