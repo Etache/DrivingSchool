@@ -2,6 +2,7 @@ package com.example.drivingschool.data.repositories
 
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.remote.enroll.EnrollApiService
+import com.example.drivingschool.data.remote.login.LoginApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class EnrollRepository @Inject constructor(private val enrollApiService: EnrollApiService) {
+class EnrollRepository @Inject constructor(private val enrollApiService: LoginApiService) {
 
     suspend fun getInstructors(): Flow<UiState<List<InstructorResponse>>> = flow {
         emit(UiState.Loading())

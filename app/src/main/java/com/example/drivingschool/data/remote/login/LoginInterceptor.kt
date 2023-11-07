@@ -1,15 +1,56 @@
 package com.example.drivingschool.data.remote.login
 
+import android.app.Application
 import android.content.Context
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
+import com.example.drivingschool.data.models.RefreshTokenRequest
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
+import java.lang.Exception
+import javax.inject.Inject
 
-class LoginInterceptor(val context: Context): Interceptor {
+class LoginInterceptor @Inject constructor(
+    private val preferencesHelper : PreferencesHelper,
+) : Interceptor {
+
+    @Inject
+    lateinit var loginApiService: LoginApiService
+
     override fun intercept(chain: Interceptor.Chain): Response {
-        val preferencesHelper = PreferencesHelper(context)
-        var request = chain.request()
-        request = request.newBuilder().header("Authorization", "Bearer ${preferencesHelper.accessToken!!}").build()
-        return chain.proceed(request)
+
+        val currentAccessToken = preferencesHelper.accessToken
+        val request = chain.request().newBuilder()
+            .addHeader("Authorization", "Bearer $currentAccessToken")
+            .build()
+
+        val response = chain.proceed(request)
+
+        if (response.code == 401) {
+            val refreshedAccessToken = runBlocking {
+                refreshToken()
+            }
+            response.close()
+            if (refreshedAccessToken != null) {
+                val newRequest = request.newBuilder()
+                    .header("Authorization", "Bearer $refreshedAccessToken")
+                    .build()
+                return chain.proceed(newRequest)
+            }
+        }
+
+        return response
+    }
+
+    private suspend fun refreshToken(): String? {
+        try {
+            val refreshToken = RefreshTokenRequest(preferencesHelper.refreshToken!!)
+            val refreshedTokenResponse = loginApiService.refreshToken(refreshToken)
+
+            return refreshedTokenResponse.body()?.accessTokenResponse
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
     }
 }

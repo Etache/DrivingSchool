@@ -18,11 +18,5 @@ interface ProfileApiService {
     @GET("profile/")
     suspend fun getInstructorProfile(): Response<InstructorResponse>
 
-    @Multipart
-    @PUT("change_pp/")
-    suspend fun updateStudentProfilePhoto(@Part photo: MultipartBody.Part): Response<ProfileResponse>
-
-    @DELETE("delete_pp/")
-    suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
 
 }
