@@ -2,8 +2,7 @@ package com.example.drivingschool.data.repositories
 
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.ProfileResponse
-import com.example.drivingschool.data.remote.login.LoginApiService
-import com.example.drivingschool.data.remote.profile.ProfileApiService
+import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -11,10 +10,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class ProfileRepository @Inject constructor(
-    private val profileApiService: LoginApiService
+    private val profileApiService: DrivingApiService
 ) {
     suspend fun getProfile(): Flow<UiState<ProfileResponse>> = flow {
         emit(UiState.Loading())

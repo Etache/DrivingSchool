@@ -1,20 +1,19 @@
-package com.example.drivingschool.data.remote.login
+package com.example.drivingschool.data.remote
 
 import com.example.drivingschool.data.models.InstructorResponse
-import com.example.drivingschool.data.models.LoginRequest
-import com.example.drivingschool.data.models.LoginResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
-import com.example.drivingschool.data.models.RefreshTokenRequest
-import com.example.drivingschool.data.models.RefreshTokenResponse
+import com.example.drivingschool.data.models.login.LoginRequest
+import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
+import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
+import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -22,7 +21,8 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 
-interface LoginApiService {
+interface DrivingApiService {
+
 
     @POST("token/")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>

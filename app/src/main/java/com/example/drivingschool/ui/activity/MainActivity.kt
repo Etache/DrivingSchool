@@ -1,10 +1,10 @@
 package com.example.drivingschool.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NavUtils
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -24,13 +24,23 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
+
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val extras = intent.getBooleanExtra("isLoggedOut", false)
+        if (extras != null) {
+            Log.d("madimadi", "onCreate: isLoggedOut: $extras")
+            if (extras) {
+                showFragmentsAccordingToRole()
+            }
+        }
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -40,7 +50,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.myToolbar)
         setAppBar()
 
-        if(preferences.role == "instructor"){
+
+    }
+
+    private fun showFragmentsAccordingToRole() {
+        if (preferences.role == "instructor") {
             navView.menu.clear() //clear old inflated items
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
         }
@@ -67,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.previousLessonDetailsFragment,
                 R.id.previousLessonFragment,
                 R.id.selectInstructorFragment,
+                R.id.enrollInstructorFragment,
                 R.id.selectDateTimeFragment,
                 R.id.instructorInfoFragment,
             )
@@ -82,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.currentLessonDetailsFragment -> "Главная страница"
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
+                R.id.enrollInstructorFragment -> "Онлайн запись"
                 R.id.instructorInfoFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"

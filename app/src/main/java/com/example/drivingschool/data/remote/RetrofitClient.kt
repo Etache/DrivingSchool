@@ -1,3 +1,4 @@
+
 //package com.example.drivingschool.data.remote
 //
 //import android.content.Context
@@ -21,7 +22,7 @@
 //        .build()
 //
 //    val retrofit = Retrofit.Builder()
-//        .baseUrl("https://d013-31-192-250-106.ngrok-free.app/")
+//        .baseUrl("https://80c6-94-143-197-187.ngrok-free.app/")
 //        .client(provideOkHttpClient())
 //        .addConverterFactory(GsonConverterFactory.create())
 //        .build()
@@ -34,7 +35,7 @@
 //        .build()
 //
 //    private fun provideOkHttpClient() = OkHttpClient.Builder()
-//        .addInterceptor(LoginInterceptor(providePreferencesHelper(),provideRefreshTokenApi()))
+//        .addInterceptor(LoginInterceptor(context))
 //        .connectTimeout(30, TimeUnit.SECONDS)
 //        .writeTimeout(30, TimeUnit.SECONDS)
 //        .readTimeout(30, TimeUnit.SECONDS)
@@ -56,8 +57,16 @@
 //        return retrofit.create(PasswordApiService::class.java)
 //    }
 //
-//    fun providePreferencesHelper(): PreferencesHelper{
-//        return PreferencesHelper(context)
+//
+//    fun provideEnrollApi() : EnrollApiService {
+//        return retrofit.create(EnrollApiService::class.java)
+//    }
+//    fun provideMainApi(): MainApiService {
+//        return retrofit.create(MainApiService::class.java)
+//    }
+//
+//    fun provideDetailsApi(): DetailsApiService {
+//        return retrofit.create(DetailsApiService::class.java)
 //    }
 //
 //}

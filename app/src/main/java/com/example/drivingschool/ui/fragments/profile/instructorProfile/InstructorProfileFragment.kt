@@ -29,6 +29,7 @@ import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.activity.MainActivity
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -189,7 +190,10 @@ class InstructorProfileFragment : Fragment() {
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-                findNavController().navigate(R.id.loginFragment)
+                //findNavController().navigate(R.id.loginFragment)
+                val intent = Intent(activity, MainActivity::class.java)
+                intent.putExtra("isLoggedOut", true)
+                activity?.startActivity(intent)
                 alert.cancel()
             }
             alertDialog.create().show()

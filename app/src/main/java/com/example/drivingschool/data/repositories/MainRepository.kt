@@ -1,7 +1,6 @@
 package com.example.drivingschool.data.repositories
 
-import com.example.drivingschool.data.remote.login.LoginApiService
-import com.example.drivingschool.data.remote.main.MainApiService
+import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -9,7 +8,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
-    private val mainApiService: LoginApiService
+    private val mainApiService: DrivingApiService
 ) {
 
     suspend fun getCurrentLessons() = flow {
