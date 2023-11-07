@@ -23,7 +23,6 @@ import retrofit2.http.Path
 
 interface DrivingApiService {
 
-
     @POST("token/")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
@@ -65,4 +64,5 @@ interface DrivingApiService {
 
     @DELETE("delete_pp/")
     suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
+
 }

@@ -1,7 +1,6 @@
 package com.example.drivingschool.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,32 +14,23 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.ActivityMainBinding
+import com.example.drivingschool.ui.fragments.login.CheckRoleCallBack
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
-
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(this)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val extras = intent.getBooleanExtra("isLoggedOut", false)
-        if (extras != null) {
-            Log.d("madimadi", "onCreate: isLoggedOut: $extras")
-            if (extras) {
-                showFragmentsAccordingToRole()
-            }
-        }
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -50,12 +40,22 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.myToolbar)
         setAppBar()
 
-
+        val extras = intent.getBooleanExtra("isLoggedOut", false)
+        if (extras){
+            showFragmentAccordingToRole()
+        }
     }
 
-    private fun showFragmentsAccordingToRole() {
-        if (preferences.role == "instructor") {
-            navView.menu.clear() //clear old inflated items
+    override fun checkRole() {
+        if(preferences.role == "instructor"){
+            navView.menu.clear() //clear old inflated items.
+            navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
+        }
+    }
+
+    fun showFragmentAccordingToRole() {
+        if(preferences.role == "instructor"){
+            navView.menu.clear() //clear old inflated items.
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
         }
     }

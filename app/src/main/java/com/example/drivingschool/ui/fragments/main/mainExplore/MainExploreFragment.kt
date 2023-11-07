@@ -96,7 +96,6 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(false)
                                 rvMainExplore.viewVisibility(true)
                                 viewNoLessons.viewVisibility(false)
-
                                 adapter.updateList(it.data ?: emptyList())
                             }
 

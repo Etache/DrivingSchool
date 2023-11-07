@@ -28,11 +28,20 @@ import kotlinx.coroutines.launch
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
+    private var callback: CheckRoleCallBack? = null
 
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is CheckRoleCallBack){
+            callback = context
+        } else {
+
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -85,6 +94,7 @@ class LoginFragment : Fragment() {
                         if (preferences.accessToken != null) {
                             preferences.isLoginSuccess = true
                             preferences.password = binding.etPassword.text.toString()
+                            callback?.checkRole()
                             findNavController().navigate(R.id.mainFragment)
                         }
                     }

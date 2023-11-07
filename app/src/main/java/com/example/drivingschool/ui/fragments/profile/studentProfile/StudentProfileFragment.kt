@@ -188,10 +188,9 @@ class StudentProfileFragment : Fragment() {
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-                //findNavController().navigate(R.id.loginFragment)
-                //intent isLoggedOut = true
-                val intent = Intent (activity, MainActivity::class.java)
-                intent.putExtra("isLoggedOut", true)
+//                findNavController().navigate(R.id.loginFragment)
+                val intent = Intent(activity, MainActivity::class.java)
+                intent.putExtra("isLoggedOut",true)
                 activity?.startActivity(intent)
                 alert.cancel()
             }
