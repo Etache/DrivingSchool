@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setAppBar()
 
         if(preferences.role == "instructor"){
-            navView.menu.clear() //clear old inflated items.
+            navView.menu.clear() //clear old inflated items
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
         }
     }

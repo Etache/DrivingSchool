@@ -45,7 +45,6 @@ class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectViewHolder {
         return SelectViewHolder(
             InstructorInfoItemBinding.inflate(
