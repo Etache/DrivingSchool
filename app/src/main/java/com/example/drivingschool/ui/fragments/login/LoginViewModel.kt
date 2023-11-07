@@ -18,10 +18,6 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ): ViewModel(){
 
-//    fun getToken(loginRequest: LoginRequest): LiveData<List<String?>> {
-//        return loginRepository.login(loginRequest)
-//    }
-
     private var _token = MutableLiveData<UiState<LoginResponse>>()
     val token: LiveData<UiState<LoginResponse>> = _token
 
@@ -32,7 +28,7 @@ class LoginViewModel @Inject constructor(
     fun getToken(loginRequest: LoginRequest) = viewModelScope.launch {
         loginRepository.login(loginRequest).collect {
             _token.postValue(it)
-            Log.d("madimadi", "getProfile: $_token")
+//            Log.d("madimadi", "getProfile: $_token")
         }
     }
 }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">DrivingSchool</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     //Fragments
@@ -12,16 +13,20 @@
     <string name="login_please">Пройдите авторизацию</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
-    <string name="continue_login">Продолжить</string>
+    <string name="login_ru">Войти</string>
     <string name="login_error_text">Логин или пароль введены неверно, Попробуйте еще раз</string>
 
     //NoInternetConnection
     <string name="no_connection">Нет соединения</string>
-    <string name="check_the_internet_connection">Проверьте подключение к интернету</string>
+    <string name="check_the_internet_connection">Проверьте подключение \nк интернету</string>
+    <string name="full_name">Имя Фамилия Отчество</string>
+    <string name="telephone_number">Номер телефона</string>
+    <string name="beginning">начало</string>
+    <string name="update_connect">Обновить соединение</string>
 
     //EnrollFragment
-    <string name="choose_instructor">выбрать инструктора</string>
-    <string name="choose_date">выбрать дату</string>
+    <string name="choose_instructor">выбранный инструктор</string>
+    <string name="choose_date">выбранная дата</string>
     <string name="choose_time">выбрать время</string>
     <string name="enroll_to_a_lesson">Записаться</string>
     <string name="choose_instructor_date_time">Выберите инструктора, дату, время</string>
@@ -37,10 +42,9 @@
     <string name="beginning_date">29 октября</string>
     <string name="begin">Начало занятия</string>
     <string name="number">+996 111 111 111</string>
-    <string name="full_name">Имя Фамилия Отчество</string>
     <string name="current_lesson">Текущее занятие</string>
     <string name="previous_lesson">Предыдущее занятие</string>
-    <string name="comment">Оставить комментарий</string>
+    <string name="write_comment">Оставить комментарий</string>
 
     //InstructorFragment
     <string name="experience">Стаж: </string>
@@ -57,14 +61,15 @@
     <string name="confirm">Подтвердить</string>
     <string name="continue_text">Продолжить</string>
     <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
+    <string name="change_photo">Изменить фотографию</string>
+    <string name="delete_photo">Удалить фото</string>
+    <string name="choose_photo">Выбрать фото</string>
 
-    <string name="login_ru">Войти</string>
     <string name="old_password">Старый пароль</string>
     <string name="input_old_password">Введите старый пароль</string>
     <string name="instructor_surname">Иванов</string>
     <string name="instructor_name">Иван</string>
     <string name="change_profile_photo">Изменить фотографию</string>
-    <string name="telephone_number">Номер телефона</string>
     <string name="group">Группа</string>
     <string name="group_number">№4</string>
     <string name="change_password">Сменить пароль</string>
@@ -79,4 +84,12 @@
     <string name="select_date">Выберите дату</string>
     <string name="select_time">Выберите время</string>
 
+    <string name="password_description">Пароль должен содержать не менее 6 символов, включая цифры, буквы и специальные символы (!$@%)</string>
+    <string name="ok_upperCase">OK</string>
+    <string name="comment">Комментарий</string>
+    <string name="_0_250">(0/250)</string>
+    <string name="practical_driving">Практическое вождение</string>
+    <string name="start">Начало</string>
+    <string name="end_text">Конец</string>
+    <string name="text_btn_cancel_lesson">Отменить занятие</string>
 </resources>

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
@@ -41,12 +43,17 @@ class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
             Picasso.get()
                 .load(httpsImageUrl)
                 .placeholder(R.drawable.ic_default_photo)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(binding.ivProfileImage)
 
             // ------------------------------------
             binding.ivInfo.setOnClickListener {
                 it.findNavController()
-                    .navigate(R.id.action_selectInstructorFragment_to_instructorInfoFragment, bundleOf(ID_KEY to instructor.id))
+                    .navigate(
+                        R.id.action_selectInstructorFragment_to_instructorInfoFragment,
+                        bundleOf(ID_KEY to instructor.id)
+                    )
             }
         }
     }
@@ -55,7 +62,8 @@ class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectViewHolder {
         return SelectViewHolder(
             InstructorInfoItemBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false)
+                LayoutInflater.from(parent.context), parent, false
+            )
         )
     }
 

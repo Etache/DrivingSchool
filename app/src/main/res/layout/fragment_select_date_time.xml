@@ -24,11 +24,19 @@
         android:background="@drawable/calendar_background"
         android:orientation="vertical">
 
-        <CalendarView
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/ms_calendar_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView
+            android:id="@+id/cv_calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:selectedDateVerticalBar="@color/blue"
-            android:selectedWeekBackgroundColor="@color/blue"/>
+            app:compactCalendarTextSize="16sp"
+
+            app:compactCalendarCurrentDayTextColor="@color/blue" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

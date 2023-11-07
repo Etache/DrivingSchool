@@ -5,70 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="28dp"
-    tools:context=".ui.fragments.enroll.EnrollFragment">
+    tools:context=".ui.fragments.enroll.confirmEnroll.EnrollFragment">
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/choose_instructor_date_time"
-        android:textColor="@color/dark_gray_text"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="24dp"
+        android:text="Имя инструктора"
+        android:textColor="#8E8E8E"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/et_instructor_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
+        android:layout_marginTop="4dp"
+        android:background="@drawable/et_confirm_enroll_background"
+        android:hint="@string/choose_instructor"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="11dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"/>
 
-        <EditText
-            android:id="@+id/et_instructor"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/edit_text_bg"
-            android:hint="@string/choose_instructor"
-            android:paddingHorizontal="12dp"
-            android:textColor="@color/gray"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+    <TextView
+        android:id="@+id/tv_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Дата и время"
+        android:textColor="#8E8E8E"
+        app:layout_constraintTop_toBottomOf="@id/et_instructor_name"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <EditText
-            android:id="@+id/et_date"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginVertical="24dp"
-            android:background="@drawable/edit_text_bg"
-            android:hint="@string/choose_date"
-            android:paddingHorizontal="12dp"
-            android:textColor="@color/gray"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
-
-        <EditText
-            android:id="@+id/et_time"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/edit_text_bg"
-            android:hint="@string/choose_time"
-            android:paddingHorizontal="12dp"
-            android:textColor="@color/gray"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
-
-    </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
+    <EditText
+        android:id="@+id/et_date_time"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="48dp"
-        android:background="@drawable/button_bg"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/et_confirm_enroll_background"
+        android:hint="@string/choose_date"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="11dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/tv_date_time"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_confirm_enroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#5883CB"
         android:text="@string/enroll_to_a_lesson"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="16dp"
+        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

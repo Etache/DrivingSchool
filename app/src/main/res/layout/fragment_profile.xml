@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.profile.ProfileFragment">
+    tools:context=".ui.fragments.profile.studentProfile.StudentProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContainer"
@@ -27,7 +27,6 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@drawable/ic_default_photo"
-                android:padding="16dp"
                 android:scaleType="centerCrop"
                 android:contentDescription="profile photo" />
 
@@ -46,17 +45,17 @@
                 android:id="@+id/tvSurname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/instructor_surname"
-                android:textColor="#585858"
+                android:layout_marginRight="8dp"
+                android:text="Иванов"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name"
-                android:textColor="#585858"
+                android:text="Иван"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -83,7 +82,7 @@
             android:paddingVertical="4dp"
             android:text="@string/telephone_number"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
 
         <TextView
@@ -95,8 +94,8 @@
             android:background="@drawable/rectangle_bg_profile"
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
+            android:textColor="@color/black"
             android:text="@string/number"
-            android:textColor="@color/gray"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/number" />
 
@@ -110,7 +109,7 @@
             android:paddingVertical="4dp"
             android:text="@string/group"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvNumber" />
 
         <TextView
@@ -122,8 +121,8 @@
             android:background="@drawable/rectangle_bg_profile"
             android:paddingHorizontal="16dp"
             android:paddingVertical="14dp"
+            android:textColor="@color/black"
             android:text="@string/group_number"
-            android:textColor="@color/gray"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/group" />
 

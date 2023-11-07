@@ -10,8 +10,8 @@ interface EnrollApiService {
     @GET("instructors/")
     suspend fun getInstructors(): Response<List<InstructorResponse>>
 
-    // запрос getInstructorById
     @GET("instructors/{id}")
     suspend fun getInstructorById(@Path("id") instructorId: Int): Response<InstructorResponse>
+
 
 }

@@ -22,6 +22,8 @@ import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.InstructorCommentAdapter
 import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
 import com.example.drivingschool.ui.fragments.enroll.commentsList
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -94,6 +96,8 @@ class InstructorInfoFragment : Fragment() {
                         Picasso.get()
                             .load(httpsImageUrl)
                             .placeholder(R.drawable.ic_default_photo)
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .networkPolicy(NetworkPolicy.NO_CACHE)
                             .into(binding.ivProfileImage)
 
                         Log.d("madimadi", "getInstructorDetails in fragment: ${state.data}")
@@ -119,7 +123,7 @@ class InstructorInfoFragment : Fragment() {
             dialog.setContentView(R.layout.show_photo_profile)
             val image = dialog.findViewById<ImageView>(R.id.image)
             if (binding.ivProfileImage.drawable != null) {
-                image.setImageBitmap((binding.ivProfileImage.drawable as BitmapDrawable).bitmap)
+                image.setImageBitmap((binding.ivProfileImage.drawable as BitmapDrawable).bitmap) //crash
             } else {
                 image.setImageResource(R.drawable.ic_default_photo)
             }
