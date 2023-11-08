@@ -53,10 +53,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.studentProfileFragment,
                 R.id.instructorProfileFragment,
                 R.id.instructorInfoFragment,
-                R.id.currentLessonFragment,
                 R.id.currentLessonDetailsFragment,
                 R.id.previousLessonDetailsFragment,
-                R.id.previousLessonFragment
             )
         )
 
@@ -65,9 +63,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.mainFragment -> "Главная страница"
                 R.id.currentLessonDetailsFragment -> "Текущие"
                 R.id.previousLessonDetailsFragment -> "Предыдущие"
-                R.id.currentLessonFragment -> "Главная страница"
-                R.id.previousLessonFragment -> "Главная страница"
-                R.id.currentLessonDetailsFragment -> "Главная страница"
+                 R.id.currentLessonDetailsFragment -> "Главная страница"
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
                 R.id.instructorInfoFragment -> "Онлайн запись"

@@ -19,14 +19,6 @@
         android:name="com.example.drivingschool.ui.fragments.noInternet.NoInternetFragment"
         tools:layout="@layout/fragment_no_internet" />
     <fragment
-        android:id="@+id/currentLessonFragment"
-        android:name="com.example.drivingschool.ui.fragments.main.CurrentLessonFragment"
-        tools:layout="@layout/fragment_current_lesson" />
-    <fragment
-        android:id="@+id/previousLessonFragment"
-        android:name="com.example.drivingschool.ui.fragments.main.PreviousLessonFragment"
-        tools:layout="@layout/fragment_previous_lesson" />
-    <fragment
         android:id="@+id/selectInstructorFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment"
         tools:layout="@layout/fragment_select_instructor" >

@@ -59,7 +59,7 @@
     <string name="confirm_exit">Подтвердите выход</string>
     <string name="back">Назад</string>
     <string name="confirm">Подтвердить</string>
-    <string name="continue_text">Продолжить</string>
+    <string name="continue_text">Отправить</string>
     <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
@@ -90,4 +90,7 @@
     <string name="end_text">Конец</string>
     <string name="cancel_lesson_text">Вы точно хотите отменить занятие?</string>
     <string name="text_btn_cancel_lesson">Отменить занятие</string>
+    <string name="yyyy_mm_dd_hh_mm_ss">yyyy-MM-dd, HH:mm:ss</string>
+    <string name="alert_continue_text">Продолжить</string>
+    <string name="leave_a_comment">Оставить комментарий</string>
 </resources>

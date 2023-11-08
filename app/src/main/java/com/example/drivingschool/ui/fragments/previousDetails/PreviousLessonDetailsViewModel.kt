@@ -1,7 +1,11 @@
 package com.example.drivingschool.ui.fragments.previousDetails
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
+import com.example.drivingschool.data.models.StudentCommentRequest
+import com.example.drivingschool.data.models.StudentCommentResponse
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.repositories.DetailsRepository
 import com.example.drivingschool.tools.UiState
@@ -19,10 +23,18 @@ class PreviousLessonDetailsViewModel @Inject constructor(
     private val _detailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
     val detailsState = _detailsState.asStateFlow()
 
+    private var _commentLiveData = MutableLiveData<StudentCommentResponse>()
+    val commentLiveData = _commentLiveData as LiveData<StudentCommentResponse>
 
     fun getDetails(id: String) = viewModelScope.launch {
         repository.getPreviousDetails(id).collect {
             _detailsState.value = it
+        }
+    }
+
+    fun saveComment(comment: StudentCommentRequest) = viewModelScope.launch{
+        repository.saveComment(comment).collect{
+            _commentLiveData.value = it
         }
     }
 }

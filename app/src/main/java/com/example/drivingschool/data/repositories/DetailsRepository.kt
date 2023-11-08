@@ -1,6 +1,9 @@
 package com.example.drivingschool.data.repositories
 
 import android.util.Log
+import com.example.drivingschool.data.models.CancelRequest
+import com.example.drivingschool.data.models.CancelResponse
+import com.example.drivingschool.data.models.StudentCommentRequest
 import com.example.drivingschool.data.remote.detail.DetailsApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
@@ -32,4 +35,14 @@ class DetailsRepository @Inject constructor(
             emit(UiState.Empty())
         }
     }.flowOn(Dispatchers.IO)
+
+    suspend fun cancelLesson(id: String) = flow {
+        emit(apiService.cancelLesson(CancelRequest(lessonId = id)).body())
+    }
+
+    suspend fun saveComment(comment: StudentCommentRequest) = flow {
+        emit(apiService.createComment(comment = comment).body())
+    }
+
+
 }
