@@ -12,6 +12,7 @@ data class InstructorResponse(
     @SerializedName("profile_photo") var profilePhoto: String? = null,
     @SerializedName("experience") var experience: Int? = null,
     @SerializedName("car") var car: String? = null,
-    @SerializedName("rate") var rate: Float? = null
+    @SerializedName("rate") var rate: Float? = null,
+    @SerializedName("feedbacks") var feedbacks: List<FeedbackInstructor>? = null
 
 )

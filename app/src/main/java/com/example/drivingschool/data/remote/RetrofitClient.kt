@@ -17,13 +17,13 @@ import java.util.concurrent.TimeUnit
 class RetrofitClient(val context: Context) {
 
     val loginRetrofit = Retrofit.Builder()
-        .baseUrl("https://80c6-94-143-197-187.ngrok-free.app/")
+        .baseUrl("http://134.209.252.52:89/")
         .client(provideLoginOkHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://80c6-94-143-197-187.ngrok-free.app/")
+        .baseUrl("http://134.209.252.52:89/")
         .client(provideOkHttpClient())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
