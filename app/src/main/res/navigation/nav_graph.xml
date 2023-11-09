@@ -67,11 +67,15 @@
         tools:layout="@layout/fragment_select_date_time" />
     <fragment
         android:id="@+id/enrollInstructorFragment"
-        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.EnrollInstructorFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.EnrollInstructorFragment"
         tools:layout="@layout/fragment_enroll_instructor" />
     <fragment
         android:id="@+id/enrollFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.confirmEnroll.EnrollFragment"
         tools:layout="@layout/fragment_enroll" />
+    <fragment
+        android:id="@+id/checkTimetableFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.CheckTimetableFragment"
+        tools:layout="@layout/fragment_check_timetable" />
 
 </navigation>

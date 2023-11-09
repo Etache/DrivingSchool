@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.enroll.instructorFragment
+package com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar
 
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -26,11 +27,11 @@ import java.time.temporal.WeekFields
 import java.util.Locale
 
 class EnrollInstructorFragment :
-    BaseFragment<FragmentEnrollInstructorBinding, EnrollViewModel>(R.layout.fragment_enroll_instructor),
+    BaseFragment<FragmentEnrollInstructorBinding, EnrollInstructorViewModel>(R.layout.fragment_enroll_instructor),
     CalendarAdapter.OnItemListener {
 
     override val binding by viewBinding(FragmentEnrollInstructorBinding::bind)
-    override val viewModel: EnrollViewModel by viewModels()
+    override val viewModel: EnrollInstructorViewModel by viewModels()
 
     lateinit var calendarRecyclerView: RecyclerView
     lateinit var monthYearText: TextView
@@ -86,6 +87,9 @@ class EnrollInstructorFragment :
             }
             btnNextMonth.setOnClickListener {
                 nextMonthAction()
+            }
+            btnCheckTimetable.setOnClickListener {
+                findNavController().navigate(R.id.checkTimetableFragment)
             }
             time8.tvTime.timePressed()
             time9.tvTime.timePressed()

@@ -116,4 +116,7 @@
     <string name="time_16_00">16:00</string>
     <string name="time_17_00">17:00</string>
     <string name="time_18_00">18:00</string>
+    <string name="name_of_instructor">Имя инструктора</string>
+    <string name="date_and_time">Дата и время</string>
+    <string name="date_and_time_from_table">12.12.2023, 08:00, 09:00,10:00</string>
 </resources>

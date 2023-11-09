@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
                 R.id.enrollInstructorFragment -> "Расписание"
+                R.id.checkTimetableFragment -> "Расписание"
                 R.id.instructorInfoFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
