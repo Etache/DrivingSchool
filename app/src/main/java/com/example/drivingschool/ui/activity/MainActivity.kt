@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.mainFragment,
+                R.id.enrollFragment,
                 R.id.selectInstructorFragment,
                 R.id.studentProfileFragment,
                 R.id.instructorProfileFragment,
@@ -85,6 +86,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
+                R.id.enrollFragment -> "Онлайн запись"
                 R.id.currentLessonDetailsFragment -> "Текущие"
                 R.id.previousLessonDetailsFragment -> "Предыдущие"
                 R.id.currentLessonFragment -> "Главная страница"

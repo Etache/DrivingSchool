@@ -101,7 +101,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // ViewBindingPropertyDelegate
-    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
+    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
 
     // Fragment
     implementation("androidx.fragment:fragment-ktx:1.6.2")
@@ -114,6 +114,10 @@ dependencies {
 
     // Picasso
     implementation("com.squareup.picasso:picasso:2.8")
+
+    // CompactCalendarView
+    implementation("com.github.sundeepk:compact-calendar-view:3.0.0")
+    implementation("com.jaredrummler:material-spinner:1.3.1")
 
 }
 

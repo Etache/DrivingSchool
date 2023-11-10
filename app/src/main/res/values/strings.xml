@@ -25,8 +25,8 @@
     <string name="update_connect">Обновить соединение</string>
 
     //EnrollFragment
-    <string name="choose_instructor">выбрать инструктора</string>
-    <string name="choose_date">выбрать дату</string>
+    <string name="choose_instructor">выбранный инструктор</string>
+    <string name="choose_date">выбранная дата</string>
     <string name="choose_time">выбрать время</string>
     <string name="enroll_to_a_lesson">Записаться</string>
     <string name="choose_instructor_date_time">Выберите инструктора, дату, время</string>
