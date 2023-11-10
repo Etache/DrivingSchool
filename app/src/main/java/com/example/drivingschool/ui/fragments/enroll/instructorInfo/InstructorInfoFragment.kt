@@ -1,16 +1,19 @@
-package com.example.drivingschool.ui.fragments.enroll.selectInstructor
+package com.example.drivingschool.ui.fragments.enroll.instructorInfo
 
+import android.app.Dialog
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.databinding.FragmentInstructorInfoBinding
 import com.example.drivingschool.tools.UiState
@@ -18,6 +21,9 @@ import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.InstructorCommentAdapter
 import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
 import com.example.drivingschool.ui.fragments.enroll.commentsList
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,11 +49,14 @@ class InstructorInfoFragment : Fragment() {
         adapter = InstructorCommentAdapter(commentsList)
         binding.rvInstructorProfileComments.adapter = adapter
         binding.rvInstructorProfileComments.layoutManager = LinearLayoutManager(context)
-        adapter.notifyDataSetChanged()
 
         id = arguments?.getInt(SelectInstructorAdapter.ID_KEY)
         Log.d("madimadi", "instructor id in fragment: ${id}")
+
         getInstructorProfile()
+        showImage()
+
+        adapter.notifyDataSetChanged()
     }
 
 
@@ -57,22 +66,35 @@ class InstructorInfoFragment : Fragment() {
             viewModel.instructorDetails.observe(requireActivity()) { state ->
                 when (state) {
                     is UiState.Loading -> {
-                        Toast.makeText(requireContext(), "Wait it's loading..", Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.clContainer.visibility = View.GONE
                     }
                     is UiState.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.clContainer.visibility = View.VISIBLE
+
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvExpienceNum.text = state.data?.experience.toString()
                         binding.tvNumber.text = state.data?.phoneNumber
                         binding.tvCarName.text = state.data?.car
-                        Log.d("madimadi", "getInstructorDetails in fragment: ${state.data}")
 
-                        Glide
-                            .with(binding.ivProfileImage)
-                            .load(state.data?.profilePhoto)
-                            .circleCrop()
-                            .placeholder(R.drawable.default_pfp)
+                        val httpsImageUrl = state.data?.profilePhoto?.replace("http://", "https://")
+                        Picasso.get()
+                            .load(httpsImageUrl)
+                            .placeholder(R.drawable.ic_default_photo)
+                            .memoryPolicy(MemoryPolicy.NO_CACHE)
+                            .networkPolicy(NetworkPolicy.NO_CACHE)
                             .into(binding.ivProfileImage)
+
+//                        Glide
+//                            .with(binding.ivProfileImage)
+//                            .load(state.data?.profilePhoto)
+//                            .circleCrop()
+//                            .placeholder(R.drawable.default_pfp)
+//                            .into(binding.ivProfileImage)
+
+                        Log.d("madimadi", "getInstructorDetails in fragment: ${state.data}")
                     }
 
                     is UiState.Empty -> {
@@ -84,6 +106,23 @@ class InstructorInfoFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun showImage() {
+        binding.ivProfileImage.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.show_photo_profile)
+            val image = dialog.findViewById<ImageView>(R.id.image)
+            if (binding.ivProfileImage.drawable != null) {
+                image.setImageBitmap((binding.ivProfileImage.drawable as BitmapDrawable).bitmap) //crash
+            } else {
+                image.setImageResource(R.drawable.ic_default_photo)
+            }
+            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
+            dialog.show()
         }
     }
 }

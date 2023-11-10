@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
-import com.example.drivingschool.data.models.StudentCommentRequest
-import com.example.drivingschool.data.models.StudentCommentResponse
+import com.example.drivingschool.data.models.FeedbackForInstructorRequest
+import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.repositories.DetailsRepository
 import com.example.drivingschool.tools.UiState
@@ -23,8 +23,8 @@ class PreviousLessonDetailsViewModel @Inject constructor(
     private val _detailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
     val detailsState = _detailsState.asStateFlow()
 
-    private var _commentLiveData = MutableLiveData<StudentCommentResponse>()
-    val commentLiveData = _commentLiveData as LiveData<StudentCommentResponse>
+    private var _commentLiveData = MutableLiveData<FeedbackForInstructorResponse>()
+    val commentLiveData = _commentLiveData as LiveData<FeedbackForInstructorResponse>
 
     fun getDetails(id: String) = viewModelScope.launch {
         repository.getPreviousDetails(id).collect {
@@ -32,7 +32,7 @@ class PreviousLessonDetailsViewModel @Inject constructor(
         }
     }
 
-    fun saveComment(comment: StudentCommentRequest) = viewModelScope.launch{
+    fun saveComment(comment: FeedbackForInstructorRequest) = viewModelScope.launch{
         repository.saveComment(comment).collect{
             _commentLiveData.value = it
         }

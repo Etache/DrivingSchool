@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -26,7 +25,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="25dp"
         android:numStars="5"
-        android:rating="0"
+        android:rating="4"
         android:theme="@style/CustomRatingBar" />
 
     <TextView
@@ -52,7 +51,7 @@
         android:maxLength="250"
         android:minHeight="48dp"
         android:padding="6dp"
-        android:hint="Ваш комментарий" />
+        android:hint="@string/comment_hint" />
 
     <TextView
         android:id="@+id/tv_comment_character_count"

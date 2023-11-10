@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/i_info_background"
@@ -21,29 +20,32 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         app:layout_constraintStart_toEndOf="@id/iv_profile_image"
         app:layout_constraintTop_toTopOf="@id/iv_profile_image"
         app:layout_constraintBottom_toBottomOf="@id/iv_profile_image">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_surname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Фамилия"
+                android:text="@string/instructor_surname"
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_bold_"/>
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"/>
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Имя"
+                android:text="@string/name"
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_bold_"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"
                 android:layout_marginStart="5dp"/>
         </LinearLayout>
 
@@ -51,7 +53,7 @@
             android:id="@+id/tv_expience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Стаж: 15 лет"
+            android:text="@string/experience"
             android:textSize="14sp"
             android:textColor="#545454"
             />
@@ -61,7 +63,8 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
+            android:progressTint="#FDCF08"
             android:numStars="5"
             android:rating="3"
             android:stepSize="1" />
@@ -75,6 +78,7 @@
         android:src="@drawable/info_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="info button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

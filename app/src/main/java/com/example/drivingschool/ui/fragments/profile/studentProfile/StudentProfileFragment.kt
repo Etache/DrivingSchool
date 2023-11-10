@@ -27,6 +27,7 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.activity.MainActivity
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
@@ -85,10 +86,7 @@ class StudentProfileFragment : Fragment() {
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
                             Picasso.get().load(state.data?.profilePhoto).memoryPolicy(
-                                MemoryPolicy.NO_CACHE
-                            )
-                                .networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
-
+                                MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
                         }
 
                         else -> {}
@@ -187,7 +185,13 @@ class StudentProfileFragment : Fragment() {
             alertDialog.setPositiveButton(getString(R.string.confirm)) { alert, _ ->
                 preferences.isLoginSuccess = false
                 preferences.accessToken = null
-                findNavController().navigate(R.id.loginFragment)
+                preferences.refreshToken = null
+                preferences.password = null
+                preferences.role = null
+//                findNavController().navigate(R.id.loginFragment)
+                val intent = Intent(activity, MainActivity::class.java)
+                intent.putExtra("isLoggedOut",true)
+                activity?.startActivity(intent)
                 alert.cancel()
             }
             alertDialog.create().show()

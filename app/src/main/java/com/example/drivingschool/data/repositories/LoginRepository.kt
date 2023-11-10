@@ -1,11 +1,9 @@
 package com.example.drivingschool.data.repositories
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.example.drivingschool.R
-import com.example.drivingschool.data.models.LoginRequest
-import com.example.drivingschool.data.models.LoginResponse
-import com.example.drivingschool.data.remote.login.LoginApiService
+import com.example.drivingschool.data.models.login.LoginRequest
+import com.example.drivingschool.data.models.login.LoginResponse
+import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +12,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
-    private val loginApiService: LoginApiService
+    private val loginApiService: DrivingApiService
 ){
 
     suspend fun login(loginRequest: LoginRequest) : Flow<UiState<LoginResponse>> = flow {

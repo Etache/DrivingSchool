@@ -2,7 +2,7 @@ package com.example.drivingschool.data.models
 
 import com.google.gson.annotations.SerializedName
 
-data class StudentCommentRequest(
+data class FeedbackForInstructorRequest(
     @SerializedName("student")
     val student: Int,
     @SerializedName("lesson")

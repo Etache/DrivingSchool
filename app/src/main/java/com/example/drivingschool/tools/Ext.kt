@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
-
 fun View.viewVisibility(visibility: Boolean) {
     if (visibility) this.visibility = View.VISIBLE
     else this.visibility = View.GONE
