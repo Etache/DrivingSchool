@@ -97,4 +97,8 @@
     <string name="start">Начало</string>
     <string name="end_text">Конец</string>
     <string name="text_btn_cancel_lesson">Отменить занятие</string>
+    <string name="default_date_and_time">12.12.2023, 16.00</string>
+    <string name="date_and_time">Дата и время</string>
+    <string name="default_instructor_name">Иванов Иван Иванович</string>
+    <string name="name_of_the_instructor">Имя инструктора</string>
 </resources>

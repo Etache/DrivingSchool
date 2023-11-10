@@ -52,6 +52,7 @@
         <include layout="@layout/item_enroll_instructor_time" />
         <include layout="@layout/item_enroll_instructor_time" />
         <include layout="@layout/item_enroll_instructor_time" />
+
     </com.google.android.flexbox.FlexboxLayout>
 
     <androidx.appcompat.widget.AppCompatButton

@@ -188,7 +188,7 @@ class StudentProfileFragment : Fragment() {
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-//                findNavController().navigate(R.id.loginFragment)
+  //              findNavController().navigate(R.id.loginFragment)
                 val intent = Intent(activity, MainActivity::class.java)
                 intent.putExtra("isLoggedOut",true)
                 activity?.startActivity(intent)
@@ -227,6 +227,9 @@ class StudentProfileFragment : Fragment() {
 
                     is UiState.Error -> {
                         Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        //todo
                     }
                 }
             }

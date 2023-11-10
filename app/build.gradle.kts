@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    //id("org.jetbrains.kotlin.android.extensions")
 }
 
 android {
@@ -103,7 +104,7 @@ dependencies {
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
 
     // Fragment
-    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     // CircleImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")

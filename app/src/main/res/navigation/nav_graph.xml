@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_selectInstructorFragment_to_instructorInfoFragment"
             app:destination="@id/instructorInfoFragment" />
+        <action
+            android:id="@+id/action_selectInstructorFragment_to_selectDateTimeFragment"
+            app:destination="@id/selectDateTimeFragment" />
     </fragment>
     <fragment
         android:id="@+id/instructorInfoFragment"
@@ -69,5 +72,10 @@
         android:id="@+id/enrollInstructorFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.EnrollInstructorFragment"
         tools:layout="@layout/fragment_enroll_instructor" />
+    <fragment
+        android:id="@+id/enrollFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.confirmEnroll.EnrollFragment"
+        android:label="fragment_enroll"
+        tools:layout="@layout/fragment_enroll" />
 
 </navigation>
