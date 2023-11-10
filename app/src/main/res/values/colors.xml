@@ -14,4 +14,6 @@
     <color name="no_internet_red">#B3261E</color>
     <color name="light_red">#EDC8C8</color>
     <color name="bright_blue">#5883CB</color>
+    <color name="light_gray_calendar_date">#F8F8F8</color>
+    <color name="light_gray_calendar_time">#F6F6F6</color>
 </resources>

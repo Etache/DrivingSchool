@@ -5,18 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_date_and_time"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/item_calendar_day"
-        android:layout_marginTop="18dp"
-        android:text="1"
-        android:textSize="16sp"
-        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:background="@drawable/date_and_time_shape"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.25"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:paddingVertical="16dp"
+        android:text="@string/date_and_time_from_table"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

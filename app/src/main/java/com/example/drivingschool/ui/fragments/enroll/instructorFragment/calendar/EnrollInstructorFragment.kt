@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.enroll.selectDate
+package com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar
 
 import android.os.Build
 import android.os.Bundle
@@ -16,7 +16,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentEnrollInstructorBinding
-import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
 import com.example.drivingschool.tools.timePressed
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.adapter.CalendarAdapter
@@ -27,12 +26,12 @@ import java.time.format.TextStyle
 import java.time.temporal.WeekFields
 import java.util.Locale
 
-class SelectDateTimeFragment :
-    BaseFragment<FragmentSelectDateTimeBinding, EnrollViewModel>(R.layout.fragment_select_date_time),
+class EnrollInstructorFragment :
+    BaseFragment<FragmentEnrollInstructorBinding, EnrollInstructorViewModel>(R.layout.fragment_enroll_instructor),
     CalendarAdapter.OnItemListener {
 
-    override val binding by viewBinding(FragmentSelectDateTimeBinding::bind)
-    override val viewModel: EnrollViewModel by viewModels()
+    override val binding by viewBinding(FragmentEnrollInstructorBinding::bind)
+    override val viewModel: EnrollInstructorViewModel by viewModels()
 
     lateinit var calendarRecyclerView: RecyclerView
     lateinit var monthYearText: TextView
@@ -44,7 +43,7 @@ class SelectDateTimeFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_select_date_time, container, false)
+        return inflater.inflate(R.layout.fragment_enroll_instructor, container, false)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -89,8 +88,8 @@ class SelectDateTimeFragment :
             btnNextMonth.setOnClickListener {
                 nextMonthAction()
             }
-            btnConfirm.setOnClickListener {
-                findNavController().navigate(R.id.enrollFragment)
+            btnCheckTimetable.setOnClickListener {
+                findNavController().navigate(R.id.checkTimetableFragment)
             }
             time8.tvTime.timePressed()
             time9.tvTime.timePressed()
