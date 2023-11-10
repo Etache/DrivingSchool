@@ -1,9 +1,11 @@
 package com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.app.NotificationCompat.getColor
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -16,10 +18,17 @@ class CalendarAdapter(
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
     private val itemColors = IntArray(daysOfMonth.size)
+    private var dates = arrayListOf<String>()
 
     fun setItemColor(position: Int, colorResId: Int) {
         itemColors[position] = colorResId
     }
+
+    fun setDates(list : ArrayList<String>){
+        dates.addAll(list)
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -60,6 +69,9 @@ class CalendarAdapter(
 
         fun bind(itemText: String) {
             binding.itemCalendarDay.text = itemText
+            //change text color for active dates
+            dayOfMonth.setTextColor(Color.parseColor(R.color.blue.toString()))
+
         }
     }
 }

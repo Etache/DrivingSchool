@@ -17,10 +17,3 @@ data class InstructorResponse(
     @SerializedName("workwindows") var workwindows: WorkWindows? = WorkWindows()
 
 )
-
-data class WorkWindows(
-
-    @SerializedName("dates") var dates: ArrayList<String> = arrayListOf(),
-    @SerializedName("times") var times: ArrayList<String> = arrayListOf()
-
-) : Serializable

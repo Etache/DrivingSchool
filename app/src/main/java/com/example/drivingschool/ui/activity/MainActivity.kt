@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
         setAppBar()
-
         checkRole()
     }
 

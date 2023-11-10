@@ -24,6 +24,7 @@ class LessonAdapter(private val onClick: (String) -> Unit) : RecyclerView.Adapte
                 tvTitle.text = "${lesson.instructor?.surname} ${lesson.instructor?.name}"
                 tvDate.text = lesson.date
                 tvTime.text = lesson.time
+                //data
             }
 
             itemView.setOnClickListener {

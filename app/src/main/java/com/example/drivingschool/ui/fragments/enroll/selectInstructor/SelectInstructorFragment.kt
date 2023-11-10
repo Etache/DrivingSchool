@@ -86,12 +86,12 @@ class SelectInstructorFragment : Fragment() {
     fun onClick(workWindows: WorkWindows, name : String) {
         val bundle = Bundle()
         bundle.putString(FULL_NAME, name)
-        bundle.putSerializable(WORK_WINDOWS_KEY, workWindows)
+        bundle.putSerializable(DATES_KEY, workWindows.dates)
         findNavController().navigate(R.id.selectDateTimeFragment, bundle)
     }
 
     companion object {
-        const val WORK_WINDOWS_KEY = "work_windows_key"
+        const val DATES_KEY = "dates_key"
         const val FULL_NAME = "full_name_key"
     }
 }

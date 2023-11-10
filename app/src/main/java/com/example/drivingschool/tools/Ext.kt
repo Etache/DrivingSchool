@@ -34,6 +34,23 @@ fun TextView.timePressed(){
     }
 }
 
+//fun TextView.datePressed(){
+//    val normalBackground = R.drawable.item_calendar_shape
+//    val pressedBackground = R.drawable.item_calendar_shape_pressed
+//    var isPressed = false
+//
+//    this.setOnClickListener {
+//        if (isPressed){
+//            this.setBackgroundResource(normalBackground)
+//            this.setTextColor(resources.getColor(R.color.black))
+//        } else {
+//            this.setBackgroundResource(pressedBackground)
+//            this.setTextColor(resources.getColor(R.color.white))
+//        }
+//        isPressed = !isPressed
+//    }
+//}
+
 //fun ImageView.setImage(img: String?) {
 //    Log.e("ololo", "setImage: $img")
 //
