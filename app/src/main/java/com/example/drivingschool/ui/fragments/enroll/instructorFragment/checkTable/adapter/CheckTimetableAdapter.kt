@@ -40,7 +40,7 @@ class CheckTimetableAdapter :
         fun onBind(itemText: String) {
             //логика по получению данных от бека и засетивание в recyclerView(для этого нужна модель,
             // ока не сделал)
-            binding.tvDateAndTime.text = dateAndTime[bindingAdapterPosition]
+            //binding.tvDateAndTime.text = dateAndTime[bindingAdapterPosition]
         }
     }
 }

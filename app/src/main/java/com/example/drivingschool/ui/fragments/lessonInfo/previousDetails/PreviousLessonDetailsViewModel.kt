@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.currentDetails
+package com.example.drivingschool.ui.fragments.lessonInfo.previousDetails
 
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CurrentLessonDetailsViewModel @Inject constructor(
+class PreviousLessonDetailsViewModel @Inject constructor(
     private val repository: DetailsRepository
 ): BaseViewModel() {
 
@@ -21,10 +21,8 @@ class CurrentLessonDetailsViewModel @Inject constructor(
 
 
     fun getDetails(id: String) = viewModelScope.launch {
-        repository.getCurrentDetails(id).collect{
+        repository.getPreviousDetails(id).collect{
             _detailsState.value = it
         }
     }
-
-
 }

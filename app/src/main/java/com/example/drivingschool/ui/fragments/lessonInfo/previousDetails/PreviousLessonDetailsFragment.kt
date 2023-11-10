@@ -1,7 +1,6 @@
-package com.example.drivingschool.ui.fragments.previousDetails
+package com.example.drivingschool.ui.fragments.lessonInfo.previousDetails
 
 import android.util.Log
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope

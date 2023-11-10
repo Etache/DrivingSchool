@@ -55,7 +55,7 @@ class CalendarAdapter(
         }
 
         override fun onClick(v: View?) {
-            onItemClickListener.onItemClick(bindingAdapterPosition, dayOfMonth.text.toString())
+            //onItemClickListener.onItemClick(bindingAdapterPosition, dayOfMonth.text.toString())
         }
 
         fun bind(itemText: String) {

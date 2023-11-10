@@ -50,10 +50,10 @@
     <string name="cancel_lesson">Отменить занятие</string>
     <string name="ending_time">12:00</string>
     <string name="ending_date">29 октября</string>
-    <string name="end">Конец занятия</string>
+    <string name="end">Конец</string>
     <string name="beginning_time">11:00</string>
     <string name="beginning_date">29 октября</string>
-    <string name="begin">Начало занятия</string>
+    <string name="begin">Начало</string>
     <string name="number">+996 111 111 111</string>
     <string name="current_lesson">Текущее занятие</string>
     <string name="previous_lesson">Предыдущее занятие</string>
@@ -122,4 +122,8 @@
     <string name="default_date_and_time">12.12.2023, 16.00</string>
     <string name="default_instructor_name">Иванов Иван Иванович</string>
     <string name="name_of_the_instructor">Имя инструктора</string>
+
+    <string name="start_lesson">Начать занятие</string>
+    <string name="end_lesson">Завершить занятие</string>
+
 </resources>

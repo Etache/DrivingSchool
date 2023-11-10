@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.currentDetails
+package com.example.drivingschool.ui.fragments.lessonInfo.currentDetails
 
 import android.app.AlertDialog
 import android.content.DialogInterface
