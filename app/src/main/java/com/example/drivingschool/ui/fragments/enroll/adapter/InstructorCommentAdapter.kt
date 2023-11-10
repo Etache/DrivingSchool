@@ -19,8 +19,6 @@ class InstructorCommentAdapter(private val commentsList: List<MockCommentModel>)
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
 
-
-
         val comment = commentsList[position]
 
         holder.binding.tvName.text = comment.name
@@ -39,8 +37,6 @@ class InstructorCommentAdapter(private val commentsList: List<MockCommentModel>)
 //            .circleCrop()
 //            .placeholder(R.drawable.default_pfp)
 //            .into(holder.binding.ivProfilePhoto)
-
-
 
         holder.binding.tvComment.setLines(2)
         holder.binding.tvComment.setOnClickListener {

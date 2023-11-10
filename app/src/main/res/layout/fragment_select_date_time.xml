@@ -27,7 +27,9 @@
         <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/ms_calendar_spinner"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:text="аааа женщина"
+            android:textAlignment="textEnd"/>
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView
             android:id="@+id/cv_calendar"

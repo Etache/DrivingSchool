@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/mainFragment"
+        android:id="@+id/instructorMainFragment"
         android:icon="@drawable/ic_main_blue"
         android:title="@string/main" />
 
     <item
-        android:id="@+id/selectInstructorFragment"
+        android:id="@+id/enrollInstructorFragment"
         android:icon="@drawable/ic_enroll_blue"
         android:title="@string/enroll" />
 

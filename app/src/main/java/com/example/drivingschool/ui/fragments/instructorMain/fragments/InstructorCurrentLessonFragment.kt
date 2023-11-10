@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.main
+package com.example.drivingschool.ui.fragments.instructorMain.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,16 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.drivingschool.R
 
-class PreviousLessonFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+class InstructorCurrentLessonFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_previous_lesson, container, false)
+        return inflater.inflate(R.layout.fragment_instructor_current_lesson, container, false)
     }
 }
