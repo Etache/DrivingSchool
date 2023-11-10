@@ -77,10 +77,8 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.currentLessonDetailsFragment,
                 R.id.previousLessonDetailsFragment,
                 R.id.previousLessonFragment,
-                R.id.selectInstructorFragment,
                 R.id.enrollInstructorFragment,
                 R.id.selectDateTimeFragment,
-                R.id.instructorInfoFragment,
             )
         )
 
@@ -97,6 +95,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.enrollInstructorFragment -> "Расписание"
                 R.id.checkTimetableFragment -> "Расписание"
                 R.id.instructorInfoFragment -> "Онлайн запись"
+                R.id.selectDateTimeFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
                 else -> "No title"

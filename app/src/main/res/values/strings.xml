@@ -119,4 +119,7 @@
     <string name="name_of_instructor">Имя инструктора</string>
     <string name="date_and_time">Дата и время</string>
     <string name="date_and_time_from_table">12.12.2023, 08:00, 09:00,10:00</string>
+    <string name="default_date_and_time">12.12.2023, 16.00</string>
+    <string name="default_instructor_name">Иванов Иван Иванович</string>
+    <string name="name_of_the_instructor">Имя инструктора</string>
 </resources>
