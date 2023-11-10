@@ -60,8 +60,8 @@ class InstructorMainExploreFragment :
     private fun initCurrentLessonSections() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.currentState.collect{
-                    when(it) {
+                viewModel.currentState.collect {
+                    when (it) {
                         is UiState.Loading -> {
                             binding.apply {
                                 pbInstructor.viewVisibility(true)
@@ -69,6 +69,7 @@ class InstructorMainExploreFragment :
                                 noLessons.viewVisibility(false)
                             }
                         }
+
                         is UiState.Empty -> {
                             binding.apply {
                                 pbInstructor.viewVisibility(false)
@@ -76,14 +77,21 @@ class InstructorMainExploreFragment :
                                 noLessons.viewVisibility(true)
                             }
                         }
+
                         is UiState.Error -> {
-                            Toast.makeText(requireContext(), "lessons error: ${it.msg}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "lessons error: ${it.msg}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+
                         is UiState.Success -> {
                             binding.apply {
                                 pbInstructor.viewVisibility(false)
                                 rvLessonsList.viewVisibility(true)
                                 noLessons.viewVisibility(false)
+                                adapter.updateList(it.data ?: emptyList())
                             }
                         }
                     }
@@ -93,7 +101,46 @@ class InstructorMainExploreFragment :
     }
 
     private fun initPreviousLessonSections() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.previousState.collect {
+                    when (it) {
+                        is UiState.Loading -> {
+                            binding.apply {
+                                pbInstructor.viewVisibility(true)
+                                rvLessonsList.viewVisibility(false)
+                                noLessons.viewVisibility(false)
+                            }
+                        }
 
+                        is UiState.Empty -> {
+                            binding.apply {
+                                pbInstructor.viewVisibility(false)
+                                rvLessonsList.viewVisibility(false)
+                                noLessons.viewVisibility(true)
+                            }
+                        }
+
+                        is UiState.Error -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "lessons error: ${it.msg}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        is UiState.Success -> {
+                            binding.apply {
+                                pbInstructor.viewVisibility(false)
+                                rvLessonsList.viewVisibility(true)
+                                noLessons.viewVisibility(false)
+                                adapter.updateList(it.data ?: emptyList())
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     companion object {

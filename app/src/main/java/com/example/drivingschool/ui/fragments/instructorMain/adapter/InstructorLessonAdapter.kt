@@ -12,15 +12,23 @@ import com.example.drivingschool.databinding.InstructorMainItemBinding
 class InstructorLessonAdapter(private val onClick: (String) -> Unit) :
     RecyclerView.Adapter<InstructorLessonAdapter.LessonViewHolder>() {
 
-    private val lessons = arrayListOf<LessonsItem>()
+    private var lessons = arrayListOf<LessonsItem>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(it: List<LessonsItem>) {
+        lessons = it as ArrayList<LessonsItem>
+        notifyDataSetChanged()
+    }
 
     inner class LessonViewHolder(private val binding: InstructorMainItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(lesson: LessonsItem) {
-            binding.tvTitle.text = "${lesson.student?.surname} ${lesson.student?.name} ${lesson.student?.lastname}"
-            binding.tvDate.text = lesson.date
-            binding.tvTime.text = lesson.time
+            binding.apply {
+                tvTitle.text = "${lesson.student?.surname} ${lesson.student?.name} ${lesson.student?.lastname}"
+                tvDate.text = lesson.date
+                tvTime.text = lesson.time
+            }
 
             itemView.setOnClickListener {
                 onClick(lesson.id.toString())
@@ -43,6 +51,9 @@ class InstructorLessonAdapter(private val onClick: (String) -> Unit) :
         holder.bind(lessons[position])
     }
 
-    override fun getItemCount() =
-        lessons.size
+    override fun getItemCount() = lessons.size
+
+    companion object {
+        const val ID_KEY = "id"
+    }
 }

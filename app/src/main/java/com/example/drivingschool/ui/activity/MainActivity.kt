@@ -39,11 +39,8 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
         setAppBar()
+        checkRole()
 
-        val extras = intent.getBooleanExtra("isLoggedOut", false)
-        if (extras){
-            showFragmentAccordingToRole()
-        }
     }
 
     override fun checkRole() {
