@@ -21,5 +21,13 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+    <style name="CustomWeekDayStyle">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+    <style name="CustomHeaderTextAppearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/violet</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>
