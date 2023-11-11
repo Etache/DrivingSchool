@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         navView = binding.navView
         setSupportActionBar(binding.myToolbar)
         setAppBar()
-        checkRole()
 
+        checkRole()
     }
 
     override fun checkRole() {
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.selectInstructorFragment,
                 R.id.enrollInstructorFragment,
                 R.id.selectDateTimeFragment,
-                R.id.instructorInfoFragment,
+
             )
         )
 
@@ -92,8 +92,10 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.currentLessonDetailsFragment -> "Главная страница"
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
-                R.id.enrollInstructorFragment -> "Онлайн запись"
+                R.id.enrollInstructorFragment -> "Расписание"
+                R.id.checkTimetableFragment -> "Расписание"
                 R.id.instructorInfoFragment -> "Онлайн запись"
+                R.id.selectDateTimeFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
                 else -> "No title"

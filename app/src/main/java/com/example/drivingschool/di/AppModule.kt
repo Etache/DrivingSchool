@@ -19,12 +19,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-
 @Provides
 @Singleton
 fun provideRetrofit(okHttpClient: OkHttpClient): DrivingApiService {
     return Retrofit.Builder()
-        .baseUrl("https://b09b-31-192-250-106.ngrok-free.app/")
+        .baseUrl("https://414f-31-192-250-106.ngrok-free.app/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

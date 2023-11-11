@@ -1,6 +1,5 @@
 package com.example.drivingschool.ui.fragments.enroll.instructorInfo
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -62,7 +61,6 @@ class InstructorInfoFragment : Fragment() {
     }
 
 
-    @SuppressLint("SetTextI18n")
     private fun getInstructorProfile() {
         viewModel.getInstructorById(id = id!!)
         lifecycleScope.launch {
@@ -96,8 +94,6 @@ class InstructorInfoFragment : Fragment() {
                         Picasso.get()
                             .load(httpsImageUrl)
                             .placeholder(R.drawable.ic_default_photo)
-                            .memoryPolicy(MemoryPolicy.NO_CACHE)
-                            .networkPolicy(NetworkPolicy.NO_CACHE)
                             .into(binding.ivProfileImage)
 
                         Log.d("madimadi", "getInstructorDetails in fragment: ${state.data}")

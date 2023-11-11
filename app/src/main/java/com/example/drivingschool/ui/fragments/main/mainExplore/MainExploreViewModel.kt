@@ -1,5 +1,6 @@
 package com.example.drivingschool.ui.fragments.main.mainExplore
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.mainresponse.Lessons
@@ -39,5 +40,6 @@ class MainExploreViewModel @Inject constructor(
         repository.getPreviousLessons().collect {
             _previousState.value = it
         }
+        Log.d("ahahaha", "данные на MainExploreViewModel")
     }
 }

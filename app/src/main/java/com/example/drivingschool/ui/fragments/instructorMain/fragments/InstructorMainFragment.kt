@@ -2,6 +2,7 @@ package com.example.drivingschool.ui.fragments.instructorMain.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,7 @@ class InstructorMainFragment : Fragment(R.layout.fragment_instructor_main) {
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         setUpTabLayoutWitViewPager()
+        Log.d("ahahaha", "данные на InstructorMainFragment")
     }
 
     @SuppressLint("InflateParams")

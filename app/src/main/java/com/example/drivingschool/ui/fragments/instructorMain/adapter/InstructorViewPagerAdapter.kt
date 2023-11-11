@@ -1,5 +1,6 @@
 package com.example.drivingschool.ui.fragments.instructorMain.adapter
 
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -24,5 +25,6 @@ class InstructorViewPagerAdapter(fragment: Fragment) :
             }
             else -> throw IllegalStateException("Invalid position: $position")
         }
+        Log.d("ahahaha", "данные на InstructorViewPager")
     }
 }

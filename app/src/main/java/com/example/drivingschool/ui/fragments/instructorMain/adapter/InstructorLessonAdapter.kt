@@ -18,6 +18,7 @@ class InstructorLessonAdapter(private val onClick: (String) -> Unit) :
     fun updateList(it: List<LessonsItem>) {
         lessons = it as ArrayList<LessonsItem>
         notifyDataSetChanged()
+        Log.d("ahahaha", "InstructorLessonAdapter updateList: ${it}")
     }
 
     inner class LessonViewHolder(private val binding: InstructorMainItemBinding) :
@@ -33,7 +34,7 @@ class InstructorLessonAdapter(private val onClick: (String) -> Unit) :
             itemView.setOnClickListener {
                 onClick(lesson.id.toString())
             }
-            Log.d("ahahaha", "установлены данные на странице инструктора")
+            Log.d("ahahaha", "InstructorLessonAdapter: ${lesson}")
         }
     }
 

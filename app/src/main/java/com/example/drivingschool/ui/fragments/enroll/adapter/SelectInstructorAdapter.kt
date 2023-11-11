@@ -8,52 +8,47 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.InstructorResponse
+import com.example.drivingschool.data.models.WorkWindows
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
-class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
+class SelectInstructorAdapter(val onClick: (WorkWindows, String) -> Unit) :
     RecyclerView.Adapter<SelectInstructorAdapter.SelectViewHolder>() {
 
-    private val onItemClickListener: OnItemClickListener? = null
+    private var instructors = arrayListOf<InstructorResponse>()
 
-    class SelectViewHolder(private val binding: InstructorInfoItemBinding) :
+    fun updateList(it: List<InstructorResponse>) {
+        instructors = it as ArrayList<InstructorResponse>
+        notifyDataSetChanged()
+    }
+
+    inner class SelectViewHolder(private val binding: InstructorInfoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         @SuppressLint("SetTextI18n")
         fun bind(instructor: InstructorResponse) {
             binding.tvName.text = instructor.name
             binding.tvSurname.text = instructor.surname
+            binding.tvExpience.text = instructor.experience.toString()
             binding.rbRating.rating = instructor.rate!!.toFloat()
 
-            // ------------------------------------
-            val yearString: String
-            val experience = instructor.experience
-            val lastDigit = experience!! % 10
-            yearString = when {
-                experience % 100 in 11..14  -> "лет"
-                lastDigit == 1                    -> "год"
-                lastDigit in 2..4           -> "года"
-                else                              -> "лет"
-            }
-            binding.tvExpience.text = "Стаж: ${instructor.experience.toString()} $yearString"
-
-            // ------------------------------------
-            val httpsImageUrl = instructor.profilePhoto?.replace("http://", "https://")
+            val httpsImageUrl = instructor.profilePhoto //replace("http://", "https://")
             Picasso.get()
                 .load(httpsImageUrl)
                 .placeholder(R.drawable.ic_default_photo)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(binding.ivProfileImage)
 
-            // ------------------------------------
             binding.ivInfo.setOnClickListener {
                 it.findNavController()
                     .navigate(
                         R.id.action_selectInstructorFragment_to_instructorInfoFragment,
                         bundleOf(ID_KEY to instructor.id)
                     )
+            }
+            itemView.setOnClickListener {
+                onClick(instructor.workwindows!!, "${instructor.name} ${instructor.surname} ${instructor.lastname}")
             }
         }
     }
@@ -67,19 +62,12 @@ class SelectInstructorAdapter(private val data: List<InstructorResponse>) :
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return instructors.size
     }
 
     override fun onBindViewHolder(holder: SelectViewHolder, position: Int) {
-        val instructor = data[position]
+        val instructor = instructors[position]
         holder.bind(instructor)
-        holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemClick(position)
-        }
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
     }
 
     companion object {

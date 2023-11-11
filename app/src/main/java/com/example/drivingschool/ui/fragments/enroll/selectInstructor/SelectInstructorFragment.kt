@@ -2,13 +2,17 @@ package com.example.drivingschool.ui.fragments.enroll.selectInstructor
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.drivingschool.R
+import com.example.drivingschool.data.models.WorkWindows
 import com.example.drivingschool.databinding.FragmentSelectInstructorBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
@@ -37,6 +41,11 @@ class SelectInstructorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter = SelectInstructorAdapter(this::onClick)
+        getInstructorsList()
+    }
+
+    fun getInstructorsList() {
         lifecycleScope.launch {
             viewModel.getInstructors()
             viewModel.instructors.observe(requireActivity()) { uiState ->
@@ -50,8 +59,9 @@ class SelectInstructorFragment : Fragment() {
                         binding.progressBar.visibility = View.GONE
                         binding.clContainer.visibility = View.VISIBLE
                         val instructors = uiState.data
-                        adapter = SelectInstructorAdapter(instructors ?: emptyList())
+                        adapter.updateList(instructors ?: emptyList())
                         binding.rvInstructorList.adapter = adapter
+
                         Log.d("madimadi", "instructors list in fragment: ${uiState.data}")
                     }
 
@@ -71,6 +81,17 @@ class SelectInstructorFragment : Fragment() {
 
             }
         }
+    }
 
+    fun onClick(workWindows: WorkWindows, name : String) {
+        val bundle = Bundle()
+        bundle.putString(FULL_NAME, name)
+        bundle.putSerializable(WORK_WINDOWS_KEY, workWindows)
+        findNavController().navigate(R.id.selectDateTimeFragment, bundle)
+    }
+
+    companion object {
+        const val WORK_WINDOWS_KEY = "work_windows_key"
+        const val FULL_NAME = "full_name_key"
     }
 }

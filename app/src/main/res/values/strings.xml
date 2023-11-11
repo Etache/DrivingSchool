@@ -37,6 +37,14 @@
     <string name="timetable">"Расписание</string>
     <string name="start_time">19:00</string>
     <string name="online_registration">Онлайн запись</string>
+    <string name="check_calendar">Проверить</string>
+    <string name="back_calendar"><![CDATA[<]]></string>
+    <string name="next_calendar"><![CDATA[>]]></string>
+    <string name="calendar_B">В</string>
+    <string name="calendar_P">П</string>
+    <string name="calendar_C">С</string>
+    <string name="calendar_CH">Ч</string>
+
 
     //CurrentLessonFragment
     <string name="cancel_lesson">Отменить занятие</string>
@@ -101,4 +109,21 @@
     <string name="start_lesson">Начать занятие</string>
     <string name="end_lesson">Завершить занятие</string>
 
+    <string name="time_8_00">8:00</string>
+    <string name="time_9_00">9:00</string>
+    <string name="time_10_00">10:00</string>
+    <string name="time_11_00">11:00</string>
+    <string name="time_12_00">12:00</string>
+    <string name="time_13_00">13:00</string>
+    <string name="time_14_00">14:00</string>
+    <string name="time_15_00">15:00</string>
+    <string name="time_16_00">16:00</string>
+    <string name="time_17_00">17:00</string>
+    <string name="time_18_00">18:00</string>
+    <string name="name_of_instructor">Имя инструктора</string>
+    <string name="date_and_time">Дата и время</string>
+    <string name="date_and_time_from_table">12.12.2023, 08:00, 09:00,10:00</string>
+    <string name="default_date_and_time">12.12.2023, 16.00</string>
+    <string name="default_instructor_name">Иванов Иван Иванович</string>
+    <string name="name_of_the_instructor">Имя инструктора</string>
 </resources>
