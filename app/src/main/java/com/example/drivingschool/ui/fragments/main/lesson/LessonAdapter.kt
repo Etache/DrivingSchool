@@ -2,6 +2,7 @@ package com.example.drivingschool.ui.fragments.main.lesson
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -19,6 +20,8 @@ class LessonAdapter(
     private val lessonType: LessonType?
 ) :
     RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
+class LessonAdapter(private val onClick: (String) -> Unit) :
+    RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
 
     private var lessons = arrayListOf<LessonsItem>()
 
@@ -26,6 +29,23 @@ class LessonAdapter(
     fun updateList(it: List<LessonsItem>) {
         lessons = it as ArrayList<LessonsItem>
         notifyDataSetChanged()
+    }
+
+    inner class ViewHolder(private val binding: ItemMainBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
+        fun bind(lesson: LessonsItem) {
+            binding.apply {
+                tvTitle.text = "${lesson.instructor?.surname} ${lesson.instructor?.name}"
+                tvDate.text = lesson.date
+                tvTime.text = lesson.time
+            }
+
+            itemView.setOnClickListener {
+                onClick(lesson.id.toString())
+            }
+            Log.d("ahahaha", "установлены данные на странице студента")
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

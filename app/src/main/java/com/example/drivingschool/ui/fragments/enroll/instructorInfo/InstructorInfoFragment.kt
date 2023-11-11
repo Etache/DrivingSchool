@@ -79,20 +79,11 @@ class InstructorInfoFragment : Fragment() {
                         binding.tvNumber.text = state.data?.phoneNumber
                         binding.tvCarName.text = state.data?.car
 
-                        val httpsImageUrl = state.data?.profilePhoto?.replace("http://", "https://")
+                        val httpsImageUrl = state.data?.profilePhoto  //replace("http://", "https://")
                         Picasso.get()
                             .load(httpsImageUrl)
                             .placeholder(R.drawable.ic_default_photo)
-                            .memoryPolicy(MemoryPolicy.NO_CACHE)
-                            .networkPolicy(NetworkPolicy.NO_CACHE)
                             .into(binding.ivProfileImage)
-
-//                        Glide
-//                            .with(binding.ivProfileImage)
-//                            .load(state.data?.profilePhoto)
-//                            .circleCrop()
-//                            .placeholder(R.drawable.default_pfp)
-//                            .into(binding.ivProfileImage)
 
                         Log.d("madimadi", "getInstructorDetails in fragment: ${state.data}")
                     }

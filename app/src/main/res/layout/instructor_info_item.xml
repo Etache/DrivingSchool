@@ -53,7 +53,7 @@
             android:id="@+id/tv_expience"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/experience"
+            android:text="@string/experience_num"
             android:textSize="14sp"
             android:textColor="#545454"
             />

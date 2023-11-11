@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="16dp"
     android:paddingVertical="24dp"
-    tools:context=".ui.fragments.currentDetails.CurrentLessonDetailsFragment">
+    tools:context=".ui.fragments.lessonInfo.currentDetails.CurrentLessonDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContainer"

@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.previousDetails
+package com.example.drivingschool.ui.fragments.lessonInfo.previousDetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

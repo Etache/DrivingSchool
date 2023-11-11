@@ -179,7 +179,7 @@ class StudentProfileFragment : Fragment() {
             val alertDialog = AlertDialog.Builder(requireContext())
 
             alertDialog.setTitle(getString(R.string.confirm_exit))
-            alertDialog.setNegativeButton(getString(R.string.exit)) { alert, _ ->
+            alertDialog.setNegativeButton(getString(R.string.cancel)) { alert, _ ->
                 alert.cancel()
             }
             alertDialog.setPositiveButton(getString(R.string.confirm)) { alert, _ ->
@@ -227,6 +227,10 @@ class StudentProfileFragment : Fragment() {
 
                     is UiState.Error -> {
                         Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> {
+                        //todo
                     }
                 }
             }

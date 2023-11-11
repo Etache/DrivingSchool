@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.previousDetails
+package com.example.drivingschool.ui.fragments.lessonInfo.previousDetails
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog

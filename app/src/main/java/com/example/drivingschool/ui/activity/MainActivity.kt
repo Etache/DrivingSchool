@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,9 +25,12 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
+    private lateinit var navigation: NavGraph
+
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,26 +39,27 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-
         navView = binding.navView
+        val inflater = navHostFragment.navController.navInflater
+        navigation = inflater.inflate(R.navigation.nav_graph)
         setSupportActionBar(binding.myToolbar)
+
+
         setAppBar()
 
-        val extras = intent.getBooleanExtra("isLoggedOut", false)
-        if (extras){
-            showFragmentAccordingToRole()
-        }
+        checkRole()
     }
 
     override fun checkRole() {
-        if(preferences.role == "instructor"){
+        if (preferences.role == "instructor") {
             navView.menu.clear() //clear old inflated items.
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
+            navigation.setStartDestination(R.id.instructorMainFragment)
         }
     }
 
     fun showFragmentAccordingToRole() {
-        if(preferences.role == "instructor"){
+        if (preferences.role == "instructor") {
             navView.menu.clear() //clear old inflated items.
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
         }
@@ -72,6 +77,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.mainFragment,
+                R.id.enrollFragment,
                 R.id.selectInstructorFragment,
                 R.id.studentProfileFragment,
                 R.id.instructorProfileFragment,
@@ -88,13 +94,16 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
+                R.id.enrollFragment -> "Онлайн запись"
                 R.id.currentLessonDetailsFragment -> "Текущие"
                 R.id.previousLessonDetailsFragment -> "Предыдущие"
-                 R.id.currentLessonDetailsFragment -> "Главная страница"
+                R.id.currentLessonDetailsFragment -> "Главная страница"
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
-                R.id.enrollInstructorFragment -> "Онлайн запись"
+                R.id.enrollInstructorFragment -> "Расписание"
+                R.id.checkTimetableFragment -> "Расписание"
                 R.id.instructorInfoFragment -> "Онлайн запись"
+                R.id.selectDateTimeFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
                 else -> "No title"

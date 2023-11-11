@@ -15,4 +15,5 @@
         android:text="@string/beginning_time"
         android:textSize="14sp"
         android:textColor="#8E8E8E"/>
+
 </FrameLayout>
