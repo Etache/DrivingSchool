@@ -7,6 +7,8 @@ import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
 import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
+import com.example.drivingschool.data.models.FeedbackForStudentRequest
+import com.example.drivingschool.data.models.FeedbackForStudentResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
@@ -75,4 +77,9 @@ interface DrivingApiService {
     @POST("feedbacks/instructor/create/")
     suspend fun createComment(@Body comment: FeedbackForInstructorRequest): Response<FeedbackForInstructorResponse>
 
+    @GET("lessons/details/{id}")
+    suspend fun getInstructorPrevious(@Path("id") id: String): Response<LessonsItem>
+
+    @POST("feedbacks/student/create/")
+    suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
 }

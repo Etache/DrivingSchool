@@ -13,6 +13,7 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorMainExploreBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.viewVisibility
+import com.example.drivingschool.ui.fragments.BundleKeys
 import com.example.drivingschool.ui.fragments.instructorMain.adapter.InstructorLessonAdapter
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewModel
@@ -48,12 +49,11 @@ class InstructorMainExploreFragment :
             val bundle = Bundle()
             bundle.putString("key", id)
             findNavController().navigate(R.id.instructorCurrentLessonFragment, bundle)
+        } else if (lessonType == LessonType.Previous) {
+            val bundle = Bundle()
+            bundle.putString(BundleKeys.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY, id)
+            findNavController().navigate(R.id.instructorPreviousLessonFragment, bundle)
         }
-//        else if (lessonType == LessonType.Previous) {
-//            val bundle = Bundle()
-//            bundle.putString("key", id)
-//            findNavController().navigate(R.id.фрагмент_предыдущих_уроков_у_инструктора, bundle)
-//        }
 
     }
 

@@ -85,5 +85,10 @@
         android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.CheckTimetableFragment"
         android:label="fragment_check_timetable"
         tools:layout="@layout/fragment_check_timetable" />
+    <fragment
+        android:id="@+id/instructorPreviousLessonFragment"
+        android:name="com.example.drivingschool.ui.fragments.instructorLessonInfo.InstructorPreviousLessonFragment"
+        android:label="fragment_instructor_previous_lesson"
+        tools:layout="@layout/fragment_instructor_previous_lesson" />
 
 </navigation>

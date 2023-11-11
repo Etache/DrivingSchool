@@ -74,6 +74,7 @@
     <string name="confirm">Подтвердить</string>
     <string name="continue_text">Отправить</string>
     <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
+    <string name="instructor_comment_body_text">Ваше занятие завершено, поставьте оценку вашему студенту</string>
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
     <string name="choose_photo">Выбрать фото</string>

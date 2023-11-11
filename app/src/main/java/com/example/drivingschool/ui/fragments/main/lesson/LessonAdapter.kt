@@ -20,8 +20,6 @@ class LessonAdapter(
     private val lessonType: LessonType?
 ) :
     RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
-class LessonAdapter(private val onClick: (String) -> Unit) :
-    RecyclerView.Adapter<LessonAdapter.ViewHolder>() {
 
     private var lessons = arrayListOf<LessonsItem>()
 
@@ -29,23 +27,6 @@ class LessonAdapter(private val onClick: (String) -> Unit) :
     fun updateList(it: List<LessonsItem>) {
         lessons = it as ArrayList<LessonsItem>
         notifyDataSetChanged()
-    }
-
-    inner class ViewHolder(private val binding: ItemMainBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("SetTextI18n")
-        fun bind(lesson: LessonsItem) {
-            binding.apply {
-                tvTitle.text = "${lesson.instructor?.surname} ${lesson.instructor?.name}"
-                tvDate.text = lesson.date
-                tvTime.text = lesson.time
-            }
-
-            itemView.setOnClickListener {
-                onClick(lesson.id.toString())
-            }
-            Log.d("ahahaha", "установлены данные на странице студента")
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -77,7 +58,12 @@ class LessonAdapter(private val onClick: (String) -> Unit) :
             if (position == 0 && lessonType == LessonType.Current) {
                 binding.apply {
                     tvTitle.setTextColor(ContextCompat.getColor(context, R.color.black))
-                    dividerView.setBackgroundColor(ContextCompat.getColor(context, R.color.black))
+                    dividerView.setBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.black
+                        )
+                    )
                 }
             }
 
@@ -88,21 +74,25 @@ class LessonAdapter(private val onClick: (String) -> Unit) :
 
         private fun getStatus(status: String?, tvStatus: TextView, context: Context): String {
             return when (status) {
-                LessonStatus.PLANNED.status ->  {
+                LessonStatus.PLANNED.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.bright_blue))
                     "Запланирован"
                 }
-                LessonStatus.ACTIVE.status ->  {
+
+                LessonStatus.ACTIVE.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.green))
                     "Активен"
                 }
-                LessonStatus.CANCELED.status ->  {
+
+                LessonStatus.CANCELED.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.red))
                     "Отменен"
                 }
-                LessonStatus.FINISHED.status ->  {
+
+                LessonStatus.FINISHED.status -> {
                     "Прошедший"
                 }
+
                 else -> "Неизвестный статус"
             }
         }
