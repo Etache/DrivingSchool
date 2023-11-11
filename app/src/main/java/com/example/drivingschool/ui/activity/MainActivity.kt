@@ -44,9 +44,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         navigation = inflater.inflate(R.navigation.nav_graph)
         setSupportActionBar(binding.myToolbar)
 
-
         setAppBar()
-
         checkRole()
     }
 
