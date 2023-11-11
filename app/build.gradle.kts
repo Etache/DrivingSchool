@@ -114,6 +114,9 @@ dependencies {
     // Picasso
     implementation("com.squareup.picasso:picasso:2.8")
 
+    //MaterialCalendarView
+    implementation("com.github.prolificinteractive:material-calendarview:1.4.3")
+
 }
 
 kapt {

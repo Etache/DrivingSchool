@@ -105,8 +105,8 @@
     <string name="start">Начало</string>
     <string name="end_text">Конец</string>
     <string name="text_btn_cancel_lesson">Отменить занятие</string>
-    <string name="time_8_00">8:00</string>
-    <string name="time_9_00">9:00</string>
+    <string name="time_8_00">08:00</string>
+    <string name="time_9_00">09:00</string>
     <string name="time_10_00">10:00</string>
     <string name="time_11_00">11:00</string>
     <string name="time_12_00">12:00</string>
@@ -119,4 +119,29 @@
     <string name="name_of_instructor">Имя инструктора</string>
     <string name="date_and_time">Дата и время</string>
     <string name="date_and_time_from_table">12.12.2023, 08:00, 09:00,10:00</string>
+    <string name="date">10</string>
+
+        <string-array name="mcv_monthLabels">
+            <item>Январь</item>
+            <item>Февраль</item>
+            <item>Март</item>
+            <item>Апрель</item>
+            <item>Май</item>
+            <item>Июнь</item>
+            <item>Июль</item>
+            <item>Август</item>
+            <item>Сентябрь</item>
+            <item>Октябрь</item>
+            <item>Ноябрь</item>
+            <item>Декабрь</item>
+        </string-array>
+    <string-array name="mcv_weekLabeles">
+        <item>П</item>
+        <item>В</item>
+        <item>С</item>
+        <item>Ч</item>
+        <item>П</item>
+        <item>С</item>
+        <item>В</item>
+    </string-array>
 </resources>

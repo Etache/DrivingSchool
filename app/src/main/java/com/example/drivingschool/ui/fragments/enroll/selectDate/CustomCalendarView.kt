@@ -12,7 +12,7 @@ class CustomCalendarView: CalendarView {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-    }
+//    override fun onDraw(canvas: Canvas?) {
+//        super.onDraw(canvas)
+//    }
 }
