@@ -121,20 +121,21 @@
     <string name="date_and_time_from_table">12.12.2023, 08:00, 09:00,10:00</string>
     <string name="date">10</string>
 
-        <string-array name="mcv_monthLabels">
-            <item>Январь</item>
-            <item>Февраль</item>
-            <item>Март</item>
-            <item>Апрель</item>
-            <item>Май</item>
-            <item>Июнь</item>
-            <item>Июль</item>
-            <item>Август</item>
-            <item>Сентябрь</item>
-            <item>Октябрь</item>
-            <item>Ноябрь</item>
-            <item>Декабрь</item>
-        </string-array>
+    <string-array name="mcv_monthLabels">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
+
     <string-array name="mcv_weekLabeles">
         <item>П</item>
         <item>В</item>

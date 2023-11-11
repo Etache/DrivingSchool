@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/gray"
         android:text="@string/date_and_time"
         app:layout_constraintBottom_toTopOf="@id/recycler_date_and_time"
         android:textSize="14sp" />

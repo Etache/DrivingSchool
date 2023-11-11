@@ -32,31 +32,3 @@ fun TextView.timePressed() {
         isPressed = !isPressed
     }
 }
-
-fun TextView.datePressed() {
-    val normalBackground = R.drawable.item_calendar_shape
-    val pressedBackground = R.drawable.item_calendar_shape_pressed
-
-//    this.setOnClickListener {
-    if (!this.text.equals("")) {
-        if (this.currentTextColor == resources.getColor(R.color.black)) {
-            this.setBackgroundResource(pressedBackground)
-            this.setTextColor(resources.getColor(R.color.white))
-        } else {
-            this.setBackgroundResource(normalBackground)
-            this.setTextColor(resources.getColor(R.color.black))
-        }
-    }
-//    }
-}
-
-//fun ImageView.setImage(img: String?) {
-//    Log.e("ololo", "setImage: $img")
-//
-//    val httpsImageUrl = img?.replace("http://", "https://")
-//
-//    Picasso.get()
-//        .load(httpsImageUrl)
-//        .placeholder(R.drawable.ic_default_photo)
-//        .into(this)
-//}

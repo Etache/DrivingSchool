@@ -116,7 +116,6 @@ dependencies {
 
     //MaterialCalendarView
     implementation("com.github.prolificinteractive:material-calendarview:1.4.3")
-
 }
 
 kapt {
