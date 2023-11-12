@@ -63,7 +63,7 @@ class MainExploreFragment :
 
     private fun initCurrentLessonSections() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.currentState.collect {
                     when (it) {
                         is UiState.Empty -> {
@@ -104,7 +104,7 @@ class MainExploreFragment :
 
     private fun initPreviousLessonSections() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.previousState.collect {
                     when (it) {
                         is UiState.Empty -> {

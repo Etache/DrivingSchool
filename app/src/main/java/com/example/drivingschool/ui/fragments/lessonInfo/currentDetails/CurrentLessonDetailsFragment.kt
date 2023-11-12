@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
@@ -149,8 +150,13 @@ class CurrentLessonDetailsFragment :
                         arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1"
                     )
                     viewModel.cancelLiveData.observe(viewLifecycleOwner) {
-                        showToast(it?.success.toString())
-//                        binding.btnCancelLesson.viewVisibility(false)
+                        Log.e("ololo", "showCancelAlert: ${it.toString()}")
+                        if (it?.success != null) {
+                            showSuccessCancelAlert()
+                            binding.btnCancelLesson.viewVisibility(false)
+                        } else {
+                            showToast("Success = null")
+                        }
                     }
                     dialogInterface.cancel()
                 })
@@ -170,6 +176,19 @@ class CurrentLessonDetailsFragment :
             .setNegativeButton(
                 getString(R.string.alert_continue_text),
                 DialogInterface.OnClickListener { dialogInterface, i ->
+                    dialogInterface.cancel()
+                })
+            .show()
+    }
+
+    private fun showSuccessCancelAlert() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Ваше занятие отменено.")
+            .setCancelable(true)
+            .setNegativeButton(
+                getString(R.string.ok),
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    findNavController().navigateUp()
                     dialogInterface.cancel()
                 })
             .show()
