@@ -65,5 +65,9 @@
         android:id="@+id/selectDateTimeFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.selectDate.SelectDateTimeFragment"
         tools:layout="@layout/fragment_select_date_time" />
+    <fragment
+        android:id="@+id/enrollInstructorFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.EnrollInstructorFragment"
+        tools:layout="@layout/fragment_enroll_instructor" />
 
 </navigation>

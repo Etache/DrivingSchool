@@ -30,7 +30,6 @@ class LessonAdapter(private val onClick: (String) -> Unit) : RecyclerView.Adapte
                 onClick(lesson.id.toString())
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

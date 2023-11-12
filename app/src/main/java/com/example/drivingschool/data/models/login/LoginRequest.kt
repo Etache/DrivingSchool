@@ -1,4 +1,4 @@
-package com.example.drivingschool.data.models
+package com.example.drivingschool.data.models.login
 
 import com.google.gson.annotations.SerializedName
 

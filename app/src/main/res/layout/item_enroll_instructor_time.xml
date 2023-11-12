@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_time"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="72dp"
+        android:layout_height="36dp"
+        android:background="@drawable/time_lesson_background"
+        android:paddingVertical="8.5dp"
+        android:paddingHorizontal="15.5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/beginning_time"
+        android:textSize="14sp"
+        android:textColor="#8E8E8E"/>
+
+</FrameLayout>

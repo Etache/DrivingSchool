@@ -27,6 +27,7 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.activity.MainActivity
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
@@ -125,9 +126,6 @@ class StudentProfileFragment : Fragment() {
             builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
                 when (which) {
                     0 -> {
-//                        val intent = Intent(Intent.ACTION_PICK)
-//                        intent.type = "image/*"
-//                        startActivityForResult(intent, PICK_IMAGE_REQUEST)
                         val intent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                         pickImageResult.launch(intent)
@@ -135,8 +133,6 @@ class StudentProfileFragment : Fragment() {
 
                     1 -> {
                         viewModel.deleteProfilePhoto()
-                        //binding.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
-                        //delete photo from api also....
                     }
                 }
             }
@@ -187,7 +183,10 @@ class StudentProfileFragment : Fragment() {
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-                findNavController().navigate(R.id.loginFragment)
+//                findNavController().navigate(R.id.loginFragment)
+                val intent = Intent(activity, MainActivity::class.java)
+                intent.putExtra("isLoggedOut",true)
+                activity?.startActivity(intent)
                 alert.cancel()
             }
             alertDialog.create().show()
