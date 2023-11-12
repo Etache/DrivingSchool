@@ -25,6 +25,7 @@
         app:mcv_selectionColor="@color/blue"
         app:mcv_arrowColor="@color/violet"
         app:mcv_weekDayTextAppearance="@style/CustomWeekDayStyle"
+
         />
 
     <TextView

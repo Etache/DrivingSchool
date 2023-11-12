@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class CustomWeekDayFormatter : WeekDayFormatter {
+class EnrollWeekDayFormatter : WeekDayFormatter {
     override fun format(weekday: Int): CharSequence? {
         val calendar = Calendar.getInstance()
         calendar[Calendar.DAY_OF_WEEK] = weekday
