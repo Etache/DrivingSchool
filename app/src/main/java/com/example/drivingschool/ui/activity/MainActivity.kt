@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             findNavController(R.id.nav_host_fragment).navigateUp()
-            Toast.makeText(this, "Home button pressed", Toast.LENGTH_SHORT).show()
         }
         return true
     }
@@ -78,6 +77,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.previousLessonDetailsFragment,
                 R.id.previousLessonFragment,
                 R.id.selectInstructorFragment,
+                R.id.checkTimetableFragment,
                 R.id.enrollInstructorFragment,
                 R.id.selectDateTimeFragment,
                 R.id.instructorInfoFragment,
@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.currentLessonDetailsFragment -> "Главная страница"
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
+                R.id.checkTimetableFragment -> "Расписание"
                 R.id.enrollInstructorFragment -> "Расписание"
                 R.id.checkTimetableFragment -> "Расписание"
                 R.id.instructorInfoFragment -> "Онлайн запись"
