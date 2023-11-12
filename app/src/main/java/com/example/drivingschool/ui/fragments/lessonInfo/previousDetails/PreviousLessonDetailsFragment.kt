@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -43,6 +44,7 @@ class PreviousLessonDetailsFragment :
     override val viewModel: PreviousLessonDetailsViewModel by viewModels()
     private lateinit var lessonId: String
     private lateinit var studentId: String
+    private var isCommentCreated: Boolean = false
 
     override fun initialize() {
         lessonId = arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY) ?: "1"
@@ -58,10 +60,11 @@ class PreviousLessonDetailsFragment :
             }
         }
 
-        binding.btnComment.setOnClickListener {
-            showCustomDialog()
-        }
         showImage()
+
+        binding.btnComment.setOnClickListener {
+            if (!isCommentCreated) showCustomDialog()
+        }
     }
 
     override fun setupSubscribes() {
@@ -116,6 +119,26 @@ class PreviousLessonDetailsFragment :
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(circleImageView)
 
+
+                                if (it.data?.feedbackForInstructor != null) {
+                                    isCommentCreated = true
+                                    binding.btnComment.apply {
+                                        isClickable = false
+                                        setBackgroundColor(
+                                            ContextCompat.getColor(
+                                                requireContext(),
+                                                R.color.light_gray
+                                            )
+                                        )
+                                        setTextColor(
+                                            ContextCompat.getColor(
+                                                requireContext(),
+                                                R.color.dark_gray_text
+                                            )
+                                        )
+                                    }
+
+                                }
 
                                 if (it.data?.feedbackForStudent != null) {
                                     containerComment.viewVisibility(true)
@@ -204,26 +227,28 @@ class PreviousLessonDetailsFragment :
             override fun afterTextChanged(p0: Editable?) {}
         })
 
+        val dialog = builder.create()
         btn.setOnClickListener {
             createComment(
                 FeedbackForInstructorRequest(
                     lesson = lessonId.toInt(),
-                    student = studentId.toInt(),
+                    instructor = studentId.toInt(),
                     text = edt.text.toString(),
                     mark = rating.rating.toInt()
                 )
             )
+            dialog.dismiss()
         }
 
-        val dialog = builder.create()
         dialog.show()
     }
 
     private fun createComment(comment: FeedbackForInstructorRequest) {
         viewModel.saveComment(comment)
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.status?.let { showToast(it) }
+            it.access?.let { showToast("Ваш комментарий отправлен") }
         }
+        viewModel.getDetails(lessonId)
     }
 
     @SuppressLint("SimpleDateFormat")

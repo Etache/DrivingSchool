@@ -40,7 +40,9 @@ class DetailsRepository @Inject constructor(
     }
 
     suspend fun saveComment(comment: FeedbackForInstructorRequest) = flow {
-        emit(apiService.createComment(comment = comment).body())
+        val data = apiService.createComment(comment = comment).body()
+        emit(data)
+        Log.e("ololo", "repositorySaveComment: $data")
     }
 
 

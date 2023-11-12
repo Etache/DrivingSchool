@@ -2,7 +2,7 @@ package com.example.drivingschool.data.models.mainresponse
 
 data class LessonsItem(
     var date: String? = null,
-    var feedbackForInstructor: Any? = Any(),
+    var feedbackForInstructor: FeedbackForInstructor? = FeedbackForInstructor(),
     var feedbackForStudent: FeedbackForStudent? = FeedbackForStudent(),
     var id: Int? = null,
     var instructor: Instructor? = null,
