@@ -12,7 +12,7 @@ import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
 import com.squareup.picasso.Picasso
 
-class SelectInstructorAdapter(val onClick: (ArrayList<Date>, String) -> Unit) :
+class SelectInstructorAdapter() :
     RecyclerView.Adapter<SelectInstructorAdapter.SelectViewHolder>() {
 
     private var instructors = arrayListOf<InstructorResponse>()
@@ -45,9 +45,9 @@ class SelectInstructorAdapter(val onClick: (ArrayList<Date>, String) -> Unit) :
                         bundleOf(ID_KEY to instructor.id)
                     )
             }
-            itemView.setOnClickListener {
-                onClick(instructor.workwindows, "${instructor.name} ${instructor.surname} ${instructor.lastname}")
-            }
+//            itemView.setOnClickListener {
+//                onClick(instructor.workwindows, "${instructor.name} ${instructor.surname} ${instructor.lastname}")
+//            }
         }
     }
 

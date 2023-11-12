@@ -49,8 +49,6 @@ class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor
         Picasso.get()
             .load(httpsImageUrl)
             .placeholder(R.drawable.ic_default_photo)
-            .memoryPolicy(MemoryPolicy.NO_CACHE)
-            .networkPolicy(NetworkPolicy.NO_CACHE)
             .into(holder.binding.ivProfilePhoto)
 
 
@@ -75,5 +73,6 @@ class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor
     override fun getItemCount(): Int {
         return commentsList.size
     }
+
 
 }

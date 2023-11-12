@@ -40,7 +40,7 @@ class SelectInstructorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = SelectInstructorAdapter(this::onClick)
+        adapter = SelectInstructorAdapter()
         getInstructorsList()
     }
 
@@ -82,12 +82,12 @@ class SelectInstructorFragment : Fragment() {
         }
     }
 
-    fun onClick(workWindows: ArrayList<Date>, name : String) {
-        val bundle = Bundle()
-        bundle.putString(FULL_NAME, name)
-        bundle.putSerializable(WORK_WINDOWS, workWindows)
-        findNavController().navigate(R.id.selectDateTimeFragment, bundle)
-    }
+//    fun onClick(workWindows: ArrayList<Date>, name : String) {
+//        val bundle = Bundle()
+//        bundle.putString(FULL_NAME, name)
+//        bundle.putSerializable(WORK_WINDOWS, workWindows)
+//        findNavController().navigate(R.id.selectDateTimeFragment, bundle)
+//    }
 
     companion object {
         const val WORK_WINDOWS = "work_windows"
