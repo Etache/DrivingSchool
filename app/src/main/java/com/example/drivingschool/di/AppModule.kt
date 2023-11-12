@@ -19,30 +19,30 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-@Provides
-@Singleton
-fun provideRetrofit(okHttpClient: OkHttpClient): DrivingApiService {
-    return Retrofit.Builder()
-        .baseUrl("https://414f-31-192-250-106.ngrok-free.app/")
-        .client(okHttpClient)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(DrivingApiService::class.java)
-}
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient): DrivingApiService {
+        return Retrofit.Builder()
+            .baseUrl("https://c86f-193-34-225-198.ngrok-free.app/")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(DrivingApiService::class.java)
+    }
 
-@Provides
-@Singleton
-fun provideOkHttpClient(helper: PreferencesHelper): OkHttpClient {
-    return OkHttpClient.Builder()
-        .addInterceptor(LoginInterceptor(helper))
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .callTimeout(30, TimeUnit.SECONDS)
-        .build()
-}
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(helper: PreferencesHelper): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(LoginInterceptor(helper))
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .callTimeout(30, TimeUnit.SECONDS)
+            .build()
+    }
 
-@Provides
-@Singleton
-fun providesPreferencesHelper(@ApplicationContext context: Context) = PreferencesHelper(context)
+    @Provides
+    @Singleton
+    fun providesPreferencesHelper(@ApplicationContext context: Context) = PreferencesHelper(context)
 }

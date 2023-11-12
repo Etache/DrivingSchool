@@ -15,6 +15,6 @@ data class InstructorResponse(
     @SerializedName("car") var car: String? = null,
     @SerializedName("rate") var rate: Float? = null,
     @SerializedName("feedbacks") var feedbacks: List<FeedbackInstructor>? = null,
-    @SerializedName("workwindows") var workwindows: WorkWindows? = WorkWindows()
+    @SerializedName("workwindows" ) var workwindows : ArrayList<Date> = arrayListOf()
 
 )

@@ -75,6 +75,7 @@ class EnrollInstructorFragment :
             setGrayDaysDecorator(calendarView)
         }
     }
+
     private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {
         val nextWeekStart = getNextWeekStart()
         val nextWeekEnd = getNextWeekEnd()

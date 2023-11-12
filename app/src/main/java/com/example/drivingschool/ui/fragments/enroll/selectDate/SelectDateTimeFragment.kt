@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
+import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.selectDate.adapter.TimeAdapter
@@ -23,6 +24,7 @@ class SelectDateTimeFragment :
     override val binding by viewBinding(FragmentSelectDateTimeBinding::bind)
     override val viewModel: EnrollViewModel by viewModels()
     private val adapter = TimeAdapter()
+    private lateinit var workWindows : ArrayList<Date>
     private var dates: ArrayList<String>? = null
 
     override fun onCreateView(
@@ -34,8 +36,8 @@ class SelectDateTimeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dates = arguments?.getSerializable(SelectInstructorFragment.DATES_KEY) as ArrayList<String>
-        Log.d("madimadi", "dates in SelectDateTimeFragment: $dates")
+        workWindows = arguments?.getSerializable(SelectInstructorFragment.WORK_WINDOWS) as ArrayList<Date>
+        Log.d("madimadi", "dates in SelectDateTimeFragment: $workWindows")
     }
 
     override fun initialize() {

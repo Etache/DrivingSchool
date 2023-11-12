@@ -7,14 +7,12 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
+import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.data.models.InstructorResponse
-import com.example.drivingschool.data.models.WorkWindows
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
-class SelectInstructorAdapter(val onClick: (WorkWindows, String) -> Unit) :
+class SelectInstructorAdapter(val onClick: (ArrayList<Date>, String) -> Unit) :
     RecyclerView.Adapter<SelectInstructorAdapter.SelectViewHolder>() {
 
     private var instructors = arrayListOf<InstructorResponse>()
@@ -48,7 +46,7 @@ class SelectInstructorAdapter(val onClick: (WorkWindows, String) -> Unit) :
                     )
             }
             itemView.setOnClickListener {
-                onClick(instructor.workwindows!!, "${instructor.name} ${instructor.surname} ${instructor.lastname}")
+                onClick(instructor.workwindows, "${instructor.name} ${instructor.surname} ${instructor.lastname}")
             }
         }
     }
