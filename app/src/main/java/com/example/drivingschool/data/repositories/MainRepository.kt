@@ -30,4 +30,14 @@ class MainRepository @Inject constructor(
             emit(UiState.Empty())
         }
     }.flowOn(Dispatchers.IO)
+
+    suspend fun getCurrentLessonsById(id: Int) = flow {
+        emit(UiState.Loading())
+        val response = mainApiService.getCurrentById(id).body()
+        if (response != null) {
+            emit(UiState.Success(response))
+        } else {
+            emit(UiState.Empty())
+        }
+    }.flowOn(Dispatchers.IO)
 }

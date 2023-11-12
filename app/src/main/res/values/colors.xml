@@ -16,4 +16,5 @@
     <color name="bright_blue">#5883CB</color>
     <color name="light_gray_calendar_date">#F8F8F8</color>
     <color name="light_gray_calendar_time">#F6F6F6</color>
+    <color name="green">#01B201</color>
 </resources>

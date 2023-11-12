@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
@@ -62,13 +61,4 @@ class InstructorMainFragment : Fragment(R.layout.fragment_instructor_main) {
             binding.tabInstructor.getTabAt(i)?.customView = textView
         }
     }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_instructor_main, container, false)
-    }
-
 }

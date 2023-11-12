@@ -76,14 +76,14 @@
         android:label="fragment_instructor_main"
         tools:layout="@layout/fragment_instructor_main" />
     <fragment
-        android:id="@+id/instructorMainExploreFragment"
-        android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorMainExploreFragment"
-        android:label="fragment_instructor_main_explore"
-        tools:layout="@layout/fragment_instructor_main_explore" />
-    <fragment
         android:id="@+id/enrollFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.confirmEnroll.EnrollFragment"
         android:label="fragment_enroll"
         tools:layout="@layout/fragment_enroll" />
+    <fragment
+        android:id="@+id/instructorMainExploreFragment"
+        android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorMainExploreFragment"
+        android:label="fragment_instructor_main_explore"
+        tools:layout="@layout/fragment_instructor_main_explore" />
 
 </navigation>
