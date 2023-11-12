@@ -120,6 +120,7 @@
     <string name="date_and_time">Дата и время</string>
     <string name="date_and_time_from_table">12.12.2023, 08:00, 09:00,10:00</string>
     <string name="date">10</string>
+    <string name="select_date_enroll_instructor">Выберите дату</string>
 
     <string-array name="mcv_monthLabels">
         <item>Январь</item>

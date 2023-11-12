@@ -64,7 +64,6 @@ class EnrollInstructorFragment :
             val customWeekDayFormatter = EnrollWeekDayFormatter()
             calendarView.setWeekDayFormatter(customWeekDayFormatter)
             calendarView.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
-            //чтобы возможность выбрать была только на следующую неделю в пятницу или субботу
             cantGoBackMonth()
             setGrayDaysDecorator(calendarView)
             adapter = EnrollInstructorAdapter()
