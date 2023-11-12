@@ -109,6 +109,7 @@
     <string name="text_btn_cancel_lesson">Отменить занятие</string>
     <string name="time_8_00">08:00</string>
     <string name="time_9_00">09:00</string>
+
     <string name="time_10_00">10:00</string>
     <string name="time_11_00">11:00</string>
     <string name="time_12_00">12:00</string>
@@ -134,6 +135,7 @@
     <string name="person_full_name">%1$s %2$s %3$s</string>
     <string name="comment_hint">Ваш комментарий</string>
     <string name="date">10</string>
+    <string name="status_active">Активен</string>
 
     <string-array name="mcv_monthLabels">
         <item>Январь</item>

@@ -49,6 +49,9 @@ interface DrivingApiService {
     @GET("lessons/current/")
     suspend fun getCurrent(): Response<Lessons>
 
+    @GET("lessons/current/{id}")
+    suspend fun getCurrentById(@Path("id") currentLessonId: Int): Response<LessonsItem>
+
     @GET("lessons/previous/")
     suspend fun getPrevious(): Response<Lessons>
 

@@ -45,14 +45,17 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         setSupportActionBar(binding.myToolbar)
 
         setAppBar()
+
         checkRole()
     }
 
     override fun checkRole() {
-        if (preferences.role == "instructor") {
+        if(preferences.role == "instructor"){
             navView.menu.clear() //clear old inflated items.
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
-            navigation.setStartDestination(R.id.instructorMainFragment)
+        } else if (preferences.role == "student"){
+            navView.menu.clear()
+            navView.inflateMenu(R.menu.bottom_nav_menu)
         }
     }
 

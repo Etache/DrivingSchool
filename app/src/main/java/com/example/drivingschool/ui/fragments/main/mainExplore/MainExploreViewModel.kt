@@ -1,12 +1,12 @@
 package com.example.drivingschool.ui.fragments.main.mainExplore
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.repositories.MainRepository
 import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorCurrentLessonFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,6 +24,9 @@ class MainExploreViewModel @Inject constructor(
     private val _previousState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
     val previousState = _previousState.asStateFlow()
 
+    private val _currentDetailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
+    val currentDetailsState = _currentDetailsState.asStateFlow()
+
     init {
         getCurrent()
         getPrevious()
@@ -34,10 +37,16 @@ class MainExploreViewModel @Inject constructor(
             _currentState.value = it
         }
     }
-
     private fun getPrevious() = viewModelScope.launch {
         repository.getPreviousLessons().collect {
             _previousState.value = it
         }
+        Log.d("ahahaha", "данные на MainExploreViewModel")
     }
+    fun getCurrentById(id: Int) = viewModelScope.launch {
+        repository.getCurrentLessonsById(id).collect {
+            _currentDetailsState.value = it
+        }
+    }
+
 }

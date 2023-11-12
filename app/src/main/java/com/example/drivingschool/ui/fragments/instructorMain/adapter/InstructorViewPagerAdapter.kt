@@ -7,10 +7,7 @@ import com.example.drivingschool.ui.fragments.instructorMain.fragments.Instructo
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 
 class InstructorViewPagerAdapter(fragment: Fragment) :
-    FragmentStateAdapter(
-        fragment.childFragmentManager,
-        fragment.viewLifecycleOwner.lifecycle
-    ) {
+    FragmentStateAdapter(fragment.childFragmentManager, fragment.viewLifecycleOwner.lifecycle) {
 
     override fun getItemCount() = 2
 
@@ -22,7 +19,7 @@ class InstructorViewPagerAdapter(fragment: Fragment) :
             1 -> InstructorMainExploreFragment().apply {
                 arguments = bundleOf(InstructorMainExploreFragment.BUNDLE_LESSON_TYPE to LessonType.Previous)
             }
-            else -> throw IllegalStateException("Invalid position: $position")
+            else -> throw IllegalStateException("Invalid position '$position'.")
         }
     }
 }

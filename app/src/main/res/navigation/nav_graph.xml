@@ -61,6 +61,10 @@
         android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.EnrollInstructorFragment"
         tools:layout="@layout/fragment_enroll_instructor" />
     <fragment
+        android:id="@+id/checkTimetableFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.CheckTimetableFragment"
+        tools:layout="@layout/fragment_check_timetable" />
+    <fragment
         android:id="@+id/instructorCurrentLessonFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorCurrentLessonFragment"
         tools:layout="@layout/fragment_instructor_current_lesson" />
@@ -76,10 +80,6 @@
         android:id="@+id/enrollFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.confirmEnroll.EnrollFragment"
         tools:layout="@layout/fragment_enroll" />
-    <fragment
-        android:id="@+id/checkTimetableFragment"
-        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.CheckTimetableFragment"
-        tools:layout="@layout/fragment_check_timetable" />
     <fragment
         android:id="@+id/instructorPreviousLessonFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorLessonInfo.InstructorPreviousLessonFragment"
