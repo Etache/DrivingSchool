@@ -1,5 +1,6 @@
 package com.example.drivingschool.ui.fragments.enroll.instructorInfo
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -56,6 +57,7 @@ class InstructorInfoFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun getInstructorProfile() {
         viewModel.getInstructorById(id = id!!)
         lifecycleScope.launch {
@@ -71,7 +73,21 @@ class InstructorInfoFragment : Fragment() {
                         binding.clContainer.visibility = View.VISIBLE
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
-                        binding.tvExpienceNum.text = state.data?.experience.toString()
+
+                        val experience = state.data?.experience
+                        if (experience != null) {
+                            when (experience) {
+                                in 1..4 -> {
+                                    binding.tvExpienceNum.text = "$experience года"
+                                }
+                                in 5..9 -> {
+                                    binding.tvExpienceNum.text = "$experience лет"
+                                }
+                                else -> {
+                                    binding.tvExpienceNum.text = "$experience лет"
+                                }
+                            }
+                        }
                         binding.tvNumber.text = state.data?.phoneNumber
                         binding.tvCarName.text = state.data?.car
 

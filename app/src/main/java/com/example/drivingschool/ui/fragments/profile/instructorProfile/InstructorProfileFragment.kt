@@ -202,6 +202,7 @@ class InstructorProfileFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getInstructorProfileData() {
         viewModel.getInstructorProfile()
         lifecycleScope.launch {
@@ -219,7 +220,22 @@ class InstructorProfileFragment : Fragment() {
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber
-                        binding.tvExperience.text = state.data?.experience.toString()
+
+                        val experience = state.data?.experience
+                        if (experience != null) {
+                            when (experience) {
+                                in 1..4 -> {
+                                    binding.tvExperience.text = "$experience года"
+                                }
+                                in 5..9 -> {
+                                    binding.tvExperience.text = "$experience лет"
+                                }
+                                else -> {
+                                    binding.tvExperience.text = "$experience лет"
+                                }
+                            }
+                        }
+
                         binding.tvCar.text = state.data?.car
                         Log.d("madimadi", "getInstructorProfileData in Fragment: ${state.data}")
                         Log.d("madimadi", "tokenInstructor in Fragment: ${preferences.accessToken}")
