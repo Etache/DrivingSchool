@@ -40,12 +40,13 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         navView = binding.navView
+
         val inflater = navHostFragment.navController.navInflater
         navigation = inflater.inflate(R.navigation.nav_graph)
+
         setSupportActionBar(binding.myToolbar)
 
         setAppBar()
-
         checkRole()
     }
 
@@ -53,9 +54,13 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         if(preferences.role == "instructor"){
             navView.menu.clear() //clear old inflated items.
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
+            navigation.setStartDestination(R.id.instructorMainFragment)
+            navController.navigate(R.id.instructorMainFragment)
         } else if (preferences.role == "student"){
             navView.menu.clear()
             navView.inflateMenu(R.menu.bottom_nav_menu)
+            navigation.setStartDestination(R.id.mainFragment)
+            navController.navigate(R.id.mainFragment)
         }
     }
 
@@ -88,7 +93,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.checkTimetableFragment,
                 R.id.enrollInstructorFragment,
                 R.id.selectDateTimeFragment,
-                R.id.instructorInfoFragment,
+                R.id.instructorMainFragment
             )
         )
 
@@ -108,6 +113,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.selectDateTimeFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
+                R.id.instructorMainFragment -> "Главная страница (инструктор)" //just to check
                 else -> "No title"
             }
             if (destination.id == R.id.loginFragment) {

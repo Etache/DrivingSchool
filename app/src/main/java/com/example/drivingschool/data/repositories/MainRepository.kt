@@ -31,11 +31,12 @@ class MainRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
+
     suspend fun getCurrentLessonsById(id: Int) = flow {
         emit(UiState.Loading())
-        val response = mainApiService.getCurrentById(id).body()
-        if (response != null) {
-            emit(UiState.Success(response))
+        val response = mainApiService.getCurrentById(id)
+        if (response.isSuccessful) {
+            emit(UiState.Success(response.body()))
         } else {
             emit(UiState.Empty())
         }
