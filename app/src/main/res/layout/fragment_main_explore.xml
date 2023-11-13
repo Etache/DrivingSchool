@@ -4,47 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="20dp"
     tools:context=".ui.fragments.main.mainExplore.MainExploreFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_main_explore"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_main" />
+        android:backgroundTint="@color/blue"
+        android:paddingHorizontal="20dp"
+        app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue">
 
-    <FrameLayout
-        android:id="@+id/view_no_lessons"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:visibility="gone"
-        android:layout_gravity="center">
-
-        <ImageView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_main_explore"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/text_no_lesson"
-            android:src="@drawable/no_lessons" />
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_main" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <FrameLayout
+            android:id="@+id/view_no_lessons"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/text_no_lesson"
+                android:src="@drawable/no_lessons" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/text_no_lesson"
+                android:textColor="@color/dark_gray_text"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <ProgressBar
+            android:id="@+id/main_progress_bar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/text_no_lesson"
-            android:textColor="@color/dark_gray_text"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-    </FrameLayout>
+            android:backgroundTint="@color/blue"
+            android:indeterminateTint="@color/blue"
+            android:visibility="visible" />
 
-    <ProgressBar
-        android:id="@+id/main_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/blue"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/blue"
-        android:visibility="visible" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </FrameLayout>

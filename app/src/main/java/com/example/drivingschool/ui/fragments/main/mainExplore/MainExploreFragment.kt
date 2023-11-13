@@ -45,6 +45,12 @@ class MainExploreFragment :
         if (lessonType == LessonType.Current) initCurrentLessonSections()
         else if (lessonType == LessonType.Previous) initPreviousLessonSections()
 
+        binding.swipeRefresh.setOnRefreshListener {
+            if (lessonType == LessonType.Current) viewModel.getCurrent()
+            else if (lessonType == LessonType.Previous) viewModel.getPrevious()
+            binding.swipeRefresh.isRefreshing = false
+        }
+
     }
 
     private fun onClick(id: String) {
@@ -143,5 +149,6 @@ class MainExploreFragment :
             }
         }
     }
+
 
 }
