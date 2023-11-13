@@ -20,13 +20,19 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp" />
 
-    <CalendarView
-        android:id="@+id/calendar_view"
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="360dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/super_light_gray"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_timetable"
-        android:layout_marginTop="24dp"
-        />
+        app:mcv_arrowColor="@color/violet"
+        app:mcv_selectionColor="@color/blue"
+        app:mcv_tileSize="50dp"
+        app:mcv_tileWidth="50dp"
+        app:mcv_weekDayTextAppearance="@style/CustomWeekDayStyle" />
 
     <TextView
         android:id="@+id/tv_select_time"
@@ -37,7 +43,7 @@
         android:fontFamily="@font/roboto_medium"
         android:text="@string/select_time"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/calendar_view"
+        app:layout_constraintTop_toBottomOf="@id/calendarView"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp" />
 
@@ -48,7 +54,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_select_time"
         tools:listitem="@layout/item_time"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="24dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         android:orientation="horizontal"
