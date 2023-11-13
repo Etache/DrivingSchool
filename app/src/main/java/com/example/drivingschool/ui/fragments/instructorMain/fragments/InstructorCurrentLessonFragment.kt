@@ -63,9 +63,6 @@ class InstructorCurrentLessonFragment :
                         is UiState.Success -> {
                             Log.e("ahahaha", "InstructorCurrentLessonFragment Success: ${state.data}",)
 
-                            binding.progressBar.visibility = View.GONE
-                            binding.clContainer.visibility = View.VISIBLE
-
                             binding.apply {
                                 progressBar.visibility = View.GONE
                                 clContainer.visibility = View.VISIBLE
@@ -85,7 +82,7 @@ class InstructorCurrentLessonFragment :
 
                                 val originalDate = state.data?.date
                                 val parts = (originalDate?.split("-"))!!
-                                val day = parts[0].toInt()
+                                val day = parts[2].toInt()
                                 val month = parts[1].toInt()
                                 val monthString = when (month) {
                                     1 -> "января"

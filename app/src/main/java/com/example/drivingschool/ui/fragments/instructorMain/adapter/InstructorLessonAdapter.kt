@@ -53,6 +53,27 @@ class InstructorLessonAdapter(private val onClick: (String) -> Unit) :
                         statusString.setTextColor(R.color.red)
                     }
                 }
+
+                val originalDate = lesson.date
+                val parts = (originalDate?.split("-"))!!
+                val day = parts[2].toInt()
+                val month = parts[1].toInt()
+                val monthString = when (month) {
+                    1 -> "января"
+                    2 -> "февраля"
+                    3 -> "марта"
+                    4 -> "апреля"
+                    5 -> "мая"
+                    6 -> "июня"
+                    7 -> "июля"
+                    8 -> "августа"
+                    9 -> "сентября"
+                    10 -> "октября"
+                    11 -> "ноября"
+                    12 -> "декабря"
+                    else -> throw IllegalArgumentException("Некорректный месяц: $month")
+                }
+                tvDate.text = "$day $monthString"
             }
 
             itemView.setOnClickListener {

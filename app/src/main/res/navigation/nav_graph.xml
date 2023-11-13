@@ -68,12 +68,12 @@
     <fragment
         android:id="@+id/instructorCurrentLessonFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorCurrentLessonFragment"
-        android:label="fragment_instructor_current_lesson"
+        android:label="Текущее занятие"
         tools:layout="@layout/fragment_instructor_current_lesson" />
     <fragment
         android:id="@+id/instructorMainFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorMainFragment"
-        android:label="fragment_instructor_main"
+        android:label="Главная страница"
         tools:layout="@layout/fragment_instructor_main" />
     <fragment
         android:id="@+id/enrollFragment"
@@ -83,7 +83,7 @@
     <fragment
         android:id="@+id/instructorMainExploreFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorMainExploreFragment"
-        android:label="fragment_instructor_main_explore"
+        android:label="Главная страница"
         tools:layout="@layout/fragment_instructor_main_explore" />
 
 </navigation>
