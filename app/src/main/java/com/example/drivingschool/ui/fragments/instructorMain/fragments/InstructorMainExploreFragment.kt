@@ -1,14 +1,17 @@
 package com.example.drivingschool.ui.fragments.instructorMain.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.ui.fragments.BundleKeys.BUNDLE_LESSON_TYPE
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorMainExploreBinding
 import com.example.drivingschool.tools.UiState
@@ -32,7 +35,9 @@ class InstructorMainExploreFragment :
 
     @Suppress("DEPRECATION")
     override fun initialize() {
-        adapter = InstructorLessonAdapter(this::onClick)
+        binding.rvLessonsList.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter = InstructorLessonAdapter(this::onClick, requireContext(), lessonType)
         binding.rvLessonsList.adapter = adapter
 
         lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
@@ -49,12 +54,12 @@ class InstructorMainExploreFragment :
             val bundle = Bundle()
             bundle.putString("key", id)
             findNavController().navigate(R.id.instructorCurrentLessonFragment, bundle)
-        } else if (lessonType == LessonType.Previous) {
+        }
+        else if (lessonType == LessonType.Previous) {
             val bundle = Bundle()
             bundle.putString(BundleKeys.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY, id)
             findNavController().navigate(R.id.instructorPreviousLessonFragment, bundle)
         }
-
     }
 
     private fun initCurrentLessonSections() {
@@ -68,6 +73,7 @@ class InstructorMainExploreFragment :
                                 rvLessonsList.viewVisibility(false)
                                 noLessons.viewVisibility(false)
                             }
+                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Loading работает")
                         }
 
                         is UiState.Empty -> {
@@ -76,6 +82,7 @@ class InstructorMainExploreFragment :
                                 rvLessonsList.viewVisibility(false)
                                 noLessons.viewVisibility(true)
                             }
+                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Empty работает")
                         }
 
                         is UiState.Error -> {
@@ -84,6 +91,7 @@ class InstructorMainExploreFragment :
                                 "lessons error: ${it.msg}",
                                 Toast.LENGTH_SHORT
                             ).show()
+                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Error работает")
                         }
 
                         is UiState.Success -> {
@@ -93,7 +101,10 @@ class InstructorMainExploreFragment :
                                 noLessons.viewVisibility(false)
                                 adapter.updateList(it.data ?: emptyList())
                             }
+                            Log.d("ahahaha", "${it.data}")
                         }
+
+                        else -> {}
                     }
                 }
             }
@@ -104,6 +115,7 @@ class InstructorMainExploreFragment :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.previousState.collect {
+                    Log.d("ahahaha", "initPreviousLessonSection Работает")
                     when (it) {
                         is UiState.Loading -> {
                             binding.apply {
@@ -136,14 +148,13 @@ class InstructorMainExploreFragment :
                                 noLessons.viewVisibility(false)
                                 adapter.updateList(it.data ?: emptyList())
                             }
+                            Log.d("ahahaha", "initPreviousLessonSections: ${it.data}")
                         }
+
+                        else -> {}
                     }
                 }
             }
         }
-    }
-
-    companion object {
-        const val BUNDLE_LESSON_TYPE = "bundle_media_type"
     }
 }

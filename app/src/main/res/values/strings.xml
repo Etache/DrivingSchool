@@ -74,7 +74,6 @@
     <string name="confirm">Подтвердить</string>
     <string name="continue_text">Отправить</string>
     <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
-    <string name="instructor_comment_body_text">Ваше занятие завершено, поставьте оценку вашему студенту</string>
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
     <string name="choose_photo">Выбрать фото</string>
@@ -88,7 +87,7 @@
     <string name="group_number">№4</string>
     <string name="change_password">Сменить пароль</string>
     <string name="exit">Выйти</string>
-    <string name="experience_num">15 лет</string>
+    <string name="experience_num">15 </string>
     <string name="car_brand">Марка авто</string>
     <string name="text_no_lesson">У вас пока нет занятий</string>
     <string name="fish_text">Lorem ipsum dolor sit amet consectetur. Sapien turpis elementum quis gravida augue placerat neque. Nibh nunc nulla tellus scelerisque sit diam facilisis. Eu euismod mi tellus augue. In cras et elementum risus faucibus. Lectus suspendisse aliquet nisi erat facilisis egestas eros. Dolor lectus massa egestas magna sem mi massa tempus risus. Aliquam scelerisque vel massa etiam volutpat amet. porttitor</string>
@@ -107,8 +106,9 @@
     <string name="end_text">Конец</string>
     <string name="cancel_lesson_text">Вы точно хотите отменить занятие?</string>
     <string name="text_btn_cancel_lesson">Отменить занятие</string>
-    <string name="time_8_00">8:00</string>
-    <string name="time_9_00">9:00</string>
+    <string name="time_8_00">08:00</string>
+    <string name="time_9_00">09:00</string>
+
     <string name="time_10_00">10:00</string>
     <string name="time_11_00">11:00</string>
     <string name="time_12_00">12:00</string>
@@ -127,10 +127,38 @@
 
     <string name="start_lesson">Начать занятие</string>
     <string name="end_lesson">Завершить занятие</string>
+    <string name="status_planned">Запланирован</string>
 
     <string name="yyyy_mm_dd_hh_mm_ss">yyyy-MM-dd, HH:mm:ss</string>
     <string name="alert_continue_text">Продолжить</string>
     <string name="leave_a_comment">Оставить комментарий</string>
     <string name="person_full_name">%1$s %2$s %3$s</string>
     <string name="comment_hint">Ваш комментарий</string>
+    <string name="date">10</string>
+    <string name="select_date_enroll_instructor">Выберите дату</string>
+
+    <string-array name="mcv_monthLabels">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
+
+    <string-array name="mcv_weekLabeles">
+        <item>П</item>
+        <item>В</item>
+        <item>С</item>
+        <item>Ч</item>
+        <item>П</item>
+        <item>С</item>
+        <item>В</item>
+    </string-array>
 </resources>

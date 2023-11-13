@@ -18,7 +18,6 @@ class EnrollRepository @Inject constructor(private val enrollApiService: Driving
             emit(UiState.Success(data))
         }
     }.flowOn(Dispatchers.IO)
-
     suspend fun getInstructorById(id: Int): Flow<UiState<InstructorResponse>> = flow {
         emit(UiState.Loading())
         val data = enrollApiService.getInstructorById(id).body()

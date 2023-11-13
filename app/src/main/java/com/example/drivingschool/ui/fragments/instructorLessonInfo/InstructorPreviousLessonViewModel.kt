@@ -12,11 +12,13 @@ import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.repositories.DetailsRepository
 import com.example.drivingschool.data.repositories.InstructorDetailsRepository
 import com.example.drivingschool.tools.UiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class InstructorPreviousLessonViewModel @Inject constructor(
     private val repository: InstructorDetailsRepository
 )  : BaseViewModel() {

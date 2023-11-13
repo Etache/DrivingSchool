@@ -40,21 +40,27 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         navView = binding.navView
+
         val inflater = navHostFragment.navController.navInflater
         navigation = inflater.inflate(R.navigation.nav_graph)
+
         setSupportActionBar(binding.myToolbar)
 
-
         setAppBar()
-
         checkRole()
     }
 
     override fun checkRole() {
-        if (preferences.role == "instructor") {
+        if(preferences.role == "instructor"){
             navView.menu.clear() //clear old inflated items.
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
             navigation.setStartDestination(R.id.instructorMainFragment)
+            navController.navigate(R.id.instructorMainFragment)
+        } else if (preferences.role == "student"){
+            navView.menu.clear()
+            navView.inflateMenu(R.menu.bottom_nav_menu)
+            navigation.setStartDestination(R.id.mainFragment)
+            navController.navigate(R.id.mainFragment)
         }
     }
 
@@ -68,7 +74,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             findNavController(R.id.nav_host_fragment).navigateUp()
-            Toast.makeText(this, "Home button pressed", Toast.LENGTH_SHORT).show()
         }
         return true
     }
@@ -85,9 +90,10 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.currentLessonDetailsFragment,
                 R.id.previousLessonDetailsFragment,
                 R.id.selectInstructorFragment,
+                R.id.checkTimetableFragment,
                 R.id.enrollInstructorFragment,
                 R.id.selectDateTimeFragment,
-                R.id.instructorInfoFragment,
+                R.id.instructorMainFragment
             )
         )
 
@@ -95,17 +101,21 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
                 R.id.enrollFragment -> "Онлайн запись"
-                R.id.currentLessonDetailsFragment -> "Текущие"
-                R.id.previousLessonDetailsFragment -> "Предыдущие"
+                R.id.currentLessonDetailsFragment -> "Текущее занятие"
+                R.id.previousLessonDetailsFragment -> "Предыдущее занятие"
                 R.id.currentLessonDetailsFragment -> "Главная страница"
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
+                R.id.checkTimetableFragment -> "Расписание"
                 R.id.enrollInstructorFragment -> "Расписание"
                 R.id.checkTimetableFragment -> "Расписание"
                 R.id.instructorInfoFragment -> "Онлайн запись"
                 R.id.selectDateTimeFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
+                R.id.instructorMainFragment -> "Главная страница"
+                R.id.instructorCurrentLessonFragment -> "Текущее занятие"
+                R.id.instructorPreviousLessonFragment -> "Предыдущее занятие"
                 else -> "No title"
             }
             if (destination.id == R.id.loginFragment) {

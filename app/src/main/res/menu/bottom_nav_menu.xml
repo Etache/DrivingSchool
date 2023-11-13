@@ -7,7 +7,7 @@
         android:title="@string/main" />
 
     <item
-        android:id="@+id/selectDateTimeFragment"
+        android:id="@+id/selectInstructorFragment"
         android:icon="@drawable/ic_enroll_blue"
         android:title="@string/enroll" />
 

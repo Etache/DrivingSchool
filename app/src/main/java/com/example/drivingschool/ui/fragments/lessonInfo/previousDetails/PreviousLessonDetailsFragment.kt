@@ -42,6 +42,7 @@ class PreviousLessonDetailsFragment :
 
     override val binding by viewBinding(FragmentPreviousLessonDetailsBinding::bind)
     override val viewModel: PreviousLessonDetailsViewModel by viewModels()
+
     private lateinit var lessonId: String
     private lateinit var studentId: String
     private var isCommentCreated: Boolean = false
@@ -50,7 +51,6 @@ class PreviousLessonDetailsFragment :
         lessonId = arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY) ?: "1"
         Log.e("ololo", "initialize: $lessonId")
         viewModel.getDetails(lessonId)
-
 
         binding.tvCommentBody.setOnClickListener {
             if (binding.tvCommentBody.maxHeight > 60) {
@@ -246,7 +246,7 @@ class PreviousLessonDetailsFragment :
     private fun createComment(comment: FeedbackForInstructorRequest) {
         viewModel.saveComment(comment)
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let { showToast("Ваш комментарий отправлен") }
+            it.access?.let { showToast("Ваш комментарий оставлен") }
         }
         viewModel.getDetails(lessonId)
     }

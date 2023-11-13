@@ -91,8 +91,10 @@ class CurrentLessonDetailsFragment :
                                     last
                                 )
                                 tvUserNumber.text = it.data?.instructor?.phone_number
+
                                 tvStartDate.text = formatDate(it.data?.date)
                                 tvEndDate.text = formatDate(it.data?.date)
+
                                 tvStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
@@ -134,7 +136,7 @@ class CurrentLessonDetailsFragment :
                 showAlert()
             }
         } else {
-            showToast("Время начала урока неизвестно!")
+            showToast("Время начала урока неизвестно")
         }
 
     }
@@ -174,7 +176,7 @@ class CurrentLessonDetailsFragment :
             .setTitle("Отмена занятия невозможна")
             .setCancelable(true)
             .setNegativeButton(
-                getString(R.string.alert_continue_text),
+                getString(R.string.ok),
                 DialogInterface.OnClickListener { dialogInterface, i ->
                     dialogInterface.cancel()
                 })
@@ -183,7 +185,7 @@ class CurrentLessonDetailsFragment :
 
     private fun showSuccessCancelAlert() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Ваше занятие отменено.")
+            .setTitle("Ваше занятие отменено")
             .setCancelable(true)
             .setNegativeButton(
                 getString(R.string.ok),
@@ -242,5 +244,4 @@ class CurrentLessonDetailsFragment :
             dialog.show()
         }
     }
-
 }

@@ -5,6 +5,7 @@ import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.sql.Struct
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
@@ -26,6 +27,17 @@ class MainRepository @Inject constructor(
         val response = mainApiService.getPrevious().body()
         if (response != null) {
             emit(UiState.Success(response))
+        } else {
+            emit(UiState.Empty())
+        }
+    }.flowOn(Dispatchers.IO)
+
+
+    suspend fun getCurrentLessonsById(id: String) = flow {
+        emit(UiState.Loading())
+        val response = mainApiService.getCurrentDetailsInstructor(id)
+        if (response.isSuccessful) {
+            emit(UiState.Success(response.body()))
         } else {
             emit(UiState.Empty())
         }

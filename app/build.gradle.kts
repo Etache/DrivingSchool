@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
-    //id("org.jetbrains.kotlin.android.extensions")
 }
 
 android {
@@ -101,10 +100,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // ViewBindingPropertyDelegate
-    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
+    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
 
     // Fragment
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
 
     // CircleImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")
@@ -115,13 +114,11 @@ dependencies {
     // Picasso
     implementation("com.squareup.picasso:picasso:2.8")
 
-    // CompactCalendarView
-    implementation("com.github.sundeepk:compact-calendar-view:3.0.0")
-    implementation("com.jaredrummler:material-spinner:1.3.1")
+    //MaterialCalendarView
+    implementation("com.github.prolificinteractive:material-calendarview:1.4.3")
 
     //Swipe Refresh
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
-
 }
 
 kapt {

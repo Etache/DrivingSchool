@@ -1,45 +1,40 @@
 package com.example.drivingschool.ui.fragments.enroll.selectDate
 
-import android.os.Build
 import android.os.Bundle
+import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
-import androidx.fragment.app.Fragment
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
-import com.example.drivingschool.databinding.FragmentEnrollInstructorBinding
+import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
-import com.example.drivingschool.tools.timePressed
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.adapter.CalendarAdapter
-import java.time.LocalDate
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
-import java.time.temporal.WeekFields
-import java.util.Locale
+import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.adapter.EnrollInstructorAdapter
+import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.EnrollWeekDayFormatter
+import com.example.drivingschool.ui.fragments.enroll.selectDate.adapter.TimeAdapter
+import com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.DayViewDecorator
+import com.prolificinteractive.materialcalendarview.DayViewFacade
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter
+import java.util.Calendar
+
 
 class SelectDateTimeFragment :
-    BaseFragment<FragmentSelectDateTimeBinding, EnrollViewModel>(R.layout.fragment_select_date_time),
-    CalendarAdapter.OnItemListener {
+    BaseFragment<FragmentSelectDateTimeBinding, EnrollViewModel>(R.layout.fragment_select_date_time){
 
     override val binding by viewBinding(FragmentSelectDateTimeBinding::bind)
     override val viewModel: EnrollViewModel by viewModels()
-
-    lateinit var calendarRecyclerView: RecyclerView
-    lateinit var monthYearText: TextView
-    lateinit var selectedDate: LocalDate
-    lateinit var adapter: CalendarAdapter
-
+    private val adapter = TimeAdapter()
+    private lateinit var workWindows : ArrayList<Date>
+    private var dates: ArrayList<String>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,151 +43,80 @@ class SelectDateTimeFragment :
         return inflater.inflate(R.layout.fragment_select_date_time, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //RequiresApi = setMonthView()
-        setMonthView()
+        workWindows = arguments?.getSerializable(SelectInstructorFragment.WORK_WINDOWS) as ArrayList<Date>
+        Log.d("madimadi", "dates in SelectDateTimeFragment: $workWindows")
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun initialize() {
         super.initialize()
-        calendarRecyclerView = binding.calendarRecycler
-        monthYearText = binding.tvMonthYear
-        //RequiresApi = .now()
-        selectedDate = LocalDate.now()
-
-        with(binding){
-            time8.tvTime.text = getString(R.string.time_8_00)
-            time9.tvTime.text = getString(R.string.time_9_00)
-            time10.tvTime.text = getString(R.string.time_10_00)
-            time11.tvTime.text = getString(R.string.time_11_00)
-            time12.tvTime.text = getString(R.string.time_12_00)
-            time13.tvTime.text = getString(R.string.time_13_00)
-            time14.tvTime.text = getString(R.string.time_14_00)
-            time15.tvTime.text = getString(R.string.time_15_00)
-            time16.tvTime.text = getString(R.string.time_16_00)
-            time17.tvTime.text = getString(R.string.time_17_00)
-            time18.tvTime.text = getString(R.string.time_18_00)
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
+        val spacing = 2
+        binding.recyclerView.addItemDecoration(GridSpacingItemDecoration(spacing))
+        with(binding) {
+            val today = CalendarDay.today()
+            calendarView.setDateSelected(today, false)
+            calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
+            calendarView.setTitleFormatter(MonthArrayTitleFormatter(resources.getStringArray(R.array.mcv_monthLabels)))
+            val customWeekDayFormatter = EnrollWeekDayFormatter()
+            calendarView.setWeekDayFormatter(customWeekDayFormatter)
+            calendarView.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
+            cantGoBackMonth()
+            setGrayDaysDecorator(calendarView)
+            calendarView.setDateSelected(today, false);
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun setupListeners() {
         super.setupListeners()
-        with(binding) {
-            btnPreviousMonth.setOnClickListener {
-                //RequiresApi = previousMonthAction(), nextMonthAction()
-                previousMonthAction()
-            }
-            btnNextMonth.setOnClickListener {
-                nextMonthAction()
-            }
-            btnConfirm.setOnClickListener {
-                findNavController().navigate(R.id.enrollFragment)
-            }
-            time8.tvTime.timePressed()
-            time9.tvTime.timePressed()
-            time10.tvTime.timePressed()
-            time11.tvTime.timePressed()
-            time12.tvTime.timePressed()
-            time13.tvTime.timePressed()
-            time14.tvTime.timePressed()
-            time15.tvTime.timePressed()
-            time16.tvTime.timePressed()
-            time17.tvTime.timePressed()
-            time18.tvTime.timePressed()
+        binding.btnConfirm.setOnClickListener {
+            findNavController().navigate(R.id.enrollFragment)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setMonthView() {
-        //RequiresApi = monthYearFromDate()
+    private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {
+        val nextWeekStart = getNextWeekStart()
+        val nextWeekEnd = getNextWeekEnd()
 
-        monthYearText.text = monthYearFromDate(selectedDate)
-        val daysInMonth: ArrayList<String> = daysInMonthArray(selectedDate)
-        //Здесь делаем смещение на 1 день, чтобы показало корректно с изменением на понедельник
-        daysInMonth.removeAt(0)
+        val grayDaysDecorator = object : DayViewDecorator {
+            override fun shouldDecorate(day: CalendarDay): Boolean {
+                return !((day.isAfter(nextWeekStart) || day == nextWeekStart) && (day.isBefore(nextWeekEnd) || day == nextWeekEnd))
+            }
 
-        adapter = CalendarAdapter(daysInMonth, this)
-        calendarRecyclerView.layoutManager = GridLayoutManager(requireContext(), 7)
-
-        val currentWeekNumber = LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear())
-
-        for (i in 0 until adapter.itemCount) {
-            val day = daysInMonth[i]
-            if (day.isNotEmpty()) {
-                val dayInt = day.toInt()
-                val weekNumber = selectedDate.withDayOfMonth(dayInt)
-                    .get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear())
-                if (weekNumber == currentWeekNumber) {
-                    adapter.setItemColor(i, R.color.black)
-                } else {
-                    adapter.setItemColor(i,R.color.gray)
-                }
+            override fun decorate(view: DayViewFacade) {
+                view.addSpan(
+                    ForegroundColorSpan(
+                        resources.getColor(R.color.gray)
+                    )
+                )
+                view.setDaysDisabled(true)
             }
         }
-        calendarRecyclerView.adapter = adapter
-        adapter.notifyDataSetChanged()
+
+        calendarView.addDecorator(grayDaysDecorator)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun monthYearFromDate(date: LocalDate): String {
-        //RequiresApi = ofPattern()
-//        val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
-        val formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale("ru"))
-        val month = date.month.getDisplayName(TextStyle.FULL_STANDALONE, Locale("ru"))
-        return "$month ${date.year}"
+    private fun getNextWeekStart(): CalendarDay {
+        val today = Calendar.getInstance()
+        today.add(Calendar.WEEK_OF_YEAR, 1)
+        today.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        return CalendarDay.from(today)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun formattedDate(date: LocalDate): String {
-        //RequiresApi = .now()
-        val currentDate = LocalDate.now()
-        return monthYearFromDate(currentDate)
+    private fun getNextWeekEnd(): CalendarDay {
+        val today = Calendar.getInstance()
+        today.add(Calendar.WEEK_OF_YEAR, 1)
+        today.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        return CalendarDay.from(today)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
-        val daysInMonthList: ArrayList<String> = arrayListOf()
-        //RequiresApi = .from()
-        val yearMonth = YearMonth.from(date)
-        val daysInMonthLength = yearMonth.lengthOfMonth()
-        val firstOfMonth = selectedDate.withDayOfMonth(1)
-        val dayOfWeek = firstOfMonth.dayOfWeek.value
-
-        for (i in 1..42) {
-            if (i <= dayOfWeek || i > daysInMonthLength + dayOfWeek) {
-                daysInMonthList.add("")
-            } else {
-                daysInMonthList.add((i - dayOfWeek).toString())
-            }
-        }
-        return daysInMonthList
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun previousMonthAction() {
-        //RequiresApi = minusMonths()
-        selectedDate = selectedDate.minusMonths(1)
-        setMonthView()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun nextMonthAction() {
-        //RequiresApi = plusMonths()
-        selectedDate = selectedDate.plusMonths(1)
-        setMonthView()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onItemClick(position: Int, itemText: String) {
-        if (itemText.equals("")) {
-            //ReqiresApi = monthYearFromDate()
-            val message = "Selected date $itemText ${formattedDate(selectedDate)}"
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        }
+    private fun cantGoBackMonth() {
+        val currentDate = Calendar.getInstance()
+        currentDate.set(Calendar.DAY_OF_MONTH, 1)
+        binding.calendarView.state().edit().setMinimumDate(CalendarDay.from(currentDate)).commit()
+        val today = CalendarDay.today()
+        binding.calendarView.setDateSelected(today, true)
     }
 }

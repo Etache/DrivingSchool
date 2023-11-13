@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.drivingschool.R
-import com.example.drivingschool.data.models.WorkWindows
+import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentSelectInstructorBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
@@ -83,15 +82,15 @@ class SelectInstructorFragment : Fragment() {
         }
     }
 
-    fun onClick(workWindows: WorkWindows, name : String) {
+    fun onClick(workWindows: ArrayList<Date>, name : String) {
         val bundle = Bundle()
         bundle.putString(FULL_NAME, name)
-        bundle.putSerializable(WORK_WINDOWS_KEY, workWindows)
+        bundle.putSerializable(WORK_WINDOWS, workWindows)
         findNavController().navigate(R.id.selectDateTimeFragment, bundle)
     }
 
     companion object {
-        const val WORK_WINDOWS_KEY = "work_windows_key"
+        const val WORK_WINDOWS = "work_windows"
         const val FULL_NAME = "full_name_key"
     }
 }

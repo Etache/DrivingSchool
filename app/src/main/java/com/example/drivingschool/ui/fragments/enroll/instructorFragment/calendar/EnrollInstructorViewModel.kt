@@ -3,4 +3,6 @@ package com.example.drivingschool.ui.fragments.enroll.instructorFragment.calenda
 import com.example.drivingschool.base.BaseViewModel
 
 class EnrollInstructorViewModel: BaseViewModel() {
+
+
 }

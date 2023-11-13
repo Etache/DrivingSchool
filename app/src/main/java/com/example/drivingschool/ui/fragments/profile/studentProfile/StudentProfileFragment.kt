@@ -126,9 +126,6 @@ class StudentProfileFragment : Fragment() {
             builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
                 when (which) {
                     0 -> {
-//                        val intent = Intent(Intent.ACTION_PICK)
-//                        intent.type = "image/*"
-//                        startActivityForResult(intent, PICK_IMAGE_REQUEST)
                         val intent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                         pickImageResult.launch(intent)
@@ -136,8 +133,6 @@ class StudentProfileFragment : Fragment() {
 
                     1 -> {
                         viewModel.deleteProfilePhoto()
-                        //binding.ivProfile.setBackgroundResource(R.drawable.ic_default_photo)
-                        //delete photo from api also....
                     }
                 }
             }

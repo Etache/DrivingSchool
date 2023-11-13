@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -64,6 +65,12 @@ class InstructorProfileFragment : Fragment() {
         pickImageFromGallery()
         changePasswordInstructor()
         logoutInstructor()
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private val pickImageResult =
@@ -195,6 +202,7 @@ class InstructorProfileFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getInstructorProfileData() {
         viewModel.getInstructorProfile()
         lifecycleScope.launch {
@@ -212,7 +220,22 @@ class InstructorProfileFragment : Fragment() {
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber
-                        binding.tvExperience.text = state.data?.experience.toString()
+
+                        val experience = state.data?.experience
+                        if (experience != null) {
+                            when (experience) {
+                                in 1..4 -> {
+                                    binding.tvExperience.text = "$experience года"
+                                }
+                                in 5..9 -> {
+                                    binding.tvExperience.text = "$experience лет"
+                                }
+                                else -> {
+                                    binding.tvExperience.text = "$experience лет"
+                                }
+                            }
+                        }
+
                         binding.tvCar.text = state.data?.car
                         Log.d("madimadi", "getInstructorProfileData in Fragment: ${state.data}")
                         Log.d("madimadi", "tokenInstructor in Fragment: ${preferences.accessToken}")

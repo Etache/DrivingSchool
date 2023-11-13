@@ -3,6 +3,7 @@ package com.example.drivingschool.ui.fragments.main.mainExplore
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.mainresponse.Lessons
+import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.repositories.MainRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,10 @@ class MainExploreViewModel @Inject constructor(
     private val _previousState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
     val previousState = _previousState.asStateFlow()
 
+
+    private val _currentDetailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
+    val currentDetailsState = _currentDetailsState.asStateFlow()
+
     init {
         getCurrent()
         getPrevious()
@@ -38,4 +43,10 @@ class MainExploreViewModel @Inject constructor(
             _previousState.value = it
         }
     }
+    fun getCurrentById(id: String) = viewModelScope.launch {
+        repository.getCurrentLessonsById(id).collect {
+            _currentDetailsState.value = it
+        }
+    }
+
 }
