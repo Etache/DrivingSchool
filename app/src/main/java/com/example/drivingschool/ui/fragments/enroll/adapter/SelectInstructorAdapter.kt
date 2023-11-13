@@ -29,7 +29,18 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
         fun bind(instructor: InstructorResponse) {
             binding.tvName.text = instructor.name
             binding.tvSurname.text = instructor.surname
-            binding.tvExpience.text = instructor.experience.toString()
+
+            when (val experience = instructor.experience) {
+                in 1..4 -> {
+                    binding.tvExpience.text = "$experience года"
+                }
+                in 5..9 -> {
+                    binding.tvExpience.text = "$experience лет"
+                }
+                else -> {
+                    binding.tvExpience.text = "$experience лет"
+                }
+            }
             binding.rbRating.rating = instructor.rate!!.toFloat()
 
             val httpsImageUrl = instructor.profilePhoto //replace("http://", "https://")
@@ -71,4 +82,5 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
     companion object {
         const val ID_KEY = "id"
     }
+
 }
