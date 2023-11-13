@@ -119,6 +119,9 @@ dependencies {
     implementation("com.github.sundeepk:compact-calendar-view:3.0.0")
     implementation("com.jaredrummler:material-spinner:1.3.1")
 
+    //Swipe Refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+
 }
 
 kapt {
