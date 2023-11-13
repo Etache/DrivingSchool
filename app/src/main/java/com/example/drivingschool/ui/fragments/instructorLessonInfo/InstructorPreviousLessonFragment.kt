@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -44,6 +45,7 @@ class InstructorPreviousLessonFragment :
 
     private lateinit var lessonId: String
     private lateinit var instructorId: String
+    private var isCommentCreated: Boolean = false
 
     override fun initialize() {
         lessonId = arguments?.getString(BundleKeys.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY) ?: "1"
@@ -59,10 +61,11 @@ class InstructorPreviousLessonFragment :
             }
         }
 
-        binding.btnComment.setOnClickListener {
-            showCustomDialog()
-        }
         showImage()
+
+        binding.btnComment.setOnClickListener {
+            if (!isCommentCreated) showCustomDialog()
+        }
     }
 
 
@@ -118,26 +121,45 @@ class InstructorPreviousLessonFragment :
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(circleImageView)
 
-
                                 if (it.data?.feedbackForStudent != null) {
+                                    isCommentCreated = true
+                                    binding.btnComment.apply {
+                                        isClickable = false
+                                        setBackgroundColor(
+                                            ContextCompat.getColor(
+                                                requireContext(),
+                                                R.color.light_gray
+                                            )
+                                        )
+                                        setTextColor(
+                                            ContextCompat.getColor(
+                                                requireContext(),
+                                                R.color.dark_gray_text
+                                            )
+                                        )
+                                    }
+
+                                }
+
+                                if (it.data?.feedbackForInstructor != null) {
                                     containerComment.viewVisibility(true)
                                     val lastILN =
-                                        it.data?.feedbackForStudent?.instructor?.lastname ?: ""
+                                        it.data?.feedbackForInstructor?.student?.lastname ?: ""
                                     tvCommentTitle.text =
                                         getString(
                                             R.string.person_full_name,
-                                            it.data?.feedbackForStudent?.instructor?.surname,
-                                            it.data?.feedbackForStudent?.instructor?.name,
+                                            it.data?.feedbackForInstructor?.student?.surname,
+                                            it.data?.feedbackForInstructor?.student?.name,
                                             lastILN
                                         )
-                                    tvCommentBody.text = it.data?.feedbackForStudent?.text
+                                    tvCommentBody.text = it.data?.feedbackForInstructor?.text
                                     tvCommentDate.text =
-                                        formatDateTime(it.data?.feedbackForStudent?.created_at!!)
+                                        formatDateTime(it.data?.feedbackForInstructor?.created_at!!)
                                     rbCommentSmall.rating =
-                                        it.data?.feedbackForStudent?.mark?.toInt()!!.toFloat()
+                                        it.data?.feedbackForInstructor?.mark?.toInt()!!.toFloat()
                                     Log.e("ololo", "setupSubscribes: full ${it.data}")
                                     val httpToHttps =
-                                        it.data?.feedbackForStudent?.instructor?.profile_photo?.replace(
+                                        it.data?.feedbackForInstructor?.student?.profile_photo?.replace(
                                             "http://",
                                             "https://"
                                         )
@@ -196,6 +218,7 @@ class InstructorPreviousLessonFragment :
         val edt = customDialog.findViewById<EditText>(R.id.et_comment_text)
         val counter = customDialog.findViewById<TextView>(R.id.tv_comment_character_count)
         val btn = customDialog.findViewById<Button>(R.id.btn_comment_confirm)
+
         val headerText = header.text.toString()
         header.text = headerText.replace("инструктору", "студенту")
 
@@ -209,26 +232,29 @@ class InstructorPreviousLessonFragment :
             override fun afterTextChanged(p0: Editable?) {}
         })
 
+        val dialog = builder.create()
+
         btn.setOnClickListener {
             createComment(
                 FeedbackForStudentRequest(
                     lesson = lessonId.toInt(),
-                    instructor = instructorId.toInt(),
+                    student = instructorId.toInt(),
                     text = edt.text.toString(),
                     mark = rating.rating.toInt()
                 )
             )
+            dialog.dismiss()
         }
 
-        val dialog = builder.create()
         dialog.show()
     }
 
     private fun createComment(comment: FeedbackForStudentRequest) {
         viewModel.saveComment(comment)
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.status?.let { showToast(it) }
+            it.access?.let { showToast("Ваш комментарий оставлен") }
         }
+        viewModel.getDetails(lessonId)
     }
 
     @SuppressLint("SimpleDateFormat")

@@ -91,8 +91,10 @@ class CurrentLessonDetailsFragment :
                                     last
                                 )
                                 tvUserNumber.text = it.data?.instructor?.phone_number
+
                                 tvStartDate.text = formatDate(it.data?.date)
                                 tvEndDate.text = formatDate(it.data?.date)
+
                                 tvStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 

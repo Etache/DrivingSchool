@@ -66,7 +66,7 @@
         tools:layout="@layout/fragment_check_timetable" />
     <fragment
         android:id="@+id/instructorCurrentLessonFragment"
-        android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorCurrentLessonFragment"
+        android:name="com.example.drivingschool.ui.fragments.instructorLessonInfo.InstructorCurrentLessonFragment"
         tools:layout="@layout/fragment_instructor_current_lesson" />
     <fragment
         android:id="@+id/instructorMainFragment"

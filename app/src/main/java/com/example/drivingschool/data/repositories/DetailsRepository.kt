@@ -45,5 +45,4 @@ class DetailsRepository @Inject constructor(
         Log.e("ololo", "repositorySaveComment: $data")
     }
 
-
 }

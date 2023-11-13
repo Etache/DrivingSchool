@@ -1,6 +1,7 @@
 package com.example.drivingschool.data.repositories
 
 import android.util.Log
+import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
@@ -14,7 +15,7 @@ class InstructorDetailsRepository @Inject constructor(
 ) {
     suspend fun getPreviousDetails(id: String) = flow {
         emit(UiState.Loading())
-        val response = apiService.getInstructorPrevious(id)
+        val response = apiService.getPreviousDetailsInstructor(id)
         Log.e("ololo", "getLessonDetails: ${response.body()}")
         if (response.isSuccessful) {
             emit(UiState.Success(response.body()))
@@ -24,6 +25,8 @@ class InstructorDetailsRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     suspend fun saveComment(comment: FeedbackForStudentRequest) = flow {
-        emit(apiService.createInstructorComment(comment = comment).body())
+        val data = apiService.createInstructorComment(comment = comment).body()
+        emit(data)
+        Log.e("ololo", "repositorySaveComment: $data")
     }
 }

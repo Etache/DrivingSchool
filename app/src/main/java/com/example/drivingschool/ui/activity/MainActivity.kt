@@ -101,8 +101,8 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
                 R.id.enrollFragment -> "Онлайн запись"
-                R.id.currentLessonDetailsFragment -> "Текущие"
-                R.id.previousLessonDetailsFragment -> "Предыдущие"
+                R.id.currentLessonDetailsFragment -> "Текущее занятие"
+                R.id.previousLessonDetailsFragment -> "Предыдущее занятие"
                 R.id.currentLessonDetailsFragment -> "Главная страница"
                 R.id.previousLessonDetailsFragment -> "Главная страница"
                 R.id.selectInstructorFragment -> "Онлайн запись"
@@ -113,7 +113,9 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.selectDateTimeFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
-                R.id.instructorMainFragment -> "Главная страница (инструктор)" //just to check
+                R.id.instructorMainFragment -> "Главная страница"
+                R.id.instructorCurrentLessonFragment -> "Текущее занятие"
+                R.id.instructorPreviousLessonFragment -> "Предыдущее занятие"
                 else -> "No title"
             }
             if (destination.id == R.id.loginFragment) {

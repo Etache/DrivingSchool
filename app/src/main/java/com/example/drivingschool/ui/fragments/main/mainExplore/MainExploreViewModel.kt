@@ -42,7 +42,7 @@ class MainExploreViewModel @Inject constructor(
             _previousState.value = it
         }
     }
-    fun getCurrentById(id: Int) = viewModelScope.launch {
+    fun getCurrentById(id: String) = viewModelScope.launch {
         repository.getCurrentLessonsById(id).collect {
             _currentDetailsState.value = it
         }

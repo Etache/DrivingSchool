@@ -46,11 +46,14 @@ interface DrivingApiService {
     @GET("lessons/details/{id}")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/current/")
-    suspend fun getCurrent(): Response<Lessons>
+    @GET("lessons/details/{id}")
+    suspend fun getCurrentDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
     @GET("lessons/details/{id}")
-    suspend fun getCurrentById(@Path("id") id: Int): Response<LessonsItem>
+    suspend fun getPreviousDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
+
+    @GET("lessons/current/")
+    suspend fun getCurrent(): Response<Lessons>
 
     @GET("lessons/previous/")
     suspend fun getPrevious(): Response<Lessons>
@@ -79,9 +82,6 @@ interface DrivingApiService {
 
     @POST("feedbacks/instructor/create/")
     suspend fun createComment(@Body comment: FeedbackForInstructorRequest): Response<FeedbackForInstructorResponse>
-
-    @GET("lessons/details/{id}")
-    suspend fun getInstructorPrevious(@Path("id") id: String): Response<LessonsItem>
 
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>

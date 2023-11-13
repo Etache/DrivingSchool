@@ -1,19 +1,27 @@
 package com.example.drivingschool.ui.fragments.instructorMain.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
-import com.example.drivingschool.databinding.InstructorMainItemBinding
+import com.example.drivingschool.databinding.ItemMainBinding
+import com.example.drivingschool.ui.fragments.main.lesson.LessonStatus
+import com.example.drivingschool.ui.fragments.main.lesson.LessonType
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-
-class InstructorLessonAdapter(private val onClick: (String) -> Unit) :
-    RecyclerView.Adapter<InstructorLessonAdapter.LessonViewHolder>() {
+class InstructorLessonAdapter(
+    private val onClick: (String) -> Unit,
+    private val context: Context,
+    private val lessonType: LessonType?
+) :
+    RecyclerView.Adapter<InstructorLessonAdapter.ViewHolder>() {
 
     private var lessons = arrayListOf<LessonsItem>()
 
@@ -23,52 +31,9 @@ class InstructorLessonAdapter(private val onClick: (String) -> Unit) :
         notifyDataSetChanged()
     }
 
-    inner class LessonViewHolder(private val binding: InstructorMainItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("SetTextI18n", "ResourceAsColor")
-        fun bind(lesson: LessonsItem) {
-            Log.e("ahahaha", "InstructorLessonAdapter: ${lesson}", )
-            binding.apply {
-                tvTitle.text = "${lesson.student?.surname} ${lesson.student?.name} ${lesson.student?.lastname}"
-                tvDate.text = lesson.date
-                tvTime.text = lesson.time
-
-                val status = lesson.status
-                val statusString = tvLessonStatus
-                when(status) {
-                    "finished" -> {
-                        statusString.text = "Завершен"
-                        statusString.setTextColor(R.color.blue)
-                    }
-                    "active" -> {
-                        statusString.text = "Активен"
-                        statusString.setTextColor(R.color.green)
-                    }
-                    "planned" -> {
-                        statusString.text = "Запланирован"
-                        statusString.setTextColor(R.color.blue)
-                    }
-                    "canceled" -> {
-                        statusString.text = "Отменен"
-                        statusString.setTextColor(R.color.red)
-                    }
-                }
-            }
-
-            itemView.setOnClickListener {
-                it.findNavController().navigate(R.id.instructorCurrentLessonFragment,
-                    bundleOf(ID_KEY to lesson.id)
-                )
-
-                onClick(lesson.id.toString())
-            }
-
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LessonViewHolder {
-        return LessonViewHolder(
-            InstructorMainItemBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            ItemMainBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -76,13 +41,79 @@ class InstructorLessonAdapter(private val onClick: (String) -> Unit) :
         )
     }
 
-    override fun onBindViewHolder(holder: LessonViewHolder, position: Int) {
-        holder.bind(lessons[position])
-    }
-
     override fun getItemCount() = lessons.size
 
-    companion object {
-        const val ID_KEY = "id"
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(lessons[position], position)
+    }
+
+    inner class ViewHolder(private val binding: ItemMainBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(lesson: LessonsItem, position: Int) {
+            binding.apply {
+                val last = lesson.student?.lastname ?: ""
+                tvTitle.text = "${lesson.student?.surname} ${lesson.student?.name} $last"
+                tvDate.text = formatDate(lesson.date)
+                tvTime.text = timeWithoutSeconds(lesson.time)
+                tvStatus.text = getStatus(lesson.status, binding.tvStatus, context)
+            }
+            if (position == 0 && lessonType == LessonType.Current) {
+                binding.apply {
+                    tvTitle.setTextColor(ContextCompat.getColor(context, R.color.black))
+                    dividerView.setBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.black
+                        )
+                    )
+                }
+            }
+
+            itemView.setOnClickListener {
+                onClick(lesson.id.toString())
+            }
+        }
+
+        private fun getStatus(status: String?, tvStatus: TextView, context: Context): String {
+            return when (status) {
+                LessonStatus.PLANNED.status -> {
+                    tvStatus.setTextColor(ContextCompat.getColor(context, R.color.bright_blue))
+                    "Запланирован"
+                }
+
+                LessonStatus.ACTIVE.status -> {
+                    tvStatus.setTextColor(ContextCompat.getColor(context, R.color.green))
+                    "Активен"
+                }
+
+                LessonStatus.CANCELED.status -> {
+                    tvStatus.setTextColor(ContextCompat.getColor(context, R.color.red))
+                    "Отменен"
+                }
+
+                LessonStatus.FINISHED.status -> {
+                    tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
+                    "Прошедший"
+                }
+
+                else -> {
+                    tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
+                    "Неизвестный статус"
+                }
+            }
+        }
+
+        private fun timeWithoutSeconds(inputTime: String?): String {
+            val timeParts = inputTime?.split(":")
+            return "${timeParts?.get(0)}:${timeParts?.get(1)}"
+        }
+
+        private fun formatDate(inputDate: String?): String {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = inputFormat.parse(inputDate) ?: return ""
+
+            val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+            return outputFormat.format(date).replaceFirstChar { it.uppercase() }
+        }
     }
 }
