@@ -3,8 +3,8 @@ package com.example.drivingschool.data.models
 import com.google.gson.annotations.SerializedName
 
 data class FeedbackForInstructorRequest(
-    @SerializedName("student")
-    val student: Int,
+    @SerializedName("instructor")
+    val instructor: Int,
     @SerializedName("lesson")
     val lesson: Int,
     @SerializedName("text")

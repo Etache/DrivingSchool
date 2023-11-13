@@ -1,5 +1,6 @@
 package com.example.drivingschool.data.models
 
 data class FeedbackForInstructorResponse(
-    val status: String? = null,
+    val access: String? = null,
+    val error: String? = null,
 )
