@@ -51,7 +51,6 @@ class PreviousLessonDetailsFragment :
         Log.e("ololo", "initialize: $lessonId")
         viewModel.getDetails(lessonId)
 
-
         binding.tvCommentBody.setOnClickListener {
             if (binding.tvCommentBody.maxHeight > 60) {
                 binding.tvCommentBody.maxHeight = 60

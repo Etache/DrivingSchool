@@ -41,7 +41,7 @@ class CheckTimetableFragment :
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Расписание составлено")
             builder.setPositiveButton("Ok",DialogInterface.OnClickListener { dialog, which ->
-                findNavController().navigate(R.id.mainFragment)
+                findNavController().navigate(R.id.instructorMainFragment)
             }).create().show()
         }
     }
