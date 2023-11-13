@@ -47,6 +47,11 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         if(preferences.role == "instructor"){
             navView.menu.clear() //clear old inflated items.
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
+            navController.navigate(R.id.instructorMainFragment)
+        } else if (preferences.role == "student"){
+            navView.menu.clear()
+            navView.inflateMenu(R.menu.bottom_nav_menu)
+            navController.navigate(R.id.mainFragment)
         }
     }
 
@@ -79,6 +84,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.selectInstructorFragment,
                 R.id.enrollInstructorFragment,
                 R.id.selectDateTimeFragment,
+                R.id.instructorMainFragment
 
             )
         )
@@ -98,6 +104,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.selectDateTimeFragment -> "Онлайн запись"
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
+                R.id.instructorMainFragment -> "Главная страница (инструктор)"
                 else -> "No title"
             }
             if (destination.id == R.id.loginFragment) {

@@ -38,8 +38,6 @@ class InstructorMainExploreFragment :
         adapter = InstructorLessonAdapter(this::onClick)
         binding.rvLessonsList.adapter = adapter
 
-        Log.d("ahahaha", "данные на InstructorMainExploreFragment initialize")
-
         lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
             it.getSerializable(BUNDLE_LESSON_TYPE) as? LessonType
         }

@@ -1,6 +1,5 @@
 package com.example.drivingschool.ui.fragments.main.mainExplore
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.mainresponse.Lessons
@@ -24,6 +23,7 @@ class MainExploreViewModel @Inject constructor(
     private val _previousState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
     val previousState = _previousState.asStateFlow()
 
+
     private val _currentDetailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
     val currentDetailsState = _currentDetailsState.asStateFlow()
 
@@ -42,7 +42,6 @@ class MainExploreViewModel @Inject constructor(
         repository.getPreviousLessons().collect {
             _previousState.value = it
         }
-        Log.d("ahahaha", "данные на MainExploreViewModel")
     }
 
     fun getCurrentById(id: Int) = viewModelScope.launch {

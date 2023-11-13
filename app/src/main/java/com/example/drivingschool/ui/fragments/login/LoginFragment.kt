@@ -95,7 +95,11 @@ class LoginFragment : Fragment() {
                             preferences.isLoginSuccess = true
                             preferences.password = binding.etPassword.text.toString()
                             callback?.checkRole()
-                            findNavController().navigate(R.id.mainFragment)
+                            if (preferences.role == "instructor"){
+                                findNavController().navigate(R.id.instructorMainFragment)
+                            } else if (preferences.role == "student"){
+                                findNavController().navigate(R.id.mainFragment)
+                            }
                         }
                     }
 
