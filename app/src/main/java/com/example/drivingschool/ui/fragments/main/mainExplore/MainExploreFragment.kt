@@ -46,11 +46,19 @@ class MainExploreFragment :
         else if (lessonType == LessonType.Previous) initPreviousLessonSections()
 
         binding.swipeRefresh.setOnRefreshListener {
-            if (lessonType == LessonType.Current) viewModel.getCurrent()
-            else if (lessonType == LessonType.Previous) viewModel.getPrevious()
+            dataRefresh()
             binding.swipeRefresh.isRefreshing = false
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dataRefresh()
+    }
+    private fun dataRefresh() {
+        if (lessonType == LessonType.Current) viewModel.getCurrent()
+        else if (lessonType == LessonType.Previous) viewModel.getPrevious()
     }
 
     private fun onClick(id: String) {
