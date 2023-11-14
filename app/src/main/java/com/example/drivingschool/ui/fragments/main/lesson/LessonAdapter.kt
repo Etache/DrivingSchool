@@ -91,7 +91,7 @@ class LessonAdapter(
 
                 LessonStatus.FINISHED.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
-                    "Прошедший"
+                    "Завершен"
                 }
 
                 else -> {
