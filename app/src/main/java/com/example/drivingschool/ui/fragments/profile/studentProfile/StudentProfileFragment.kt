@@ -64,11 +64,16 @@ class StudentProfileFragment : Fragment() {
             findNavController().navigate(R.id.instructorProfileFragment)
         } else {
             getProfileData()
-            showImage()
+            //showImage()
             pickImageFromGallery()
             changePassword()
             logout()
         }
+
+//        binding.swipeRefresh.setOnRefreshListener {
+//            viewModel.getProfile()
+//            binding.swipeRefresh.isRefreshing = false
+//        }
     }
 
     private val pickImageResult =
@@ -95,22 +100,22 @@ class StudentProfileFragment : Fragment() {
             }
         }
 
-    private fun showImage() {
-        binding.ivProfile.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(true)
-            dialog.setContentView(R.layout.show_photo_profile)
-            val image = dialog.findViewById<ImageView>(R.id.image)
-            if (binding.ivProfile.drawable != null) {
-                image.setImageBitmap((binding.ivProfile.drawable as BitmapDrawable).bitmap)
-            } else {
-                image.setImageResource(R.drawable.ic_default_photo)
-            }
-            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
-            dialog.show()
-        }
-    }
+//    private fun showImage() {
+//        binding.ivProfile.setOnClickListener {
+//            val dialog = Dialog(requireContext())
+//            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//            dialog.setCancelable(true)
+//            dialog.setContentView(R.layout.show_photo_profile)
+//            val image = dialog.findViewById<ImageView>(R.id.image)
+//            if (binding.ivProfile.drawable != null) {
+//                image.setImageBitmap((binding.ivProfile.drawable as BitmapDrawable).bitmap)
+//            } else {
+//                image.setImageResource(R.drawable.ic_default_photo)
+//            }
+//            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
+//            dialog.show()
+//        }
+//    }
 
     private fun changePassword() {
         binding.btnChangePassword.setOnClickListener {
@@ -133,6 +138,7 @@ class StudentProfileFragment : Fragment() {
 
                     1 -> {
                         viewModel.deleteProfilePhoto()
+                        binding.ivProfile.setImageDrawable(null)
                     }
                 }
             }

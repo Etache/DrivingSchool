@@ -71,6 +71,11 @@ class InstructorProfileFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getProfile()
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     private val pickImageResult =
