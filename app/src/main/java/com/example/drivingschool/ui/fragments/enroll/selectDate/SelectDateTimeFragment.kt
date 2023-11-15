@@ -115,15 +115,18 @@ class SelectDateTimeFragment :
                     if(dates.date == outputDateString) {
                         val timesList : ArrayList<TimeInWorkWindows> = arrayListOf()
                         dates.times.forEach{ times ->
-                            timesList.add(times)
-                            //Log.d("madimadi", "list: arrayListOf(Time(times.time, true, false))")
-                        }
-                        timesList.forEach{time ->
-                            val inputTime = LocalTime.parse(time.time, DateTimeFormatter.ofPattern("HH:mm:ss"))
+                            val inputTime = LocalTime.parse(times.time, DateTimeFormatter.ofPattern("HH:mm:ss"))
                             val convertedTime = inputTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-                            time.time = convertedTime
-                            Log.d("madimadi", "convertedTime: ${time.time}")
+                            var selectedTime = TimeInWorkWindows(convertedTime, times.isFree)
+                            timesList.add(selectedTime)
+                            Log.d("madimadi", "convertedTime: $selectedTime")
                         }
+//                        timesList.forEach{time ->
+//                            val inputTime = LocalTime.parse(dates.times, DateTimeFormatter.ofPattern("HH:mm:ss"))
+//                            val convertedTime = inputTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+//                            time.time = convertedTime
+//                            Log.d("madimadi", "convertedTime: ${time.time}")
+//                        }
                         adapter.setTimesList(timesList)
                     }
                 }

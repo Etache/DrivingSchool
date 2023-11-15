@@ -102,7 +102,7 @@ class InstructorInfoFragment : Fragment() {
                         }
 
 
-                        val httpsImageUrl = state.data?.profilePhoto?.replace("http://", "https://")
+                        val httpsImageUrl = state.data?.profilePhoto?.small?.replace("http://", "https://")
                         Picasso.get()
                             .load(httpsImageUrl)
                             .placeholder(R.drawable.ic_default_photo)
