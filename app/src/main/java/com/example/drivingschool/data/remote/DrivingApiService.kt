@@ -2,6 +2,7 @@ package com.example.drivingschool.data.remote
 
 import com.example.drivingschool.data.models.CancelRequest
 import com.example.drivingschool.data.models.CancelResponse
+import com.example.drivingschool.data.models.EnrollLessonResponse
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
@@ -85,4 +86,7 @@ interface DrivingApiService {
 
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
+
+    @POST("lessons/create/")
+    suspend fun enrollForLesson(@Body enrollResponse : EnrollLessonResponse) : Response<String>
 }
