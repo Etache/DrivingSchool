@@ -14,10 +14,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainExploreViewModel @Inject constructor(
-    private val repository: MainRepository
+    private val repository: MainRepository,
 ) : BaseViewModel() {
 
-    private val _currentState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
+        private val _currentState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
     val currentState = _currentState.asStateFlow()
 
     private val _previousState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
@@ -27,10 +27,6 @@ class MainExploreViewModel @Inject constructor(
     private val _currentDetailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
     val currentDetailsState = _currentDetailsState.asStateFlow()
 
-    init {
-        getCurrent()
-        getPrevious()
-    }
 
     fun getCurrent() = viewModelScope.launch {
         repository.getCurrentLessons().collect {

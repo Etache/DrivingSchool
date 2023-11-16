@@ -46,9 +46,9 @@ class CheckTimetableAdapter : RecyclerView.Adapter<CheckTimetableViewHolder>() {
             //логика по получению данных от бека и засетивание в recyclerView(для этого нужна модель,
             //пока не сделал)
             val stringAfterEdit = buildString {
-                append(getDayOfWeek(dateAndTime[bindingAdapterPosition]))
-                append(" ")
-                append(dateAndTime[bindingAdapterPosition])
+//                append(getDayOfWeek(dateAndTime[bindingAdapterPosition]))
+//                append(" ")
+//                append(dateAndTime[bindingAdapterPosition])
             }
             val stringAfterSpannable = SpannableString(stringAfterEdit)
             stringAfterSpannable.setSpan(StyleSpan(Typeface.BOLD), 0,13, 0)

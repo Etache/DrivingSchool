@@ -34,7 +34,7 @@ class EnrollInstructorAdapter : RecyclerView.Adapter<TimeViewHolder>() {
         ViewHolder(binding.root) {
 
         fun onBind(text: String) {
-            binding.tvTime.text = timeArrayList[bindingAdapterPosition]
+//            binding.tvTime.text = timeArrayList[bindingAdapterPosition]
             binding.tvTime.timePressed()
         }
     }

@@ -64,6 +64,7 @@ class PreviousLessonDetailsFragment :
 
         binding.btnComment.setOnClickListener {
             if (!isCommentCreated) showCustomDialog()
+            else binding.btnComment.viewVisibility(false)
         }
     }
 
@@ -191,7 +192,7 @@ class PreviousLessonDetailsFragment :
     }
 
     private fun formatDateTime(createdAt: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX", Locale.ENGLISH)
+        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_t_hh_mm_ss_ssssssx), Locale.ENGLISH)
         val date = inputFormat.parse(createdAt)
 
         val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
@@ -200,7 +201,6 @@ class PreviousLessonDetailsFragment :
         calendar.time = date
 
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        // Получаем месяц из отформатированной даты
         val month = formattedDate.split(" ")[1]
         return "$day $month"
     }
@@ -246,7 +246,7 @@ class PreviousLessonDetailsFragment :
     private fun createComment(comment: FeedbackForInstructorRequest) {
         viewModel.saveComment(comment)
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let { showToast("Ваш комментарий оставлен") }
+            it.access?.let { showToast(getString(R.string.your_comment_saved)) }
         }
         viewModel.getDetails(lessonId)
     }
