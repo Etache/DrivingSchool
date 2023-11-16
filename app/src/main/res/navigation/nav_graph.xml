@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.drivingschool.ui.fragments.login.LoginFragment"
-        tools:layout="@layout/fragment_login"
-        />
+        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.drivingschool.ui.fragments.main.MainFragment"
@@ -67,23 +66,23 @@
         tools:layout="@layout/fragment_check_timetable" />
     <fragment
         android:id="@+id/instructorCurrentLessonFragment"
-        android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorCurrentLessonFragment"
-        android:label="Текущее занятие"
+        android:name="com.example.drivingschool.ui.fragments.instructorLessonInfo.InstructorCurrentLessonFragment"
         tools:layout="@layout/fragment_instructor_current_lesson" />
     <fragment
         android:id="@+id/instructorMainFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorMainFragment"
-        android:label="Главная страница"
         tools:layout="@layout/fragment_instructor_main" />
-    <fragment
-        android:id="@+id/enrollFragment"
-        android:name="com.example.drivingschool.ui.fragments.enroll.confirmEnroll.EnrollFragment"
-        android:label="fragment_enroll"
-        tools:layout="@layout/fragment_enroll" />
     <fragment
         android:id="@+id/instructorMainExploreFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorMainExploreFragment"
-        android:label="Главная страница"
         tools:layout="@layout/fragment_instructor_main_explore" />
+    <fragment
+        android:id="@+id/enrollFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.confirmEnroll.EnrollFragment"
+        tools:layout="@layout/fragment_enroll" />
+    <fragment
+        android:id="@+id/instructorPreviousLessonFragment"
+        android:name="com.example.drivingschool.ui.fragments.instructorLessonInfo.InstructorPreviousLessonFragment"
+        tools:layout="@layout/fragment_instructor_previous_lesson" />
 
 </navigation>

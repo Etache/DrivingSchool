@@ -1,14 +1,24 @@
 package com.example.drivingschool.data.remote
 
+import com.example.drivingschool.data.models.CancelRequest
+import com.example.drivingschool.data.models.CancelResponse
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
+import com.example.drivingschool.data.models.FeedbackForInstructorRequest
+import com.example.drivingschool.data.models.FeedbackForInstructorResponse
+import com.example.drivingschool.data.models.FeedbackForStudentRequest
+import com.example.drivingschool.data.models.FeedbackForStudentResponse
+import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
+import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
+import com.example.drivingschool.data.models.start_finish_lesson.StartLessonRequest
+import com.example.drivingschool.data.models.start_finish_lesson.StartLessonResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -37,14 +47,23 @@ interface DrivingApiService {
     @GET("lessons/details/{id}")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
 
+    @PUT("lessons/start/")
+    suspend fun startlesson(@Body startLessonRequest: StartLessonRequest): Response<StartLessonResponse>
+
+    @PUT("lessons/finish/")
+    suspend fun finishLesson(@Body finishLessonRequest: FinishLessonRequest): Response<FinishLessonResponse>
+
     @GET("lessons/details/{id}")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/current/")
-    suspend fun getCurrent(): Response<Lessons>
+    @GET("lessons/details/{id}")
+    suspend fun getCurrentDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
     @GET("lessons/details/{id}")
-    suspend fun getCurrentById(@Path("id") id: Int): Response<LessonsItem>
+    suspend fun getPreviousDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
+
+    @GET("lessons/current/")
+    suspend fun getCurrent(): Response<Lessons>
 
     @GET("lessons/previous/")
     suspend fun getPrevious(): Response<Lessons>
@@ -68,4 +87,12 @@ interface DrivingApiService {
     @DELETE("delete_pp/")
     suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
 
+    @PUT("lessons/cancel/")
+    suspend fun cancelLesson(@Body cancelRequest: CancelRequest): Response<CancelResponse>
+
+    @POST("feedbacks/instructor/create/")
+    suspend fun createComment(@Body comment: FeedbackForInstructorRequest): Response<FeedbackForInstructorResponse>
+
+    @POST("feedbacks/student/create/")
+    suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
 }

@@ -3,7 +3,6 @@ package com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTa
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentCheckTimetableBinding
-import com.example.drivingschool.databinding.FragmentEnrollInstructorBinding
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.EnrollInstructorViewModel
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.adapter.CalendarAdapter
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.adapter.CheckTimetableAdapter
 
 class CheckTimetableFragment :
@@ -45,7 +41,7 @@ class CheckTimetableFragment :
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Расписание составлено")
             builder.setPositiveButton("Ok",DialogInterface.OnClickListener { dialog, which ->
-                findNavController().navigate(R.id.mainFragment)
+                findNavController().navigate(R.id.instructorMainFragment)
             }).create().show()
         }
     }

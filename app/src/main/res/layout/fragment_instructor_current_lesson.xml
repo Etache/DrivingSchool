@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="16dp"
-    tools:context=".ui.fragments.instructorMain.fragments.InstructorCurrentLessonFragment">
+    tools:context=".ui.fragments.instructorLessonInfo.InstructorCurrentLessonFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_container"
@@ -146,6 +146,30 @@
             app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_end_lesson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/light_blue"
+            android:text="@string/end_lesson"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_write_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/light_blue"
+            android:text="@string/write_comment"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:cornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
@@ -154,9 +178,9 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/blue"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

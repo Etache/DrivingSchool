@@ -7,14 +7,12 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
+import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.data.models.InstructorResponse
-import com.example.drivingschool.data.models.WorkWindows
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
-class SelectInstructorAdapter(val onClick: (WorkWindows, String) -> Unit) :
+class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name : String) -> Unit) :
     RecyclerView.Adapter<SelectInstructorAdapter.SelectViewHolder>() {
 
     private var instructors = arrayListOf<InstructorResponse>()
@@ -31,7 +29,18 @@ class SelectInstructorAdapter(val onClick: (WorkWindows, String) -> Unit) :
         fun bind(instructor: InstructorResponse) {
             binding.tvName.text = instructor.name
             binding.tvSurname.text = instructor.surname
-            binding.tvExpience.text = instructor.experience.toString()
+
+            when (val experience = instructor.experience) {
+                in 1..4 -> {
+                    binding.tvExpience.text = "$experience года"
+                }
+                in 5..9 -> {
+                    binding.tvExpience.text = "$experience лет"
+                }
+                else -> {
+                    binding.tvExpience.text = "$experience лет"
+                }
+            }
             binding.rbRating.rating = instructor.rate!!.toFloat()
 
             val httpsImageUrl = instructor.profilePhoto //replace("http://", "https://")
@@ -48,7 +57,7 @@ class SelectInstructorAdapter(val onClick: (WorkWindows, String) -> Unit) :
                     )
             }
             itemView.setOnClickListener {
-                onClick(instructor.workwindows!!, "${instructor.name} ${instructor.surname} ${instructor.lastname}")
+                onClick(instructor.workwindows, "${instructor.name} ${instructor.surname} ${instructor.lastname}")
             }
         }
     }
@@ -73,4 +82,5 @@ class SelectInstructorAdapter(val onClick: (WorkWindows, String) -> Unit) :
     companion object {
         const val ID_KEY = "id"
     }
+
 }

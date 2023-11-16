@@ -18,7 +18,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val binding by viewBinding(FragmentMainBinding::bind)
-
     private val pref: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
@@ -27,11 +26,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         "Текущие", "Предыдущие"
     )
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPagerMain.adapter = MainExploreViewPagerAdapter(this@MainFragment)
 
-        if(!pref.isLoginSuccess) {
+        if (!pref.isLoginSuccess) {
             findNavController().navigate(R.id.loginFragment)
         }
 
@@ -43,6 +43,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         setUpTabLayoutWitViewPager()
     }
+
 
     @SuppressLint("InflateParams")
     private fun setUpTabLayoutWitViewPager() {

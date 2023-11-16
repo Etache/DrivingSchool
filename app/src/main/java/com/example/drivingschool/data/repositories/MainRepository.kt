@@ -1,5 +1,7 @@
 package com.example.drivingschool.data.repositories
 
+import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
+import com.example.drivingschool.data.models.start_finish_lesson.StartLessonRequest
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
@@ -32,13 +34,23 @@ class MainRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
 
-    suspend fun getCurrentLessonsById(id: Int) = flow {
+    //iman
+    suspend fun getCurrentLessonsById(id: String) = flow {
         emit(UiState.Loading())
-        val response = mainApiService.getCurrentById(id)
+        val response = mainApiService.getCurrentDetailsInstructor(id)
         if (response.isSuccessful) {
             emit(UiState.Success(response.body()))
         } else {
             emit(UiState.Empty())
         }
     }.flowOn(Dispatchers.IO)
+
+
+    suspend fun startLesson(id: String) = flow {
+        emit(mainApiService.startlesson(StartLessonRequest(id = id)).body())
+    }
+
+    suspend fun finishLesson(id: String) = flow {
+        emit(mainApiService.finishLesson(FinishLessonRequest(id = id)).body())
+    }
 }

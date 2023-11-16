@@ -1,7 +1,10 @@
 package com.example.drivingschool.ui.fragments.lessonInfo.currentDetails
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
+import com.example.drivingschool.data.models.CancelResponse
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.repositories.DetailsRepository
 import com.example.drivingschool.tools.UiState
@@ -14,17 +17,24 @@ import javax.inject.Inject
 @HiltViewModel
 class CurrentLessonDetailsViewModel @Inject constructor(
     private val repository: DetailsRepository
-): BaseViewModel() {
+) : BaseViewModel() {
 
     private val _detailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
     val detailsState = _detailsState.asStateFlow()
 
+    private var _cancelLiveData = MutableLiveData<CancelResponse?>()
+    val cancelLiveData = _cancelLiveData as LiveData<CancelResponse?>
 
     fun getDetails(id: String) = viewModelScope.launch {
-        repository.getCurrentDetails(id).collect{
+        repository.getCurrentDetails(id).collect {
             _detailsState.value = it
         }
     }
 
+    fun cancelLessonFromId(id: String) = viewModelScope.launch {
+        repository.cancelLesson(id).collect{
+            _cancelLiveData.value = it
+        }
+    }
 
 }
