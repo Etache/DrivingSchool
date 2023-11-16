@@ -8,22 +8,20 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
@@ -42,38 +40,30 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 @AndroidEntryPoint
-class StudentProfileFragment : Fragment() {
+class StudentProfileFragment :
+    BaseFragment<FragmentProfileBinding, ProfileViewModel>(R.layout.fragment_profile) {
 
-    private lateinit var binding: FragmentProfileBinding
-    private val viewModel: ProfileViewModel by viewModels()
+    override val binding: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
+    override val viewModel: ProfileViewModel by viewModels()
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentProfileBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initialize() {
         if (preferences.role == "instructor") {
             findNavController().navigate(R.id.instructorProfileFragment)
         } else {
             getProfileData()
-            //showImage()
+            showImage()
             pickImageFromGallery()
             changePassword()
             logout()
         }
 
-//        binding.swipeRefresh.setOnRefreshListener {
-//            viewModel.getProfile()
-//            binding.swipeRefresh.isRefreshing = false
-//        }
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getProfile()
+            binding.swipeRefresh.isRefreshing = false
+        }
     }
 
     private val pickImageResult =
@@ -91,7 +81,8 @@ class StudentProfileFragment : Fragment() {
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
                             Picasso.get().load(state.data?.profilePhoto?.small).memoryPolicy(
-                                MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
+                                MemoryPolicy.NO_CACHE
+                            ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
                         }
 
                         else -> {}
@@ -100,22 +91,22 @@ class StudentProfileFragment : Fragment() {
             }
         }
 
-//    private fun showImage() {
-//        binding.ivProfile.setOnClickListener {
-//            val dialog = Dialog(requireContext())
-//            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//            dialog.setCancelable(true)
-//            dialog.setContentView(R.layout.show_photo_profile)
-//            val image = dialog.findViewById<ImageView>(R.id.image)
-//            if (binding.ivProfile.drawable != null) {
-//                image.setImageBitmap((binding.ivProfile.drawable as BitmapDrawable).bitmap)
-//            } else {
-//                image.setImageResource(R.drawable.ic_default_photo)
-//            }
-//            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
-//            dialog.show()
-//        }
-//    }
+    private fun showImage() {
+        binding.ivProfile.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(true)
+            dialog.setContentView(R.layout.show_photo_profile)
+            val image = dialog.findViewById<ImageView>(R.id.image)
+            if (binding.ivProfile.drawable != null) {
+                image.setImageBitmap((binding.ivProfile.drawable as BitmapDrawable).bitmap)
+            } else {
+                image.setImageResource(R.drawable.ic_default_photo)
+            }
+            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
+            dialog.show()
+        }
+    }
 
     private fun changePassword() {
         binding.btnChangePassword.setOnClickListener {
@@ -160,6 +151,7 @@ class StudentProfileFragment : Fragment() {
             val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
             viewModel.updateProfilePhoto(multipartBody)
+
         }
     }
 
@@ -191,7 +183,7 @@ class StudentProfileFragment : Fragment() {
                 preferences.role = null
 //                findNavController().navigate(R.id.loginFragment)
                 val intent = Intent(activity, MainActivity::class.java)
-                intent.putExtra("isLoggedOut",true)
+                intent.putExtra("isLoggedOut", true)
                 activity?.startActivity(intent)
                 alert.cancel()
             }
@@ -212,7 +204,8 @@ class StudentProfileFragment : Fragment() {
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
-                        Picasso.get().load(state.data?.profilePhoto?.small).into(binding.ivProfile) //changed to small
+                        Picasso.get().load(state.data?.profilePhoto?.small)
+                            .into(binding.ivProfile) //changed to small
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber

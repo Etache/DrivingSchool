@@ -23,7 +23,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.tools.UiState
@@ -42,24 +44,19 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 @AndroidEntryPoint
-class InstructorProfileFragment : Fragment() {
+class InstructorProfileFragment :
+    BaseFragment<FragmentInstructorProfileBinding, ProfileViewModel>(R.layout.fragment_instructor_profile) {
 
-    private lateinit var binding: FragmentInstructorProfileBinding
-    private val viewModel: ProfileViewModel by viewModels()
+    override val binding: FragmentInstructorProfileBinding by viewBinding(
+        FragmentInstructorProfileBinding::bind
+    )
+    override val viewModel: ProfileViewModel by viewModels()
+
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentInstructorProfileBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initialize() {
         getInstructorProfileData()
         showImage()
         pickImageFromGallery()
@@ -77,6 +74,7 @@ class InstructorProfileFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = false
         }
     }
+
 
     private val pickImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -232,9 +230,11 @@ class InstructorProfileFragment : Fragment() {
                                 in 1..4 -> {
                                     binding.tvExperience.text = "$experience года"
                                 }
+
                                 in 5..9 -> {
                                     binding.tvExperience.text = "$experience лет"
                                 }
+
                                 else -> {
                                     binding.tvExperience.text = "$experience лет"
                                 }
