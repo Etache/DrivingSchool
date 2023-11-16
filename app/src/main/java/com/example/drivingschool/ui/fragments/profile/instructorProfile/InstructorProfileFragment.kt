@@ -70,7 +70,7 @@ class InstructorProfileFragment :
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.getProfile()
+            viewModel.getInstructorProfile()
             binding.swipeRefresh.isRefreshing = false
         }
     }
