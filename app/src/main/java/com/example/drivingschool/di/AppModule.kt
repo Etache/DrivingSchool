@@ -45,10 +45,4 @@ object AppModule {
     @Provides
     @Singleton
     fun providesPreferencesHelper(@ApplicationContext context: Context) = PreferencesHelper(context)
-
-//    @Binds
-//    @Singleton
-//    fun provideConnectivityObserver(connectivityObserver: ConnectivityObserver) = NetworkConnectivityObserver {
-//        return
-//    }
 }
