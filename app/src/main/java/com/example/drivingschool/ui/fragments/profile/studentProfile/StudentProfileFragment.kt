@@ -8,10 +8,13 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
@@ -43,7 +46,7 @@ import java.io.FileOutputStream
 class StudentProfileFragment :
     BaseFragment<FragmentProfileBinding, ProfileViewModel>(R.layout.fragment_profile) {
 
-    override val binding: FragmentProfileBinding by viewBinding(FragmentProfileBinding::bind)
+    override val binding by viewBinding(FragmentProfileBinding::bind)
     override val viewModel: ProfileViewModel by viewModels()
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
@@ -118,8 +121,11 @@ class StudentProfileFragment :
     private fun pickImageFromGallery() {
         binding.tvChangePhoto.setOnClickListener {
             val builder = AlertDialog.Builder(context)
-            builder.setTitle("Изменить фотографию")
-            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
+            builder.setTitle(getString(R.string.change_photo))
+            builder.setItems(arrayOf(
+                getString(R.string.choose_photo),
+                getString(R.string.delete_photo)
+            )) { dialog, which ->
                 when (which) {
                     0 -> {
                         val intent =
@@ -181,7 +187,6 @@ class StudentProfileFragment :
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-//                findNavController().navigate(R.id.loginFragment)
                 val intent = Intent(activity, MainActivity::class.java)
                 intent.putExtra("isLoggedOut", true)
                 activity?.startActivity(intent)

@@ -37,20 +37,4 @@ class ProfileRepository @Inject constructor(
 
     suspend fun updateProfilePhoto(image: MultipartBody.Part) =
         profileApiService.updateStudentProfilePhoto(image)
-
-
-//    suspend fun updateProfilePhoto(image: MultipartBody.Part) : Flow<UiState<ProfileResponse>> = flow {
-//        emit(UiState.Loading())
-//        val data = profileApiService.updateProfilePhoto(image).body()
-//        if (data != null) {
-//            emit(UiState.Success(data))
-//        }
-//    }.flowOn(Dispatchers.IO)
-
-
-//    suspend fun updateProfilePhoto(file: File) {
-//        val reqFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-//        val body = MultipartBody.Part.createFormData("upload", file.name, reqFile)
-//        profileApiService.updateProfilePhoto(body)
-//    }
 }

@@ -77,7 +77,8 @@
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
     <string name="choose_photo">Выбрать фото</string>
-
+    <string name="content_des_profile_photo">profile photo</string>
+    <string name="content_des_fullscreen_profile_photo">fullscreen profile photo</string>
     <string name="old_password">Старый пароль</string>
     <string name="input_old_password">Введите старый пароль</string>
     <string name="instructor_surname">Иванов</string>
@@ -136,6 +137,7 @@
     <string name="comment_hint">Ваш комментарий</string>
     <string name="date">10</string>
     <string name="select_date_enroll_instructor">Выберите дату</string>
+
 
     <string-array name="mcv_monthLabels">
         <item>Январь</item>
