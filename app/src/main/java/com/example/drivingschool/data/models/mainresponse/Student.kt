@@ -1,5 +1,7 @@
 package com.example.drivingschool.data.models.mainresponse
 
+import com.example.drivingschool.data.models.ProfilePhoto
+
 data class Student(
     var group: Group? = null,
     var id: Int? = null,

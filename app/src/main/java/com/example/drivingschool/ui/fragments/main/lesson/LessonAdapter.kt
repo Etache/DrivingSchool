@@ -2,7 +2,6 @@ package com.example.drivingschool.ui.fragments.main.lesson
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -91,7 +90,7 @@ class LessonAdapter(
 
                 LessonStatus.FINISHED.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
-                    "Прошедший"
+                    "Завершен"
                 }
 
                 else -> {

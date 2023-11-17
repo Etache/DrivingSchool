@@ -22,7 +22,21 @@
             android:contentDescription="@string/main"
             android:src="@drawable/ic_default_photo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/tv_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_user_number"
+            />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="Инструктор"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/circle_image_view"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tv_user_name"
@@ -32,9 +46,9 @@
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_user_number"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@id/circle_image_view"
-            app:layout_constraintTop_toTopOf="@id/circle_image_view"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="Иванов Иван Иванович" />
 
         <TextView
@@ -45,7 +59,7 @@
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/dark_gray_text"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/circle_image_view"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@id/circle_image_view"
             app:layout_constraintTop_toBottomOf="@id/tv_user_name"
             tools:text="+996 39458320985" />

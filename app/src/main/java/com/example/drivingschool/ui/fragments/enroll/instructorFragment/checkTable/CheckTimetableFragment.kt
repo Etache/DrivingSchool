@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
@@ -41,7 +40,7 @@ class CheckTimetableFragment :
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Расписание составлено")
             builder.setPositiveButton("Ok",DialogInterface.OnClickListener { dialog, which ->
-                findNavController().navigate(R.id.instructorMainFragment)
+                //findNavController().navigate(R.id.instructorMainFragment)
             }).create().show()
         }
     }

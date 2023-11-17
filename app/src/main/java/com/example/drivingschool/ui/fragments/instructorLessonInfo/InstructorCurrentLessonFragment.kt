@@ -6,14 +6,12 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
-import android.os.Build
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -42,17 +40,14 @@ class InstructorCurrentLessonFragment :
     private val changeLessonStatusViewModel: StartFinishLessonViewModel by viewModels()
 
     private lateinit var countDownTimer: CountDownTimer
+    private lateinit var lessonId: String
 
-    //private var id: String? = null
 
     override fun initialize() {
-        Log.e("ololololo", "initialize: ${arguments?.getString(BundleKeys.CURRENT_KEY)}")
-        viewModel.getCurrentById(arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1")
-        changeLessonStatusViewModel.startLesson(arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1")
-        changeLessonStatusViewModel.finishLesson(
-            arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1"
-        )
-        showImage()
+        lessonId = arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1"
+        viewModel.getCurrentById(lessonId)
+        changeLessonStatusViewModel.startLesson(lessonId)
+        changeLessonStatusViewModel.finishLesson(lessonId)
 
         binding.btnStartLesson.setOnClickListener {
             startLesson()
@@ -60,9 +55,9 @@ class InstructorCurrentLessonFragment :
         binding.btnEndLesson.setOnClickListener {
             finishLesson()
         }
+        showImage()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     override fun setupSubscribes() {
         //viewModel.getCurrentById(id = id!!)
@@ -88,11 +83,6 @@ class InstructorCurrentLessonFragment :
                         }
 
                         is UiState.Success -> {
-                            Log.e(
-                                "ahahaha",
-                                "InstructorCurrentLessonFragment Success: ${state.data}",
-                            )
-
                             binding.apply {
                                 progressBar.visibility = View.GONE
                                 clContainer.visibility = View.VISIBLE
@@ -102,7 +92,7 @@ class InstructorCurrentLessonFragment :
                                 tvNumber.text = state.data?.student?.phone_number
 
                                 Picasso.get()
-                                    .load(state.data?.student?.profile_photo?.medium)
+                                    .load(state.data?.student?.profile_photo?.small)
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(ivProfileImage)
 
@@ -113,6 +103,7 @@ class InstructorCurrentLessonFragment :
                                 binding.tvEndingDate.text = formatDate(state.data?.date)
 
                             }
+
                         }
                     }
                 }
@@ -173,12 +164,13 @@ class InstructorCurrentLessonFragment :
 
     private fun startLesson() {
         changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner) {
-            if (it?.startSuccess != null) {
+            if (it != null && it?.startSuccess != null) {
                 showStartFinishAlert("Ваше занятие началось")
                 binding.btnStartLesson.visibility = View.GONE
                 binding.btnEndLesson.visibility = View.VISIBLE
                 startTimer()
             } else {
+                Log.e("fff", "startLesson: ${it?.startError}, ${it?.startSuccess}")
                 Toast.makeText(requireContext(), "start lesson error: $it", Toast.LENGTH_SHORT).show()
             }
         }
@@ -186,7 +178,7 @@ class InstructorCurrentLessonFragment :
 
     private fun finishLesson() {
         changeLessonStatusViewModel.finishLessonResult.observe(viewLifecycleOwner) {
-            if (it?.finishSuccess != null) {
+            if (it != null && it?.finishSuccess != null) {
                 showStartFinishAlert("Ваше занятие закончилось")
                 binding.btnEndLesson.visibility = View.GONE
                 binding.btnWriteFeedback.visibility = View.VISIBLE

@@ -2,6 +2,7 @@ package com.example.drivingschool.data.remote
 
 import com.example.drivingschool.data.models.CancelRequest
 import com.example.drivingschool.data.models.CancelResponse
+import com.example.drivingschool.data.models.EnrollLessonResponse
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
@@ -9,7 +10,6 @@ import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
-import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
 import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
@@ -37,29 +37,29 @@ interface DrivingApiService {
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @POST("token/refresh/")
-    suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest) : Response<RefreshTokenResponse>
+    suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest): Response<RefreshTokenResponse>
 
     @PATCH("change_password/")
     suspend fun changePassword(
-        @Body requestBody : PasswordRequest
-    ) : Response<ProfileResponse>
+        @Body requestBody: PasswordRequest
+    ): Response<ProfileResponse>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
 
-    @PUT("lessons/start/")
-    suspend fun startlesson(@Body startLessonRequest: StartLessonRequest): Response<StartLessonResponse>
+    @PUT("lessons/{id}/start/")
+    suspend fun startLesson(@Body startLessonRequest: StartLessonRequest): Response<StartLessonResponse>
 
-    @PUT("lessons/finish/")
-    suspend fun finishLesson(@Body finishLessonRequest: FinishLessonRequest): Response<FinishLessonResponse>
+    @PUT("lessons/{id}/finish/")
+    suspend fun finishLesson(@Path("id") id: String): Response<FinishLessonResponse>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getCurrentDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getPreviousDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
     @GET("lessons/current/")
@@ -95,4 +95,7 @@ interface DrivingApiService {
 
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
+
+    @POST("lessons/create/")
+    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonResponse): Response<String>
 }

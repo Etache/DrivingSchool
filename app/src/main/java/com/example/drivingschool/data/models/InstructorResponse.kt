@@ -1,7 +1,6 @@
 package com.example.drivingschool.data.models
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class InstructorResponse(
 
@@ -10,7 +9,7 @@ data class InstructorResponse(
     @SerializedName("surname") var surname: String? = null,
     @SerializedName("lastname") var lastname: String? = null,
     @SerializedName("phone_number") var phoneNumber: String? = null,
-    @SerializedName("profile_photo") var profilePhoto: String? = null,
+    @SerializedName("profile_photo") var profilePhoto: ProfilePhoto? = null,
     @SerializedName("experience") var experience: Int? = null,
     @SerializedName("car") var car: String? = null,
     @SerializedName("rate") var rate: Float? = null,

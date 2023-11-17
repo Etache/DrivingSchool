@@ -43,7 +43,7 @@ class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor
 
         holder.binding.tvCommentDate.text = formattedDate
         holder.binding.rbRating.rating = comment.mark.toFloat()
-        val httpsImageUrl = comment.student.profile_photo?.medium?.replace("http://", "https://")
+        val httpsImageUrl = comment.student.profile_photo?.small?.replace("http://", "https://")
         Picasso.get()
             .load(httpsImageUrl)
             .placeholder(R.drawable.ic_default_photo)

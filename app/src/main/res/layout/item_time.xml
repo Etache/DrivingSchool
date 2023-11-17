@@ -15,8 +15,8 @@
         android:text="10:00"
         android:gravity="center"
         android:textSize="18sp"
-        android:textColor="@color/gray"
-        android:background="@drawable/calendar_time_selector_normal"
+        android:textColor="@color/light_gray"
+        android:background="@drawable/calendar_time_selector_inactive"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

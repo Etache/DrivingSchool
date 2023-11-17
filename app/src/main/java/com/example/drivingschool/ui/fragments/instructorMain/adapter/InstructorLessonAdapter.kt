@@ -2,7 +2,6 @@ package com.example.drivingschool.ui.fragments.instructorMain.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -67,11 +66,11 @@ class InstructorLessonAdapter(
                     )
                 }
 
-                var originalDate = lesson.date
-                var parts = (originalDate?.split("-"))!!
-                var day = parts[2].toInt()
-                var month = parts[1].toInt()
-                var monthString = when (month) {
+                val originalDate = lesson.date
+                val parts = (originalDate?.split("-"))!!
+                val day = parts[2].toInt()
+                val month = parts[1].toInt()
+                val monthString = when (month) {
                     1 -> "января"
                     2 -> "февраля"
                     3 -> "марта"
@@ -113,7 +112,7 @@ class InstructorLessonAdapter(
 
                 LessonStatus.FINISHED.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
-                    "Прошедший"
+                    "Завершен"
                 }
 
                 else -> {
@@ -126,14 +125,6 @@ class InstructorLessonAdapter(
         private fun timeWithoutSeconds(inputTime: String?): String {
             val timeParts = inputTime?.split(":")
             return "${timeParts?.get(0)}:${timeParts?.get(1)}"
-        }
-
-        private fun formatDate(inputDate: String?): String {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val date = inputFormat.parse(inputDate) ?: return ""
-
-            val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
-            return outputFormat.format(date).replaceFirstChar { it.uppercase() }
         }
     }
 }

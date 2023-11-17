@@ -1,6 +1,5 @@
 package com.example.drivingschool.data.repositories
 
-import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
 import com.example.drivingschool.data.models.start_finish_lesson.StartLessonRequest
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
@@ -33,7 +32,6 @@ class MainRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-
     //iman
     suspend fun getCurrentLessonsById(id: String) = flow {
         emit(UiState.Loading())
@@ -45,12 +43,11 @@ class MainRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-
     suspend fun startLesson(id: String) = flow {
-        emit(mainApiService.startlesson(StartLessonRequest(id = id)).body())
+        emit(mainApiService.startLesson(StartLessonRequest(lessonId = id)).body())
     }
 
     suspend fun finishLesson(id: String) = flow {
-        emit(mainApiService.finishLesson(FinishLessonRequest(id = id)).body())
+        emit(mainApiService.finishLesson(id).body())
     }
 }

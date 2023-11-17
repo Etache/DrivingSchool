@@ -7,4 +7,8 @@ object BundleKeys {
     const val INSTRUCTOR_MAIN_TO_PREVIOUS_KEY = "instructor_main_to_previous"
 
     const val CURRENT_KEY = "current_key"
+    const val TIMETABLE_TO_ENROLL_DATE = "timetable_to_enroll_date"
+    const val TIMETABLE_TO_ENROLL_TIME = "timetable_to_enroll_time"
+    const val WORK_WINDOWS = "work_windows"
+    const val FULL_NAME = "full_name_key"
 }

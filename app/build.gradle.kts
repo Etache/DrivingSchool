@@ -116,6 +116,9 @@ dependencies {
 
     //MaterialCalendarView
     implementation("com.github.prolificinteractive:material-calendarview:1.4.3")
+
+    //Swipe Refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 }
 
 kapt {

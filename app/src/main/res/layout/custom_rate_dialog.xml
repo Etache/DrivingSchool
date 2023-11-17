@@ -51,6 +51,7 @@
         android:labelFor="@+id/tv_comment"
         android:maxLength="250"
         android:minHeight="48dp"
+        android:maxLines="4"
         android:padding="6dp"
         android:hint="@string/comment_hint" />
 

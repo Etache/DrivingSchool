@@ -32,12 +32,12 @@ class MainExploreViewModel @Inject constructor(
         getPrevious()
     }
 
-    private fun getCurrent() = viewModelScope.launch {
+    fun getCurrent() = viewModelScope.launch {
         repository.getCurrentLessons().collect {
             _currentState.value = it
         }
     }
-    private fun getPrevious() = viewModelScope.launch {
+     fun getPrevious() = viewModelScope.launch {
         repository.getPreviousLessons().collect {
             _previousState.value = it
         }
