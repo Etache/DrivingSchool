@@ -57,9 +57,9 @@
         android:name="com.example.drivingschool.ui.fragments.enroll.selectDate.SelectDateTimeFragment"
         tools:layout="@layout/fragment_select_date_time" />
     <fragment
-        android:id="@+id/enrollInstructorFragment"
-        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.EnrollInstructorFragment"
-        tools:layout="@layout/fragment_enroll_instructor" />
+        android:id="@+id/calendarInstructorFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.CalendarInstructorFragment"
+        tools:layout="@layout/fragment_calendar_instructor" />
     <fragment
         android:id="@+id/checkTimetableFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.CheckTimetableFragment"
@@ -84,5 +84,9 @@
         android:id="@+id/instructorPreviousLessonFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorLessonInfo.InstructorPreviousLessonFragment"
         tools:layout="@layout/fragment_instructor_previous_lesson" />
+    <fragment
+        android:id="@+id/enrollInstructorFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.EnrollInstructorFragment"
+        tools:layout="@layout/fragment_enroll_instructor" />
 
 </navigation>

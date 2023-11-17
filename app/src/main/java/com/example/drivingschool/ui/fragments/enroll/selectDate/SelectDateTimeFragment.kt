@@ -15,8 +15,7 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.adapter.EnrollInstructorAdapter
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.EnrollWeekDayFormatter
+import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.CalendarWeekDayFormatter
 import com.example.drivingschool.ui.fragments.enroll.selectDate.adapter.TimeAdapter
 import com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -60,7 +59,7 @@ class SelectDateTimeFragment :
             calendarView.setDateSelected(today, false)
             calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
             calendarView.setTitleFormatter(MonthArrayTitleFormatter(resources.getStringArray(R.array.mcv_monthLabels)))
-            val customWeekDayFormatter = EnrollWeekDayFormatter()
+            val customWeekDayFormatter = CalendarWeekDayFormatter()
             calendarView.setWeekDayFormatter(customWeekDayFormatter)
             calendarView.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
             cantGoBackMonth()
