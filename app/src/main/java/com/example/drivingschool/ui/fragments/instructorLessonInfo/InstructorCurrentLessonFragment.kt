@@ -14,15 +14,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorCurrentLessonBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
-import com.example.drivingschool.ui.fragments.BundleKeys
-import com.example.drivingschool.ui.fragments.instructorMain.adapter.InstructorLessonAdapter
 import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewModel
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -35,17 +33,27 @@ class InstructorCurrentLessonFragment :
 
     override val binding by viewBinding(FragmentInstructorCurrentLessonBinding::bind)
     override val viewModel: MainExploreViewModel by viewModels()
+    private lateinit var networkConnection: NetworkConnection
     //private var id: String? = null
 
     override fun initialize() {
+        networkConnection = NetworkConnection(requireContext())
         Log.e("ololololo", "initialize: ${arguments?.getString("key")}")
-        viewModel.getCurrentById(arguments?.getString("key") ?: "1")
+        networkConnection.observe(viewLifecycleOwner){
+            viewModel.getCurrentById(arguments?.getString("key") ?: "1")
+        }
+
         showImage()
     }
 
     override fun setupListeners() {
         binding.btnStartLesson.setOnClickListener {
             binding.btnStartLesson.text = "Завершить занятие"
+        }
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner){
+                viewModel.getCurrentById(arguments?.getString("key") ?: "1")
+            }
         }
     }
 

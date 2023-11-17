@@ -29,6 +29,7 @@ import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -46,11 +47,21 @@ class PreviousLessonDetailsFragment :
     private lateinit var lessonId: String
     private lateinit var studentId: String
     private var isCommentCreated: Boolean = false
+    private lateinit var networkConnection: NetworkConnection
 
     override fun initialize() {
+        networkConnection = NetworkConnection(requireContext())
         lessonId = arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY) ?: "1"
         Log.e("ololo", "initialize: $lessonId")
-        viewModel.getDetails(lessonId)
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) viewModel.getDetails(lessonId)
+        }
+
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner){
+                if (it) viewModel.getDetails(lessonId)
+            }
+        }
 
         binding.tvCommentBody.setOnClickListener {
             if (binding.tvCommentBody.maxHeight > 60) {
@@ -244,7 +255,9 @@ class PreviousLessonDetailsFragment :
     }
 
     private fun createComment(comment: FeedbackForInstructorRequest) {
-        viewModel.saveComment(comment)
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) viewModel.saveComment(comment)
+        }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
             it.access?.let { showToast(getString(R.string.your_comment_saved)) }
         }

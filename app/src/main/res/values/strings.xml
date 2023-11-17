@@ -138,6 +138,7 @@
     <string name="select_date_enroll_instructor">Выберите дату</string>
     <string name="yyyy_mm_dd_t_hh_mm_ss_ssssssx">yyyy-MM-dd\'T\'HH:mm:ss.SSSSSSX</string>
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
+    <string name="cursant">Курсант</string>
 
     <string-array name="mcv_monthLabels">
         <item>Январь</item>

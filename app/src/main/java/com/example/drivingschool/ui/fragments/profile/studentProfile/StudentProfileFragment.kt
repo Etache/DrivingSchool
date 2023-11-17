@@ -28,6 +28,7 @@ import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.activity.MainActivity
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
@@ -49,6 +50,7 @@ class StudentProfileFragment : Fragment() {
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
+    private lateinit var networkConnection: NetworkConnection
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,10 +61,14 @@ class StudentProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        networkConnection = NetworkConnection(requireContext())
         super.onViewCreated(view, savedInstanceState)
         if (preferences.role == "instructor") {
             findNavController().navigate(R.id.instructorProfileFragment)
         } else {
+            binding.layoutSwipeRefresh.setOnRefreshListener {
+                getProfileData()
+            }
             getProfileData()
             showImage()
             pickImageFromGallery()
@@ -76,7 +82,9 @@ class StudentProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
-                viewModel.getProfile()
+                networkConnection.observe(viewLifecycleOwner){
+                    if (it)viewModel.getProfile()
+                }
                 viewModel.profile.observe(requireActivity()) { state ->
                     when (state) {
                         is UiState.Loading -> {
@@ -132,7 +140,10 @@ class StudentProfileFragment : Fragment() {
                     }
 
                     1 -> {
-                        viewModel.deleteProfilePhoto()
+                        networkConnection.observe(viewLifecycleOwner){
+                            if (it) viewModel.deleteProfilePhoto()
+                        }
+
                     }
                 }
             }
@@ -153,7 +164,10 @@ class StudentProfileFragment : Fragment() {
 
             val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
-            viewModel.updateProfilePhoto(multipartBody)
+            networkConnection.observe(viewLifecycleOwner){
+                if (it)viewModel.updateProfilePhoto(multipartBody)
+            }
+
         }
     }
 
@@ -194,7 +208,9 @@ class StudentProfileFragment : Fragment() {
     }
 
     private fun getProfileData() {
-        viewModel.getProfile()
+        networkConnection.observe(viewLifecycleOwner){
+            if (it)viewModel.getProfile()
+        }
         lifecycleScope.launch {
             viewModel.profile.observe(requireActivity()) { state ->
                 when (state) {

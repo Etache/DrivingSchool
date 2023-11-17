@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                     }
                     tvCheckInternet.viewVisibility(true)
                     btnCheckInternet.viewVisibility(true)
-                }, 5000)
+                }, 3000)
             }
         }
     }
@@ -183,7 +183,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         rotateAnimation.repeatCount = Animation.INFINITE
         rotateAnimation.duration = 1700
         binding.contentNoInternet.progressBar.startAnimation(rotateAnimation)
-
     }
 
 }
