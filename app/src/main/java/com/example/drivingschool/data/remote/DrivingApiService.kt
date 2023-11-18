@@ -9,6 +9,7 @@ import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
+import com.example.drivingschool.data.models.InstructorWorkWindowResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
@@ -33,12 +34,12 @@ interface DrivingApiService {
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @POST("token/refresh/")
-    suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest) : Response<RefreshTokenResponse>
+    suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest): Response<RefreshTokenResponse>
 
     @PATCH("change_password/")
     suspend fun changePassword(
-        @Body requestBody : PasswordRequest
-    ) : Response<ProfileResponse>
+        @Body requestBody: PasswordRequest
+    ): Response<ProfileResponse>
 
     @GET("lessons/details/{id}")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
@@ -85,4 +86,7 @@ interface DrivingApiService {
 
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
+
+    @GET("workwindows/details/")
+    suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>
 }

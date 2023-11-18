@@ -3,6 +3,7 @@ package com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,17 +12,30 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class EnrollInstructorAdapter :
+class EnrollInstructorAdapter(
+    val listOfDates: ArrayList<String>?,
+    val listOfTimes: ArrayList<String>?
+) :
     RecyclerView.Adapter<EnrollInstructorAdapter.EnrollInstructorViewHolder>() {
 
-    private val adapterList = arrayListOf(
-        "13.11.2023\n08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "14.11.2023\n08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "15.11.2023\n08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "16.11.2023\n08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "17.11.2023\n08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "18.11.2023\n08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
+    private val adapterListDates = arrayListOf(
+        "13.11.2023",
+        "14.11.2023",
+        "15.11.2023",
+        "16.11.2023",
+        "17.11.2023",
+        "18.11.2023",
     )
+
+    private val adapterListTimes = arrayListOf(
+        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
+        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
+        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
+        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
+        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
+        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
+    )
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EnrollInstructorViewHolder {
         return EnrollInstructorViewHolder(
@@ -32,11 +46,11 @@ class EnrollInstructorAdapter :
     }
 
     override fun getItemCount(): Int {
-        return adapterList.size
+        return adapterListDates.size
     }
 
     override fun onBindViewHolder(holder: EnrollInstructorViewHolder, position: Int) {
-        holder.onBind(adapterList[position])
+        holder.onBind(adapterListDates[position])
     }
 
     inner class EnrollInstructorViewHolder(private val binding: ItemCheckTimetableDateAndTimeBinding) :
@@ -44,9 +58,9 @@ class EnrollInstructorAdapter :
 
         fun onBind(itemText: String) {
             val stringAfterEdit = buildString {
-                append(getDayOfWeek(adapterList!![bindingAdapterPosition]))
+                append(getDayOfWeek(adapterListDates!![bindingAdapterPosition]))
                 append(" ")
-                append(adapterList[bindingAdapterPosition])
+                append(adapterListTimes)
             }
             val stringAfterSpannable = SpannableString(stringAfterEdit)
             stringAfterSpannable.setSpan(StyleSpan(Typeface.BOLD), 0, 13, 0)

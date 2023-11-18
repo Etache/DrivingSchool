@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
-import com.example.drivingschool.data.models.IsntructorWorkWindow
+import com.example.drivingschool.data.models.InstructorWorkWindowResponse
 import com.example.drivingschool.databinding.FragmentCheckTimetableBinding
 import com.example.drivingschool.ui.activity.MainActivity
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.CalendarInstructorFragment.Companion.CTFEFARRAYDATES
@@ -35,11 +35,11 @@ class CheckTimetableFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val arguments = arguments
-        val instructorWorkWindow = IsntructorWorkWindow(
+        val instructorWorkWindow = InstructorWorkWindowResponse(
             arguments?.getStringArrayList(CTFEFARRAYDATES),
             arguments?.getStringArrayList(CTFEFARRAYTIMES)
         )
-        adapter = CheckTimetableAdapter(instructorWorkWindow.date,instructorWorkWindow.time)
+        adapter = CheckTimetableAdapter(instructorWorkWindow.dates,instructorWorkWindow.times)
         binding.recyclerDateAndTime.adapter = adapter
     }
 
