@@ -1,5 +1,6 @@
 package com.example.drivingschool.data.repositories
 
+import com.example.drivingschool.data.models.InstructorWorkWindowRequest
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,13 @@ class DrivingRepository @Inject constructor(
         } else {
             emit(UiState.Empty())
         }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun setWorkWindows(instructorWorkWindowRequest: InstructorWorkWindowRequest) = flow {
+        val data = enrollInstructorApi.setWorkWindows(
+            instructorWorkWindowRequest = instructorWorkWindowRequest
+        ).body()
+        emit(data)
     }.flowOn(Dispatchers.IO)
 
 }

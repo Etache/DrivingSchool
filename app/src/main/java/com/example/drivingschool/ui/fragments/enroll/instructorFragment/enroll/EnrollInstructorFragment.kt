@@ -58,7 +58,7 @@ class EnrollInstructorFragment :
         super.setupListeners()
         with(binding) {
             btnMakeASchedule.setOnClickListener {
-                if (isFridayOrSaturday() && dateFromBack.isNullOrEmpty()) {
+                if (isFridayOrSaturday() ) { //&& dateFromBack.isNullOrEmpty()
                     findNavController().navigate(R.id.calendarInstructorFragment)
                 } else {
                     Toast.makeText(

@@ -10,6 +10,7 @@ import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
+import com.example.drivingschool.data.models.InstructorWorkWindowRequest
 import com.example.drivingschool.data.models.InstructorWorkWindowResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
@@ -89,8 +90,11 @@ interface DrivingApiService {
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
 
     @POST("lessons/create/")
-    suspend fun enrollForLesson(@Body enrollResponse : EnrollLessonResponse) : Response<String>
+    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonResponse): Response<String>
 
     @GET("workwindows/details/")
-    suspend fun getWorkWindows() : Response<InstructorWorkWindowResponse>
+    suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>
+
+    @POST("workwindows/create/")
+    suspend fun setWorkWindows(@Body instructorWorkWindowRequest: InstructorWorkWindowRequest): Response<InstructorWorkWindowResponse>
 }
