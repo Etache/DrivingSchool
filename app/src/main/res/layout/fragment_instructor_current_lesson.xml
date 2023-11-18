@@ -27,7 +27,21 @@
                 android:contentDescription="profile image"
                 android:src="@drawable/ic_launcher_background"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="Инструктор"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/iv_profile_image"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_fullname"
@@ -37,8 +51,9 @@
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/full_name"
                 android:textSize="20sp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@id/iv_profile_image"
-                app:layout_constraintTop_toTopOf="@id/iv_profile_image" />
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
             <TextView
                 android:id="@+id/tv_number"
@@ -48,7 +63,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto_light"
                 android:text="@string/number"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/iv_profile_image"
                 app:layout_constraintTop_toBottomOf="@id/tv_fullname" />
 
