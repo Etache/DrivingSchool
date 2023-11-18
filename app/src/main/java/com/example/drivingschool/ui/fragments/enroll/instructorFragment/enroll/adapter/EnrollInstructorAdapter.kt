@@ -18,24 +18,6 @@ class EnrollInstructorAdapter(
 ) :
     RecyclerView.Adapter<EnrollInstructorAdapter.EnrollInstructorViewHolder>() {
 
-    private val adapterListDates = arrayListOf(
-        "13.11.2023",
-        "14.11.2023",
-        "15.11.2023",
-        "16.11.2023",
-        "17.11.2023",
-        "18.11.2023",
-    )
-
-    private val adapterListTimes = arrayListOf(
-        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-        "08:00, 09:00, 10:00, 11:00, 13:00, 14:00, 15:00, 16:00, 17:00, 18:00",
-    )
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EnrollInstructorViewHolder {
         return EnrollInstructorViewHolder(
@@ -46,11 +28,11 @@ class EnrollInstructorAdapter(
     }
 
     override fun getItemCount(): Int {
-        return adapterListDates.size
+        return listOfDates?.size!!
     }
 
     override fun onBindViewHolder(holder: EnrollInstructorViewHolder, position: Int) {
-        holder.onBind(adapterListDates[position])
+        holder.onBind(listOfDates!![position])
     }
 
     inner class EnrollInstructorViewHolder(private val binding: ItemCheckTimetableDateAndTimeBinding) :
@@ -58,24 +40,36 @@ class EnrollInstructorAdapter(
 
         fun onBind(itemText: String) {
             val stringAfterEdit = buildString {
-                append(getDayOfWeek(adapterListDates!![bindingAdapterPosition]))
+                append(getDayOfWeek(listOfDates!![bindingAdapterPosition]))
                 append(" ")
-                append(adapterListTimes)
-            }
+                append(changeDateFormat((listOfDates[bindingAdapterPosition])))
+                append("\n")
+                append(listOfTimes?.sorted())
+            }.replace("[","").replace("]","")
             val stringAfterSpannable = SpannableString(stringAfterEdit)
             stringAfterSpannable.setSpan(StyleSpan(Typeface.BOLD), 0, 13, 0)
             binding.tvDateAndTime.text = stringAfterSpannable
         }
 
-        private fun getDayOfWeek(dateString: String): String {
-            val pattern = "dd.MM.yyyy"
-            val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
-            val date = dateFormat.parse(dateString)
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-            val daysOfWeek = arrayOf("Вc", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб")
-            return daysOfWeek[dayOfWeek - 1]
+        private fun changeDateFormat(date: String): String {
+            val originalFormat = "yyyy-MM-dd"
+            val targetFormat = "dd.MM.yyyy"
+            val originalDateFormat = SimpleDateFormat(originalFormat, Locale.getDefault())
+            val targetDateFormat = SimpleDateFormat(targetFormat, Locale.getDefault())
+
+            val originalDate = originalDateFormat.parse(date)
+            return targetDateFormat.format(originalDate)
         }
+    }
+
+    private fun getDayOfWeek(dateString: String): String {
+        val pattern = "yyyy-MM-dd"
+        val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+        val date = dateFormat.parse(dateString)
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        val daysOfWeek = arrayOf("Вc", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб")
+        return daysOfWeek[dayOfWeek - 1]
     }
 }

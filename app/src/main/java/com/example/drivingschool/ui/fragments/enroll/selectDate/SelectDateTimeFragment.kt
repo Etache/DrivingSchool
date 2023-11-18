@@ -15,15 +15,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.Date
-import com.example.drivingschool.data.models.Time
 import com.example.drivingschool.data.models.TimeInWorkWindows
 import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
 import com.example.drivingschool.ui.fragments.BundleKeys
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.EnrollWeekDayFormatter
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.CalendarWeekDayFormatter
 import com.example.drivingschool.ui.fragments.enroll.selectDate.adapter.TimeAdapter
-import com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
@@ -35,7 +32,6 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
-import kotlin.math.log
 
 
 class SelectDateTimeFragment :
@@ -74,7 +70,7 @@ class SelectDateTimeFragment :
             calendarView.setDateSelected(today, false)
             calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
             calendarView.setTitleFormatter(MonthArrayTitleFormatter(resources.getStringArray(R.array.mcv_monthLabels)))
-            val customWeekDayFormatter = EnrollWeekDayFormatter()
+            val customWeekDayFormatter = CalendarWeekDayFormatter()
             calendarView.setWeekDayFormatter(customWeekDayFormatter)
             calendarView.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
             cantGoBackMonth()

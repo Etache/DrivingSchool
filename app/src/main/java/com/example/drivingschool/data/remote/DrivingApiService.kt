@@ -92,5 +92,5 @@ interface DrivingApiService {
     suspend fun enrollForLesson(@Body enrollResponse : EnrollLessonResponse) : Response<String>
 
     @GET("workwindows/details/")
-    suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>
+    suspend fun getWorkWindows() : Response<InstructorWorkWindowResponse>
 }

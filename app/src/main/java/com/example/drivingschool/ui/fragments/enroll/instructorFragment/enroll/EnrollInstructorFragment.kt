@@ -19,6 +19,7 @@ import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.adapter.EnrollInstructorAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -28,6 +29,7 @@ class EnrollInstructorFragment :
     override val binding by viewBinding(FragmentEnrollInstructorBinding::bind)
     override val viewModel: EnrollInstructorViewModel by viewModels()
     private lateinit var adapter: EnrollInstructorAdapter
+    private var dateFromBack: ArrayList<String>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,12 +56,16 @@ class EnrollInstructorFragment :
 
     override fun setupListeners() {
         super.setupListeners()
-        with(binding){
+        with(binding) {
             btnMakeASchedule.setOnClickListener {
-                if (isFridayOrSaturday()){
+                if (isFridayOrSaturday() && dateFromBack.isNullOrEmpty()) {
                     findNavController().navigate(R.id.calendarInstructorFragment)
                 } else {
-                    Toast.makeText(requireContext(), "сегодня не пятница и не суббота", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "сегодня не пятница и не суббота или же у вас есть расписание на следующую неделю",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -71,21 +77,25 @@ class EnrollInstructorFragment :
         return dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY
     }
 
-    private fun getWorkWindows(){
+    private fun getWorkWindows() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.currentTimetable.collect{
-                    when(it){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.currentTimetable.collect {
+                    when (it) {
                         is UiState.Loading -> {
                             Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
                         }
+
                         is UiState.Success -> {
                             adapter = EnrollInstructorAdapter(it.data?.dates, it.data?.times)
                             binding.recyclerDateAndTime.adapter = adapter
+                            dateFromBack = it.data?.dates
                         }
+
                         is UiState.Error -> {
                             Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
                         }
+
                         is UiState.Empty -> {
                             Toast.makeText(requireContext(), "empty", Toast.LENGTH_SHORT).show()
                         }
