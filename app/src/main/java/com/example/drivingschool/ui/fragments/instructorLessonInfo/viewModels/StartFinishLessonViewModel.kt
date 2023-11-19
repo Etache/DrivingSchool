@@ -26,7 +26,7 @@ class StartFinishLessonViewModel @Inject constructor(private val repository: Mai
     fun startLesson(id: String) = viewModelScope.launch {
         repository.startLesson(id).collect {
             _startLessonResult.value = it
-            Log.e("fff", "startLesson VM: ${it}")
+            Log.e("ahahaha", "startLesson VM: ${it}")
         }
     }
 

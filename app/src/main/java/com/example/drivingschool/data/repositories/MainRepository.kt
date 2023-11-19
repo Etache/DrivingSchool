@@ -1,5 +1,6 @@
 package com.example.drivingschool.data.repositories
 
+import android.util.Log
 import com.example.drivingschool.data.models.start_finish_lesson.StartLessonRequest
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
@@ -42,9 +43,10 @@ class MainRepository @Inject constructor(
             emit(UiState.Empty())
         }
     }.flowOn(Dispatchers.IO)
-
     suspend fun startLesson(id: String) = flow {
-        emit(mainApiService.startLesson(StartLessonRequest(lessonId = id)).body())
+        val response = mainApiService.startLesson(id)
+        Log.e("ahahaha", "startLesson Repository: ${response}", )
+        emit(response.body())
     }
 
     suspend fun finishLesson(id: String) = flow {

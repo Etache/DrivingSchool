@@ -44,22 +44,22 @@ interface DrivingApiService {
         @Body requestBody: PasswordRequest
     ): Response<ProfileResponse>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
 
     @PUT("lessons/{id}/start/")
-    suspend fun startLesson(@Body startLessonRequest: StartLessonRequest): Response<StartLessonResponse>
+    suspend fun startLesson(@Path("id") id: String): Response<StartLessonResponse>
 
     @PUT("lessons/{id}/finish/")
     suspend fun finishLesson(@Path("id") id: String): Response<FinishLessonResponse>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/")
     suspend fun getCurrentDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/")
     suspend fun getPreviousDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
     @GET("lessons/current/")

@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
+import androidx.lifecycle.Observer
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -48,7 +49,7 @@ class InstructorCurrentLessonFragment :
         viewModel.getCurrentById(lessonId)
         changeLessonStatusViewModel.startLesson(lessonId)
         changeLessonStatusViewModel.finishLesson(lessonId)
-
+        Log.e("ahahaha", "initialize: ${lessonId}", )
         binding.btnStartLesson.setOnClickListener {
             startLesson()
         }
@@ -163,17 +164,17 @@ class InstructorCurrentLessonFragment :
     }
 
     private fun startLesson() {
-        changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner) {
+        changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner, Observer {
             if (it != null && it?.startSuccess != null) {
                 showStartFinishAlert("Ваше занятие началось")
                 binding.btnStartLesson.visibility = View.GONE
                 binding.btnEndLesson.visibility = View.VISIBLE
                 startTimer()
             } else {
-                Log.e("fff", "startLesson: ${it?.startError}, ${it?.startSuccess}")
+                Log.e("ahahaha", "startLesson: ${it?.startError}, ${it?.startSuccess}")
                 Toast.makeText(requireContext(), "start lesson error: $it", Toast.LENGTH_SHORT).show()
             }
-        }
+        })
     }
 
     private fun finishLesson() {
@@ -181,7 +182,6 @@ class InstructorCurrentLessonFragment :
             if (it != null && it?.finishSuccess != null) {
                 showStartFinishAlert("Ваше занятие закончилось")
                 binding.btnEndLesson.visibility = View.GONE
-                binding.btnWriteFeedback.visibility = View.VISIBLE
             } else {
                 Toast.makeText(requireContext(), "finish lesson error: $it", Toast.LENGTH_SHORT).show()
             }
