@@ -58,7 +58,7 @@ class EnrollInstructorFragment :
         super.setupListeners()
         with(binding) {
             btnMakeASchedule.setOnClickListener {
-                if (isFridayOrSaturday() ) { //&& dateFromBack.isNullOrEmpty()
+                if (isFridayOrSaturday()) { //&& dateFromBack.isNullOrEmpty()
                     findNavController().navigate(R.id.calendarInstructorFragment)
                 } else {
                     Toast.makeText(
@@ -71,10 +71,10 @@ class EnrollInstructorFragment :
         }
     }
 
-    fun isFridayOrSaturday(): Boolean {
+    private fun isFridayOrSaturday(): Boolean {
         val calendar = Calendar.getInstance()
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        return dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY
+        return dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY
     }
 
     private fun getWorkWindows() {

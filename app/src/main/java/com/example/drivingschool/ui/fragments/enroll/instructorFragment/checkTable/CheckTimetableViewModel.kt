@@ -19,10 +19,6 @@ class CheckTimetableViewModel @Inject constructor(
     private val _checkTimetable = MutableLiveData<InstructorWorkWindowResponse>()
     val checkTimetable = _checkTimetable as LiveData<InstructorWorkWindowResponse>
 
-    init {
-
-    }
-
     fun setWorkWindows(workWindowRequest: InstructorWorkWindowRequest) = viewModelScope.launch {
         checkTimetableRepository.setWorkWindows(workWindowRequest).collect {
             _checkTimetable.value = it
