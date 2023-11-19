@@ -83,9 +83,10 @@ class SelectInstructorFragment : Fragment() {
         }
     }
 
-    fun onClick(workWindows: ArrayList<Date>, name : String) {
+    fun onClick(workWindows: ArrayList<Date>, name : String, id : String) {
         val bundle = Bundle()
         bundle.putString(BundleKeys.FULL_NAME, name)
+        bundle.putString(BundleKeys.INSTRUCTOR_ID_ENROLL, id)
         bundle.putSerializable(BundleKeys.WORK_WINDOWS, workWindows)
         findNavController().navigate(R.id.selectDateTimeFragment, bundle)
     }

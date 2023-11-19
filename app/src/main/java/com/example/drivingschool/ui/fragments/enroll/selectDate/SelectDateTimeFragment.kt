@@ -42,9 +42,11 @@ class SelectDateTimeFragment :
 
     override val binding by viewBinding(FragmentSelectDateTimeBinding::bind)
     override val viewModel: EnrollViewModel by viewModels()
+    @RequiresApi(Build.VERSION_CODES.O)
     private val adapter = TimeAdapter(this::onTimeClick)
     private lateinit var workWindows : ArrayList<Date>
     private lateinit var instructorFullName : String
+    private lateinit var instructorID : String
     private lateinit var selectedFinalDate : String
     private lateinit var selectedFinalTime : String
 
@@ -59,9 +61,11 @@ class SelectDateTimeFragment :
         super.onViewCreated(view, savedInstanceState)
         workWindows = arguments?.getSerializable(BundleKeys.WORK_WINDOWS) as ArrayList<Date>
         instructorFullName = arguments?.getString(BundleKeys.FULL_NAME).toString()
-        Log.d("madimadi", "dates in SelectDateTimeFragment: $workWindows")
+        instructorID = arguments?.getString(BundleKeys.INSTRUCTOR_ID_ENROLL).toString()
+        Log.d("madimadi", "dates in SelectDateTimeFragment: $workWindows $instructorFullName $instructorID")
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun initialize() {
         super.initialize()
         binding.recyclerView.adapter = adapter
@@ -90,6 +94,7 @@ class SelectDateTimeFragment :
                 bundle.putString(BundleKeys.TIMETABLE_TO_ENROLL_DATE, selectedFinalDate)
                 bundle.putString(BundleKeys.TIMETABLE_TO_ENROLL_TIME, selectedFinalTime)
                 bundle.putString(BundleKeys.FULL_NAME, instructorFullName)
+                bundle.putString(BundleKeys.INSTRUCTOR_ID_ENROLL, instructorID)
                 findNavController().navigate(R.id.enrollFragment, bundle)
             }
 
@@ -134,8 +139,10 @@ class SelectDateTimeFragment :
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun onTimeClick(time : TimeInWorkWindows){
-        selectedFinalTime = time.time.toString()
+        val oldTime = LocalTime.parse(time.time, DateTimeFormatter.ofPattern("HH:mm"))
+        selectedFinalTime = oldTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
     }
 
     private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {

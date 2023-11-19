@@ -2,11 +2,11 @@ package com.example.drivingschool.data.models
 
 import com.google.gson.annotations.SerializedName
 
-data class EnrollLessonResponse(
+data class EnrollLessonRequest(
     @SerializedName("instructor")
-    val instructor : String?,
+    val instructor : String,
     @SerializedName("date")
-    val date : String?,
+    val date : String,
     @SerializedName("time")
-    val time : String?
+    val time : String
 )
