@@ -98,7 +98,7 @@ class CurrentLessonDetailsFragment :
                                 tvStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profile_photo?.small?.replace(
+                                val httpsImageUrl = it.data?.instructor?.profile_photo?.replace(
                                     "http://",
                                     "https://"
                                 )

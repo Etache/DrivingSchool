@@ -43,7 +43,7 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
             }
             binding.rbRating.rating = instructor.rate!!.toFloat()
 
-            val httpsImageUrl = instructor.profilePhoto?.small //replace("http://", "https://")
+            val httpsImageUrl = instructor.profilePhoto //replace("http://", "https://")
             Picasso.get()
                 .load(httpsImageUrl)
                 .placeholder(R.drawable.ic_default_photo)

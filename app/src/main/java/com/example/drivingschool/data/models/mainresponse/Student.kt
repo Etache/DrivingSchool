@@ -8,6 +8,6 @@ data class Student(
     var lastname: String? = null,
     var name: String? = null,
     var phone_number: String? = null,
-    var profile_photo: ProfilePhoto? = null,
+    var profile_photo: String? = null,
     var surname: String? = null
 )

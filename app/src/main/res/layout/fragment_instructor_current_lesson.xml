@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="Инструктор"
+                android:text="Курсант"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/iv_profile_image"

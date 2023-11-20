@@ -88,7 +88,7 @@ class InstructorCurrentLessonFragment :
                                 tvNumber.text = state.data?.student?.phone_number
 
                                 Picasso.get()
-                                    .load(state.data?.student?.profile_photo?.small)
+                                    .load(state.data?.student?.profile_photo)
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(ivProfileImage)
 

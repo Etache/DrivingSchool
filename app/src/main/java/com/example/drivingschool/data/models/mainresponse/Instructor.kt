@@ -9,7 +9,7 @@ data class Instructor(
     var lastname: Any? = null,
     var name: String? = null,
     var phone_number: String? = null,
-    var profile_photo: ProfilePhoto? = null,
+    var profile_photo: String? = null,
     var rate: Double? = null,
     var surname: String? = null
 )
