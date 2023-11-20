@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -75,6 +76,13 @@ class StudentProfileFragment : Fragment() {
             pickImageFromGallery()
             changePassword()
             logout()
+
+            val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         }
     }
 
@@ -202,8 +210,8 @@ class StudentProfileFragment : Fragment() {
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-//                findNavController().navigate(R.id.loginFragment)
-                val intent = Intent(activity, MainActivity::class.java)
+                val intent = Intent(requireActivity(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra("isLoggedOut",true)
                 activity?.startActivity(intent)
                 alert.cancel()
@@ -227,8 +235,8 @@ class StudentProfileFragment : Fragment() {
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
-                        Picasso.get().load(state.data?.profilePhoto?.small)
-                            .into(binding.ivProfile) //changed to small
+                        Picasso.get().load(state.data?.profilePhoto?.large) //changed to large
+                            .into(binding.ivProfile)
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber

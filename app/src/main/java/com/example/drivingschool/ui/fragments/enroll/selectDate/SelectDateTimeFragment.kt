@@ -77,7 +77,7 @@ class SelectDateTimeFragment :
             calendarView.setWeekDayFormatter(customWeekDayFormatter)
             calendarView.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
             cantGoBackMonth()
-            //setGrayDaysDecorator(calendarView)
+            setGrayDaysDecorator(calendarView)
             calendarView.setDateSelected(today, false);
         }
     }

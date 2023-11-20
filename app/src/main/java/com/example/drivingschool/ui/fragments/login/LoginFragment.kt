@@ -56,18 +56,18 @@ class LoginFragment : Fragment() {
         networkConnection = NetworkConnection(requireContext())
         super.onViewCreated(view, savedInstanceState)
 
+        activateViews()
+        binding.btnLogin.setOnClickListener {
+            context?.let { it1 -> hideKeyboard(context = it1, view) }
+            setLogin()
+        }
+
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
-        activateViews()
-        binding.btnLogin.setOnClickListener {
-            context?.let { it1 -> hideKeyboard(context = it1, view) }
-            setLogin()
-        }
     }
 
     private fun hideKeyboard(context: Context, view: View?) {

@@ -72,6 +72,7 @@ class InstructorProfileFragment : Fragment() {
         pickImageFromGallery()
         changePasswordInstructor()
         logoutInstructor()
+
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
@@ -204,8 +205,8 @@ class InstructorProfileFragment : Fragment() {
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-//                findNavController().navigate(R.id.loginFragment)
-                val intent = Intent(activity, MainActivity::class.java)
+                val intent = Intent(requireActivity(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra("isLoggedOut", true)
                 activity?.startActivity(intent)
                 alert.cancel()
