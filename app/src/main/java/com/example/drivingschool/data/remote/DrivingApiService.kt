@@ -2,7 +2,7 @@ package com.example.drivingschool.data.remote
 
 import com.example.drivingschool.data.models.CancelRequest
 import com.example.drivingschool.data.models.CancelResponse
-import com.example.drivingschool.data.models.EnrollLessonResponse
+import com.example.drivingschool.data.models.EnrollLessonRequest
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
@@ -16,6 +16,7 @@ import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
+import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
 import okhttp3.MultipartBody
@@ -43,16 +44,16 @@ interface DrivingApiService {
         @Body requestBody: PasswordRequest
     ): Response<ProfileResponse>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getCurrentDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getPreviousDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
     @GET("lessons/current/")
@@ -89,12 +90,21 @@ interface DrivingApiService {
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
 
-    @POST("lessons/create/")
-    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonResponse): Response<String>
+    //    @Multipart
+//    @POST("lessons/create/")
+//    suspend fun enrollForLesson(
+//        @Part("instructor") instructor: String,
+//        @Part("date") date: String,
+//        @Part("time") time: String,
+//        @Part file: MultipartBody.Part
+//    ): Call<EnrollLessonResponse>
 
     @GET("workwindows/details/")
     suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>
 
     @POST("workwindows/create/")
     suspend fun setWorkWindows(@Body instructorWorkWindowRequest: InstructorWorkWindowRequest): Response<InstructorWorkWindowResponse>
+
+    @POST("lessons/create/")
+    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonRequest): Response<EnrollLessonResponse>
 }

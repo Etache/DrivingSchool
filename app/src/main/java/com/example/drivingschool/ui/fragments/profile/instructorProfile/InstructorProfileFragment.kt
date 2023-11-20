@@ -96,7 +96,7 @@ class InstructorProfileFragment : Fragment() {
 
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
-                            Picasso.get().load(state.data?.profilePhoto).memoryPolicy(
+                            Picasso.get().load(state.data?.profilePhoto?.small).memoryPolicy(
                                 MemoryPolicy.NO_CACHE
                             ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
 
@@ -231,7 +231,7 @@ class InstructorProfileFragment : Fragment() {
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
-                        Picasso.get().load(state.data?.profilePhoto).into(binding.ivProfile)
+                        Picasso.get().load(state.data?.profilePhoto?.small).into(binding.ivProfile)
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber

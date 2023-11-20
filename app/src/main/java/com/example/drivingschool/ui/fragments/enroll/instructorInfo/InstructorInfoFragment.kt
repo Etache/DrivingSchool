@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drivingschool.R
 import com.example.drivingschool.databinding.FragmentInstructorInfoBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.fragments.BundleKeys
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.InstructorCommentAdapter
 import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
@@ -48,7 +49,7 @@ class InstructorInfoFragment : Fragment() {
         networkConnection = NetworkConnection(requireContext())
         binding.rvInstructorProfileComments.layoutManager = LinearLayoutManager(context)
         binding.rvInstructorProfileComments.isNestedScrollingEnabled = false
-        id = arguments?.getInt(SelectInstructorAdapter.ID_KEY)
+        id = arguments?.getInt(BundleKeys.ID_KEY)
         Log.d("madimadi", "instructor id in fragment: ${id}")
 
         networkConnection.observe(viewLifecycleOwner) {
@@ -113,7 +114,7 @@ class InstructorInfoFragment : Fragment() {
                         }
 
 
-                        val httpsImageUrl = state.data?.profilePhoto?.replace("http://", "https://")
+                        val httpsImageUrl = state.data?.profilePhoto?.small?.replace("http://", "https://")
                         Picasso.get()
                             .load(httpsImageUrl)
                             .placeholder(R.drawable.ic_default_photo)
