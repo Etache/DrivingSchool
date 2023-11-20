@@ -158,7 +158,7 @@ class PreviousLessonDetailsFragment :
                                         it.data?.feedbackForStudent?.mark?.toInt()!!.toFloat()
                                     Log.e("ololo", "setupSubscribes: full ${it.data}")
                                     val httpToHttps =
-                                        it.data?.feedbackForStudent?.instructor?.profile_photo?.replace(
+                                        it.data?.feedbackForStudent?.instructor?.profile_photo?.small?.replace(
                                             "http://",
                                             "https://"
                                         )

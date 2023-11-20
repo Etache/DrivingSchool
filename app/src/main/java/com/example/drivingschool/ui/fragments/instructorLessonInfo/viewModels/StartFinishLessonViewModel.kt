@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
+import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
 import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonResponse
 import com.example.drivingschool.data.models.start_finish_lesson.StartLessonResponse
 import com.example.drivingschool.data.repositories.MainRepository
@@ -30,9 +31,10 @@ class StartFinishLessonViewModel @Inject constructor(private val repository: Mai
         }
     }
 
-    fun finishLesson(id: String) = viewModelScope.launch {
-        repository.finishLesson(id).collect {
+    fun finishLesson(finishLessonRequest: FinishLessonRequest) = viewModelScope.launch {
+        repository.finishLesson(finishLessonRequest).collect {
             _finishLessonResult.value = it
+            Log.e("ahahaha", "startLesson VM: ${it}")
         }
     }
 }

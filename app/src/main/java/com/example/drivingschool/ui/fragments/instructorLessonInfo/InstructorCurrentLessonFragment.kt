@@ -20,6 +20,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
+import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
 import com.example.drivingschool.databinding.FragmentInstructorCurrentLessonBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
@@ -48,15 +49,15 @@ class InstructorCurrentLessonFragment :
         lessonId = arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1"
 
         viewModel.getCurrentById(lessonId)
-        changeLessonStatusViewModel.startLesson(lessonId)
-        changeLessonStatusViewModel.finishLesson(lessonId)
 
         Log.e("ahahaha", "initialize: ${lessonId}")
 
         binding.btnStartLesson.setOnClickListener {
+            changeLessonStatusViewModel.startLesson(lessonId)
             startLesson()
         }
         binding.btnEndLesson.setOnClickListener {
+            changeLessonStatusViewModel.finishLesson(FinishLessonRequest(lessonId))
             finishLesson()
         }
 
@@ -169,11 +170,10 @@ class InstructorCurrentLessonFragment :
 
     private fun startLesson() {
         changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner, Observer {
-            if (it != null && it?.startSuccess != null) {
+            if (it?.startSuccess != null) {
                 binding.btnEndLesson.isEnabled = false
                 showStartFinishAlert("Ваше занятие началось")
                 startTimer()
-
                 binding.btnStartLesson.visibility = View.GONE
                 binding.btnEndLesson.visibility = View.VISIBLE
             } else {

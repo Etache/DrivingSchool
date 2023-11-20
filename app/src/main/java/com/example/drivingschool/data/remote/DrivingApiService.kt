@@ -17,7 +17,7 @@ import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
-import com.example.drivingschool.data.models.start_finish_lesson.StartLessonRequest
+import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
 import com.example.drivingschool.data.models.start_finish_lesson.StartLessonResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -46,12 +46,12 @@ interface DrivingApiService {
 
     @GET("lessons/{id}/")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
-
+ 
     @PATCH("lessons/{id}/start/")
-    suspend fun startLesson(@Body startLessonRequest: StartLessonRequest): Response<StartLessonResponse>
+    suspend fun startLesson(@Path("id") id: String): Response<StartLessonResponse>
 
-    @PUT("lessons/{id}/finish/")
-    suspend fun finishLesson(@Path("id") id: String): Response<FinishLessonResponse>
+    @PATCH("lessons/{id}/finish/")
+    suspend fun finishLesson(@Body finishLessonRequest: FinishLessonRequest): Response<FinishLessonResponse>
 
     @GET("lessons/{id}/")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
