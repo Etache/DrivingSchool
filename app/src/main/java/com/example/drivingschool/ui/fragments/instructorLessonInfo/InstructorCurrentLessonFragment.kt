@@ -54,6 +54,7 @@ class InstructorCurrentLessonFragment :
             networkConnection.observe(viewLifecycleOwner){
                 viewModel.getCurrentById(arguments?.getString("key") ?: "1")
             }
+            binding.layoutSwipeRefresh.isRefreshing = false
         }
     }
 
@@ -96,7 +97,7 @@ class InstructorCurrentLessonFragment :
                                 tvNumber.text = state.data?.student?.phone_number
 
                                 Picasso.get()
-                                    .load(state.data?.student?.profile_photo)
+                                    .load(state.data?.student?.profile_photo?.small)
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(ivProfileImage)
 

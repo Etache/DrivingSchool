@@ -74,11 +74,14 @@ class InstructorMainExploreFragment :
     }
 
     private fun dataRefresh() {
-        networkConnection.observe(viewLifecycleOwner){
-            if (it) {
-                if (lessonType == LessonType.Current) viewModel.getCurrent()
-                else if (lessonType == LessonType.Previous) viewModel.getPrevious()
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner){
+                if (it) {
+                    if (lessonType == LessonType.Current) viewModel.getCurrent()
+                    else if (lessonType == LessonType.Previous) viewModel.getPrevious()
+                }
             }
+            binding.layoutSwipeRefresh.isRefreshing = false
         }
     }
 

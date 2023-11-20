@@ -59,6 +59,7 @@ class InstructorInfoFragment : Fragment() {
             networkConnection.observe(viewLifecycleOwner) {
                 if (it) getInstructorProfile()
             }
+            binding.layoutSwipeRefresh.isRefreshing = false
         }
 
         showImage()
@@ -112,7 +113,7 @@ class InstructorInfoFragment : Fragment() {
                         }
 
 
-                        val httpsImageUrl = state.data?.profilePhoto?.replace("http://", "https://")
+                        val httpsImageUrl = state.data?.profilePhoto?.small?.replace("http://", "https://")
                         Picasso.get()
                             .load(httpsImageUrl)
                             .placeholder(R.drawable.ic_default_photo)

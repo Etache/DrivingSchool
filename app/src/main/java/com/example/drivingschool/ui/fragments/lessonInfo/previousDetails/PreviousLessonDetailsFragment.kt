@@ -61,6 +61,7 @@ class PreviousLessonDetailsFragment :
             networkConnection.observe(viewLifecycleOwner){
                 if (it) viewModel.getDetails(lessonId)
             }
+            binding.layoutSwipeRefresh.isRefreshing = false
         }
 
         binding.tvCommentBody.setOnClickListener {
@@ -122,7 +123,7 @@ class PreviousLessonDetailsFragment :
                                 tvPreviousStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profile_photo?.replace(
+                                val httpsImageUrl = it.data?.instructor?.profile_photo?.small?.replace(
                                     "http://",
                                     "https://"
                                 )
@@ -164,13 +165,14 @@ class PreviousLessonDetailsFragment :
                                             lastILN
                                         )
                                     tvCommentBody.text = it.data?.feedbackForStudent?.text
+                                    Log.e("ololo", "setupSubscribes:FORMATDATETIME ${it.data?.feedbackForStudent?.created_at!!}")
                                     tvCommentDate.text =
                                         formatDateTime(it.data?.feedbackForStudent?.created_at!!)
                                     rbCommentSmall.rating =
                                         it.data?.feedbackForStudent?.mark?.toInt()!!.toFloat()
                                     Log.e("ololo", "setupSubscribes: full ${it.data}")
                                     val httpToHttps =
-                                        it.data?.feedbackForStudent?.instructor?.profile_photo?.replace(
+                                        it.data?.feedbackForStudent?.instructor?.profile_photo?.small?.replace(
                                             "http://",
                                             "https://"
                                         )
@@ -203,17 +205,24 @@ class PreviousLessonDetailsFragment :
     }
 
     private fun formatDateTime(createdAt: String): String {
-        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_t_hh_mm_ss_ssssssx), Locale.ENGLISH)
-        val date = inputFormat.parse(createdAt)
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX", Locale.ENGLISH)
+        return if (createdAt.isNotEmpty()) {
+            try {
+                val date = inputFormat.parse(createdAt)
+                val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+                val formattedDate = outputFormat.format(date)
+                val calendar = Calendar.getInstance()
+                calendar.time = date
 
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
-        val formattedDate = outputFormat.format(date)
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = formattedDate.split(" ")[1]
-        return "$day $month"
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                val month = formattedDate.split(" ")[1]
+                "$day $month"
+            } catch (e: Exception) {
+                "Unparsable date type"
+            }
+        } else {
+             ""
+        }
     }
 
     @SuppressLint("MissingInflatedId")

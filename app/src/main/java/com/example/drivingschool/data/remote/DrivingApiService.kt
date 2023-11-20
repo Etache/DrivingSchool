@@ -40,16 +40,16 @@ interface DrivingApiService {
         @Body requestBody : PasswordRequest
     ) : Response<ProfileResponse>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getCurrentDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/details/{id}")
+    @GET("lessons/{id}")
     suspend fun getPreviousDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
     @GET("lessons/current/")

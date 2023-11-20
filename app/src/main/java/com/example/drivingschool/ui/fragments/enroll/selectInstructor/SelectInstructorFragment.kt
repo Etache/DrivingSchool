@@ -49,6 +49,7 @@ class SelectInstructorFragment : Fragment() {
             networkConnection.observe(viewLifecycleOwner){
                 if(it) getInstructorsList()
             }
+            binding.layoutSwipeRefresh.isRefreshing = false
         }
     }
 

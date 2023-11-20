@@ -50,6 +50,7 @@ class CurrentLessonDetailsFragment :
             networkConnection.observe(viewLifecycleOwner){
                 if (it) viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1")
             }
+            binding.layoutSwipeRefresh.isRefreshing = false
         }
 
         showImage()
@@ -110,7 +111,7 @@ class CurrentLessonDetailsFragment :
                                 tvStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profile_photo?.replace(
+                                val httpsImageUrl = it.data?.instructor?.profile_photo?.small?.replace(
                                     "http://",
                                     "https://"
                                 )
