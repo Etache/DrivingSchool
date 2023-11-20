@@ -46,16 +46,20 @@ class InstructorCurrentLessonFragment :
 
     override fun initialize() {
         lessonId = arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1"
+
         viewModel.getCurrentById(lessonId)
         changeLessonStatusViewModel.startLesson(lessonId)
         changeLessonStatusViewModel.finishLesson(lessonId)
-        Log.e("ahahaha", "initialize: ${lessonId}", )
+
+        Log.e("ahahaha", "initialize: ${lessonId}")
+
         binding.btnStartLesson.setOnClickListener {
             startLesson()
         }
         binding.btnEndLesson.setOnClickListener {
             finishLesson()
         }
+
         showImage()
     }
 
@@ -166,10 +170,12 @@ class InstructorCurrentLessonFragment :
     private fun startLesson() {
         changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner, Observer {
             if (it != null && it?.startSuccess != null) {
+                binding.btnEndLesson.isEnabled = false
                 showStartFinishAlert("Ваше занятие началось")
+                startTimer()
+
                 binding.btnStartLesson.visibility = View.GONE
                 binding.btnEndLesson.visibility = View.VISIBLE
-                startTimer()
             } else {
                 Log.e("ahahaha", "startLesson: ${it?.startError}, ${it?.startSuccess}")
                 Toast.makeText(requireContext(), "start lesson error: $it", Toast.LENGTH_SHORT).show()
@@ -189,14 +195,13 @@ class InstructorCurrentLessonFragment :
     }
 
     private fun startTimer() {
-        countDownTimer = object : CountDownTimer(3000000, 60000) {
+        countDownTimer = object : CountDownTimer(3000000, 60000) { //таймер на 50 минут
             override fun onTick(p0: Long) {}
 
             override fun onFinish() {
                 binding.btnEndLesson.isEnabled = true
             }
         }.start()
-        binding.btnStartLesson.isEnabled = false
     }
 
     private fun showStartFinishAlert(alertMessage: String) {

@@ -47,8 +47,8 @@ interface DrivingApiService {
     @GET("lessons/{id}/")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
 
-    @PUT("lessons/{id}/start/")
-    suspend fun startLesson(@Path("id") id: String): Response<StartLessonResponse>
+    @PATCH("lessons/{id}/start/")
+    suspend fun startLesson(@Body startLessonRequest: StartLessonRequest): Response<StartLessonResponse>
 
     @PUT("lessons/{id}/finish/")
     suspend fun finishLesson(@Path("id") id: String): Response<FinishLessonResponse>

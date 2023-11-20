@@ -16,6 +16,7 @@ class MainRepository @Inject constructor(
     suspend fun getCurrentLessons() = flow {
         emit(UiState.Loading())
         val response = mainApiService.getCurrent().body()
+        Log.e("ahahaha", "getCurrentLessons: ${response}", )
         if (response != null) {
             emit(UiState.Success(response))
         } else {
@@ -43,8 +44,9 @@ class MainRepository @Inject constructor(
             emit(UiState.Empty())
         }
     }.flowOn(Dispatchers.IO)
+
     suspend fun startLesson(id: String) = flow {
-        val response = mainApiService.startLesson(id)
+        val response = mainApiService.startLesson(StartLessonRequest(lessonId = id))
         Log.e("ahahaha", "startLesson Repository: ${response}", )
         emit(response.body())
     }

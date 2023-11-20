@@ -54,6 +54,7 @@ class InstructorLessonAdapter(
                 tvTitle.text = "${lesson.student?.surname} ${lesson.student?.name} $last"
                 tvTime.text = timeWithoutSeconds(lesson.time)
                 tvStatus.text = getStatus(lesson.status, binding.tvStatus, context)
+                tvDate.text = formatDate(lesson.date)
             }
             if (position == 0 && lessonType == LessonType.Current) {
                 binding.apply {
@@ -65,32 +66,19 @@ class InstructorLessonAdapter(
                         )
                     )
                 }
-
-                val originalDate = lesson.date
-                val parts = (originalDate?.split("-"))!!
-                val day = parts[2].toInt()
-                val month = parts[1].toInt()
-                val monthString = when (month) {
-                    1 -> "января"
-                    2 -> "февраля"
-                    3 -> "марта"
-                    4 -> "апреля"
-                    5 -> "мая"
-                    6 -> "июня"
-                    7 -> "июля"
-                    8 -> "августа"
-                    9 -> "сентября"
-                    10 -> "октября"
-                    11 -> "ноября"
-                    12 -> "декабря"
-                    else -> throw IllegalArgumentException("Некорректный месяц: $month")
-                }
-                binding.tvDate.text = "$day $monthString"
             }
 
             itemView.setOnClickListener {
                 onClick(lesson.id.toString())
             }
+        }
+
+        private fun formatDate(inputDate: String?): String {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = inputFormat.parse(inputDate) ?: return ""
+
+            val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+            return outputFormat.format(date).replaceFirstChar { it.uppercase() }
         }
 
         private fun getStatus(status: String?, tvStatus: TextView, context: Context): String {
