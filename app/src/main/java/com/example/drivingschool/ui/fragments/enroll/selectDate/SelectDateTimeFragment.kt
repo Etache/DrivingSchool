@@ -33,7 +33,6 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
-
 class SelectDateTimeFragment :
     BaseFragment<FragmentSelectDateTimeBinding, EnrollViewModel>(R.layout.fragment_select_date_time){
 
@@ -124,7 +123,7 @@ class SelectDateTimeFragment :
 //                            time.time = convertedTime
 //                            Log.d("madimadi", "convertedTime: ${time.time}")
 //                        }
-                        adapter.setTimesList(timesList)
+                        //adapter.setTimesList(timesList)
                     }
                 }
             }

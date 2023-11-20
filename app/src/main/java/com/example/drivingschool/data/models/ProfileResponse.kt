@@ -1,7 +1,6 @@
 package com.example.drivingschool.data.models
 
 import com.google.gson.annotations.SerializedName
-import java.sql.Struct
 
 data class ProfileResponse(
 

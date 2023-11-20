@@ -4,37 +4,24 @@ import android.accessibilityservice.GestureDescription
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
-import com.example.drivingschool.base.BaseFragment
-import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentEnrollBinding
-import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
-import com.example.drivingschool.ui.fragments.BundleKeys
-import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
-import com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment
 
 
-class EnrollFragment : BaseFragment<FragmentEnrollBinding, EnrollViewModel>(R.layout.fragment_enroll) {
+class EnrollFragment : Fragment() {
 
-    override val binding by viewBinding(FragmentEnrollBinding::bind)
-    override val viewModel: EnrollViewModel by viewModels()
-    private lateinit var selectedDate : String
-    private lateinit var selectedTime : String
-    private lateinit var instructorFullName : String
-
+    private lateinit var binding : FragmentEnrollBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_enroll, container, false)
+        binding = FragmentEnrollBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,18 +30,6 @@ class EnrollFragment : BaseFragment<FragmentEnrollBinding, EnrollViewModel>(R.la
             //query to enroll
             showDialog()
         }
-    }
-
-    override fun initialize() {
-        super.initialize()
-        selectedDate = arguments?.getString(BundleKeys.TIMETABLE_TO_ENROLL_DATE).toString()
-        selectedTime = arguments?.getString(BundleKeys.TIMETABLE_TO_ENROLL_TIME).toString()
-        instructorFullName = arguments?.getString(BundleKeys.FULL_NAME).toString()
-        Log.d("madimadi", "date in enrollFragment: $selectedDate")
-        Log.d("madimadi", "time in enrollFragment: $selectedTime")
-
-        binding.tvDate.text = "${selectedDate}, ${selectedTime}"
-        binding.tvInstructor.text = instructorFullName
     }
 
     fun showDialog(){

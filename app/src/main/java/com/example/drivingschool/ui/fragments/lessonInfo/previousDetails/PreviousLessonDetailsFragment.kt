@@ -29,6 +29,7 @@ import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -46,11 +47,22 @@ class PreviousLessonDetailsFragment :
     private lateinit var lessonId: String
     private lateinit var studentId: String
     private var isCommentCreated: Boolean = false
+    private lateinit var networkConnection: NetworkConnection
 
     override fun initialize() {
+        networkConnection = NetworkConnection(requireContext())
         lessonId = arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY) ?: "1"
         Log.e("ololo", "initialize: $lessonId")
-        viewModel.getDetails(lessonId)
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) viewModel.getDetails(lessonId)
+        }
+
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner){
+                if (it) viewModel.getDetails(lessonId)
+            }
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
 
         binding.tvCommentBody.setOnClickListener {
             if (binding.tvCommentBody.maxHeight > 60) {
@@ -64,6 +76,7 @@ class PreviousLessonDetailsFragment :
 
         binding.btnComment.setOnClickListener {
             if (!isCommentCreated) showCustomDialog()
+            else binding.btnComment.viewVisibility(false)
         }
     }
 
@@ -152,6 +165,7 @@ class PreviousLessonDetailsFragment :
                                             lastILN
                                         )
                                     tvCommentBody.text = it.data?.feedbackForStudent?.text
+                                    Log.e("ololo", "setupSubscribes:FORMATDATETIME ${it.data?.feedbackForStudent?.created_at!!}")
                                     tvCommentDate.text =
                                         formatDateTime(it.data?.feedbackForStudent?.created_at!!)
                                     rbCommentSmall.rating =
@@ -192,17 +206,23 @@ class PreviousLessonDetailsFragment :
 
     private fun formatDateTime(createdAt: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX", Locale.ENGLISH)
-        val date = inputFormat.parse(createdAt)
+        return if (createdAt.isNotEmpty()) {
+            try {
+                val date = inputFormat.parse(createdAt)
+                val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+                val formattedDate = outputFormat.format(date)
+                val calendar = Calendar.getInstance()
+                calendar.time = date
 
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
-        val formattedDate = outputFormat.format(date)
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        // Получаем месяц из отформатированной даты
-        val month = formattedDate.split(" ")[1]
-        return "$day $month"
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                val month = formattedDate.split(" ")[1]
+                "$day $month"
+            } catch (e: Exception) {
+                "Unparsable date type"
+            }
+        } else {
+             ""
+        }
     }
 
     @SuppressLint("MissingInflatedId")
@@ -244,9 +264,11 @@ class PreviousLessonDetailsFragment :
     }
 
     private fun createComment(comment: FeedbackForInstructorRequest) {
-        viewModel.saveComment(comment)
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) viewModel.saveComment(comment)
+        }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let { showToast("Ваш комментарий оставлен") }
+            it.access?.let { showToast(getString(R.string.your_comment_saved)) }
         }
         viewModel.getDetails(lessonId)
     }

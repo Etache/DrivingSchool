@@ -14,22 +14,19 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentSelectInstructorBinding
 import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.ui.fragments.BundleKeys
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SelectInstructorFragment : Fragment() {
-
+//Почему этот класс не унаследован BaseFragment
     private lateinit var binding: FragmentSelectInstructorBinding
     private lateinit var adapter: SelectInstructorAdapter
     private val viewModel: EnrollViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var networkConnection: NetworkConnection
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,10 +39,21 @@ class SelectInstructorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = SelectInstructorAdapter(this::onClick)
-        getInstructorsList()
+        networkConnection = NetworkConnection(requireContext())
+
+        networkConnection.observe(viewLifecycleOwner){
+            if(it) getInstructorsList()
+        }
+
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner){
+                if(it) getInstructorsList()
+            }
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
     }
 
-    fun getInstructorsList() {
+    private fun getInstructorsList() {
         lifecycleScope.launch {
             viewModel.getInstructors()
             viewModel.instructors.observe(requireActivity()) { uiState ->
@@ -83,10 +91,15 @@ class SelectInstructorFragment : Fragment() {
         }
     }
 
-    fun onClick(workWindows: ArrayList<Date>, name : String) {
+    private fun onClick(workWindows: ArrayList<Date>, name : String) {
         val bundle = Bundle()
-        bundle.putString(BundleKeys.FULL_NAME, name)
-        bundle.putSerializable(BundleKeys.WORK_WINDOWS, workWindows)
+        bundle.putString(FULL_NAME, name)
+        bundle.putSerializable(WORK_WINDOWS, workWindows)
         findNavController().navigate(R.id.selectDateTimeFragment, bundle)
+    }
+
+    companion object {
+        const val WORK_WINDOWS = "work_windows"
+        const val FULL_NAME = "full_name_key"
     }
 }

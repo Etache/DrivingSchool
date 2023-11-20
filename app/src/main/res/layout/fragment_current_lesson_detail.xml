@@ -8,159 +8,168 @@
     android:paddingVertical="24dp"
     tools:context=".ui.fragments.lessonInfo.currentDetails.CurrentLessonDetailsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainContainer"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/circle_image_view"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:contentDescription="@string/main"
-            android:src="@drawable/ic_default_photo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_title"
-            app:layout_constraintBottom_toBottomOf="@id/tv_user_number"
-            />
+        android:backgroundTint="@color/blue"
+        app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/roboto_light"
-            android:text="Инструктор"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@id/circle_image_view"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@id/circle_image_view"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:text="Иванов Иван Иванович" />
-
-        <TextView
-            android:id="@+id/tv_user_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/dark_gray_text"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@id/circle_image_view"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_name"
-            tools:text="+996 39458320985" />
-
-        <FrameLayout
-            android:id="@+id/layout_start_end"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/schedule_start_end_background"
-            app:layout_constraintTop_toBottomOf="@id/circle_image_view">
+            android:layout_height="match_parent"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/circle_image_view"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/main"
+                android:src="@drawable/ic_default_photo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_title"
+                app:layout_constraintBottom_toBottomOf="@id/tv_user_number"
+                />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto_light"
+                android:text="Инструктор"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@id/circle_image_view"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-                <TextView
-                    android:id="@+id/tv_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/dark_gray_text"
-                    android:textSize="20sp"
-                    android:text="@string/start" />
-
-                <TextView
-                    android:id="@+id/tv_start_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/dark_gray_text"
-                    android:textSize="14sp"
-                    tools:text="29 Октября" />
-
-                <TextView
-                    android:id="@+id/tv_start_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/dark_gray_text"
-                    android:textSize="14sp"
-                    tools:text="11:00" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@id/circle_image_view"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:text="Иванов Иван Иванович" />
+
+            <TextView
+                android:id="@+id/tv_user_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/dark_gray_text"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@id/circle_image_view"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_name"
+                tools:text="+996 39458320985" />
+
+            <FrameLayout
+                android:id="@+id/layout_start_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/schedule_start_end_background"
+                app:layout_constraintTop_toBottomOf="@id/circle_image_view">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="20sp"
+                        android:text="@string/start" />
+
+                    <TextView
+                        android:id="@+id/tv_start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="14sp"
+                        tools:text="29 Октября" />
+
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="14sp"
+                        tools:text="11:00" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="20sp"
+                        android:text="@string/end_text" />
+
+                    <TextView
+                        android:id="@+id/tv_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="14sp"
+                        tools:text="29 Октября" />
+
+                    <TextView
+                        android:id="@+id/tv_end_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/dark_gray_text"
+                        android:textSize="14sp"
+                        tools:text="12:00" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <!--     visibility этой кнопки изначально должен быть Gone    -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cancel_lesson"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/super_light_gray"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:text="@string/text_btn_cancel_lesson"
+                android:textColor="@color/violet"
+                app:cornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/dark_gray_text"
-                    android:textSize="20sp"
-                    android:text="@string/end_text" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/tv_end_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/dark_gray_text"
-                    android:textSize="14sp"
-                    tools:text="29 Октября" />
-
-                <TextView
-                    android:id="@+id/tv_end_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/dark_gray_text"
-                    android:textSize="14sp"
-                    tools:text="12:00" />
-
-            </LinearLayout>
-
-        </FrameLayout>
-
-    <!--     visibility этой кнопки изначально должен быть Gone    -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_cancel_lesson"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/super_light_gray"
-        android:gravity="center"
-        android:text="@string/text_btn_cancel_lesson"
-        android:textColor="@color/red"
-        app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/details_progress_bar"
@@ -168,6 +177,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </FrameLayout>

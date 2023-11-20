@@ -33,4 +33,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
 
     protected open fun setupSubscribes() {
     }
+
+//    abstract fun EnrollWeekDayFormatter(): WeekDayFormatter?
 }
