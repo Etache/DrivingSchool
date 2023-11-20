@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/ic_default_photo"
             android:scaleType="centerCrop"
-            android:contentDescription="fullscreen profile photo" />
+            android:contentDescription="@string/content_des_fullscreen_profile_photo" />
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

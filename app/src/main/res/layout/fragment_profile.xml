@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.profile.studentProfile.StudentProfileFragment">
 
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/blue"
+    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue">
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
@@ -28,7 +36,7 @@
                 android:layout_height="80dp"
                 android:background="@drawable/ic_default_photo"
                 android:scaleType="centerCrop"
-                android:contentDescription="profile photo" />
+                android:contentDescription="@string/content_des_profile_photo" />
 
         </androidx.cardview.widget.CardView>
 
@@ -46,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:text="Иванов"
+                android:text="@string/instructor_name"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -54,7 +62,7 @@
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Иван"
+                android:text="@string/instructor_surname"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -173,6 +181,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

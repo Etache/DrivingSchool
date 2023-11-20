@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
@@ -23,7 +24,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
     private val passwordRepository: PasswordRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private var _profile = MutableLiveData<UiState<ProfileResponse>>()
     val profile: LiveData<UiState<ProfileResponse>> = _profile
