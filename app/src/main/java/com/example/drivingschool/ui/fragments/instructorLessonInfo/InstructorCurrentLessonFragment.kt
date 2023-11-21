@@ -27,6 +27,7 @@ import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.ui.fragments.BundleKeys
 import com.example.drivingschool.ui.fragments.instructorLessonInfo.viewModels.StartFinishLessonViewModel
 import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewModel
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -44,13 +45,17 @@ class InstructorCurrentLessonFragment :
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var lessonId: String
 
+    private lateinit var networkConnection: NetworkConnection
 
     override fun initialize() {
+        networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner){
+            viewModel.getCurrentById(arguments?.getString("key") ?: "1")
+        }
+
         lessonId = arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1"
 
         viewModel.getCurrentById(lessonId)
-
-        Log.e("ahahaha", "initialize: ${lessonId}")
 
         binding.btnStartLesson.setOnClickListener {
             changeLessonStatusViewModel.startLesson(lessonId)
@@ -62,6 +67,18 @@ class InstructorCurrentLessonFragment :
         }
 
         showImage()
+
+        showImage()
+    }
+
+    override fun setupListeners() {
+
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner){
+                viewModel.getCurrentById(arguments?.getString("key") ?: "1")
+            }
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
     }
 
     @SuppressLint("SetTextI18n")

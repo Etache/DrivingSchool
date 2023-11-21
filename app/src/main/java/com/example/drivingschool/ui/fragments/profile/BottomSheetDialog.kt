@@ -3,21 +3,16 @@ package com.example.drivingschool.ui.fragments.profile
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.provider.Settings.Global.getString
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.databinding.ChangePasswordBottomSheetBinding
-import com.example.drivingschool.ui.activity.MainActivity
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -29,6 +24,7 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
 
     //private val viewModel: ProfileViewModel by viewModels()
     private lateinit var viewModel: ProfileViewModel
+    private lateinit var networkConnection: NetworkConnection
 
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
@@ -49,6 +45,7 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        networkConnection = NetworkConnection(requireContext())
         super.onViewCreated(view, savedInstanceState)
         //changePassword()
     }
@@ -82,13 +79,17 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
                 if (binding.edtOldPassword.text.toString() == preferences.password) {
                     if (binding.edtNewPassword.text.toString().length >= 6) {
                         if (binding.edtNewPassword.text.toString() == binding.edtConfirmPassword.text.toString()) {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.changePassword(
-                                    PasswordRequest(
-                                        binding.edtOldPassword.text.toString(),
-                                        binding.edtNewPassword.text.toString()
-                                    )
-                                )
+                            networkConnection.observe(viewLifecycleOwner) {
+                                if (it) {
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        viewModel.changePassword(
+                                            PasswordRequest(
+                                                binding.edtOldPassword.text.toString(),
+                                                binding.edtNewPassword.text.toString()
+                                            )
+                                        )
+                                    }
+                                }
                             }
                             preferences.password = binding.edtNewPassword.text.toString()
                             showAlertDialog("Пароль успешно изменен")

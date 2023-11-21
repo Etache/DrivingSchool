@@ -15,10 +15,6 @@
         tools:layout="@layout/fragment_main" />
 
     <fragment
-        android:id="@+id/noInternetFragment"
-        android:name="com.example.drivingschool.ui.fragments.noInternet.NoInternetFragment"
-        tools:layout="@layout/fragment_no_internet" />
-    <fragment
         android:id="@+id/selectInstructorFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment"
         tools:layout="@layout/fragment_select_instructor" >
@@ -33,12 +29,10 @@
     <fragment
         android:id="@+id/currentLessonDetailsFragment"
         android:name="com.example.drivingschool.ui.fragments.lessonInfo.currentDetails.CurrentLessonDetailsFragment"
-        android:label="Текущие"
         tools:layout="@layout/fragment_current_lesson_detail" />
     <fragment
         android:id="@+id/previousLessonDetailsFragment"
         android:name="com.example.drivingschool.ui.fragments.lessonInfo.previousDetails.PreviousLessonDetailsFragment"
-        android:label="Предыдущие"
         tools:layout="@layout/fragment_previous_lesson_details" />
     <fragment
         android:id="@+id/instructorProfileFragment"
@@ -57,9 +51,9 @@
         android:name="com.example.drivingschool.ui.fragments.enroll.selectDate.SelectDateTimeFragment"
         tools:layout="@layout/fragment_select_date_time" />
     <fragment
-        android:id="@+id/enrollInstructorFragment"
-        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.EnrollInstructorFragment"
-        tools:layout="@layout/fragment_enroll_instructor" />
+        android:id="@+id/calendarInstructorFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.CalendarInstructorFragment"
+        tools:layout="@layout/fragment_calendar_instructor" />
     <fragment
         android:id="@+id/checkTimetableFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.CheckTimetableFragment"
@@ -84,5 +78,9 @@
         android:id="@+id/instructorPreviousLessonFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorLessonInfo.InstructorPreviousLessonFragment"
         tools:layout="@layout/fragment_instructor_previous_lesson" />
+    <fragment
+        android:id="@+id/enrollInstructorFragment"
+        android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.EnrollInstructorFragment"
+        tools:layout="@layout/fragment_enroll_instructor" />
 
 </navigation>

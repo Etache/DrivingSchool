@@ -28,6 +28,7 @@ import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.activity.MainActivity
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
@@ -49,6 +50,7 @@ class InstructorProfileFragment : Fragment() {
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
+    private lateinit var networkConnection: NetworkConnection
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,12 +61,18 @@ class InstructorProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        networkConnection = NetworkConnection(requireContext())
         super.onViewCreated(view, savedInstanceState)
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            getInstructorProfileData()
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
         getInstructorProfileData()
         showImage()
         pickImageFromGallery()
         changePasswordInstructor()
         logoutInstructor()
+
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
@@ -78,7 +86,9 @@ class InstructorProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
-                viewModel.getInstructorProfile()
+                networkConnection.observe(viewLifecycleOwner){
+                    if (it) viewModel.getInstructorProfile()
+                }
                 viewModel.instructorProfile.observe(requireActivity()) { state ->
                     when (state) {
                         is UiState.Loading -> {
@@ -142,7 +152,9 @@ class InstructorProfileFragment : Fragment() {
 
                     1 -> {
                         binding.ivProfile.setImageDrawable(null)
-                        viewModel.deleteProfilePhoto()
+                        networkConnection.observe(viewLifecycleOwner){
+                            if (it) viewModel.deleteProfilePhoto()
+                        }
                     }
                 }
             }
@@ -162,7 +174,9 @@ class InstructorProfileFragment : Fragment() {
             inputStream.copyTo(outputStream)
             val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
-            viewModel.updateProfilePhoto(multipartBody)
+            networkConnection.observe(viewLifecycleOwner){
+                if (it) viewModel.updateProfilePhoto(multipartBody)
+            }
         }
     }
 
@@ -181,7 +195,6 @@ class InstructorProfileFragment : Fragment() {
     private fun logoutInstructor() {
         binding.btnExit.setOnClickListener {
             val alertDialog = AlertDialog.Builder(requireContext())
-
             alertDialog.setTitle(getString(R.string.confirm_exit))
             alertDialog.setNegativeButton(getString(R.string.cancel)) { alert, _ ->
                 alert.cancel()
@@ -192,8 +205,8 @@ class InstructorProfileFragment : Fragment() {
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-//                findNavController().navigate(R.id.loginFragment)
-                val intent = Intent(activity, MainActivity::class.java)
+                val intent = Intent(requireActivity(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra("isLoggedOut", true)
                 activity?.startActivity(intent)
                 alert.cancel()
@@ -204,7 +217,10 @@ class InstructorProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun getInstructorProfileData() {
-        viewModel.getInstructorProfile()
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) viewModel.getInstructorProfile()
+        }
+
         lifecycleScope.launch {
             viewModel.instructorProfile.observe(requireActivity()) { state ->
                 when (state) {

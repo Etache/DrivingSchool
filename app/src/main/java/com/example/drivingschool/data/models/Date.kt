@@ -6,7 +6,7 @@ import java.io.Serializable
 data class Date(
 
     @SerializedName("date") var date : String? = null,
-    @SerializedName("times") var times : ArrayList<TimeInWorkWindows> = arrayListOf(),
+    @SerializedName("times") var times : ArrayList<TimeInWorkWindows> ?= null
 
 ) : Serializable
 

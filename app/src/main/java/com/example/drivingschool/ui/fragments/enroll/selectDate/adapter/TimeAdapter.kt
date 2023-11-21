@@ -55,23 +55,19 @@ class TimeAdapter(val onClick : (TimeInWorkWindows) -> Unit) : Adapter<TimeAdapt
                 binding.tvText.setTextColor(Color.parseColor("#D3D3D3"))
             }
 
-            binding.tvText.timePressed()
-
+            var isPressed = false
             binding.tvText.setOnClickListener {
                 onClick(time)
-//                if(time.isFree == true) {
-//                    time.isSelected = !time.isSelected!!
-//                }
-
-//                if(time.isSelected == true) {
-//                    binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector)
-//                    binding.tvText.setTextColor(Color.parseColor("#5883CB"));
-//                    Log.d("madimadi", "background : ${binding.tvText.background}")
-//                } else {
-//                    binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector_normal)
-//                    binding.tvText.setTextColor(Color.parseColor("#8E8E8E"));
-//                    Log.d("madimadi", "background : ${binding.tvText.background}")
-//                }
+                if(time.isFree == true){
+                    isPressed = !isPressed
+                    if (isPressed) {
+                        binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector)
+                        binding.tvText.setTextColor(Color.parseColor("#5883CB"))
+                    } else {
+                        binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector_normal)
+                        binding.tvText.setTextColor(Color.parseColor("#8E8E8E"))
+                    }
+                }
             }
         }
     }

@@ -11,4 +11,7 @@ object BundleKeys {
     const val TIMETABLE_TO_ENROLL_TIME = "timetable_to_enroll_time"
     const val WORK_WINDOWS = "work_windows"
     const val FULL_NAME = "full_name_key"
+    const val INSTRUCTOR_ID_ENROLL = "instructor_id_key"
+    const val ID_KEY = "id"
+
 }

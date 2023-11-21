@@ -16,7 +16,7 @@ data class InstructorResponse(
     @SerializedName("feedbacks") var feedbacks: List<FeedbackInstructor>? = null,
     @SerializedName("workwindows") var workwindows: ArrayList<Date> = arrayListOf(),
 
-)
+    )
 
 data class WorkWindows(
 

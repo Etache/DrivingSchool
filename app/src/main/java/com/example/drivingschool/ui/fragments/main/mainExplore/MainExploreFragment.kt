@@ -18,6 +18,7 @@ import com.example.drivingschool.ui.fragments.BundleKeys.MAIN_TO_CURRENT_KEY
 import com.example.drivingschool.ui.fragments.BundleKeys.MAIN_TO_PREVIOUS_KEY
 import com.example.drivingschool.ui.fragments.main.lesson.LessonAdapter
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,8 +32,16 @@ class MainExploreFragment :
 
     private lateinit var adapter: LessonAdapter
     private var lessonType: LessonType? = null
+    private lateinit var networkConnection: NetworkConnection
 
     override fun initialize() {
+        networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) {
+                if (lessonType == LessonType.Current) viewModel.getCurrent()
+                else if (lessonType == LessonType.Previous) viewModel.getPrevious()
+            }
+        }
 
         @Suppress("DEPRECATION")
         lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
@@ -46,11 +55,24 @@ class MainExploreFragment :
         else if (lessonType == LessonType.Previous) initPreviousLessonSections()
 
         binding.swipeRefresh.setOnRefreshListener {
-            if (lessonType == LessonType.Current) viewModel.getCurrent()
-            else if (lessonType == LessonType.Previous) viewModel.getPrevious()
+            dataRefresh()
             binding.swipeRefresh.isRefreshing = false
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dataRefresh()
+    }
+
+    private fun dataRefresh() {
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) {
+                if (lessonType == LessonType.Current) viewModel.getCurrent()
+                else if (lessonType == LessonType.Previous) viewModel.getPrevious()
+            }
+        }
     }
 
     private fun onClick(id: String) {
@@ -149,6 +171,5 @@ class MainExploreFragment :
             }
         }
     }
-
 
 }

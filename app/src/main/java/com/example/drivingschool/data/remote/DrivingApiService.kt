@@ -2,7 +2,6 @@ package com.example.drivingschool.data.remote
 
 import com.example.drivingschool.data.models.CancelRequest
 import com.example.drivingschool.data.models.CancelResponse
-import com.example.drivingschool.data.models.EnrollLessonResponse
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
@@ -15,6 +14,7 @@ import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
+import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
 import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest

@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drivingschool.R
 import com.example.drivingschool.databinding.FragmentInstructorInfoBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.fragments.BundleKeys
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.InstructorCommentAdapter
 import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -32,6 +34,7 @@ class InstructorInfoFragment : Fragment() {
     private lateinit var adapter: InstructorCommentAdapter
     private val viewModel: EnrollViewModel by viewModels()
     private var id: Int? = null
+    private lateinit var networkConnection: NetworkConnection
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,15 +46,24 @@ class InstructorInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        networkConnection = NetworkConnection(requireContext())
         binding.rvInstructorProfileComments.layoutManager = LinearLayoutManager(context)
         binding.rvInstructorProfileComments.isNestedScrollingEnabled = false
-        id = arguments?.getInt(SelectInstructorAdapter.ID_KEY)
+        id = arguments?.getInt(BundleKeys.ID_KEY)
         Log.d("madimadi", "instructor id in fragment: ${id}")
 
-        getInstructorProfile()
-        showImage()
+        networkConnection.observe(viewLifecycleOwner) {
+            if (it) getInstructorProfile()
+        }
 
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner) {
+                if (it) getInstructorProfile()
+            }
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
+
+        showImage()
     }
 
 
@@ -78,9 +90,11 @@ class InstructorInfoFragment : Fragment() {
                                 in 1..4 -> {
                                     binding.tvExpienceNum.text = "$experience года"
                                 }
+
                                 in 5..9 -> {
                                     binding.tvExpienceNum.text = "$experience лет"
                                 }
+
                                 else -> {
                                     binding.tvExpienceNum.text = "$experience лет"
                                 }

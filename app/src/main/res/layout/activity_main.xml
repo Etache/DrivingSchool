@@ -44,4 +44,11 @@
         style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
         app:menu="@menu/bottom_nav_menu" />
 
+    <include
+        android:id="@+id/content_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        layout="@layout/layout_no_internet"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

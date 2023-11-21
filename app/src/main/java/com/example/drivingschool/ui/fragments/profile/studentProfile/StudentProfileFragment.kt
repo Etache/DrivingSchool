@@ -18,6 +18,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,6 +29,7 @@ import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.activity.MainActivity
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
@@ -49,6 +51,7 @@ class StudentProfileFragment : Fragment() {
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
+    private lateinit var networkConnection: NetworkConnection
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,15 +62,27 @@ class StudentProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        networkConnection = NetworkConnection(requireContext())
         super.onViewCreated(view, savedInstanceState)
         if (preferences.role == "instructor") {
             findNavController().navigate(R.id.instructorProfileFragment)
         } else {
+            binding.layoutSwipeRefresh.setOnRefreshListener {
+                getProfileData()
+                binding.layoutSwipeRefresh.isRefreshing = false
+            }
             getProfileData()
             showImage()
             pickImageFromGallery()
             changePassword()
             logout()
+
+            val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         }
     }
 
@@ -76,7 +91,9 @@ class StudentProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
-                viewModel.getProfile()
+                networkConnection.observe(viewLifecycleOwner){
+                    if (it)viewModel.getProfile()
+                }
                 viewModel.profile.observe(requireActivity()) { state ->
                     when (state) {
                         is UiState.Loading -> {
@@ -86,7 +103,8 @@ class StudentProfileFragment : Fragment() {
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
                             Picasso.get().load(state.data?.profilePhoto?.small).memoryPolicy(
-                                MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
+                                MemoryPolicy.NO_CACHE
+                            ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
                         }
 
                         else -> {}
@@ -122,8 +140,11 @@ class StudentProfileFragment : Fragment() {
     private fun pickImageFromGallery() {
         binding.tvChangePhoto.setOnClickListener {
             val builder = AlertDialog.Builder(context)
-            builder.setTitle("Изменить фотографию")
-            builder.setItems(arrayOf("Выбрать фото", "Удалить фото")) { dialog, which ->
+            builder.setTitle(getString(R.string.change_photo))
+            builder.setItems(arrayOf(
+                getString(R.string.choose_photo),
+                getString(R.string.delete_photo)
+            )) { dialog, which ->
                 when (which) {
                     0 -> {
                         val intent =
@@ -132,7 +153,10 @@ class StudentProfileFragment : Fragment() {
                     }
 
                     1 -> {
-                        viewModel.deleteProfilePhoto()
+                        networkConnection.observe(viewLifecycleOwner){
+                            if (it) viewModel.deleteProfilePhoto()
+                        }
+
                     }
                 }
             }
@@ -153,7 +177,10 @@ class StudentProfileFragment : Fragment() {
 
             val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
-            viewModel.updateProfilePhoto(multipartBody)
+            networkConnection.observe(viewLifecycleOwner){
+                if (it)viewModel.updateProfilePhoto(multipartBody)
+            }
+
         }
     }
 
@@ -183,8 +210,8 @@ class StudentProfileFragment : Fragment() {
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-//                findNavController().navigate(R.id.loginFragment)
-                val intent = Intent(activity, MainActivity::class.java)
+                val intent = Intent(requireActivity(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra("isLoggedOut",true)
                 activity?.startActivity(intent)
                 alert.cancel()
@@ -194,7 +221,9 @@ class StudentProfileFragment : Fragment() {
     }
 
     private fun getProfileData() {
-        viewModel.getProfile()
+        networkConnection.observe(viewLifecycleOwner){
+            if (it)viewModel.getProfile()
+        }
         lifecycleScope.launch {
             viewModel.profile.observe(requireActivity()) { state ->
                 when (state) {
@@ -206,7 +235,8 @@ class StudentProfileFragment : Fragment() {
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
-                        Picasso.get().load(state.data?.profilePhoto?.small).into(binding.ivProfile) //changed to small
+                        Picasso.get().load(state.data?.profilePhoto?.large) //changed to large
+                            .into(binding.ivProfile)
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber

@@ -21,6 +21,7 @@ import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.databinding.FragmentLoginBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,7 @@ class LoginFragment : Fragment() {
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
+    private lateinit var networkConnection: NetworkConnection
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,7 +53,14 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        networkConnection = NetworkConnection(requireContext())
         super.onViewCreated(view, savedInstanceState)
+
+        activateViews()
+        binding.btnLogin.setOnClickListener {
+            context?.let { it1 -> hideKeyboard(context = it1, view) }
+            setLogin()
+        }
 
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -59,12 +68,6 @@ class LoginFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
-        activateViews()
-        binding.btnLogin.setOnClickListener {
-            context?.let { it1 -> hideKeyboard(context = it1, view) }
-            setLogin()
-        }
     }
 
     private fun hideKeyboard(context: Context, view: View?) {
@@ -80,7 +83,9 @@ class LoginFragment : Fragment() {
 
     private fun saveToken(username: String, password: String) {
         lifecycleScope.launch {
-            viewModel.getToken(LoginRequest(username, password))
+            networkConnection.observe(viewLifecycleOwner){
+                if (it) viewModel.getToken(LoginRequest(username, password))
+            }
             viewModel.token.observe(requireActivity()) { state ->
                 when (state) {
                     is UiState.Loading -> {

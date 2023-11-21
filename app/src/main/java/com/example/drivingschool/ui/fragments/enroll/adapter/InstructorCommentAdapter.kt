@@ -50,13 +50,6 @@ class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor
             .into(holder.binding.ivProfilePhoto)
 
 
-//        Glide
-//            .with(holder.binding.ivProfilePhoto)
-//            .load(comment.profilePhoto)
-//            .circleCrop()
-//            .placeholder(R.drawable.default_pfp)
-//            .into(holder.binding.ivProfilePhoto)
-
 
         holder.binding.tvComment.setLines(2)
         holder.binding.tvComment.setOnClickListener {
