@@ -15,10 +15,6 @@
         tools:layout="@layout/fragment_main" />
 
     <fragment
-        android:id="@+id/noInternetFragment"
-        android:name="com.example.drivingschool.ui.fragments.noInternet.NoInternetFragment"
-        tools:layout="@layout/fragment_no_internet" />
-    <fragment
         android:id="@+id/selectInstructorFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment"
         tools:layout="@layout/fragment_select_instructor" >
@@ -33,12 +29,10 @@
     <fragment
         android:id="@+id/currentLessonDetailsFragment"
         android:name="com.example.drivingschool.ui.fragments.lessonInfo.currentDetails.CurrentLessonDetailsFragment"
-        android:label="Текущие"
         tools:layout="@layout/fragment_current_lesson_detail" />
     <fragment
         android:id="@+id/previousLessonDetailsFragment"
         android:name="com.example.drivingschool.ui.fragments.lessonInfo.previousDetails.PreviousLessonDetailsFragment"
-        android:label="Предыдущие"
         tools:layout="@layout/fragment_previous_lesson_details" />
     <fragment
         android:id="@+id/instructorProfileFragment"
