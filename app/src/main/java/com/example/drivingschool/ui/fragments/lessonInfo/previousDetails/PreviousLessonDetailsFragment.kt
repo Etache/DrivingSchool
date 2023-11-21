@@ -3,6 +3,7 @@ package com.example.drivingschool.ui.fragments.lessonInfo.previousDetails
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
 import android.text.Editable
@@ -12,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -135,21 +137,7 @@ class PreviousLessonDetailsFragment :
 
                                 if (it.data?.feedbackForInstructor != null) {
                                     isCommentCreated = true
-                                    binding.btnComment.apply {
-                                        isClickable = false
-                                        setBackgroundColor(
-                                            ContextCompat.getColor(
-                                                requireContext(),
-                                                R.color.light_gray
-                                            )
-                                        )
-                                        setTextColor(
-                                            ContextCompat.getColor(
-                                                requireContext(),
-                                                R.color.dark_gray_text
-                                            )
-                                        )
-                                    }
+                                    binding.btnComment.viewVisibility(false)
 
                                 }
 
@@ -231,11 +219,13 @@ class PreviousLessonDetailsFragment :
         val customDialog =
             LayoutInflater.from(requireContext()).inflate(R.layout.custom_rate_dialog, null)
         builder.setView(customDialog)
+        builder.setCancelable(false)
 
         val rating = customDialog.findViewById<RatingBar>(R.id.rb_comment_small)
         val edt = customDialog.findViewById<EditText>(R.id.et_comment_text)
         val counter = customDialog.findViewById<TextView>(R.id.tv_comment_character_count)
-        val btn = customDialog.findViewById<Button>(R.id.btn_comment_confirm)
+        val btnSend = customDialog.findViewById<Button>(R.id.btn_comment_confirm)
+        val btnDismiss = customDialog.findViewById<ImageButton>(R.id.btn_dismiss)
 
         edt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -248,7 +238,7 @@ class PreviousLessonDetailsFragment :
         })
 
         val dialog = builder.create()
-        btn.setOnClickListener {
+        btnSend.setOnClickListener {
             createComment(
                 FeedbackForInstructorRequest(
                     lesson = lessonId.toInt(),
@@ -260,6 +250,10 @@ class PreviousLessonDetailsFragment :
             dialog.dismiss()
         }
 
+        btnDismiss.setOnClickListener {
+            dialog.dismiss()
+        }
+
         dialog.show()
     }
 
@@ -268,9 +262,25 @@ class PreviousLessonDetailsFragment :
             if (it) viewModel.saveComment(comment)
         }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let { showToast(getString(R.string.your_comment_saved)) }
+            it.access?.let {
+                showAlert()
+
+            }
         }
         viewModel.getDetails(lessonId)
+        showAlert()
+    }
+
+    private fun showAlert() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Ваш комментарий отправлен")
+            .setCancelable(true)
+            .setNegativeButton(
+                getString(R.string.ok),
+                DialogInterface.OnClickListener { dialogInterface, _ ->
+                    dialogInterface.cancel()
+                })
+            .show()
     }
 
     @SuppressLint("SimpleDateFormat")

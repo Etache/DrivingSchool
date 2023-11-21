@@ -192,10 +192,11 @@ class CurrentLessonDetailsFragment :
     private fun showAlert() {
         AlertDialog.Builder(requireContext())
             .setTitle("Отмена занятия невозможна")
+            .setMessage(getString(R.string.cancel_alert_msg))
             .setCancelable(true)
             .setNegativeButton(
                 getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface, i ->
+                DialogInterface.OnClickListener { dialogInterface, _ ->
                     dialogInterface.cancel()
                 })
             .show()

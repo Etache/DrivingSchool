@@ -1,6 +1,7 @@
 package com.example.drivingschool.ui.fragments.main.mainExplore
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -120,6 +121,7 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(false)
                                 rvMainExplore.viewVisibility(true)
                                 viewNoLessons.viewVisibility(false)
+                                Log.e("ololo", "initCurrentLessonSections: UiState.Success ${it.data}", )
                                 adapter.updateList(it.data ?: emptyList())
                             }
 
@@ -140,6 +142,7 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(false)
                                 rvMainExplore.viewVisibility(false)
                                 viewNoLessons.viewVisibility(true)
+                                Log.e("ololo", "initCurrentLessonSections: UiState.Empty", )
                             }
                         }
 
@@ -152,6 +155,7 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(true)
                                 rvMainExplore.viewVisibility(false)
                                 viewNoLessons.viewVisibility(false)
+                                Log.e("ololo", "initCurrentLessonSections: UiState.Loading ", )
                             }
 
                         }
@@ -161,7 +165,7 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(false)
                                 rvMainExplore.viewVisibility(true)
                                 viewNoLessons.viewVisibility(false)
-
+                                Log.e("ololo", "initCurrentLessonSections: UiState.Success ${it.data}", )
                                 adapter.updateList(it.data ?: emptyList())
                             }
 

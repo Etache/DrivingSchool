@@ -94,6 +94,10 @@ class LessonAdapter(
                     "Завершен"
                 }
 
+                LessonStatus.NOTCOME.status -> {
+                    "Не пришел"
+                }
+
                 else -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
                     "Неизвестный статус"

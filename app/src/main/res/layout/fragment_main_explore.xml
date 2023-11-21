@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="@color/blue"
+    android:paddingHorizontal="20dp"
+    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue"
     tools:context=".ui.fragments.main.mainExplore.MainExploreFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:backgroundTint="@color/blue"
-        android:paddingHorizontal="20dp"
-        app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_main_explore"
@@ -24,10 +24,10 @@
 
         <FrameLayout
             android:id="@+id/view_no_lessons"
+            android:visibility="gone"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:visibility="gone">
+            android:layout_gravity="center">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -44,6 +44,7 @@
                 android:textColor="@color/dark_gray_text"
                 android:textSize="28sp"
                 android:textStyle="bold" />
+
         </FrameLayout>
 
         <ProgressBar
@@ -51,10 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:backgroundTint="@color/blue"
-            android:indeterminateTint="@color/blue"
-            android:visibility="visible" />
+            android:indeterminateTint="@color/blue" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
 
-</FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

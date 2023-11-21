@@ -73,7 +73,7 @@
     <string name="back">Назад</string>
     <string name="confirm">Подтвердить</string>
     <string name="continue_text">Отправить</string>
-    <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
+    <string name="comment_body_text">Ваше занятие завершено, поставьте \nоценку вашему инструктору</string>
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
     <string name="choose_photo">Выбрать фото</string>
@@ -101,7 +101,6 @@
     <string name="ok_upperCase">OK</string>
     <string name="comment">Комментарий</string>
     <string name="_0_250">(0/250)</string>
-    <string name="practical_driving">Практическое вождение</string>
     <string name="start">Начало</string>
     <string name="end_text">Конец</string>
     <string name="cancel_lesson_text">Вы точно хотите отменить занятие?</string>
@@ -139,6 +138,7 @@
     <string name="yyyy_mm_dd_t_hh_mm_ss_ssssssx">yyyy-MM-dd\'T\'HH:mm:ss.SSSSSSX</string>
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
     <string name="cursant">Курсант</string>
+    <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа!</string>
 
     <string-array name="mcv_monthLabels">
         <item>Январь</item>
