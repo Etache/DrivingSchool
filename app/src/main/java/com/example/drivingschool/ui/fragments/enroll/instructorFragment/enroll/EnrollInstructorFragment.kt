@@ -74,7 +74,7 @@ class EnrollInstructorFragment :
     private fun isFridayOrSaturday(): Boolean {
         val calendar = Calendar.getInstance()
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        return dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY
+        return dayOfWeek == Calendar.TUESDAY || dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY
     }
 
     private fun getWorkWindows() {
@@ -87,9 +87,9 @@ class EnrollInstructorFragment :
                         }
 
                         is UiState.Success -> {
-                            adapter = EnrollInstructorAdapter(it.data?.dates, it.data?.times)
+                            //adapter = EnrollInstructorAdapter(it.data?.currentWeek., it.data?.times)
                             binding.recyclerDateAndTime.adapter = adapter
-                            dateFromBack = it.data?.dates
+                            //dateFromBack = it.data?.dates
                         }
 
                         is UiState.Error -> {

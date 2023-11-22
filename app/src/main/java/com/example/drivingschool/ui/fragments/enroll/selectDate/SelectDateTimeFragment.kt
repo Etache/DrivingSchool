@@ -17,7 +17,7 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.data.models.TimeInWorkWindows
 import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.CalendarWeekDayFormatter
 import com.example.drivingschool.ui.fragments.enroll.selectDate.adapter.TimeAdapter
@@ -34,17 +34,18 @@ import java.util.Calendar
 import java.util.Locale
 
 class SelectDateTimeFragment :
-    BaseFragment<FragmentSelectDateTimeBinding, EnrollViewModel>(R.layout.fragment_select_date_time){
+    BaseFragment<FragmentSelectDateTimeBinding, EnrollViewModel>(R.layout.fragment_select_date_time) {
 
     override val binding by viewBinding(FragmentSelectDateTimeBinding::bind)
     override val viewModel: EnrollViewModel by viewModels()
+
     @RequiresApi(Build.VERSION_CODES.O)
     private val adapter = TimeAdapter(this::onTimeClick)
-    private lateinit var workWindows : ArrayList<Date>
-    private lateinit var instructorFullName : String
-    private lateinit var instructorID : String
-    private lateinit var selectedFinalDate : String
-    private lateinit var selectedFinalTime : String
+    private lateinit var workWindows: ArrayList<Date>
+    private lateinit var instructorFullName: String
+    private var instructorID: String? = null
+    private var selectedFinalDate: String? = null
+    private var selectedFinalTime: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,10 +56,13 @@ class SelectDateTimeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        workWindows = arguments?.getSerializable(BundleKeys.WORK_WINDOWS) as ArrayList<Date>
-        instructorFullName = arguments?.getString(BundleKeys.FULL_NAME).toString()
-        instructorID = arguments?.getString(BundleKeys.INSTRUCTOR_ID_ENROLL).toString()
-        Log.d("madimadi", "dates in SelectDateTimeFragment: $workWindows $instructorFullName $instructorID")
+        workWindows = arguments?.getSerializable(Constants.WORK_WINDOWS) as ArrayList<Date>
+        instructorFullName = arguments?.getString(Constants.FULL_NAME).toString()
+        instructorID = arguments?.getString(Constants.INSTRUCTOR_ID_ENROLL).toString()
+        Log.d(
+            "madimadi",
+            "dates in SelectDateTimeFragment: $workWindows $instructorFullName $instructorID"
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -85,17 +89,17 @@ class SelectDateTimeFragment :
     override fun setupListeners() {
         super.setupListeners()
         binding.btnConfirm.setOnClickListener {
-            if(selectedFinalDate != null && selectedFinalTime != null) {
+            if (selectedFinalTime != null && selectedFinalDate != null) {
                 val bundle = Bundle()
-                bundle.putString(BundleKeys.TIMETABLE_TO_ENROLL_DATE, selectedFinalDate)
-                bundle.putString(BundleKeys.TIMETABLE_TO_ENROLL_TIME, selectedFinalTime)
-                bundle.putString(BundleKeys.FULL_NAME, instructorFullName)
-                bundle.putString(BundleKeys.INSTRUCTOR_ID_ENROLL, instructorID)
+                bundle.putString(Constants.TIMETABLE_TO_ENROLL_DATE, selectedFinalDate)
+                bundle.putString(Constants.TIMETABLE_TO_ENROLL_TIME, selectedFinalTime)
+                bundle.putString(Constants.FULL_NAME, instructorFullName)
+                bundle.putString(Constants.INSTRUCTOR_ID_ENROLL, instructorID)
                 findNavController().navigate(R.id.enrollFragment, bundle)
             }
 
         }
-        binding.calendarView.setOnDateChangedListener(object : OnDateSelectedListener{
+        binding.calendarView.setOnDateChangedListener(object : OnDateSelectedListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDateSelected(
                 widget: MaterialCalendarView,
@@ -111,24 +115,34 @@ class SelectDateTimeFragment :
                 val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
                 val outputDateString = outputDateFormat.format(date)
 
-                selectedFinalDate = outputDateString                         //saveSelectedDate
-                workWindows.forEach{ dates ->
-                    if(dates.date == outputDateString) {
-                        val timesList : ArrayList<TimeInWorkWindows> = arrayListOf()
-                        dates.times?.forEach{ times ->
-                            val inputTime = LocalTime.parse(times.time, DateTimeFormatter.ofPattern("HH:mm:ss"))
-                            val convertedTime = inputTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-                            var selectedTime = TimeInWorkWindows(convertedTime, times.isFree)
-                            timesList.add(selectedTime)
-                            Log.d("madimadi", "convertedTime: $selectedTime")
-                        }
-//                        timesList.forEach{time ->
-//                            val inputTime = LocalTime.parse(dates.times, DateTimeFormatter.ofPattern("HH:mm:ss"))
+                selectedFinalDate = outputDateString //saveSelectedDate
+                 {
+                    Log.d("madimadi", "onDateSelected: contains: $outputDateString")
+                }
+                workWindows.forEach { dates ->
+                    if (dates.date == outputDateString) {
+                        //val timesList: ArrayList<TimeInWorkWindows> = arrayListOf()
+//                            val inputTime = LocalTime.parse(times.time, DateTimeFormatter.ofPattern("HH:mm:ss"))
 //                            val convertedTime = inputTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-//                            time.time = convertedTime
-//                            Log.d("madimadi", "convertedTime: ${time.time}")
-//                        }
-                        adapter.setTimesList(timesList)
+//                            var selectedTime = TimeInWorkWindows(convertedTime, times.isFree)
+                            //timesList.add(TimeInWorkWindows(times.time, times.isFree))
+                        Log.d("madimadi", "convertedTime: ${dates.times}")
+                        adapter.setTimesList(dates.times)
+                    } else {
+                        adapter.setTimesList(
+                            arrayListOf(
+                                TimeInWorkWindows("8:00", false),
+                                TimeInWorkWindows("9:00", false),
+                                TimeInWorkWindows("10:00", false),
+                                TimeInWorkWindows("11:00", false),
+                                TimeInWorkWindows("13:00", false),
+                                TimeInWorkWindows("14:00", false),
+                                TimeInWorkWindows("15:00", false),
+                                TimeInWorkWindows("16:00", false),
+                                TimeInWorkWindows("17:00", false),
+                                TimeInWorkWindows("18:00", false)
+                            )
+                        )
                     }
                 }
             }
@@ -136,18 +150,20 @@ class SelectDateTimeFragment :
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onTimeClick(time : TimeInWorkWindows){
+    fun onTimeClick(time: TimeInWorkWindows) {
         val oldTime = LocalTime.parse(time.time, DateTimeFormatter.ofPattern("HH:mm"))
         selectedFinalTime = oldTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
     }
 
     private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {
-        val nextWeekStart = getNextWeekStart()
-        val nextWeekEnd = getNextWeekEnd()
+        val nextWeekStart = getCurrentWeekStart()
+        val nextWeekEnd = getCurrentWeekEnd()
 
         val grayDaysDecorator = object : DayViewDecorator {
             override fun shouldDecorate(day: CalendarDay): Boolean {
-                return !((day.isAfter(nextWeekStart) || day == nextWeekStart) && (day.isBefore(nextWeekEnd) || day == nextWeekEnd))
+                return !((day.isAfter(nextWeekStart) || day == nextWeekStart) && (day.isBefore(
+                    nextWeekEnd
+                ) || day == nextWeekEnd))
             }
 
             override fun decorate(view: DayViewFacade) {
@@ -163,16 +179,14 @@ class SelectDateTimeFragment :
         calendarView.addDecorator(grayDaysDecorator)
     }
 
-    private fun getNextWeekStart(): CalendarDay {
+    private fun getCurrentWeekStart(): CalendarDay {
         val today = Calendar.getInstance()
-        today.add(Calendar.WEEK_OF_YEAR, 1)
         today.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         return CalendarDay.from(today)
     }
 
-    private fun getNextWeekEnd(): CalendarDay {
+    private fun getCurrentWeekEnd(): CalendarDay {
         val today = Calendar.getInstance()
-        today.add(Calendar.WEEK_OF_YEAR, 1)
         today.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
         return CalendarDay.from(today)
     }

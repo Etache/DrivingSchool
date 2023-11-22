@@ -14,7 +14,7 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentSelectInstructorBinding
 import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
@@ -94,9 +94,9 @@ class SelectInstructorFragment : Fragment() {
 
     fun onClick(workWindows: ArrayList<Date>, name : String, id : String) {
         val bundle = Bundle()
-        bundle.putString(BundleKeys.FULL_NAME, name)
-        bundle.putString(BundleKeys.INSTRUCTOR_ID_ENROLL, id)
-        bundle.putSerializable(BundleKeys.WORK_WINDOWS, workWindows)
+        bundle.putString(Constants.FULL_NAME, name)
+        bundle.putString(Constants.INSTRUCTOR_ID_ENROLL, id)
+        bundle.putSerializable(Constants.WORK_WINDOWS, workWindows)
         findNavController().navigate(R.id.selectDateTimeFragment, bundle)
     }
 }

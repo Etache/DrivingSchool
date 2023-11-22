@@ -10,7 +10,7 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.squareup.picasso.Picasso
 
 class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name : String, id : String) -> Unit) :
@@ -33,13 +33,13 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
 
             when (val experience = instructor.experience) {
                 in 1..4 -> {
-                    binding.tvExpience.text = "$experience года"
+                    binding.tvExpience.text = "Стаж: $experience года"
                 }
                 in 5..9 -> {
-                    binding.tvExpience.text = "$experience лет"
+                    binding.tvExpience.text = "Стаж: $experience лет"
                 }
                 else -> {
-                    binding.tvExpience.text = "$experience лет"
+                    binding.tvExpience.text = "Стаж: $experience лет"
                 }
             }
             binding.rbRating.rating = instructor.rate!!.toFloat()
@@ -54,7 +54,7 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
                 it.findNavController()
                     .navigate(
                         R.id.action_selectInstructorFragment_to_instructorInfoFragment,
-                        bundleOf(BundleKeys.ID_KEY to instructor.id)
+                        bundleOf(Constants.ID_KEY to instructor.id)
                     )
             }
             itemView.setOnClickListener {

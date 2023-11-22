@@ -52,7 +52,6 @@
                     android:id="@+id/tvSurname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
                     android:text="Иванов"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -62,6 +61,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Иван"
+                    android:layout_marginHorizontal="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_lastname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Иванович"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -101,7 +109,7 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:text="@string/number"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/number" />
@@ -128,7 +136,7 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:text="@string/group_number"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/group" />
@@ -162,7 +170,7 @@
                 android:paddingVertical="14dp"
                 android:text="@string/exit"
                 android:textAlignment="textStart"
-                android:textColor="#585858"
+                android:textColor="#E94057"
                 android:textSize="16sp"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_exit_profile"

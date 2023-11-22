@@ -81,8 +81,8 @@ interface DrivingApiService {
     @DELETE("delete_pp/")
     suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
 
-    @PUT("lessons/cancel/")
-    suspend fun cancelLesson(@Body cancelRequest: CancelRequest): Response<CancelResponse>
+    @PATCH("lessons/{id}/cancel/") //doesn't work
+    suspend fun cancelLesson(@Path("id") lessonId: String, @Body cancelRequest: CancelRequest): Response<CancelResponse>
 
     @POST("feedbacks/instructor/create/")
     suspend fun createComment(@Body comment: FeedbackForInstructorRequest): Response<FeedbackForInstructorResponse>

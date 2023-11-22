@@ -15,23 +15,14 @@ import com.example.drivingschool.tools.timePressed
 
 class TimeAdapter(val onClick : (TimeInWorkWindows) -> Unit) : Adapter<TimeAdapter.TimeViewHolder>() {
 
-    var list = arrayListOf<TimeInWorkWindows>(
-        TimeInWorkWindows("8:00", false),
-        TimeInWorkWindows("9:00", false),
-        TimeInWorkWindows("10:00", false),
-        TimeInWorkWindows("11:00", false),
-        TimeInWorkWindows("13:00", false),
-        TimeInWorkWindows("14:00", false),
-        TimeInWorkWindows("15:00", false),
-        TimeInWorkWindows("16:00", false),
-        TimeInWorkWindows("17:00", false),
-        TimeInWorkWindows("18:00", false),
-    )
+    var list = arrayListOf<TimeInWorkWindows>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setTimesList(timesList: ArrayList<TimeInWorkWindows>) {
+    fun setTimesList(timesList: ArrayList<TimeInWorkWindows>?) {
         list.clear()
-        list = timesList
+        if (timesList != null) {
+            list = timesList
+        }
         notifyDataSetChanged()
     }
 

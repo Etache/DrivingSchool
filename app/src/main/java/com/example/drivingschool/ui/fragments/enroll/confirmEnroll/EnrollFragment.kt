@@ -17,11 +17,10 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.EnrollLessonRequest
 import com.example.drivingschool.databinding.FragmentEnrollBinding
 import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -75,10 +74,10 @@ class EnrollFragment : BaseFragment<FragmentEnrollBinding, EnrollViewModel>(R.la
 
     override fun initialize() {
         super.initialize()
-        selectedDate = arguments?.getString(BundleKeys.TIMETABLE_TO_ENROLL_DATE).toString()
-        selectedTime = arguments?.getString(BundleKeys.TIMETABLE_TO_ENROLL_TIME).toString()
-        instructorFullName = arguments?.getString(BundleKeys.FULL_NAME).toString()
-        instructorID = arguments?.getString(BundleKeys.INSTRUCTOR_ID_ENROLL).toString()
+        selectedDate = arguments?.getString(Constants.TIMETABLE_TO_ENROLL_DATE).toString()
+        selectedTime = arguments?.getString(Constants.TIMETABLE_TO_ENROLL_TIME).toString()
+        instructorFullName = arguments?.getString(Constants.FULL_NAME).toString()
+        instructorID = arguments?.getString(Constants.INSTRUCTOR_ID_ENROLL).toString()
         Log.d("madimadi", "date in enrollFragment: $selectedDate")
         Log.d("madimadi", "time in enrollFragment: $selectedTime")
         Log.d("madimadi", "instructorID in enrollFragment: $instructorID")

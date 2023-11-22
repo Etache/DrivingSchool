@@ -18,10 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drivingschool.R
 import com.example.drivingschool.databinding.FragmentInstructorInfoBinding
 import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.InstructorCommentAdapter
-import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +48,7 @@ class InstructorInfoFragment : Fragment() {
         networkConnection = NetworkConnection(requireContext())
         binding.rvInstructorProfileComments.layoutManager = LinearLayoutManager(context)
         binding.rvInstructorProfileComments.isNestedScrollingEnabled = false
-        id = arguments?.getInt(BundleKeys.ID_KEY)
+        id = arguments?.getInt(Constants.ID_KEY)
         Log.d("madimadi", "instructor id in fragment: ${id}")
 
         networkConnection.observe(viewLifecycleOwner) {
