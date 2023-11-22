@@ -18,11 +18,8 @@ class TimeAdapter(val onClick : (TimeInWorkWindows) -> Unit) : Adapter<TimeAdapt
     var list = arrayListOf<TimeInWorkWindows>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setTimesList(timesList: ArrayList<TimeInWorkWindows>?) {
-        list.clear()
-        if (timesList != null) {
-            list = timesList
-        }
+    fun setTimesList(timesList: ArrayList<TimeInWorkWindows>) {
+        list = timesList
         notifyDataSetChanged()
     }
 

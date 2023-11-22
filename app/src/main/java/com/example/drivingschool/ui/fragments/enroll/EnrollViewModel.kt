@@ -27,11 +27,6 @@ class EnrollViewModel @Inject constructor(private val enrollRepository: EnrollRe
     private val _enrollResponse = MutableLiveData<UiState<EnrollLessonResponse>>()
     val enrollResponse: LiveData<UiState<EnrollLessonResponse>> = _enrollResponse
 
-    init {
-        getInstructors()
-        //getInstructorsId()
-    }
-
     fun getInstructors() = viewModelScope.launch {
         enrollRepository.getInstructors().collect {
             _instructors.postValue(it)

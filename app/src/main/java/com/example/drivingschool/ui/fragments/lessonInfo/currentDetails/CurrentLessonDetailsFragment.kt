@@ -177,7 +177,6 @@ class CurrentLessonDetailsFragment :
                             }
                         }
                     }
-
                     dialogInterface.cancel()
                 })
             .setNegativeButton(

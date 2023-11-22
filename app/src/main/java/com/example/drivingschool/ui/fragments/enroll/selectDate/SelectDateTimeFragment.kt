@@ -25,7 +25,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter
 import java.text.SimpleDateFormat
 import java.time.LocalTime
@@ -82,10 +81,11 @@ class SelectDateTimeFragment :
             calendarView.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
             cantGoBackMonth()
             setGrayDaysDecorator(calendarView)
-            calendarView.setDateSelected(today, false);
+            calendarView.setDateSelected(today, false)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun setupListeners() {
         super.setupListeners()
         binding.btnConfirm.setOnClickListener {
@@ -99,54 +99,21 @@ class SelectDateTimeFragment :
             }
 
         }
-        binding.calendarView.setOnDateChangedListener(object : OnDateSelectedListener {
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun onDateSelected(
-                widget: MaterialCalendarView,
-                date: CalendarDay,
-                selected: Boolean
-            ) {
-//                Log.d("madimadi", "date selected: ${binding.calendarView.selectedDate.date.date}")
-//                Log.d("madimadi", "date selected: ${binding.calendarView.selectedDate.date}")
-//                Log.d("madimadi", "date selected: ${binding.calendarView.selectedDate}")
-                var selectedDate = binding.calendarView.selectedDate.date.toString()
-                val inputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US)
-                val date = inputDateFormat.parse(selectedDate)
-                val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-                val outputDateString = outputDateFormat.format(date)
+        binding.calendarView.setOnDateChangedListener { _, _, _ ->
+            val selectedDate = binding.calendarView.selectedDate.date.toString()
+            val inputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US)
+            val date = inputDateFormat.parse(selectedDate)
+            val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val outputDateString = outputDateFormat.format(date!!)
 
-                selectedFinalDate = outputDateString //saveSelectedDate
-                 {
-                    Log.d("madimadi", "onDateSelected: contains: $outputDateString")
-                }
-                workWindows.forEach { dates ->
-                    if (dates.date == outputDateString) {
-                        //val timesList: ArrayList<TimeInWorkWindows> = arrayListOf()
-//                            val inputTime = LocalTime.parse(times.time, DateTimeFormatter.ofPattern("HH:mm:ss"))
-//                            val convertedTime = inputTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-//                            var selectedTime = TimeInWorkWindows(convertedTime, times.isFree)
-                            //timesList.add(TimeInWorkWindows(times.time, times.isFree))
-                        Log.d("madimadi", "convertedTime: ${dates.times}")
-                        adapter.setTimesList(dates.times)
-                    } else {
-                        adapter.setTimesList(
-                            arrayListOf(
-                                TimeInWorkWindows("8:00", false),
-                                TimeInWorkWindows("9:00", false),
-                                TimeInWorkWindows("10:00", false),
-                                TimeInWorkWindows("11:00", false),
-                                TimeInWorkWindows("13:00", false),
-                                TimeInWorkWindows("14:00", false),
-                                TimeInWorkWindows("15:00", false),
-                                TimeInWorkWindows("16:00", false),
-                                TimeInWorkWindows("17:00", false),
-                                TimeInWorkWindows("18:00", false)
-                            )
-                        )
-                    }
+            selectedFinalDate = outputDateString //saveSelectedDate
+
+            workWindows.forEach { dates ->
+                if (dates.date == outputDateString) {
+                    adapter.setTimesList(dates.times!!)
                 }
             }
-        })
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -156,14 +123,12 @@ class SelectDateTimeFragment :
     }
 
     private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {
-        val nextWeekStart = getCurrentWeekStart()
-        val nextWeekEnd = getCurrentWeekEnd()
 
         val grayDaysDecorator = object : DayViewDecorator {
+
             override fun shouldDecorate(day: CalendarDay): Boolean {
-                return !((day.isAfter(nextWeekStart) || day == nextWeekStart) && (day.isBefore(
-                    nextWeekEnd
-                ) || day == nextWeekEnd))
+                return !isDayActive(day)
+                //((day.isAfter(nextWeekStart) || day == nextWeekStart) && (day.isBefore(nextWeekEnd) || day == nextWeekEnd))
             }
 
             override fun decorate(view: DayViewFacade) {
@@ -175,20 +140,21 @@ class SelectDateTimeFragment :
                 view.setDaysDisabled(true)
             }
         }
-
         calendarView.addDecorator(grayDaysDecorator)
     }
 
-    private fun getCurrentWeekStart(): CalendarDay {
-        val today = Calendar.getInstance()
-        today.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        return CalendarDay.from(today)
-    }
-
-    private fun getCurrentWeekEnd(): CalendarDay {
-        val today = Calendar.getInstance()
-        today.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        return CalendarDay.from(today)
+    private fun isDayActive(day : CalendarDay) : Boolean{
+        var isActive = false
+        val inputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US)
+        val parsedDate = inputDateFormat.parse(day.date.toString())
+        val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val outputDateString = outputDateFormat.format(parsedDate!!)
+        workWindows.forEach{date ->
+            if(date.date == outputDateString) {
+                isActive = true
+            }
+        }
+        return isActive
     }
 
     private fun cantGoBackMonth() {
