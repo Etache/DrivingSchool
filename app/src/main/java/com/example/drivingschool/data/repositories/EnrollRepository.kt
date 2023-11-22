@@ -1,5 +1,6 @@
 package com.example.drivingschool.data.repositories
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -39,6 +40,7 @@ class EnrollRepository @Inject constructor(private val enrollApiService: Driving
         }
     }.flowOn(Dispatchers.IO)
 
+    @SuppressLint("SuspiciousIndentation")
     suspend fun enrollForLesson(enrollRequest : EnrollLessonRequest): Flow<UiState<EnrollLessonResponse>> = flow {
         emit(UiState.Loading())
         val data = enrollApiService.enrollForLesson(enrollRequest).body()

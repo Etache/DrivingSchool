@@ -1,6 +1,7 @@
 package com.example.drivingschool.data.models
 
 import com.google.gson.annotations.SerializedName
+import kotlin.collections.ArrayList
 
 data class InstructorWorkWindowResponse(
     @SerializedName("id") val id: Int? = null,

@@ -13,8 +13,8 @@ import java.util.Calendar
 import java.util.Locale
 
 class EnrollInstructorAdapter(
-    val listOfDates: ArrayList<String>?,
-    val listOfTimes: ArrayList<String>?
+    val listOfDates: List<String>?,
+    val listOfTimes: List<String>?
 ) :
     RecyclerView.Adapter<EnrollInstructorAdapter.EnrollInstructorViewHolder>() {
 
@@ -39,13 +39,12 @@ class EnrollInstructorAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(itemText: String) {
-            val modifiedList = listOfTimes?.map { it.dropLast(3) }
             val stringAfterEdit = buildString {
                 append(getDayOfWeek(listOfDates!![bindingAdapterPosition]))
                 append(" ")
                 append(changeDateFormat((listOfDates[bindingAdapterPosition])))
                 append("\n")
-                append(modifiedList?.sorted())
+                append(listOfTimes?.sorted()?.distinct())
             }.replace("[","").replace("]","")
             val stringAfterSpannable = SpannableString(stringAfterEdit)
             stringAfterSpannable.setSpan(StyleSpan(Typeface.BOLD), 0, 13, 0)

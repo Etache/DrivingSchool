@@ -19,17 +19,18 @@ import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.adapter.EnrollInstructorAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.ArrayList
 import java.util.Calendar
 
 @AndroidEntryPoint
 class EnrollInstructorFragment :
     BaseFragment<FragmentEnrollInstructorBinding, EnrollInstructorViewModel>(R.layout.fragment_enroll_instructor) {
+    //Сейчас работает и показ времени и дат текущей недели и проверка на наличие расписания!
 
     override val binding by viewBinding(FragmentEnrollInstructorBinding::bind)
     override val viewModel: EnrollInstructorViewModel by viewModels()
     private lateinit var adapter: EnrollInstructorAdapter
-    private var dateFromBack: ArrayList<String>? = null
+    private var currentSchedule: List<String>? = null
+    private var nextSchedule: List<String>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,8 +59,12 @@ class EnrollInstructorFragment :
         super.setupListeners()
         with(binding) {
             btnMakeASchedule.setOnClickListener {
-                if (isFridayOrSaturday()) { //&& dateFromBack.isNullOrEmpty()
-                    findNavController().navigate(R.id.calendarInstructorFragment)
+                val isCurrentWeekEmpty = currentSchedule.isNullOrEmpty()
+                val isNextWeekEmpty = nextSchedule.isNullOrEmpty()
+                if ((isFridayOrSaturday() && isNextWeekEmpty) || currentSchedule.isNullOrEmpty()) {
+                    val bundle = Bundle()
+                    bundle.putBoolean(EFCIFCURRENTWEEKEMPTY, isCurrentWeekEmpty)
+                    findNavController().navigate(R.id.calendarInstructorFragment, bundle)
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -74,7 +79,7 @@ class EnrollInstructorFragment :
     private fun isFridayOrSaturday(): Boolean {
         val calendar = Calendar.getInstance()
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        return dayOfWeek == Calendar.TUESDAY || dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY
+        return dayOfWeek == Calendar.WEDNESDAY || dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY
     }
 
     private fun getWorkWindows() {
@@ -87,9 +92,27 @@ class EnrollInstructorFragment :
                         }
 
                         is UiState.Success -> {
-                            //adapter = EnrollInstructorAdapter(it.data?.currentWeek., it.data?.times)
+                            val currentWeekDates: List<String> = mutableListOf<String>().apply {
+                                it.data?.currentWeek?.forEach { currentWeek ->
+                                    currentWeek.date?.let { add(it) }
+                                }
+                            }
+
+                            val nextWeekDates: List<String> = mutableListOf<String>().apply {
+                                it.data?.nextWeek?.forEach { nextWeek ->
+                                    nextWeek.date?.let { add(it) }
+                                }
+                            }
+                            nextSchedule = nextWeekDates
+
+                            val currentWeekTimes: List<String> =
+                                it.data?.currentWeek?.flatMap { currentWeek ->
+                                    currentWeek.times?.mapNotNull { it.time } ?: emptyList()
+                                } ?: emptyList()
+
+                            adapter = EnrollInstructorAdapter(currentWeekDates, currentWeekTimes)
                             binding.recyclerDateAndTime.adapter = adapter
-                            //dateFromBack = it.data?.dates
+                            currentSchedule = currentWeekDates
                         }
 
                         is UiState.Error -> {
@@ -103,5 +126,9 @@ class EnrollInstructorFragment :
                 }
             }
         }
+    }
+
+    companion object {
+        const val EFCIFCURRENTWEEKEMPTY = "current_week_is_null"
     }
 }

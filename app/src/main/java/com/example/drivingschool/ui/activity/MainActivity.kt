@@ -82,7 +82,24 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     }
 
     private fun setAppBar() {
-        //
+
+        val hideSupportActionBar = setOf(
+            R.id.calendarInstructorFragment,
+            R.id.checkTimetableFragment,
+            R.id.currentLessonDetailsFragment,
+            R.id.previousLessonDetailsFragment,
+            R.id.checkTimetableFragment,
+            R.id.calendarInstructorFragment,
+            R.id.instructorCurrentLessonFragment,
+            R.id.instructorPreviousLessonFragment,
+            R.id.selectDateTimeFragment,
+            R.id.currentLessonDetailsFragment,
+            R.id.instructorCurrentLessonFragment,
+            R.id.instructorPreviousLessonFragment,
+            R.id.previousLessonDetailsFragment
+
+        )
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.mainFragment,
@@ -122,6 +139,8 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
             }
             if (destination.id == R.id.loginFragment) {
                 supportActionBar?.hide()
+                navView.isVisible = false
+            } else if (hideSupportActionBar.contains(destination.id)) {
                 navView.isVisible = false
             } else {
                 supportActionBar?.show()

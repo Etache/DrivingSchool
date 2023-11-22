@@ -71,7 +71,6 @@ class CheckTimetableFragment :
         instructorWorkWindowRequest.time = instructorWorkWindowCreate.time
         viewModel.setWorkWindows(instructorWorkWindowRequest)
         viewModel.checkTimetable.observe(viewLifecycleOwner) {
-            //Toast.makeText(requireContext(), "${it.success}", Toast.LENGTH_SHORT).show()
         }
     }
 }
