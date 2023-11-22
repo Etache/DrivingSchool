@@ -72,12 +72,14 @@
     <string name="confirm_exit">Подтвердите выход</string>
     <string name="back">Назад</string>
     <string name="confirm">Подтвердить</string>
+    <string name="make_a_schedule">Составить расписание</string>
     <string name="continue_text">Отправить</string>
     <string name="comment_body_text">Ваше занятие завершено, поставьте \nоценку вашему инструктору</string>
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
     <string name="choose_photo">Выбрать фото</string>
-
+    <string name="content_des_profile_photo">profile photo</string>
+    <string name="content_des_fullscreen_profile_photo">fullscreen profile photo</string>
     <string name="old_password">Старый пароль</string>
     <string name="input_old_password">Введите старый пароль</string>
     <string name="instructor_surname">Иванов</string>
@@ -139,6 +141,7 @@
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
     <string name="cursant">Курсант</string>
     <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа!</string>
+
 
     <string-array name="mcv_monthLabels">
         <item>Январь</item>

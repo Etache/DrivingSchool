@@ -1,42 +1,42 @@
-package com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.adapter
+package com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.adapter
 
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.drivingschool.databinding.ItemCheckTimetableDateAndTimeBinding
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.adapter.CheckTimetableAdapter.*
 import java.text.SimpleDateFormat
-import java.util.ArrayList
 import java.util.Calendar
 import java.util.Locale
 
-class CheckTimetableAdapter(
-    private val listOfDates: ArrayList<String>?,
-    private val listOfTimes: ArrayList<String>?
-) : RecyclerView.Adapter<CheckTimetableViewHolder>() {
+class EnrollInstructorAdapter(
+    val listOfDates: ArrayList<String>?,
+    val listOfTimes: ArrayList<String>?
+) :
+    RecyclerView.Adapter<EnrollInstructorAdapter.EnrollInstructorViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckTimetableViewHolder {
-        return CheckTimetableViewHolder(
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EnrollInstructorViewHolder {
+        return EnrollInstructorViewHolder(
             ItemCheckTimetableDateAndTimeBinding.inflate(
-                LayoutInflater.from(
-                    parent.context
-                ), parent, false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }
 
-    override fun getItemCount(): Int = listOfDates!!.size
+    override fun getItemCount(): Int {
+        return listOfDates?.size!!
+    }
 
-    override fun onBindViewHolder(holder: CheckTimetableViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EnrollInstructorViewHolder, position: Int) {
         holder.onBind(listOfDates!![position])
     }
 
-    inner class CheckTimetableViewHolder(private val binding: ItemCheckTimetableDateAndTimeBinding) :
-        ViewHolder(binding.root) {
+    inner class EnrollInstructorViewHolder(private val binding: ItemCheckTimetableDateAndTimeBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(itemText: String) {
             val stringAfterEdit = buildString {

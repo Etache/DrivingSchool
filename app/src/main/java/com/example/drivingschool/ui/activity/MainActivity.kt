@@ -12,6 +12,7 @@ import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.drivingschool.R
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     private lateinit var navController: NavController
     private lateinit var navigation: NavGraph
     private lateinit var networkConnection: NetworkConnection
+    //
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(this)
@@ -71,13 +74,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         }
     }
 
-    fun showFragmentAccordingToRole() {
-        if (preferences.role == "instructor") {
-            navView.menu.clear() //clear old inflated items.
-            navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             findNavController(R.id.nav_host_fragment).navigateUp()
@@ -86,20 +82,21 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     }
 
     private fun setAppBar() {
-        val appBarConfiguration = AppBarConfiguration(
+        //
+        appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.mainFragment,
-                R.id.enrollFragment,
-                R.id.selectInstructorFragment,
+               // R.id.enrollFragment,
+               // R.id.selectInstructorFragment,
                 R.id.studentProfileFragment,
                 R.id.instructorProfileFragment,
-                R.id.instructorInfoFragment,
-                R.id.currentLessonDetailsFragment,
-                R.id.previousLessonDetailsFragment,
+               // R.id.instructorInfoFragment,
+               // R.id.currentLessonDetailsFragment,
+               // R.id.previousLessonDetailsFragment,
                 R.id.selectInstructorFragment,
-                R.id.checkTimetableFragment,
+                //R.id.checkTimetableFragment,
                 R.id.enrollInstructorFragment,
-                R.id.selectDateTimeFragment,
+               // R.id.selectDateTimeFragment,
                 R.id.instructorMainFragment
             )
         )
@@ -107,22 +104,20 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
-                R.id.enrollFragment -> "Онлайн запись"
-                R.id.currentLessonDetailsFragment -> "Текущее занятие"
-                R.id.previousLessonDetailsFragment -> "Предыдущее занятие"
-                R.id.currentLessonDetailsFragment -> "Главная страница"
-                R.id.previousLessonDetailsFragment -> "Главная страница"
-                R.id.selectInstructorFragment -> "Онлайн запись"
-                R.id.checkTimetableFragment -> "Расписание"
+                R.id.currentLessonDetailsFragment -> "Текущее занятие"//
+                R.id.previousLessonDetailsFragment -> "Предыдущее занятие"//
+                R.id.selectInstructorFragment -> "Онлайн запись"///
+                R.id.enrollFragment -> "Онлайн запись"//
+                R.id.checkTimetableFragment -> "Расписание"//
                 R.id.enrollInstructorFragment -> "Расписание"
-                R.id.checkTimetableFragment -> "Расписание"
-                R.id.instructorInfoFragment -> "Онлайн запись"
-                R.id.selectDateTimeFragment -> "Онлайн запись"
+                R.id.calendarInstructorFragment -> "Расписание"//
+                R.id.instructorInfoFragment -> "Онлайн запись"//
+                R.id.selectDateTimeFragment -> "Онлайн запись"//
                 R.id.studentProfileFragment -> "Профиль"
                 R.id.instructorProfileFragment -> "Профиль"
                 R.id.instructorMainFragment -> "Главная страница"
-                R.id.instructorCurrentLessonFragment -> "Текущее занятие"
-                R.id.instructorPreviousLessonFragment -> "Предыдущее занятие"
+                R.id.instructorCurrentLessonFragment -> "Текущее занятие"//
+                R.id.instructorPreviousLessonFragment -> "Предыдущее занятие"//
                 else -> "No title"
             }
             if (destination.id == R.id.loginFragment) {
@@ -139,6 +134,11 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+    }
+
+    //
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun checkConnection() {

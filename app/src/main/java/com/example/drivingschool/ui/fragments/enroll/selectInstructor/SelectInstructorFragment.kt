@@ -14,6 +14,7 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentSelectInstructorBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.fragments.BundleKeys
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SelectInstructorFragment : Fragment() {
-//Почему этот класс не унаследован BaseFragment
+
     private lateinit var binding: FragmentSelectInstructorBinding
     private lateinit var adapter: SelectInstructorAdapter
     private val viewModel: EnrollViewModel by viewModels()
@@ -91,15 +92,11 @@ class SelectInstructorFragment : Fragment() {
         }
     }
 
-    private fun onClick(workWindows: ArrayList<Date>, name : String) {
+    fun onClick(workWindows: ArrayList<Date>, name : String, id : String) {
         val bundle = Bundle()
-        bundle.putString(FULL_NAME, name)
-        bundle.putSerializable(WORK_WINDOWS, workWindows)
+        bundle.putString(BundleKeys.FULL_NAME, name)
+        bundle.putString(BundleKeys.INSTRUCTOR_ID_ENROLL, id)
+        bundle.putSerializable(BundleKeys.WORK_WINDOWS, workWindows)
         findNavController().navigate(R.id.selectDateTimeFragment, bundle)
-    }
-
-    companion object {
-        const val WORK_WINDOWS = "work_windows"
-        const val FULL_NAME = "full_name_key"
     }
 }

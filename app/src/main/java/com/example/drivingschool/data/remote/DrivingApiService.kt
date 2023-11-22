@@ -2,6 +2,7 @@ package com.example.drivingschool.data.remote
 
 import com.example.drivingschool.data.models.CancelRequest
 import com.example.drivingschool.data.models.CancelResponse
+import com.example.drivingschool.data.models.EnrollLessonRequest
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
@@ -9,10 +10,13 @@ import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
+import com.example.drivingschool.data.models.InstructorWorkWindowRequest
+import com.example.drivingschool.data.models.InstructorWorkWindowResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
+import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
 import okhttp3.MultipartBody
@@ -33,12 +37,12 @@ interface DrivingApiService {
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @POST("token/refresh/")
-    suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest) : Response<RefreshTokenResponse>
+    suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest): Response<RefreshTokenResponse>
 
     @PATCH("change_password/")
     suspend fun changePassword(
-        @Body requestBody : PasswordRequest
-    ) : Response<ProfileResponse>
+        @Body requestBody: PasswordRequest
+    ): Response<ProfileResponse>
 
     @GET("lessons/{id}")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
@@ -85,4 +89,22 @@ interface DrivingApiService {
 
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
+
+    //    @Multipart
+//    @POST("lessons/create/")
+//    suspend fun enrollForLesson(
+//        @Part("instructor") instructor: String,
+//        @Part("date") date: String,
+//        @Part("time") time: String,
+//        @Part file: MultipartBody.Part
+//    ): Call<EnrollLessonResponse>
+
+    @GET("workwindows/details/")
+    suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>
+
+    @POST("workwindows/create/")
+    suspend fun setWorkWindows(@Body instructorWorkWindowRequest: InstructorWorkWindowRequest): Response<InstructorWorkWindowResponse>
+
+    @POST("lessons/create/")
+    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonRequest): Response<EnrollLessonResponse>
 }
