@@ -16,6 +16,7 @@ import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar
 import com.example.drivingschool.data.models.Times
 import com.example.drivingschool.databinding.FragmentCalendarInstructorBinding
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.CalendarWeekDayFormatter
+import com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.EnrollInstructorFragment.Companion.EFCIFCURRENTWEEKEMPTY
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
@@ -78,8 +79,8 @@ class CalendarInstructorFragment :
 
     override fun initialize() {
         super.initialize()
-
         with(binding) {
+            val arguments = arguments
             val today = CalendarDay.today()
             calendarView.setDateSelected(today, false)
             calendarView.selectionMode = SELECTION_MODE_MULTIPLE
@@ -128,27 +129,51 @@ class CalendarInstructorFragment :
     }
 
     private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {
+        val arguments = arguments
         val nextWeekStart = getNextWeekStart()
+        val currentWeekStart = getCurrentWeekStart()
         val nextWeekEnd = getNextWeekEnd()
 
-        val grayDaysDecorator = object : DayViewDecorator {
-            override fun shouldDecorate(day: CalendarDay): Boolean {
-                return !((day.isAfter(nextWeekStart) || day == nextWeekStart) && (day.isBefore(
-                    nextWeekEnd
-                ) || day == nextWeekEnd))
-            }
+        if (arguments?.getBoolean(EFCIFCURRENTWEEKEMPTY) == true){
+            val grayDaysDecorator = object : DayViewDecorator {
+                override fun shouldDecorate(day: CalendarDay): Boolean {
+                    return !(day.isInRange(currentWeekStart, nextWeekEnd))
+                }
 
-            override fun decorate(view: DayViewFacade) {
-                view.addSpan(
-                    ForegroundColorSpan(
-                        resources.getColor(R.color.gray)
+                override fun decorate(view: DayViewFacade) {
+                    view.addSpan(
+                        ForegroundColorSpan(
+                            resources.getColor(R.color.gray)
+                        )
                     )
-                )
-                view.setDaysDisabled(true)
+                    view.setDaysDisabled(true)
+                }
             }
-        }
 
-        calendarView.addDecorator(grayDaysDecorator)
+            calendarView.addDecorator(grayDaysDecorator)
+        } else {
+            val grayDaysDecorator = object : DayViewDecorator {
+                override fun shouldDecorate(day: CalendarDay): Boolean {
+                    return !((day.isInRange(nextWeekStart,nextWeekEnd)))
+                }
+
+                override fun decorate(view: DayViewFacade) {
+                    view.addSpan(
+                        ForegroundColorSpan(
+                            resources.getColor(R.color.gray)
+                        )
+                    )
+                    view.setDaysDisabled(true)
+                }
+            }
+
+            calendarView.addDecorator(grayDaysDecorator)
+        }
+    }
+
+    private fun getCurrentWeekStart(): CalendarDay {
+        val today = Calendar.getInstance()
+        return CalendarDay.from(today)
     }
 
     private fun getNextWeekStart(): CalendarDay {
