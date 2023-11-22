@@ -29,6 +29,7 @@ import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -46,12 +47,15 @@ class InstructorPreviousLessonFragment :
     private lateinit var lessonId: String
     private lateinit var instructorId: String
     private var isCommentCreated: Boolean = false
+    private lateinit var networkConnection: NetworkConnection
 
     override fun initialize() {
         lessonId = arguments?.getString(BundleKeys.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY) ?: "1"
         Log.e("ololo", "initialize: $lessonId")
-        viewModel.getDetails(lessonId)
-
+        networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner) {
+            if (it) viewModel.getDetails(lessonId)
+        }
 
         binding.tvCommentBody.setOnClickListener {
             if (binding.tvCommentBody.maxHeight > 60) {
@@ -68,6 +72,14 @@ class InstructorPreviousLessonFragment :
         }
     }
 
+    override fun setupListeners() {
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner) {
+                if (it) viewModel.getDetails(lessonId)
+            }
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
+    }
 
     override fun setupSubscribes() {
         lifecycleScope.launch {
@@ -112,7 +124,7 @@ class InstructorPreviousLessonFragment :
                                 tvPreviousStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.student?.profile_photo?.small?.replace(
+                                val httpsImageUrl = it.data?.student?.profile_photo?.big?.replace(
                                     "http://",
                                     "https://"
                                 )
@@ -159,7 +171,7 @@ class InstructorPreviousLessonFragment :
                                         it.data?.feedbackForInstructor?.mark?.toInt()!!.toFloat()
                                     Log.e("ololo", "setupSubscribes: full ${it.data}")
                                     val httpToHttps =
-                                        it.data?.feedbackForInstructor?.student?.profile_photo?.small?.replace(
+                                        it.data?.feedbackForInstructor?.student?.profile_photo?.big?.replace(
                                             "http://",
                                             "https://"
                                         )
@@ -201,7 +213,6 @@ class InstructorPreviousLessonFragment :
         calendar.time = date
 
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        // Получаем месяц из отформатированной даты
         val month = formattedDate.split(" ")[1]
         return "$day $month"
     }
@@ -210,7 +221,8 @@ class InstructorPreviousLessonFragment :
     private fun showCustomDialog() {
         val builder = AlertDialog.Builder(requireContext())
         val customDialog =
-            LayoutInflater.from(requireContext()).inflate(R.layout.instructor_custom_rate_dialog, null)
+            LayoutInflater.from(requireContext())
+                .inflate(R.layout.instructor_custom_rate_dialog, null)
         builder.setView(customDialog)
 
         val header = customDialog.findViewById<TextView>(R.id.tv_comment_header)
@@ -250,7 +262,9 @@ class InstructorPreviousLessonFragment :
     }
 
     private fun createComment(comment: FeedbackForStudentRequest) {
-        viewModel.saveComment(comment)
+        networkConnection.observe(viewLifecycleOwner) {
+            if (it) viewModel.saveComment(comment)
+        }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
             it.access?.let { showToast("Ваш комментарий оставлен") }
         }
@@ -294,7 +308,6 @@ class InstructorPreviousLessonFragment :
             dialog.show()
         }
     }
-
 
 
 }

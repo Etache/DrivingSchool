@@ -23,13 +23,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
-import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.ui.activity.MainActivity
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
@@ -44,44 +43,52 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 @AndroidEntryPoint
-class InstructorProfileFragment :
-    BaseFragment<FragmentInstructorProfileBinding, ProfileViewModel>(R.layout.fragment_instructor_profile) {
+class InstructorProfileFragment : Fragment() {
 
-    override val binding: FragmentInstructorProfileBinding by viewBinding(
-        FragmentInstructorProfileBinding::bind
-    )
-    override val viewModel: ProfileViewModel by viewModels()
-
+    private lateinit var binding: FragmentInstructorProfileBinding
+    private val viewModel: ProfileViewModel by viewModels()
     private val preferences: PreferencesHelper by lazy {
         PreferencesHelper(requireContext())
     }
+    private lateinit var networkConnection: NetworkConnection
 
-    override fun initialize() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentInstructorProfileBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        networkConnection = NetworkConnection(requireContext())
+        super.onViewCreated(view, savedInstanceState)
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            getInstructorProfileData()
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
         getInstructorProfileData()
         showImage()
         pickImageFromGallery()
         changePasswordInstructor()
         logoutInstructor()
+
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.getInstructorProfile()
-            binding.swipeRefresh.isRefreshing = false
-        }
     }
-
 
     private val pickImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
-                viewModel.getInstructorProfile()
+                networkConnection.observe(viewLifecycleOwner){
+                    if (it) viewModel.getInstructorProfile()
+                }
                 viewModel.instructorProfile.observe(requireActivity()) { state ->
                     when (state) {
                         is UiState.Loading -> {
@@ -90,7 +97,7 @@ class InstructorProfileFragment :
 
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
-                            Picasso.get().load(state.data?.profilePhoto?.small).memoryPolicy(
+                            Picasso.get().load(state.data?.profilePhoto?.big).memoryPolicy(
                                 MemoryPolicy.NO_CACHE
                             ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
 
@@ -145,7 +152,9 @@ class InstructorProfileFragment :
 
                     1 -> {
                         binding.ivProfile.setImageDrawable(null)
-                        viewModel.deleteProfilePhoto()
+                        networkConnection.observe(viewLifecycleOwner){
+                            if (it) viewModel.deleteProfilePhoto()
+                        }
                     }
                 }
             }
@@ -165,7 +174,9 @@ class InstructorProfileFragment :
             inputStream.copyTo(outputStream)
             val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
-            viewModel.updateProfilePhoto(multipartBody)
+            networkConnection.observe(viewLifecycleOwner){
+                if (it) viewModel.updateProfilePhoto(multipartBody)
+            }
         }
     }
 
@@ -184,7 +195,6 @@ class InstructorProfileFragment :
     private fun logoutInstructor() {
         binding.btnExit.setOnClickListener {
             val alertDialog = AlertDialog.Builder(requireContext())
-
             alertDialog.setTitle(getString(R.string.confirm_exit))
             alertDialog.setNegativeButton(getString(R.string.cancel)) { alert, _ ->
                 alert.cancel()
@@ -195,7 +205,8 @@ class InstructorProfileFragment :
                 preferences.refreshToken = null
                 preferences.password = null
                 preferences.role = null
-                val intent = Intent(activity, MainActivity::class.java)
+                val intent = Intent(requireActivity(), MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra("isLoggedOut", true)
                 activity?.startActivity(intent)
                 alert.cancel()
@@ -206,7 +217,10 @@ class InstructorProfileFragment :
 
     @SuppressLint("SetTextI18n")
     private fun getInstructorProfileData() {
-        viewModel.getInstructorProfile()
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) viewModel.getInstructorProfile()
+        }
+
         lifecycleScope.launch {
             viewModel.instructorProfile.observe(requireActivity()) { state ->
                 when (state) {
@@ -218,7 +232,7 @@ class InstructorProfileFragment :
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
-                        Picasso.get().load(state.data?.profilePhoto?.small).into(binding.ivProfile)
+                        Picasso.get().load(state.data?.profilePhoto?.big).into(binding.ivProfile)
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber
@@ -229,11 +243,9 @@ class InstructorProfileFragment :
                                 in 1..4 -> {
                                     binding.tvExperience.text = "$experience года"
                                 }
-
                                 in 5..9 -> {
                                     binding.tvExperience.text = "$experience лет"
                                 }
-
                                 else -> {
                                     binding.tvExperience.text = "$experience лет"
                                 }

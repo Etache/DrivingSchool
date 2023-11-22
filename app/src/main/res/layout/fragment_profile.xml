@@ -6,170 +6,171 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.profile.studentProfile.StudentProfileFragment">
 
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/swipe_refresh"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:backgroundTint="@color/blue"
-    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue">
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainContainer"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/blue"
+        app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="48dp"
-            app:cardCornerRadius="120dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ivProfile"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@drawable/ic_default_photo"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/content_des_profile_photo" />
+                android:layout_marginTop="48dp"
+                app:cardCornerRadius="120dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/ivProfile"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/ic_default_photo"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="profile photo" />
 
-        <LinearLayout
-            android:id="@+id/ll_name_surname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardView">
+            </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/tvSurname"
+            <LinearLayout
+                android:id="@+id/ll_name_surname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:text="@string/instructor_name"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView">
+
+                <TextView
+                    android:id="@+id/tvSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="Иванов"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Иван"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
 
             <TextView
-                android:id="@+id/tvName"
+                android:id="@+id/tvChangePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/instructor_surname"
+                android:layout_marginTop="8dp"
+                android:text="@string/change_profile_photo"
+                android:textColor="#655DA2"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_name_surname" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/telephone_number"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
+
+            <TextView
+                android:id="@+id/tvNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rectangle_bg_profile"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/tvChangePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/change_profile_photo"
-        android:textColor="#655DA2"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_name_surname" />
-
-        <TextView
-            android:id="@+id/number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp"
-            android:text="@string/telephone_number"
-            android:textColor="@color/gray"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
-
-        <TextView
-            android:id="@+id/tvNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/rectangle_bg_profile"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="14dp"
-            android:textColor="@color/black"
-            android:text="@string/number"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/number" />
+                android:text="@string/number"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/number" />
 
 
-        <TextView
-            android:id="@+id/group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp"
-            android:text="@string/group"
-            android:textColor="@color/gray"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/tvNumber" />
+            <TextView
+                android:id="@+id/group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/group"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tvNumber" />
 
-        <TextView
-            android:id="@+id/tvGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/rectangle_bg_profile"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="14dp"
-            android:textColor="@color/black"
-            android:text="@string/group_number"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/group" />
+            <TextView
+                android:id="@+id/tvGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rectangle_bg_profile"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:textColor="@color/black"
+                android:text="@string/group_number"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/group" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnChangePassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="#F3F3F3"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="14dp"
-            android:text="@string/change_password"
-            android:textAlignment="textStart"
-            android:textColor="#5883CB"
-            android:textSize="16sp"
-            app:cornerRadius="5dp"
-            app:icon="@drawable/ic_key_square_profile"
-            app:iconTint="#365CA7"
-            app:layout_constraintTop_toBottomOf="@id/tvGroup" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#F3F3F3"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:text="@string/change_password"
+                android:textAlignment="textStart"
+                android:textColor="#5883CB"
+                android:textSize="16sp"
+                app:cornerRadius="5dp"
+                app:icon="@drawable/ic_key_square_profile"
+                app:iconTint="#365CA7"
+                app:layout_constraintTop_toBottomOf="@id/tvGroup" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnExit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#F3F3F3"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="14dp"
-            android:text="@string/exit"
-            android:textAlignment="textStart"
-            android:textColor="#585858"
-            android:textSize="16sp"
-            app:cornerRadius="5dp"
-            app:icon="@drawable/ic_exit_profile"
-            app:iconTint="#E94057"
-            app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#F3F3F3"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="14dp"
+                android:text="@string/exit"
+                android:textAlignment="textStart"
+                android:textColor="#585858"
+                android:textSize="16sp"
+                app:cornerRadius="5dp"
+                app:icon="@drawable/ic_exit_profile"
+                app:iconTint="#E94057"
+                app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -181,8 +182,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

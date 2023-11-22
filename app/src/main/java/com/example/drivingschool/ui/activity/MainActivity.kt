@@ -2,13 +2,17 @@ package com.example.drivingschool.ui.activity
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -16,7 +20,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.ActivityMainBinding
+import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.login.CheckRoleCallBack
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
+import com.example.drivingschool.ui.fragments.notification.NotificationFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +34,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
     private lateinit var navigation: NavGraph
-    //
+    private lateinit var networkConnection: NetworkConnection
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val preferences: PreferencesHelper by lazy {
@@ -38,6 +45,8 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        checkConnection()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -67,13 +76,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         }
     }
 
-    fun showFragmentAccordingToRole() {
-        if (preferences.role == "instructor") {
-            navView.menu.clear() //clear old inflated items.
-            navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             findNavController(R.id.nav_host_fragment).navigateUp()
@@ -82,7 +84,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     }
 
     private fun setAppBar() {
-        //
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.mainFragment,
@@ -97,22 +98,21 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 //R.id.checkTimetableFragment,
                 R.id.enrollInstructorFragment,
                // R.id.selectDateTimeFragment,
-                R.id.instructorMainFragment
+                R.id.instructorMainFragment,
+               // R.id.notificationFragment
             )
         )
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             supportActionBar?.title = when (destination.id) {
                 R.id.mainFragment -> "Главная страница"
-                R.id.enrollFragment -> "Онлайн запись"//
                 R.id.currentLessonDetailsFragment -> "Текущее занятие"//
                 R.id.previousLessonDetailsFragment -> "Предыдущее занятие"//
-                R.id.currentLessonDetailsFragment -> "Главная страница"//
-                R.id.previousLessonDetailsFragment -> "Главная страница"//
-                R.id.selectInstructorFragment -> "Онлайн запись"///
+                R.id.selectInstructorFragment -> "Онлайн запись"
+                R.id.enrollFragment -> "Онлайн запись"//
                 R.id.checkTimetableFragment -> "Расписание"//
                 R.id.enrollInstructorFragment -> "Расписание"
-                R.id.checkTimetableFragment -> "Расписание"//
+                R.id.calendarInstructorFragment -> "Расписание"//
                 R.id.instructorInfoFragment -> "Онлайн запись"//
                 R.id.selectDateTimeFragment -> "Онлайн запись"//
                 R.id.studentProfileFragment -> "Профиль"
@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.instructorMainFragment -> "Главная страница"
                 R.id.instructorCurrentLessonFragment -> "Текущее занятие"//
                 R.id.instructorPreviousLessonFragment -> "Предыдущее занятие"//
+                R.id.notificationFragment -> "Уведомления"//
                 else -> "No title"
             }
             if (destination.id == R.id.loginFragment) {
@@ -128,6 +129,15 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
             } else {
                 supportActionBar?.show()
                 navView.isVisible = true
+            }
+            if (preferences.role == "instructor"&&
+                destination.id == R.id.instructorMainFragment){
+                binding.notificationIcon.visibility = View.VISIBLE
+                binding.notificationIcon.setOnClickListener {
+                    navController.navigate(R.id.notificationFragment)
+            }
+            }else{
+                binding.notificationIcon.visibility = View.GONE
             }
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -138,8 +148,52 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
     }
 
-    //
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+    private fun checkConnection() {
+        networkConnection = NetworkConnection(applicationContext)
+        networkConnection.observe(this){
+            if (!it) {
+                binding.contentNoInternet.root.viewVisibility(true)
+                binding.navView.viewVisibility(false)
+            }
+        }
+
+        binding.contentNoInternet.btnCheckInternet.setOnClickListener{
+            binding.contentNoInternet.apply {
+                progressBar.viewVisibility(true)
+                tvCheckInternet.viewVisibility(false)
+                btnCheckInternet.viewVisibility(false)
+                showAnimation()
+                progressBar.postDelayed({
+                    var state = false
+                    progressBar.animation.cancel()
+                    progressBar.viewVisibility(false)
+                    networkConnection.observe(this@MainActivity){state = it}
+                    if (state) {
+                        binding.contentNoInternet.root.viewVisibility(false)
+                        binding.navView.viewVisibility(true)
+                    }
+                    tvCheckInternet.viewVisibility(true)
+                    btnCheckInternet.viewVisibility(true)
+                }, 3000)
+            }
+        }
+    }
+
+    private fun showAnimation() {
+        val rotateAnimation = RotateAnimation(
+            0f, 360f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        )
+
+        rotateAnimation.interpolator = LinearInterpolator()
+        rotateAnimation.repeatCount = Animation.INFINITE
+        rotateAnimation.duration = 1700
+        binding.contentNoInternet.progressBar.startAnimation(rotateAnimation)
+    }
 }
+

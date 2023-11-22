@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
+import com.example.drivingschool.data.models.EnrollLessonRequest
 import com.example.drivingschool.data.models.InstructorResponse
+import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.repositories.EnrollRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +23,9 @@ class EnrollViewModel @Inject constructor(private val enrollRepository: EnrollRe
 
     private val _instructorDetails = MutableLiveData<UiState<InstructorResponse>>()
     val instructorDetails: LiveData<UiState<InstructorResponse>> = _instructorDetails
+
+    private val _enrollResponse = MutableLiveData<UiState<EnrollLessonResponse>>()
+    val enrollResponse: LiveData<UiState<EnrollLessonResponse>> = _enrollResponse
 
     init {
         getInstructors()
@@ -41,4 +46,14 @@ class EnrollViewModel @Inject constructor(private val enrollRepository: EnrollRe
         }
     }
 
+    fun enrollForLesson(enrollRequest : EnrollLessonRequest) = viewModelScope.launch {
+        enrollRepository.enrollForLesson(enrollRequest).collect {
+            _enrollResponse.postValue(it)
+            Log.d("madimadi", "enrollResponse in viewModel: $_enrollResponse")
+        }
+    }
+
+//    suspend fun enrollForLesson(instructor: String, date : String, time : String) : LiveData<String>{
+//        return enrollRepository.enrollForLesson(instructor, date, time)
+//    }
 }

@@ -1,7 +1,6 @@
 package com.example.drivingschool.data.models
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class InstructorResponse(
 
@@ -17,7 +16,7 @@ data class InstructorResponse(
     @SerializedName("feedbacks") var feedbacks: List<FeedbackInstructor>? = null,
     @SerializedName("workwindows") var workwindows: ArrayList<Date> = arrayListOf(),
 
-)
+    )
 
 data class WorkWindows(
 

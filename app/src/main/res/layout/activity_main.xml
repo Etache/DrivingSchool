@@ -15,7 +15,17 @@
         android:elevation="4dp"
         app:titleTextColor="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <ImageView
+            android:layout_marginEnd="24dp"
+            android:id="@+id/notificationIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_notification"
+            android:visibility="gone"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
@@ -43,5 +53,12 @@
         app:labelVisibilityMode="unlabeled"
         style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
         app:menu="@menu/bottom_nav_menu" />
+
+    <include
+        android:id="@+id/content_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        layout="@layout/layout_no_internet"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

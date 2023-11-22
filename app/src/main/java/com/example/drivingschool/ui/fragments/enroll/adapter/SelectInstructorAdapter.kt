@@ -10,9 +10,10 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
+import com.example.drivingschool.ui.fragments.BundleKeys
 import com.squareup.picasso.Picasso
 
-class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name : String) -> Unit) :
+class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name : String, id : String) -> Unit) :
     RecyclerView.Adapter<SelectInstructorAdapter.SelectViewHolder>() {
 
     private var instructors = arrayListOf<InstructorResponse>()
@@ -43,7 +44,7 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
             }
             binding.rbRating.rating = instructor.rate!!.toFloat()
 
-            val httpsImageUrl = instructor.profilePhoto?.small //replace("http://", "https://")
+            val httpsImageUrl = instructor.profilePhoto?.big //replace("http://", "https://")
             Picasso.get()
                 .load(httpsImageUrl)
                 .placeholder(R.drawable.ic_default_photo)
@@ -53,11 +54,11 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
                 it.findNavController()
                     .navigate(
                         R.id.action_selectInstructorFragment_to_instructorInfoFragment,
-                        bundleOf(ID_KEY to instructor.id)
+                        bundleOf(BundleKeys.ID_KEY to instructor.id)
                     )
             }
             itemView.setOnClickListener {
-                onClick(instructor.workwindows, "${instructor.name} ${instructor.surname} ${instructor.lastname}")
+                onClick(instructor.workwindows, "${instructor.name} ${instructor.surname} ${instructor.lastname}", instructor.id.toString())
             }
         }
     }
@@ -77,10 +78,6 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
     override fun onBindViewHolder(holder: SelectViewHolder, position: Int) {
         val instructor = instructors[position]
         holder.bind(instructor)
-    }
-
-    companion object {
-        const val ID_KEY = "id"
     }
 
 }

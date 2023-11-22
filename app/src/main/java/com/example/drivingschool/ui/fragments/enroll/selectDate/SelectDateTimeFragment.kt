@@ -15,14 +15,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.Date
-import com.example.drivingschool.data.models.Time
 import com.example.drivingschool.data.models.TimeInWorkWindows
 import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
 import com.example.drivingschool.ui.fragments.BundleKeys
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.EnrollWeekDayFormatter
+import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.CalendarWeekDayFormatter
 import com.example.drivingschool.ui.fragments.enroll.selectDate.adapter.TimeAdapter
-import com.example.drivingschool.ui.fragments.enroll.selectInstructor.SelectInstructorFragment
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
@@ -34,17 +32,17 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
-import kotlin.math.log
-
 
 class SelectDateTimeFragment :
     BaseFragment<FragmentSelectDateTimeBinding, EnrollViewModel>(R.layout.fragment_select_date_time){
 
     override val binding by viewBinding(FragmentSelectDateTimeBinding::bind)
     override val viewModel: EnrollViewModel by viewModels()
+    @RequiresApi(Build.VERSION_CODES.O)
     private val adapter = TimeAdapter(this::onTimeClick)
     private lateinit var workWindows : ArrayList<Date>
     private lateinit var instructorFullName : String
+    private lateinit var instructorID : String
     private lateinit var selectedFinalDate : String
     private lateinit var selectedFinalTime : String
 
@@ -59,9 +57,11 @@ class SelectDateTimeFragment :
         super.onViewCreated(view, savedInstanceState)
         workWindows = arguments?.getSerializable(BundleKeys.WORK_WINDOWS) as ArrayList<Date>
         instructorFullName = arguments?.getString(BundleKeys.FULL_NAME).toString()
-        Log.d("madimadi", "dates in SelectDateTimeFragment: $workWindows")
+        instructorID = arguments?.getString(BundleKeys.INSTRUCTOR_ID_ENROLL).toString()
+        Log.d("madimadi", "dates in SelectDateTimeFragment: $workWindows $instructorFullName $instructorID")
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun initialize() {
         super.initialize()
         binding.recyclerView.adapter = adapter
@@ -73,11 +73,11 @@ class SelectDateTimeFragment :
             calendarView.setDateSelected(today, false)
             calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
             calendarView.setTitleFormatter(MonthArrayTitleFormatter(resources.getStringArray(R.array.mcv_monthLabels)))
-            val customWeekDayFormatter = EnrollWeekDayFormatter()
+            val customWeekDayFormatter = CalendarWeekDayFormatter()
             calendarView.setWeekDayFormatter(customWeekDayFormatter)
             calendarView.setHeaderTextAppearance(R.style.CustomHeaderTextAppearance)
             cantGoBackMonth()
-            //setGrayDaysDecorator(calendarView)
+            setGrayDaysDecorator(calendarView)
             calendarView.setDateSelected(today, false);
         }
     }
@@ -90,6 +90,7 @@ class SelectDateTimeFragment :
                 bundle.putString(BundleKeys.TIMETABLE_TO_ENROLL_DATE, selectedFinalDate)
                 bundle.putString(BundleKeys.TIMETABLE_TO_ENROLL_TIME, selectedFinalTime)
                 bundle.putString(BundleKeys.FULL_NAME, instructorFullName)
+                bundle.putString(BundleKeys.INSTRUCTOR_ID_ENROLL, instructorID)
                 findNavController().navigate(R.id.enrollFragment, bundle)
             }
 
@@ -114,7 +115,7 @@ class SelectDateTimeFragment :
                 workWindows.forEach{ dates ->
                     if(dates.date == outputDateString) {
                         val timesList : ArrayList<TimeInWorkWindows> = arrayListOf()
-                        dates.times.forEach{ times ->
+                        dates.times?.forEach{ times ->
                             val inputTime = LocalTime.parse(times.time, DateTimeFormatter.ofPattern("HH:mm:ss"))
                             val convertedTime = inputTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                             var selectedTime = TimeInWorkWindows(convertedTime, times.isFree)
@@ -134,8 +135,10 @@ class SelectDateTimeFragment :
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun onTimeClick(time : TimeInWorkWindows){
-        selectedFinalTime = time.time.toString()
+        val oldTime = LocalTime.parse(time.time, DateTimeFormatter.ofPattern("HH:mm"))
+        selectedFinalTime = oldTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
     }
 
     private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {

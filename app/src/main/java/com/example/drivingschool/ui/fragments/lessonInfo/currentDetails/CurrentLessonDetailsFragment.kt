@@ -22,6 +22,7 @@ import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -37,11 +38,23 @@ class CurrentLessonDetailsFragment :
     override val binding by viewBinding(FragmentCurrentLessonDetailBinding::bind)
     override val viewModel: CurrentLessonDetailsViewModel by viewModels()
     private var inputDateTimeString: String? = null
+    private lateinit var networkConnection: NetworkConnection
 
     override fun initialize() {
+        networkConnection = NetworkConnection(requireContext())
         Log.e("ololololo", "initialize: ${arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY)}")
-        viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1")
+        networkConnection.observe(viewLifecycleOwner){
+            if (it) viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1")
+        }
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner){
+                if (it) viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1")
+            }
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
+
         showImage()
+
     }
 
     override fun setupListeners() {
@@ -98,7 +111,7 @@ class CurrentLessonDetailsFragment :
                                 tvStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profile_photo?.small?.replace(
+                                val httpsImageUrl = it.data?.instructor?.profile_photo?.big?.replace(
                                     "http://",
                                     "https://"
                                 )
@@ -151,15 +164,20 @@ class CurrentLessonDetailsFragment :
                     viewModel.cancelLessonFromId(
                         arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1"
                     )
-                    viewModel.cancelLiveData.observe(viewLifecycleOwner) {
-                        Log.e("ololo", "showCancelAlert: ${it.toString()}")
-                        if (it?.success != null) {
-                            showSuccessCancelAlert()
-                            binding.btnCancelLesson.viewVisibility(false)
-                        } else {
-                            showToast("Success = null")
+                    networkConnection.observe(viewLifecycleOwner){
+                        if (it) {
+                            viewModel.cancelLiveData.observe(viewLifecycleOwner) {
+                                Log.e("ololo", "showCancelAlert: ${it.toString()}")
+                                if (it?.success != null) {
+                                    showSuccessCancelAlert()
+                                    binding.btnCancelLesson.viewVisibility(false)
+                                } else {
+                                    showToast("Success = null")
+                                }
+                            }
                         }
                     }
+
                     dialogInterface.cancel()
                 })
             .setNegativeButton(
