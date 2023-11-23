@@ -11,24 +11,26 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.system.Os.bind
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
-import com.example.drivingschool.databinding.FragmentProfileBinding
+import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
+import com.example.drivingschool.databinding.FragmentStudentProfileBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showToast
+import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.activity.MainActivity
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.squareup.picasso.MemoryPolicy
@@ -42,48 +44,36 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class StudentProfileFragment : Fragment() {
+class StudentProfileFragment :
+    BaseFragment<FragmentStudentProfileBinding, ProfileViewModel>(R.layout.fragment_student_profile) {
+    //override fun getViewBinding() = FragmentStudentProfileBinding.inflate(layoutInflater)
+    override val binding by viewBinding(FragmentStudentProfileBinding::bind)
+    override val viewModel: ProfileViewModel by viewModels()
 
-    private lateinit var binding: FragmentProfileBinding
-    private val viewModel: ProfileViewModel by viewModels()
-    private val preferences: PreferencesHelper by lazy {
-        PreferencesHelper(requireContext())
-    }
-    private lateinit var networkConnection: NetworkConnection
+    @Inject
+    lateinit var preferences: PreferencesHelper
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentProfileBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    @Inject
+    lateinit var networkConnection: NetworkConnection
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        networkConnection = NetworkConnection(requireContext())
-        super.onViewCreated(view, savedInstanceState)
-        if (preferences.role == "instructor") {
-            findNavController().navigate(R.id.instructorProfileFragment)
-        } else {
-            binding.layoutSwipeRefresh.setOnRefreshListener {
-                getProfileData()
-                binding.layoutSwipeRefresh.isRefreshing = false
-            }
-            getProfileData()
-            showImage()
-            pickImageFromGallery()
-            changePassword()
-            logout()
 
-            val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    requireActivity().finish()
-                }
+        super.onViewCreated(view, savedInstanceState)
+        getProfileData()
+        zoomImage()
+        pickImageFromGallery()
+        changePassword()
+        logout()
+
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
             }
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private val pickImageResult =
@@ -91,8 +81,8 @@ class StudentProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
-                networkConnection.observe(viewLifecycleOwner){
-                    if (it)viewModel.getProfile()
+                networkConnection.observe(viewLifecycleOwner) {
+                    if (it) viewModel.getProfile()
                 }
                 viewModel.profile.observe(requireActivity()) { state ->
                     when (state) {
@@ -113,7 +103,7 @@ class StudentProfileFragment : Fragment() {
             }
         }
 
-    private fun showImage() {
+    private fun zoomImage() {
         binding.ivProfile.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -133,7 +123,7 @@ class StudentProfileFragment : Fragment() {
     private fun changePassword() {
         binding.btnChangePassword.setOnClickListener {
             val fragment = com.example.drivingschool.ui.fragments.profile.BottomSheetDialog()
-            fragment.show(parentFragmentManager, "TAG")
+            fragment.show(parentFragmentManager, getString(R.string.tag))
         }
     }
 
@@ -141,10 +131,12 @@ class StudentProfileFragment : Fragment() {
         binding.tvChangePhoto.setOnClickListener {
             val builder = AlertDialog.Builder(context)
             builder.setTitle(getString(R.string.change_photo))
-            builder.setItems(arrayOf(
-                getString(R.string.choose_photo),
-                getString(R.string.delete_photo)
-            )) { dialog, which ->
+            builder.setItems(
+                arrayOf(
+                    getString(R.string.choose_photo),
+                    getString(R.string.delete_photo)
+                )
+            ) { _, which ->
                 when (which) {
                     0 -> {
                         val intent =
@@ -153,10 +145,9 @@ class StudentProfileFragment : Fragment() {
                     }
 
                     1 -> {
-                        networkConnection.observe(viewLifecycleOwner){
+                        networkConnection.observe(viewLifecycleOwner) {
                             if (it) viewModel.deleteProfilePhoto()
                         }
-
                     }
                 }
             }
@@ -168,17 +159,23 @@ class StudentProfileFragment : Fragment() {
     private fun uploadImage(imageUri: Uri?) {
         imageUri?.let { uri ->
             val parcelFileDescriptor =
-                requireContext().contentResolver.openFileDescriptor(uri, "r", null) ?: return
+                requireContext().contentResolver.openFileDescriptor(
+                    uri,
+                    getString(R.string.r),
+                    null
+                ) ?: return
             val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
             val file =
                 File(requireContext().cacheDir, requireContext().contentResolver.getFileName(uri))
             val outputStream = FileOutputStream(file)
             inputStream.copyTo(outputStream)
 
-            val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-            val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
-            networkConnection.observe(viewLifecycleOwner){
-                if (it)viewModel.updateProfilePhoto(multipartBody)
+            val requestBody =
+                file.asRequestBody(getString(R.string.image_request_body).toMediaTypeOrNull())
+            val multipartBody =
+                MultipartBody.Part.createFormData(getString(R.string.image), file.name, requestBody)
+            networkConnection.observe(viewLifecycleOwner) {
+                if (it) viewModel.updateProfilePhoto(multipartBody)
             }
 
         }
@@ -212,7 +209,7 @@ class StudentProfileFragment : Fragment() {
                 preferences.role = null
                 val intent = Intent(requireActivity(), MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                intent.putExtra("isLoggedOut",true)
+                intent.putExtra(Constants.INTENT_IS_LOGGED_OUT, true)
                 activity?.startActivity(intent)
                 alert.cancel()
             }
@@ -221,38 +218,38 @@ class StudentProfileFragment : Fragment() {
     }
 
     private fun getProfileData() {
-        networkConnection.observe(viewLifecycleOwner){
-            if (it)viewModel.getProfile()
+        networkConnection.observe(viewLifecycleOwner) {
+            if (it) viewModel.getProfile()
         }
         lifecycleScope.launch {
             viewModel.profile.observe(requireActivity()) { state ->
                 when (state) {
                     is UiState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.mainContainer.visibility = View.GONE
+                        binding.progressBar.viewVisibility(true)
+                        binding.mainContainer.viewVisibility(false)
                     }
 
                     is UiState.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.mainContainer.visibility = View.VISIBLE
-                        Picasso.get().load(state.data?.profilePhoto?.large) //changed to large
+                        binding.progressBar.viewVisibility(false)
+                        binding.mainContainer.viewVisibility(true)
+                        Picasso.get().load(state.data?.profilePhoto?.big) //changed to big
                             .into(binding.ivProfile)
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
-                        binding.tvSurname.text = state.data?.surname //lastname
+                        binding.tvLastname.text = state.data?.lastname
                         binding.tvNumber.text = state.data?.phoneNumber
                         binding.tvGroup.text = state.data?.group?.name
-                        Log.d("madimadi", "getProfileData in Fragment: ${state.data}")
-                        Log.d("madimadi", "token in Fragment: ${preferences.accessToken}")
-                        Log.d("madimadi", "token in Fragment: ${preferences.accessToken}")
+                        binding.tvAveragePoint.text = "Средний балл: ${state.data?.rate}"
+                        binding.tvNumberOfLessons.text = state.data?.numberOfLessons
+                        Log.d("madimadi", "getStudentProfileData in Fragment: ${state.data}")
                     }
 
                     is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+                        showToast(getString(R.string.empty_state))
                     }
 
                     is UiState.Error -> {
-                        Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                        showToast(state.msg.toString())
                     }
 
                     else -> {

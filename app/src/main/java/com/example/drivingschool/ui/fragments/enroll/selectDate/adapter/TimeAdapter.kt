@@ -2,16 +2,13 @@ package com.example.drivingschool.ui.fragments.enroll.selectDate.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.drivingschool.R
-import com.example.drivingschool.data.models.Time
 import com.example.drivingschool.data.models.TimeInWorkWindows
 import com.example.drivingschool.databinding.ItemTimeBinding
-import com.example.drivingschool.tools.timePressed
 
 class TimeAdapter(val onClick : (TimeInWorkWindows) -> Unit) : Adapter<TimeAdapter.TimeViewHolder>() {
 

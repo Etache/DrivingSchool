@@ -1,7 +1,7 @@
 package com.example.drivingschool.data.repositories
 
 import com.example.drivingschool.data.models.InstructorResponse
-import com.example.drivingschool.data.models.ProfileResponse
+import com.example.drivingschool.data.models.StudentProfileResponse
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class ProfileRepository @Inject constructor(
     private val profileApiService: DrivingApiService
 ) {
-    suspend fun getProfile(): Flow<UiState<ProfileResponse>> = flow {
+    suspend fun getProfile(): Flow<UiState<StudentProfileResponse>> = flow {
         emit(UiState.Loading())
         val data = profileApiService.getProfile().body()
         if (data != null) {

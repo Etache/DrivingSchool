@@ -61,6 +61,7 @@
 
     //InstructorFragment
     <string name="experience">Стаж: </string>
+    <string name="experience_">Стаж</string>
     <string name="car_name">Honda Accord</string>
     <string name="feedback">Отзывы</string>
 
@@ -142,6 +143,18 @@
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
     <string name="cursant">Курсант</string>
     <string name="save_lower">Сохранить</string>
+    <string name="number_of_lessons">Количество занятий</string>
+    <string name="main_page">Главная страница</string>
+    <string name="profile_title">Профиль</string>
+    <string name="no_title">No title</string>
+    <string name="instructor">instructor</string>
+    <string name="student">student</string>
+    <string name="tag">TAG</string>
+    <string name="r">r</string>
+    <string name="image_request_body">image/*</string>
+    <string name="image">image</string>
+    <string name="instructor_last_name">Иванович</string>
+    <string name="empty_state">Empty state</string>
 
 
     <string-array name="mcv_monthLabels">

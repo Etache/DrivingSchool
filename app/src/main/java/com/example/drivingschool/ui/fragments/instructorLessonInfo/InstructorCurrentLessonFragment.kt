@@ -94,10 +94,10 @@ class InstructorCurrentLessonFragment :
 
                                 tvFullname.text =
                                     "${state.data?.student?.surname} ${state.data?.student?.name} ${state.data?.student?.lastname}"
-                                tvNumber.text = state.data?.student?.phone_number
+                                tvNumber.text = state.data?.student?.phoneNumber
 
                                 Picasso.get()
-                                    .load(state.data?.student?.profile_photo?.small)
+                                    .load(state.data?.student?.profilePhoto?.small)
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(ivProfileImage)
 
@@ -106,26 +106,6 @@ class InstructorCurrentLessonFragment :
 
                                 binding.tvBeginningDate.text = formatDate(state.data?.date)
                                 binding.tvEndingDate.text = formatDate(state.data?.date)
-
-//                                val parts = (originalDate?.split("-"))!!
-//                                val day = parts[0].toInt()
-//                                val month = parts[1].toInt()
-//                                val monthString = when (month) {
-//                                    1 -> "января"
-//                                    2 -> "февраля"
-//                                    3 -> "марта"
-//                                    4 -> "апреля"
-//                                    5 -> "мая"
-//                                    6 -> "июня"
-//                                    7 -> "июля"
-//                                    8 -> "августа"
-//                                    9 -> "сентября"
-//                                    10 -> "октября"
-//                                    11 -> "ноября"
-//                                    12 -> "декабря"
-//                                    else -> throw IllegalArgumentException("Некорректный месяц: $month")
-//                                }
-//                                tvBeginningDate.text = "$day $monthString"
                             }
 
                         }

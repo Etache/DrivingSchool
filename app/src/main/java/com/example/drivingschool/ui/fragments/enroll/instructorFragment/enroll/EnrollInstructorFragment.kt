@@ -122,6 +122,10 @@ class EnrollInstructorFragment :
                         is UiState.Empty -> {
                             Toast.makeText(requireContext(), "empty", Toast.LENGTH_SHORT).show()
                         }
+
+                        else -> {
+                            //todo
+                        }
                     }
                 }
             }

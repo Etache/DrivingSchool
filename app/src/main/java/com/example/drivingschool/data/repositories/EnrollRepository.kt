@@ -48,36 +48,4 @@ class EnrollRepository @Inject constructor(private val enrollApiService: Driving
             Log.e("ololo", "repositoryEnrollForLesson: $enrollRequest")
     }.flowOn(Dispatchers.IO)
 
-//    suspend fun enrollForLesson(instructor: String, date: String, time: String): LiveData<String> {
-//        val file = File("path/to/your/file.txt")
-//        val fileRequestBody =
-//            RequestBody.create("application/octet-stream".toMediaTypeOrNull(), file)
-//        val filePart = MultipartBody.Part.createFormData("file", file.name, fileRequestBody)
-//        val call = enrollApiService.enrollForLesson(instructor, date, time, filePart)
-//        var responseBody = MutableLiveData<String>()
-//
-//        call.enqueue(object : Callback<EnrollLessonResponse> {
-//            override fun onResponse(
-//                call: Call<EnrollLessonResponse>,
-//                response: Response<EnrollLessonResponse>
-//            ) {
-//                if (response.isSuccessful) {
-//                    // Handle successful response
-//                    responseBody.value = response.body()?.success.toString()
-//                    Log.e("ololo", "repositoryEnrollForLesson: $responseBody")
-//
-//                } else {
-//                    // Handle error
-//                    println("Error: ${response.code()}")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<EnrollLessonResponse>, t: Throwable) {
-//                // Handle failure
-//                println("Request failed: ${t.message}")
-//            }
-//        })
-//        return responseBody
-//    }
-
 }

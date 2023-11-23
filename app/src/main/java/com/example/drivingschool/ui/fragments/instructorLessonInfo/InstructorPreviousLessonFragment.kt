@@ -118,13 +118,13 @@ class InstructorPreviousLessonFragment :
                                 val last = it.data?.student?.lastname ?: ""
                                 tvUserName.text =
                                     "${it.data?.student?.surname} ${it.data?.student?.name} $last"
-                                tvUserNumber.text = it.data?.student?.phone_number
+                                tvUserNumber.text = it.data?.student?.phoneNumber
                                 tvPreviousStartDate.text = formatDate(it.data?.date)
                                 tvScheduleEndDate.text = formatDate(it.data?.date)
                                 tvPreviousStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.student?.profile_photo?.small?.replace(
+                                val httpsImageUrl = it.data?.student?.profilePhoto?.small?.replace(
                                     "http://",
                                     "https://"
                                 )
@@ -166,12 +166,12 @@ class InstructorPreviousLessonFragment :
                                         )
                                     tvCommentBody.text = it.data?.feedbackForInstructor?.text
                                     tvCommentDate.text =
-                                        formatDateTime(it.data?.feedbackForInstructor?.created_at!!)
+                                        formatDateTime(it.data?.feedbackForInstructor?.createdAt!!)
                                     rbCommentSmall.rating =
                                         it.data?.feedbackForInstructor?.mark?.toInt()!!.toFloat()
                                     Log.e("ololo", "setupSubscribes: full ${it.data}")
                                     val httpToHttps =
-                                        it.data?.feedbackForInstructor?.student?.profile_photo?.small?.replace(
+                                        it.data?.feedbackForInstructor?.student?.profilePhoto?.small?.replace(
                                             "http://",
                                             "https://"
                                         )

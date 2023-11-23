@@ -103,7 +103,7 @@ class CurrentLessonDetailsFragment :
                                     it.data?.instructor?.name,
                                     last
                                 )
-                                tvUserNumber.text = it.data?.instructor?.phone_number
+                                tvUserNumber.text = it.data?.instructor?.phoneNumber
 
                                 tvStartDate.text = formatDate(it.data?.date)
                                 tvEndDate.text = formatDate(it.data?.date)
@@ -111,7 +111,7 @@ class CurrentLessonDetailsFragment :
                                 tvStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profile_photo?.small?.replace(
+                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.small?.replace(
                                     "http://",
                                     "https://"
                                 )

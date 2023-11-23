@@ -117,13 +117,13 @@ class PreviousLessonDetailsFragment :
                                 val last = it.data?.instructor?.lastname ?: ""
                                 tvUserName.text =
                                     "${it.data?.instructor?.surname} ${it.data?.instructor?.name} $last"
-                                tvUserNumber.text = it.data?.instructor?.phone_number
+                                tvUserNumber.text = it.data?.instructor?.phoneNumber
                                 tvPreviousStartDate.text = formatDate(it.data?.date)
                                 tvScheduleEndDate.text = formatDate(it.data?.date)
                                 tvPreviousStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profile_photo?.small?.replace(
+                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.small?.replace(
                                     "http://",
                                     "https://"
                                 )
@@ -165,14 +165,14 @@ class PreviousLessonDetailsFragment :
                                             lastILN
                                         )
                                     tvCommentBody.text = it.data?.feedbackForStudent?.text
-                                    Log.e("ololo", "setupSubscribes:FORMATDATETIME ${it.data?.feedbackForStudent?.created_at!!}")
+                                    Log.e("ololo", "setupSubscribes:FORMATDATETIME ${it.data?.feedbackForStudent?.createdAt!!}")
                                     tvCommentDate.text =
-                                        formatDateTime(it.data?.feedbackForStudent?.created_at!!)
+                                        formatDateTime(it.data?.feedbackForStudent?.createdAt!!)
                                     rbCommentSmall.rating =
                                         it.data?.feedbackForStudent?.mark?.toInt()!!.toFloat()
                                     Log.e("ololo", "setupSubscribes: full ${it.data}")
                                     val httpToHttps =
-                                        it.data?.feedbackForStudent?.instructor?.profile_photo?.small?.replace(
+                                        it.data?.feedbackForStudent?.instructor?.profilePhoto?.small?.replace(
                                             "http://",
                                             "https://"
                                         )
