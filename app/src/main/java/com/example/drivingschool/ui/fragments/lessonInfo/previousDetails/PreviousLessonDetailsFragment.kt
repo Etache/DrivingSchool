@@ -30,7 +30,7 @@ import com.example.drivingschool.databinding.FragmentPreviousLessonDetailsBindin
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +53,7 @@ class PreviousLessonDetailsFragment :
 
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
-        lessonId = arguments?.getString(BundleKeys.MAIN_TO_PREVIOUS_KEY) ?: "1"
+        lessonId = arguments?.getString(Constants.MAIN_TO_PREVIOUS_KEY) ?: "1"
         Log.e("ololo", "initialize: $lessonId")
         networkConnection.observe(viewLifecycleOwner){
             if (it) viewModel.getDetails(lessonId)

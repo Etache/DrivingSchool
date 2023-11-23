@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/instructor_surname"
                 android:textSize="14sp"
-                android:textColor="@color/black"
+                android:textColor="@color/black_light"
                 android:fontFamily="@font/roboto_bold"/>
             <TextView
                 android:id="@+id/tv_name"
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/name"
                 android:textSize="14sp"
-                android:textColor="@color/black"
+                android:textColor="@color/black_light"
                 android:fontFamily="@font/roboto_bold"
                 android:layout_marginStart="5dp"/>
         </LinearLayout>
