@@ -3,7 +3,6 @@ package com.example.drivingschool.ui.fragments.lessonInfo.previousDetails
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
 import android.text.Editable
@@ -17,7 +16,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -117,8 +115,12 @@ class PreviousLessonDetailsFragment :
                                 btnComment.viewVisibility(true)
                                 studentId = it.data?.student?.id.toString()
                                 val last = it.data?.instructor?.lastname ?: ""
-                                tvUserName.text =
-                                    "${it.data?.instructor?.surname} ${it.data?.instructor?.name} $last"
+                                tvUserName.text = getString(
+                                    R.string.person_full_name,
+                                    it.data?.instructor?.surname,
+                                    it.data?.instructor?.name,
+                                    last
+                                )
                                 tvUserNumber.text = it.data?.instructor?.phone_number
                                 tvPreviousStartDate.text = formatDate(it.data?.date)
                                 tvScheduleEndDate.text = formatDate(it.data?.date)
@@ -153,7 +155,7 @@ class PreviousLessonDetailsFragment :
                                             lastILN
                                         )
                                     tvCommentBody.text = it.data?.feedbackForStudent?.text
-                                    Log.e("ololo", "setupSubscribes:FORMATDATETIME ${it.data?.feedbackForStudent?.created_at!!}")
+                                    Log.e("ololo", "setupSubscribes:formatDateTime ${it.data?.feedbackForStudent?.created_at!!}")
                                     tvCommentDate.text =
                                         formatDateTime(it.data?.feedbackForStudent?.created_at!!)
                                     rbCommentSmall.rating =
@@ -180,24 +182,24 @@ class PreviousLessonDetailsFragment :
     }
 
     private fun timeWithoutSeconds(inputTime: String?): String {
-        val timeParts = inputTime?.split(":")
+        val timeParts = inputTime?.split(getString(R.string.delimeter))
         return "${timeParts?.get(0)}:${timeParts?.get(1)}"
     }
 
     private fun formatDate(inputDate: String?): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.getDefault())
         val date = inputFormat.parse(inputDate) ?: return ""
 
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+        val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
         return outputFormat.format(date).replaceFirstChar { it.uppercase() }
     }
 
     private fun formatDateTime(createdAt: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX", Locale.ENGLISH)
+        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_t_hh_mm_ss_ssssssx), Locale.ENGLISH)
         return if (createdAt.isNotEmpty()) {
             try {
                 val date = inputFormat.parse(createdAt)
-                val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+                val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
                 val formattedDate = outputFormat.format(date)
                 val calendar = Calendar.getInstance()
                 calendar.time = date
@@ -206,7 +208,7 @@ class PreviousLessonDetailsFragment :
                 val month = formattedDate.split(" ")[1]
                 "$day $month"
             } catch (e: Exception) {
-                "Unparsable date type"
+                "Unknown date type"
             }
         } else {
              ""
@@ -273,29 +275,29 @@ class PreviousLessonDetailsFragment :
 
     private fun showAlert() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Ваш комментарий отправлен")
+            .setTitle(getString(R.string.comment_is_sended))
             .setCancelable(true)
             .setNegativeButton(
-                getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface, _ ->
-                    dialogInterface.cancel()
-                })
+                getString(R.string.ok)
+            ) { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
             .show()
     }
 
     @SuppressLint("SimpleDateFormat")
     private fun calculateEndTime(inputTime: String?) {
-        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val timeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
 
         try {
             val date = inputTime?.let { timeFormat.parse(it) }
             val calendar = Calendar.getInstance()
             calendar.time = date
             calendar.add(Calendar.HOUR_OF_DAY, 1)
-            val outputTimeFormat = SimpleDateFormat("HH:mm:ss")
+            val outputTimeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
             val outputTime = outputTimeFormat.format(calendar.time)
             val timeParts = outputTime.split(":")
-            binding.tvPreviousEndTime.text = "${timeParts[0]}:${timeParts[1]}"
+            binding.tvPreviousEndTime.text = getString(R.string.calc_time_text, timeParts[0], timeParts[1])
         } catch (e: Exception) {
             showToast(e.message.toString())
         }
@@ -309,12 +311,18 @@ class PreviousLessonDetailsFragment :
             dialog.setContentView(R.layout.show_photo_profile)
             val image = dialog.findViewById<ImageView>(R.id.image)
 
-            if (binding.circleImageView.drawable is BitmapDrawable) {
-                image.setImageBitmap((binding.circleImageView.drawable as BitmapDrawable).bitmap)
-            } else if (binding.circleImageView.drawable is VectorDrawable) {
-                image.setImageDrawable(binding.circleImageView.drawable)
-            } else {
-                image.setImageResource(R.drawable.ic_default_photo)
+            when (binding.circleImageView.drawable) {
+                is BitmapDrawable -> {
+                    image.setImageBitmap((binding.circleImageView.drawable as BitmapDrawable).bitmap)
+                }
+
+                is VectorDrawable -> {
+                    image.setImageDrawable(binding.circleImageView.drawable)
+                }
+
+                else -> {
+                    image.setImageResource(R.drawable.ic_default_photo)
+                }
             }
             dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
             dialog.show()

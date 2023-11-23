@@ -121,7 +121,7 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(false)
                                 rvMainExplore.viewVisibility(true)
                                 viewNoLessons.viewVisibility(false)
-                                Log.e("ololo", "initCurrentLessonSections: UiState.Success ${it.data}", )
+                                Log.e("ololo", "initCurrentLessonSections: UiState.Success ${it.data}")
                                 adapter.updateList(it.data ?: emptyList())
                             }
 
@@ -142,7 +142,7 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(false)
                                 rvMainExplore.viewVisibility(false)
                                 viewNoLessons.viewVisibility(true)
-                                Log.e("ololo", "initCurrentLessonSections: UiState.Empty", )
+                                Log.e("ololo", "initCurrentLessonSections: UiState.Empty")
                             }
                         }
 
@@ -155,7 +155,7 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(true)
                                 rvMainExplore.viewVisibility(false)
                                 viewNoLessons.viewVisibility(false)
-                                Log.e("ololo", "initCurrentLessonSections: UiState.Loading ", )
+                                Log.e("ololo", "initCurrentLessonSections: UiState.Loading ")
                             }
 
                         }
@@ -165,7 +165,7 @@ class MainExploreFragment :
                                 mainProgressBar.viewVisibility(false)
                                 rvMainExplore.viewVisibility(true)
                                 viewNoLessons.viewVisibility(false)
-                                Log.e("ololo", "initCurrentLessonSections: UiState.Success ${it.data}", )
+                                Log.e("ololo", "initCurrentLessonSections: UiState.Success ${it.data}")
                                 adapter.updateList(it.data ?: emptyList())
                             }
 

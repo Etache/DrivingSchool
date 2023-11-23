@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="Инструктор"
+                android:text="@string/instructor_text"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/circle_image_view"
@@ -154,20 +154,23 @@
             </FrameLayout>
 
             <!--     visibility этой кнопки изначально должен быть Gone    -->
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cancel_lesson"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_cancel_lesson"
+                android:backgroundTint="@color/white"
                 android:gravity="center"
                 android:text="@string/text_btn_cancel_lesson"
-                android:textSize="12sp"
                 android:textAllCaps="false"
                 android:textColor="@color/red"
+                android:textSize="12sp"
                 app:cornerRadius="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:strokeColor="@color/red"
+                app:strokeWidth="1dp"
+                tools:ignore="TextContrastCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

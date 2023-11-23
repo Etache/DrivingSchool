@@ -142,6 +142,22 @@
     <string name="cursant">Курсант</string>
     <string name="save_lower">Сохранить</string>
     <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа!</string>
+    <string name="instructor_text">Инструктор</string>
+    <string name="yyyy_mm_dd">yyyy-MM-dd</string>
+    <string name="d_mmmm">d MMMM</string>
+    <string name="ru">ru</string>
+    <string name="cancel_is_impossible">Отмена занятия невозможна</string>
+    <string name="canceled_text">Ваше занятие отменено</string>
+    <string name="hh_mm_ss">HH:mm:ss</string>
+    <string name="calc_time_text">%1$s:%2$s</string>
+    <string name="delimeter">:</string>
+    <string name="comment_is_sended">Ваш комментарий отправлен</string>
+    <string name="planned">Запланирован</string>
+    <string name="active">Активен</string>
+    <string name="canceled">Отменен</string>
+    <string name="finished">Завершен</string>
+    <string name="absent">Не пришел</string>
+    <string name="unknown_status">Неизвестный статус</string>
 
 
     <string-array name="mcv_monthLabels">

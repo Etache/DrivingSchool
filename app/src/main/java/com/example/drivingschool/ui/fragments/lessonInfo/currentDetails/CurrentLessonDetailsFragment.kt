@@ -3,7 +3,6 @@ package com.example.drivingschool.ui.fragments.lessonInfo.currentDetails
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
 import android.util.Log
@@ -42,7 +41,6 @@ class CurrentLessonDetailsFragment :
 
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
-        Log.e("ololololo", "initialize: ${arguments?.getString(Constants.MAIN_TO_CURRENT_KEY)}")
         networkConnection.observe(viewLifecycleOwner){
             if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1")
         }
@@ -69,7 +67,6 @@ class CurrentLessonDetailsFragment :
                 viewModel.detailsState.collect {
                     when (it) {
                         is UiState.Empty -> {
-                            showToast("UiState.Empty")
                             binding.detailsProgressBar.viewVisibility(false)
                             binding.mainContainer.viewVisibility(true)
                         }
@@ -129,15 +126,15 @@ class CurrentLessonDetailsFragment :
     }
 
     private fun timeWithoutSeconds(inputTime: String?): String {
-        val timeParts = inputTime?.split(":")
+        val timeParts = inputTime?.split(getString(R.string.delimeter))
         return "${timeParts?.get(0)}:${timeParts?.get(1)}"
     }
 
     private fun formatDate(inputDate: String?): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.getDefault())
         val date = inputFormat.parse(inputDate) ?: return ""
 
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+        val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
         return outputFormat.format(date).replaceFirstChar { it.uppercase() }
     }
 
@@ -148,8 +145,6 @@ class CurrentLessonDetailsFragment :
             } else {
                 showAlert()
             }
-        } else {
-            showToast("Время начала урока неизвестно")
         }
 
     }
@@ -159,74 +154,74 @@ class CurrentLessonDetailsFragment :
             .setTitle(getString(R.string.cancel_lesson_text))
             .setCancelable(true)
             .setPositiveButton(
-                getString(R.string.confirm),
-                DialogInterface.OnClickListener { dialogInterface, i ->
-                    viewModel.cancelLessonFromId(
-                        arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1"
-                    )
-                    networkConnection.observe(viewLifecycleOwner){
-                        if (it) {
-                            viewModel.cancelLiveData.observe(viewLifecycleOwner) {
-                                Log.e("ololo", "showCancelAlert: ${it.toString()}")
-                                if (it?.status == "success") {
-                                    showSuccessCancelAlert()
-                                    binding.btnCancelLesson.viewVisibility(false)
-                                } else {
-                                    showToast("error")
-                                }
+                getString(R.string.confirm)
+            ) { dialogInterface, _ ->
+                viewModel.cancelLessonFromId(
+                    arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1"
+                )
+                networkConnection.observe(viewLifecycleOwner) { data ->
+                    if (data) {
+                        viewModel.cancelLiveData.observe(viewLifecycleOwner) {
+                            Log.e("ololo", "showCancelAlert: ${it.toString()}")
+                            if (it?.status == "success") {
+                                showSuccessCancelAlert()
+                                binding.btnCancelLesson.viewVisibility(false)
+                            } else {
+                                showToast("error")
                             }
                         }
                     }
-                    dialogInterface.cancel()
-                })
+                }
+                dialogInterface.cancel()
+            }
             .setNegativeButton(
-                getString(R.string.back),
-                DialogInterface.OnClickListener { dialogInterface, i ->
-                    dialogInterface.cancel()
-                })
+                getString(R.string.back)
+            ) { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
             .show()
     }
 
 
     private fun showAlert() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Отмена занятия невозможна")
+            .setTitle(getString(R.string.cancel_is_impossible))
             .setMessage(getString(R.string.cancel_alert_msg))
             .setCancelable(true)
             .setNegativeButton(
-                getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface, _ ->
-                    dialogInterface.cancel()
-                })
+                getString(R.string.ok)
+            ) { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
             .show()
     }
 
     private fun showSuccessCancelAlert() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Ваше занятие отменено")
+            .setTitle(getString(R.string.canceled_text))
             .setCancelable(true)
             .setNegativeButton(
-                getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface, i ->
-                    findNavController().navigateUp()
-                    dialogInterface.cancel()
-                })
+                getString(R.string.ok)
+            ) { dialogInterface, _ ->
+                findNavController().navigateUp()
+                dialogInterface.cancel()
+            }
             .show()
     }
 
     @SuppressLint("SimpleDateFormat")
     private fun calculateEndTime(inputTime: String?) {
-        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val timeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
 
         try {
             val date = inputTime?.let { timeFormat.parse(it) }
             val calendar = Calendar.getInstance()
             calendar.time = date
             calendar.add(Calendar.HOUR_OF_DAY, 1)
-            val outputTimeFormat = SimpleDateFormat("HH:mm:ss")
+            val outputTimeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
             val outputTime = outputTimeFormat.format(calendar.time)
             val timeParts = outputTime.split(":")
-            binding.tvEndTime.text = "${timeParts[0]}:${timeParts[1]}"
+            binding.tvEndTime.text = getString(R.string.calc_time_text, timeParts[0], timeParts[1])
         } catch (e: Exception) {
             showToast(e.message.toString())
         }
@@ -250,12 +245,18 @@ class CurrentLessonDetailsFragment :
             dialog.setContentView(R.layout.show_photo_profile)
             val image = dialog.findViewById<ImageView>(R.id.image)
 
-            if (binding.circleImageView.drawable is BitmapDrawable) {
-                image.setImageBitmap((binding.circleImageView.drawable as BitmapDrawable).bitmap)
-            } else if (binding.circleImageView.drawable is VectorDrawable) {
-                image.setImageDrawable(binding.circleImageView.drawable)
-            } else {
-                image.setImageResource(R.drawable.ic_default_photo)
+            when (binding.circleImageView.drawable) {
+                is BitmapDrawable -> {
+                    image.setImageBitmap((binding.circleImageView.drawable as BitmapDrawable).bitmap)
+                }
+
+                is VectorDrawable -> {
+                    image.setImageDrawable(binding.circleImageView.drawable)
+                }
+
+                else -> {
+                    image.setImageResource(R.drawable.ic_default_photo)
+                }
             }
 
             dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)

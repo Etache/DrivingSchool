@@ -57,14 +57,6 @@ class InstructorPreviousLessonFragment :
             if (it) viewModel.getDetails(lessonId)
         }
 
-        binding.tvCommentBody.setOnClickListener {
-            if (binding.tvCommentBody.maxHeight > 60) {
-                binding.tvCommentBody.maxHeight = 60
-            } else {
-                binding.tvCommentBody.maxHeight = 400
-            }
-        }
-
         showImage()
 
         binding.btnComment.setOnClickListener {
@@ -116,8 +108,12 @@ class InstructorPreviousLessonFragment :
                                 btnComment.viewVisibility(true)
                                 instructorId = it.data?.instructor?.id.toString()
                                 val last = it.data?.student?.lastname ?: ""
-                                tvUserName.text =
-                                    "${it.data?.student?.surname} ${it.data?.student?.name} $last"
+                                tvUserName.text = getString(
+                                    R.string.person_full_name,
+                                    it.data?.student?.surname,
+                                    it.data?.student?.name,
+                                    last
+                                )
                                 tvUserNumber.text = it.data?.student?.phone_number
                                 tvPreviousStartDate.text = formatDate(it.data?.date)
                                 tvScheduleEndDate.text = formatDate(it.data?.date)
@@ -135,52 +131,10 @@ class InstructorPreviousLessonFragment :
 
                                 if (it.data?.feedbackForStudent != null) {
                                     isCommentCreated = true
-                                    binding.btnComment.apply {
-                                        isClickable = false
-                                        setBackgroundColor(
-                                            ContextCompat.getColor(
-                                                requireContext(),
-                                                R.color.light_gray
-                                            )
-                                        )
-                                        setTextColor(
-                                            ContextCompat.getColor(
-                                                requireContext(),
-                                                R.color.dark_gray_text
-                                            )
-                                        )
-                                    }
-
+                                    isCommentCreated = true
+                                    binding.btnComment.viewVisibility(false)
                                 }
 
-                                if (it.data?.feedbackForInstructor != null) {
-                                    containerComment.viewVisibility(true)
-                                    val lastILN =
-                                        it.data?.feedbackForInstructor?.student?.lastname ?: ""
-                                    tvCommentTitle.text =
-                                        getString(
-                                            R.string.person_full_name,
-                                            it.data?.feedbackForInstructor?.student?.surname,
-                                            it.data?.feedbackForInstructor?.student?.name,
-                                            lastILN
-                                        )
-                                    tvCommentBody.text = it.data?.feedbackForInstructor?.text
-                                    tvCommentDate.text =
-                                        formatDateTime(it.data?.feedbackForInstructor?.created_at!!)
-                                    rbCommentSmall.rating =
-                                        it.data?.feedbackForInstructor?.mark?.toInt()!!.toFloat()
-                                    Log.e("ololo", "setupSubscribes: full ${it.data}")
-                                    val httpToHttps =
-                                        it.data?.feedbackForInstructor?.student?.profile_photo?.small?.replace(
-                                            "http://",
-                                            "https://"
-                                        )
-                                    Log.e("ololo", "setupSubscribes: after $httpToHttps")
-                                    Picasso.get()
-                                        .load(httpToHttps)
-                                        .placeholder(R.drawable.ic_default_photo)
-                                        .into(circleCommentImage)
-                                }
                             }
                         }
 
@@ -201,20 +155,6 @@ class InstructorPreviousLessonFragment :
 
         val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
         return outputFormat.format(date).replaceFirstChar { it.uppercase() }
-    }
-
-    private fun formatDateTime(createdAt: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX", Locale.ENGLISH)
-        val date = inputFormat.parse(createdAt)
-
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
-        val formattedDate = outputFormat.format(date)
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = formattedDate.split(" ")[1]
-        return "$day $month"
     }
 
     @SuppressLint("MissingInflatedId")
@@ -266,9 +206,24 @@ class InstructorPreviousLessonFragment :
             if (it) viewModel.saveComment(comment)
         }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let { showToast("Ваш комментарий оставлен") }
+            it.access?.let {
+                showAlert()
+
+            }
         }
         viewModel.getDetails(lessonId)
+    }
+
+    private fun showAlert() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.comment_is_sended))
+            .setCancelable(true)
+            .setNegativeButton(
+                getString(R.string.ok)
+            ) { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
+            .show()
     }
 
     @SuppressLint("SimpleDateFormat")

@@ -68,7 +68,9 @@ class LessonAdapter(
             }
 
             itemView.setOnClickListener {
-                onClick(lesson.id.toString())
+                if (lesson.status != LessonStatus.ABSENT.status && lesson.status != LessonStatus.CANCELED.status) {
+                    onClick(lesson.id.toString())
+                }
             }
         }
 
@@ -76,31 +78,32 @@ class LessonAdapter(
             return when (status) {
                 LessonStatus.PLANNED.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.bright_blue))
-                    "Запланирован"
+                    context.getString(R.string.planned)
                 }
 
                 LessonStatus.ACTIVE.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.green))
-                    "Активен"
+                    context.getString(R.string.active)
                 }
 
                 LessonStatus.CANCELED.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.red))
-                    "Отменен"
+                    context.getString(R.string.canceled)
                 }
 
                 LessonStatus.FINISHED.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
-                    "Завершен"
+                    context.getString(R.string.finished)
                 }
 
-                LessonStatus.NOTCOME.status -> {
-                    "Не пришел"
+                LessonStatus.ABSENT.status -> {
+                    tvStatus.setTextColor(ContextCompat.getColor(context, R.color.red))
+                    context.getString(R.string.absent)
                 }
 
                 else -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
-                    "Неизвестный статус"
+                    context.getString(R.string.unknown_status)
                 }
             }
         }
