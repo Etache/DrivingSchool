@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
-import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
-import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonResponse
-import com.example.drivingschool.data.models.start_finish_lesson.StartLessonResponse
+import com.example.drivingschool.data.models.start_finish_lesson.ChangeLessonStatusResponse
 import com.example.drivingschool.data.repositories.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,24 +15,31 @@ import javax.inject.Inject
 class StartFinishLessonViewModel @Inject constructor(private val repository: MainRepository) :
     BaseViewModel() {
 
-    private var _startLessonResult = MutableLiveData<StartLessonResponse?>()
-    val startLessonResult = _startLessonResult as LiveData<StartLessonResponse?>
+    private var _startLessonResult = MutableLiveData<ChangeLessonStatusResponse?>()
+    val startLessonResult = _startLessonResult as LiveData<ChangeLessonStatusResponse?>
 
-    private var _finishLessonResult = MutableLiveData<FinishLessonResponse?>()
-    val finishLessonResult = _finishLessonResult as LiveData<FinishLessonResponse?>
+    private var _finishLessonResult = MutableLiveData<ChangeLessonStatusResponse?>()
+    val finishLessonResult = _finishLessonResult as LiveData<ChangeLessonStatusResponse?>
+
+    private var _studentAbsentResult = MutableLiveData<ChangeLessonStatusResponse?>()
+    val studentAbsentResult = _studentAbsentResult as LiveData<ChangeLessonStatusResponse?>
 
 
     fun startLesson(id: String) = viewModelScope.launch {
         repository.startLesson(id).collect {
             _startLessonResult.value = it
-            Log.e("ahahaha", "startLesson VM: ${it}")
         }
     }
 
-    fun finishLesson(finishLessonRequest: FinishLessonRequest) = viewModelScope.launch {
-        repository.finishLesson(finishLessonRequest).collect {
+    fun finishLesson(id : String) = viewModelScope.launch {
+        repository.finishLesson(id).collect {
             _finishLessonResult.value = it
-            Log.e("ahahaha", "startLesson VM: ${it}")
+        }
+    }
+
+    fun studentAbsent(id: String) = viewModelScope.launch {
+        repository.studentAbsent(id).collect {
+            _studentAbsentResult.postValue(it)
         }
     }
 }

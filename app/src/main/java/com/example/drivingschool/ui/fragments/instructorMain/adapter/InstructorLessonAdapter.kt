@@ -103,6 +103,11 @@ class InstructorLessonAdapter(
                     "Прошедший"
                 }
 
+                LessonStatus.ABSENT.status -> {
+                    tvStatus.setTextColor(ContextCompat.getColor(context,R.color.red))
+                    "Не пришел"
+                }
+
                 else -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_text))
                     "Неизвестный статус"

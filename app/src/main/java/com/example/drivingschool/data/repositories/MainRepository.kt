@@ -1,7 +1,6 @@
 package com.example.drivingschool.data.repositories
 
 import android.util.Log
-import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
@@ -48,11 +47,15 @@ class MainRepository @Inject constructor(
     suspend fun startLesson(id: String) = flow {
         val response = mainApiService.startLesson(id)
         emit(response.body())
-        Log.e("ahahaha", "startLesson Repository: ${response.body()}" )
     }
 
-    suspend fun finishLesson(finishLessonRequest: FinishLessonRequest) = flow {
-        val response = mainApiService.finishLesson(finishLessonRequest)
+    suspend fun finishLesson(id : String) = flow {
+        val response = mainApiService.finishLesson(id)
+        emit(response.body())
+    }
+
+    suspend fun studentAbsent(id: String) = flow {
+        val response = mainApiService.studentAbsent(id)
         emit(response.body())
     }
 }

@@ -2,6 +2,7 @@ package com.example.drivingschool.data.remote
 
 import com.example.drivingschool.data.models.CancelRequest
 import com.example.drivingschool.data.models.CancelResponse
+import com.example.drivingschool.data.models.EnrollLessonRequest
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.ProfileResponse
@@ -9,7 +10,8 @@ import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
-import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonResponse
+import com.example.drivingschool.data.models.InstructorWorkWindowRequest
+import com.example.drivingschool.data.models.InstructorWorkWindowResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
@@ -17,8 +19,7 @@ import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
-import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
-import com.example.drivingschool.data.models.start_finish_lesson.StartLessonResponse
+import com.example.drivingschool.data.models.start_finish_lesson.ChangeLessonStatusResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -48,10 +49,13 @@ interface DrivingApiService {
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
  
     @PATCH("lessons/{id}/start/")
-    suspend fun startLesson(@Path("id") id: String): Response<StartLessonResponse>
+    suspend fun startLesson(@Path("id") id: String): Response<ChangeLessonStatusResponse>
 
     @PATCH("lessons/{id}/finish/")
-    suspend fun finishLesson(@Body finishLessonRequest: FinishLessonRequest): Response<FinishLessonResponse>
+    suspend fun finishLesson(@Path("id") id: String): Response<ChangeLessonStatusResponse>
+
+    @PATCH("lessons/{id}/absent/")
+    suspend fun studentAbsent(@Path("id") id: String): Response<ChangeLessonStatusResponse>
 
     @GET("lessons/{id}/")
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
@@ -97,5 +101,11 @@ interface DrivingApiService {
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
 
     @POST("lessons/create/")
-    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonResponse): Response<String>
+    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonRequest): Response<EnrollLessonResponse>
+
+    @GET("workwindows/details/")
+    suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>
+
+    @POST("workwindows/create/")
+    suspend fun setWorkWindows(@Body instructorWorkWindowRequest: InstructorWorkWindowRequest): Response<InstructorWorkWindowResponse>
 }

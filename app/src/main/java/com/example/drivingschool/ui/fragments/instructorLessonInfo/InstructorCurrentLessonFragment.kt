@@ -20,7 +20,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
-import com.example.drivingschool.data.models.start_finish_lesson.FinishLessonRequest
 import com.example.drivingschool.databinding.FragmentInstructorCurrentLessonBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
@@ -31,6 +30,7 @@ import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,6 +44,7 @@ class InstructorCurrentLessonFragment :
 
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var lessonId: String
+    private lateinit var lessonDateTime: String
 
     private lateinit var networkConnection: NetworkConnection
 
@@ -54,36 +55,35 @@ class InstructorCurrentLessonFragment :
         }
 
         lessonId = arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1"
-
         viewModel.getCurrentById(lessonId)
-
-        binding.btnStartLesson.setOnClickListener {
-            changeLessonStatusViewModel.startLesson(lessonId)
-            startLesson()
-        }
-        binding.btnEndLesson.setOnClickListener {
-            changeLessonStatusViewModel.finishLesson(FinishLessonRequest(lessonId))
-            finishLesson()
-        }
-
-        showImage()
 
         showImage()
     }
 
     override fun setupListeners() {
-
         binding.layoutSwipeRefresh.setOnRefreshListener {
             networkConnection.observe(viewLifecycleOwner){
                 viewModel.getCurrentById(arguments?.getString("key") ?: "1")
             }
             binding.layoutSwipeRefresh.isRefreshing = false
         }
+
+        binding.btnStartLesson.setOnClickListener {
+            changeLessonStatusViewModel.startLesson(lessonId)
+            startLesson()
+        }
+        binding.btnEndLesson.setOnClickListener {
+            changeLessonStatusViewModel.finishLesson(lessonId)
+            finishLesson()
+        }
+        binding.btnNotVisit.setOnClickListener {
+            changeLessonStatusViewModel.studentAbsent(lessonId)
+            studentAbsent()
+        }
     }
 
     @SuppressLint("SetTextI18n")
     override fun setupSubscribes() {
-        //viewModel.getCurrentById(id = id!!)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.currentDetailsState.collect { state ->
@@ -125,8 +125,18 @@ class InstructorCurrentLessonFragment :
                                 binding.tvBeginningDate.text = formatDate(state.data?.date)
                                 binding.tvEndingDate.text = formatDate(state.data?.date)
 
-                            }
+                                lessonDateTime = "${state.data?.date} ${timeWithoutSeconds(state.data?.time)}"
 
+                                if (state.data?.status == "active") {
+                                    btnStartLesson.visibility = View.GONE
+                                    btnEndLesson.visibility = View.VISIBLE
+                                    btnNotVisit.visibility = View.VISIBLE
+                                } else {
+                                    btnEndLesson.visibility = View.GONE
+                                    btnStartLesson.visibility = View.VISIBLE
+                                    btnNotVisit.visibility = View.GONE
+                                }
+                            }
                         }
                     }
                 }
@@ -187,38 +197,61 @@ class InstructorCurrentLessonFragment :
 
     private fun startLesson() {
         changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner, Observer {
-            if (it?.startSuccess != null) {
+            if (it?.status == "success" && isLessonTimeReached()) {
                 binding.btnEndLesson.isEnabled = false
                 showStartFinishAlert("Ваше занятие началось")
                 startTimer()
                 binding.btnStartLesson.visibility = View.GONE
                 binding.btnEndLesson.visibility = View.VISIBLE
+            } else if (it?.status == "success") {
+                showStartFinishAlert("Нельзя начать занятие из-за ограничений по времени")
             } else {
-                Log.e("ahahaha", "startLesson: ${it?.startError}, ${it?.startSuccess}")
-                Toast.makeText(requireContext(), "start lesson error: $it", Toast.LENGTH_SHORT).show()
+                Log.e("ahahaha", "startLesson: ${it?.status}")
             }
         })
     }
 
     private fun finishLesson() {
         changeLessonStatusViewModel.finishLessonResult.observe(viewLifecycleOwner) {
-            if (it != null && it?.finishSuccess != null) {
+            if (it?.status == "success") {
                 showStartFinishAlert("Ваше занятие закончилось")
                 binding.btnEndLesson.visibility = View.GONE
+                binding.btnNotVisit.visibility = View.GONE
             } else {
-                Toast.makeText(requireContext(), "finish lesson error: $it", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun studentAbsent() {
+        changeLessonStatusViewModel.studentAbsentResult.observe(viewLifecycleOwner) {
+            if (it?.status == "success") {
+                binding.btnNotVisit.visibility = View.GONE
+            } else {
+                Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun startTimer() {
-        countDownTimer = object : CountDownTimer(3000000, 60000) { //таймер на 50 минут
-            override fun onTick(p0: Long) {}
-
+        countDownTimer = object : CountDownTimer(3000000, 1000) { //таймер на 50 минут
+            override fun onTick(timer: Long) {
+                binding.timer.text = timer.toString()
+            }
             override fun onFinish() {
-                binding.btnEndLesson.isEnabled = true
+                binding.btnEndLesson.post {
+                    binding.btnEndLesson.isEnabled = true
+                }
             }
         }.start()
+    }
+
+    private fun isLessonTimeReached(): Boolean {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val currentDateTime = Calendar.getInstance().time
+        val lessonTime = dateFormat.parse(lessonDateTime) ?: return false
+
+        return currentDateTime.after(lessonTime)
     }
 
     private fun showStartFinishAlert(alertMessage: String) {
@@ -230,5 +263,6 @@ class InstructorCurrentLessonFragment :
                     dialog.cancel()
                 }
             )
+            .show()
     }
 }
