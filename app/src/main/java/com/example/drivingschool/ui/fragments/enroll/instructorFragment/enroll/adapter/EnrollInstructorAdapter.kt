@@ -1,20 +1,25 @@
 package com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.adapter
 
+import android.graphics.Color
 import android.graphics.Typeface
+import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.drivingschool.R
+import com.example.drivingschool.data.models.InstructorWorkWindowResponse
 import com.example.drivingschool.databinding.ItemCheckTimetableDateAndTimeBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class EnrollInstructorAdapter(
-    val listOfDates: List<String>?,
-    val listOfTimes: List<String>?
+class EnrollInstructorAdapter(val currentWeek: List<InstructorWorkWindowResponse.CurrentWeek>?
 ) :
     RecyclerView.Adapter<EnrollInstructorAdapter.EnrollInstructorViewHolder>() {
 
@@ -28,25 +33,41 @@ class EnrollInstructorAdapter(
     }
 
     override fun getItemCount(): Int {
-        return listOfDates?.size!!
+        return currentWeek?.size!!
     }
 
     override fun onBindViewHolder(holder: EnrollInstructorViewHolder, position: Int) {
-        holder.onBind(listOfDates!![position])
+        currentWeek?.get(position)?.let { holder.onBind(it) }
     }
 
     inner class EnrollInstructorViewHolder(private val binding: ItemCheckTimetableDateAndTimeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(itemText: String) {
-            val stringAfterEdit = buildString {
-                append(getDayOfWeek(listOfDates!![bindingAdapterPosition]))
-                append(" ")
-                append(changeDateFormat((listOfDates[bindingAdapterPosition])))
-                append("\n")
-                append(listOfTimes?.sorted()?.distinct())
-            }.replace("[","").replace("]","")
-            val stringAfterSpannable = SpannableString(stringAfterEdit)
+        fun onBind(currentWeek: InstructorWorkWindowResponse.CurrentWeek) {
+            val spannableStringBuilder = SpannableStringBuilder()
+
+            spannableStringBuilder.append(getDayOfWeek(currentWeek.date ?: ""))
+            spannableStringBuilder.append(" ")
+            spannableStringBuilder.append(changeDateFormat(currentWeek.date ?: ""))
+            spannableStringBuilder.append("\n")
+
+            currentWeek.times?.forEach { time ->
+                if (time.isFree == false) {
+                    val greenText = "${time.time} "
+                    val spannableString = SpannableString(greenText)
+                    spannableString.setSpan(
+                        ForegroundColorSpan(ContextCompat.getColor(itemView.context, R.color.green)),
+                        0,
+                        greenText.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    spannableStringBuilder.append(spannableString)
+                } else {
+                    spannableStringBuilder.append("${time.time} ")
+                }
+            }
+
+            val stringAfterSpannable = SpannableString(spannableStringBuilder)
             stringAfterSpannable.setSpan(StyleSpan(Typeface.BOLD), 0, 13, 0)
             binding.tvDateAndTime.text = stringAfterSpannable
         }

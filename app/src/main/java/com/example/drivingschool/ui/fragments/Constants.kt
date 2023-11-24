@@ -11,5 +11,10 @@ object Constants {
     const val FULL_NAME = "full_name_key"
     const val INSTRUCTOR_ID_ENROLL = "instructor_id_key"
     const val ID_KEY = "id"
-
+    const val EFCIFCURRENTWEEKEMPTY = "current_week_is_null"
+    const val CTFEFARRAYDATES = "dates_array"
+    const val CTFEFARRAYTIMES = "times_array"
+    const val LISTOFDATES = "listOfDates"
+    const val LISTOFTIMES = "listOfTimes"
+    const val ADAPTERSTATE = "adapterState"
 }

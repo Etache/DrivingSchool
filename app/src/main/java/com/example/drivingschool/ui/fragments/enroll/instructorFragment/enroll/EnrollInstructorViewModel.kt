@@ -23,7 +23,7 @@ class EnrollInstructorViewModel @Inject constructor (
         getWorkWindows()
     }
 
-    fun getWorkWindows() = viewModelScope.launch {
+    private fun getWorkWindows() = viewModelScope.launch {
         enrollInstructorRepository.getWorkWindows().collect {
             _currentTimetable.value = it
         }

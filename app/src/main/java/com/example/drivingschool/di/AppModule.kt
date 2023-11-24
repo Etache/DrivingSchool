@@ -23,7 +23,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): DrivingApiService {
         return Retrofit.Builder()
-            .baseUrl("https://ebec-94-143-197-63.ngrok-free.app/")
+            .baseUrl("https://0a59-94-143-197-63.ngrok-free.app/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -40,9 +40,7 @@ interface DrivingApiService {
     suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest): Response<RefreshTokenResponse>
 
     @PATCH("change_password/")
-    suspend fun changePassword(
-        @Body requestBody: PasswordRequest
-    ): Response<ProfileResponse>
+    suspend fun changePassword(@Body requestBody: PasswordRequest): Response<ProfileResponse>
 
     @GET("lessons/{id}")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
@@ -82,22 +80,16 @@ interface DrivingApiService {
     suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
 
     @PATCH("lessons/{id}/cancel/") //doesn't work
-    suspend fun cancelLesson(@Path("id") lessonId: String, @Body cancelRequest: CancelRequest): Response<CancelResponse>
+    suspend fun cancelLesson(
+        @Path("id") lessonId: String,
+        @Body cancelRequest: CancelRequest
+    ): Response<CancelResponse>
 
     @POST("feedbacks/instructor/create/")
     suspend fun createComment(@Body comment: FeedbackForInstructorRequest): Response<FeedbackForInstructorResponse>
 
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
-
-    //    @Multipart
-//    @POST("lessons/create/")
-//    suspend fun enrollForLesson(
-//        @Part("instructor") instructor: String,
-//        @Part("date") date: String,
-//        @Part("time") time: String,
-//        @Part file: MultipartBody.Part
-//    ): Call<EnrollLessonResponse>
 
     @GET("workwindows/details/")
     suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>

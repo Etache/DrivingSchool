@@ -16,6 +16,7 @@ import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentEnrollInstructorBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.fragments.Constants.EFCIFCURRENTWEEKEMPTY
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.adapter.EnrollInstructorAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -24,7 +25,6 @@ import java.util.Calendar
 @AndroidEntryPoint
 class EnrollInstructorFragment :
     BaseFragment<FragmentEnrollInstructorBinding, EnrollInstructorViewModel>(R.layout.fragment_enroll_instructor) {
-    //Сейчас работает и показ времени и дат текущей недели и проверка на наличие расписания!
 
     override val binding by viewBinding(FragmentEnrollInstructorBinding::bind)
     override val viewModel: EnrollInstructorViewModel by viewModels()
@@ -79,7 +79,7 @@ class EnrollInstructorFragment :
     private fun isFridayOrSaturday(): Boolean {
         val calendar = Calendar.getInstance()
         val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-        return dayOfWeek == Calendar.WEDNESDAY || dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY
+        return dayOfWeek == Calendar.FRIDAY || dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY
     }
 
     private fun getWorkWindows() {
@@ -88,7 +88,6 @@ class EnrollInstructorFragment :
                 viewModel.currentTimetable.collect {
                     when (it) {
                         is UiState.Loading -> {
-                            Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
                         }
 
                         is UiState.Success -> {
@@ -105,30 +104,19 @@ class EnrollInstructorFragment :
                             }
                             nextSchedule = nextWeekDates
 
-                            val currentWeekTimes: List<String> =
-                                it.data?.currentWeek?.flatMap { currentWeek ->
-                                    currentWeek.times?.mapNotNull { it.time } ?: emptyList()
-                                } ?: emptyList()
-
-                            adapter = EnrollInstructorAdapter(currentWeekDates, currentWeekTimes)
+                            adapter = EnrollInstructorAdapter(it.data?.currentWeek)
                             binding.recyclerDateAndTime.adapter = adapter
                             currentSchedule = currentWeekDates
                         }
 
                         is UiState.Error -> {
-                            Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
                         }
 
                         is UiState.Empty -> {
-                            Toast.makeText(requireContext(), "empty", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
         }
-    }
-
-    companion object {
-        const val EFCIFCURRENTWEEKEMPTY = "current_week_is_null"
     }
 }

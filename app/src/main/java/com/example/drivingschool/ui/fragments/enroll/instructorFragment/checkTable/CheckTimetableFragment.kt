@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
@@ -14,8 +13,8 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.InstructorWorkWindowRequest
 import com.example.drivingschool.databinding.FragmentCheckTimetableBinding
 import com.example.drivingschool.ui.activity.MainActivity
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.CalendarInstructorFragment.Companion.CTFEFARRAYDATES
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.CalendarInstructorFragment.Companion.CTFEFARRAYTIMES
+import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYDATES
+import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYTIMES
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.checkTable.adapter.CheckTimetableAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
@@ -33,7 +32,6 @@ class CheckTimetableFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_check_timetable, container, false)
     }
 

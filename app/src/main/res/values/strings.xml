@@ -110,7 +110,6 @@
     <string name="text_btn_cancel_lesson">Отменить занятие</string>
     <string name="time_8_00">08:00</string>
     <string name="time_9_00">09:00</string>
-
     <string name="time_10_00">10:00</string>
     <string name="time_11_00">11:00</string>
     <string name="time_12_00">12:00</string>
@@ -142,6 +141,9 @@
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
     <string name="cursant">Курсант</string>
     <string name="save_lower">Сохранить</string>
+    <string name="Check_timetable">Расписание на следующую неделю составляется с пятницы по воскресенье</string>
+    <string name="yyyy_mm_dd">yyyy-MM-dd</string>
+    <string name="dd_mm_yyyy">dd.MM.yyyy</string>
 
 
     <string-array name="mcv_monthLabels">
@@ -159,7 +161,7 @@
         <item>Декабрь</item>
     </string-array>
 
-    <string-array name="mcv_weekLabeles">
+    <string-array name="mcv_weekLabels">
         <item>П</item>
         <item>В</item>
         <item>С</item>
