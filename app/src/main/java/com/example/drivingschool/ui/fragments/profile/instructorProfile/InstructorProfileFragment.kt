@@ -26,6 +26,7 @@ import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
+import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.activity.MainActivity
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
@@ -88,11 +89,11 @@ class InstructorProfileFragment :
                 viewModel.instructorProfile.observe(requireActivity()) { state ->
                     when (state) {
                         is UiState.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
+                            binding.progressBar.viewVisibility(true)
                         }
 
                         is UiState.Success -> {
-                            binding.progressBar.visibility = View.GONE
+                            binding.progressBar.viewVisibility(false)
                             Picasso.get().load(state.data?.profilePhoto?.small).memoryPolicy(
                                 MemoryPolicy.NO_CACHE
                             ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
@@ -256,7 +257,6 @@ class InstructorProfileFragment :
                         }
 
                         binding.tvCar.text = state.data?.car
-                        Log.d("madimadi", "getInstructorProfileData in Fragment: ${state.data}")
                     }
 
                     is UiState.Empty -> {

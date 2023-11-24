@@ -4,9 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.style.ForegroundColorSpan
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -45,13 +43,6 @@ class SelectDateTimeFragment :
     private var instructorID: String? = null
     private var selectedFinalDate: String? = null
     private var selectedFinalTime: String? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_select_date_time, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,9 +92,10 @@ class SelectDateTimeFragment :
         }
         binding.calendarView.setOnDateChangedListener { _, _, _ ->
             val selectedDate = binding.calendarView.selectedDate.date.toString()
-            val inputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US)
+            val inputDateFormat =
+                SimpleDateFormat(getString(R.string.eee_mmm_dd_hh_mm_ss_gmt_z_yyyy), Locale.US)
             val date = inputDateFormat.parse(selectedDate)
-            val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val outputDateFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.US)
             val outputDateString = outputDateFormat.format(date!!)
 
             selectedFinalDate = outputDateString //saveSelectedDate
@@ -118,8 +110,10 @@ class SelectDateTimeFragment :
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onTimeClick(time: TimeInWorkWindows) {
-        val oldTime = LocalTime.parse(time.time, DateTimeFormatter.ofPattern("HH:mm"))
-        selectedFinalTime = oldTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+        val oldTime =
+            LocalTime.parse(time.time, DateTimeFormatter.ofPattern(getString(R.string.hh_mm)))
+        selectedFinalTime =
+            oldTime.format(DateTimeFormatter.ofPattern(getString(R.string.hh_mm_ss)))
     }
 
     private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {
@@ -128,7 +122,6 @@ class SelectDateTimeFragment :
 
             override fun shouldDecorate(day: CalendarDay): Boolean {
                 return !isDayActive(day)
-                //((day.isAfter(nextWeekStart) || day == nextWeekStart) && (day.isBefore(nextWeekEnd) || day == nextWeekEnd))
             }
 
             override fun decorate(view: DayViewFacade) {
@@ -143,14 +136,15 @@ class SelectDateTimeFragment :
         calendarView.addDecorator(grayDaysDecorator)
     }
 
-    private fun isDayActive(day : CalendarDay) : Boolean{
+    private fun isDayActive(day: CalendarDay): Boolean {
         var isActive = false
-        val inputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.US)
+        val inputDateFormat =
+            SimpleDateFormat(getString(R.string.eee_mmm_dd_hh_mm_ss_gmt_z_yyyy), Locale.US)
         val parsedDate = inputDateFormat.parse(day.date.toString())
-        val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val outputDateFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.US)
         val outputDateString = outputDateFormat.format(parsedDate!!)
-        workWindows.forEach{date ->
-            if(date.date == outputDateString) {
+        workWindows.forEach { date ->
+            if (date.date == outputDateString) {
                 isActive = true
             }
         }

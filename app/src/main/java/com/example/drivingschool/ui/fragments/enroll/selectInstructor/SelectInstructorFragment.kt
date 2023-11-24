@@ -1,54 +1,50 @@
 package com.example.drivingschool.ui.fragments.enroll.selectInstructor
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.databinding.FragmentSelectInstructorBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showToast
+import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class SelectInstructorFragment : Fragment() {
+class SelectInstructorFragment :
+    BaseFragment<FragmentSelectInstructorBinding, EnrollViewModel>(R.layout.fragment_select_instructor) {
 
-    private lateinit var binding: FragmentSelectInstructorBinding
+    override val binding by viewBinding(FragmentSelectInstructorBinding::bind)
+    override val viewModel: EnrollViewModel by viewModels()
+
+    @Inject
+    lateinit var networkConnection: NetworkConnection
+
     private lateinit var adapter: SelectInstructorAdapter
-    private val viewModel: EnrollViewModel by viewModels()
-    private lateinit var networkConnection: NetworkConnection
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSelectInstructorBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = SelectInstructorAdapter(this::onClick)
         networkConnection = NetworkConnection(requireContext())
 
-        networkConnection.observe(viewLifecycleOwner){
-            if(it) getInstructorsList()
+        networkConnection.observe(viewLifecycleOwner) {
+            if (it) getInstructorsList()
         }
 
         binding.layoutSwipeRefresh.setOnRefreshListener {
-            networkConnection.observe(viewLifecycleOwner){
-                if(it) getInstructorsList()
+            networkConnection.observe(viewLifecycleOwner) {
+                if (it) getInstructorsList()
             }
             binding.layoutSwipeRefresh.isRefreshing = false
         }
@@ -60,31 +56,24 @@ class SelectInstructorFragment : Fragment() {
             viewModel.instructors.observe(requireActivity()) { uiState ->
                 when (uiState) {
                     is UiState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.clContainer.visibility = View.GONE
+                        binding.progressBar.viewVisibility(true)
+                        binding.clContainer.viewVisibility(false)
                     }
 
                     is UiState.Success -> {
-                        binding.progressBar.visibility = View.GONE
-                        binding.clContainer.visibility = View.VISIBLE
+                        binding.progressBar.viewVisibility(false)
+                        binding.clContainer.viewVisibility(true)
                         val instructors = uiState.data
                         adapter.updateList(instructors ?: emptyList())
                         binding.rvInstructorList.adapter = adapter
-
-                        Log.d("madimadi", "instructors list in fragment: ${uiState.data}")
                     }
 
                     is UiState.Error -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "state error: ${uiState.msg}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(uiState.msg.toString())
                     }
 
                     is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "state is empty", Toast.LENGTH_SHORT)
-                            .show()
+                        showToast(getString(R.string.empty_state))
                     }
                 }
 
@@ -92,7 +81,7 @@ class SelectInstructorFragment : Fragment() {
         }
     }
 
-    fun onClick(workWindows: ArrayList<Date>, name : String, id : String) {
+    fun onClick(workWindows: ArrayList<Date>, name: String, id: String) {
         val bundle = Bundle()
         bundle.putString(Constants.FULL_NAME, name)
         bundle.putString(Constants.INSTRUCTOR_ID_ENROLL, id)
