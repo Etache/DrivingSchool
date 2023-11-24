@@ -158,6 +158,7 @@
     <string name="finished">Завершен</string>
     <string name="absent">Не пришел</string>
     <string name="unknown_status">Неизвестный статус</string>
+    <string name="unknown_date_type">Unknown date type</string>
 
 
     <string-array name="mcv_monthLabels">

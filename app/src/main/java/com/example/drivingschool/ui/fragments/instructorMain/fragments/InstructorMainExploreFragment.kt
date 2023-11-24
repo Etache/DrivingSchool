@@ -1,28 +1,22 @@
 package com.example.drivingschool.ui.fragments.instructorMain.fragments
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
-import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorMainExploreBinding
-import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.tools.viewVisibility
+import com.example.drivingschool.tools.itVisibleOtherGone
+import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.ui.fragments.Constants
+import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
 import com.example.drivingschool.ui.fragments.instructorMain.adapter.InstructorLessonAdapter
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewModel
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InstructorMainExploreFragment :
@@ -63,7 +57,7 @@ class InstructorMainExploreFragment :
 
         if (lessonType == LessonType.Current) {
             val bundle = Bundle()
-            bundle.putString("key", id)
+            bundle.putString(Constants.INSTRUCTOR_MAIN_TO_CURRENT_KEY, id)
             findNavController().navigate(R.id.instructorCurrentLessonFragment, bundle)
         }
         else if (lessonType == LessonType.Previous) {
@@ -86,98 +80,52 @@ class InstructorMainExploreFragment :
     }
 
     private fun initCurrentLessonSections() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.currentState.collect {
-                    when (it) {
-                        is UiState.Loading -> {
-                            binding.apply {
-                                pbInstructor.viewVisibility(true)
-                                rvLessonsList.viewVisibility(false)
-                                noLessons.viewVisibility(false)
-                            }
-                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Loading работает")
-                        }
 
-                        is UiState.Empty -> {
-                            binding.apply {
-                                pbInstructor.viewVisibility(false)
-                                rvLessonsList.viewVisibility(false)
-                                noLessons.viewVisibility(true)
-                            }
-                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Empty работает")
-                        }
-
-                        is UiState.Error -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "lessons error: ${it.msg}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Error работает")
-                        }
-
-                        is UiState.Success -> {
-                            binding.apply {
-                                pbInstructor.viewVisibility(false)
-                                rvLessonsList.viewVisibility(true)
-                                noLessons.viewVisibility(false)
-                                adapter.updateList(it.data ?: emptyList())
-                            }
-                            Log.d("ahahaha", "${it.data}")
-                        }
-
-                        else -> {}
-                    }
+        viewModel.currentState.collectStateFlow(
+            empty = {
+                binding.apply {
+                    itVisibleOtherGone(noLessons, pbInstructor, rvLessonsList)
+                }
+            },
+            loading = {
+                binding.apply {
+                    itVisibleOtherGone(pbInstructor, rvLessonsList, noLessons)
+                }
+            },
+            error = {
+                showToast("lessons Error: $it")
+            },
+            success = {
+                binding.apply {
+                    itVisibleOtherGone(rvLessonsList, pbInstructor, noLessons)
+                    adapter.updateList(it ?: emptyList())
                 }
             }
-        }
+        )
+
     }
 
     private fun initPreviousLessonSections() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.previousState.collect {
-                    Log.d("ahahaha", "initPreviousLessonSection Работает")
-                    when (it) {
-                        is UiState.Loading -> {
-                            binding.apply {
-                                pbInstructor.viewVisibility(true)
-                                rvLessonsList.viewVisibility(false)
-                                noLessons.viewVisibility(false)
-                            }
-                        }
-
-                        is UiState.Empty -> {
-                            binding.apply {
-                                pbInstructor.viewVisibility(false)
-                                rvLessonsList.viewVisibility(false)
-                                noLessons.viewVisibility(true)
-                            }
-                        }
-
-                        is UiState.Error -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "lessons error: ${it.msg}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-
-                        is UiState.Success -> {
-                            binding.apply {
-                                pbInstructor.viewVisibility(false)
-                                rvLessonsList.viewVisibility(true)
-                                noLessons.viewVisibility(false)
-                                adapter.updateList(it.data ?: emptyList())
-                            }
-                            Log.d("ahahaha", "initPreviousLessonSections: ${it.data}")
-                        }
-
-                        else -> {}
-                    }
+        viewModel.previousState.collectStateFlow(
+            empty = {
+                binding.apply {
+                    itVisibleOtherGone(noLessons, pbInstructor, rvLessonsList)
+                }
+            },
+            loading = {
+                binding.apply {
+                    itVisibleOtherGone(pbInstructor, rvLessonsList, noLessons)
+                }
+            },
+            error = {
+                showToast("lessons Error: $it")
+            },
+            success = {
+                binding.apply {
+                    itVisibleOtherGone(rvLessonsList, pbInstructor, noLessons)
+                    adapter.updateList(it ?: emptyList())
                 }
             }
-        }
+        )
     }
 }

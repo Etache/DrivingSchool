@@ -16,9 +16,11 @@ class MainExploreViewPagerAdapter(fragment: Fragment) :
             0 -> MainExploreFragment().apply {
                 arguments = bundleOf(BUNDLE_LESSON_TYPE to LessonType.Current)
             }
+
             1 -> MainExploreFragment().apply {
                 arguments = bundleOf(BUNDLE_LESSON_TYPE to LessonType.Previous)
             }
+
             else -> throw IllegalStateException("Invalid position '$position'.")
         }
     }

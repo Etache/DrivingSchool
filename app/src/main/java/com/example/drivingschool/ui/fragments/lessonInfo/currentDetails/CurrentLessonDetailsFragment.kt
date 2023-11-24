@@ -2,33 +2,21 @@ package com.example.drivingschool.ui.fragments.lessonInfo.currentDetails
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Dialog
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.VectorDrawable
 import android.util.Log
-import android.view.Window
-import android.widget.ImageView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentCurrentLessonDetailBinding
-import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showImage
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 @AndroidEntryPoint
 class CurrentLessonDetailsFragment :
@@ -42,17 +30,16 @@ class CurrentLessonDetailsFragment :
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
         networkConnection.observe(viewLifecycleOwner){
-            if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1")
+            if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: Constants.DEFAULT_KEY)
         }
         binding.layoutSwipeRefresh.setOnRefreshListener {
             networkConnection.observe(viewLifecycleOwner){
-                if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1")
+                if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: Constants.DEFAULT_KEY)
             }
             binding.layoutSwipeRefresh.isRefreshing = false
         }
 
-        showImage()
-
+        binding.circleImageView.showFullSizeImage()
     }
 
     override fun setupListeners() {
@@ -62,80 +49,50 @@ class CurrentLessonDetailsFragment :
     }
 
     override fun setupSubscribes() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.detailsState.collect {
-                    when (it) {
-                        is UiState.Empty -> {
-                            binding.detailsProgressBar.viewVisibility(false)
-                            binding.mainContainer.viewVisibility(true)
-                        }
 
-                        is UiState.Error -> {
-                            showToast(it.msg.toString())
-                            binding.detailsProgressBar.viewVisibility(false)
-                            binding.mainContainer.viewVisibility(true)
-                            showToast("UiState.Error")
-                        }
+        viewModel.detailsState.collectStateFlow(
+            empty = {
+                binding.detailsProgressBar.viewVisibility(false)
+                binding.mainContainer.viewVisibility(true)
+            },
+            loading = {
+                binding.detailsProgressBar.viewVisibility(true)
+                binding.mainContainer.viewVisibility(false)
+            },
+            error = {
+                showToast(it)
+                binding.detailsProgressBar.viewVisibility(false)
+                binding.mainContainer.viewVisibility(true)
+                showToast("UiState.Error")
+            },
+            success = {
+                inputDateTimeString = "${it?.date}, ${it?.time}"
+                Log.e("ololo", "inputDateTimeString: $inputDateTimeString")
+                Log.e("ololo", "setupSubscribes: $it")
+                //showToast("UiState.Success")
+                binding.apply {
+                    detailsProgressBar.viewVisibility(false)
+                    mainContainer.viewVisibility(true)
+                    val last = it?.instructor?.lastname ?: ""
+                    tvUserName.text = getString(
+                        R.string.person_full_name,
+                        it?.instructor?.surname,
+                        it?.instructor?.name,
+                        last
+                    )
+                    tvUserNumber.text = it?.instructor?.phone_number
 
-                        is UiState.Loading -> {
-                            binding.apply {
-                                detailsProgressBar.viewVisibility(true)
-                                mainContainer.viewVisibility(false)
-                            }
-                        }
+                    tvStartDate.text = formatDate(it?.date)
+                    tvEndDate.text = formatDate(it?.date)
 
-                        is UiState.Success -> {
-                            inputDateTimeString = "${it.data?.date}, ${it.data?.time}"
-                            Log.e("ololo", "inputDateTimeString: $inputDateTimeString")
-                            Log.e("ololo", "setupSubscribes: $it")
-                            //showToast("UiState.Success")
-                            binding.apply {
-                                detailsProgressBar.viewVisibility(false)
-                                mainContainer.viewVisibility(true)
-                                val last = it.data?.instructor?.lastname ?: ""
-                                tvUserName.text = getString(
-                                    R.string.person_full_name,
-                                    it.data?.instructor?.surname,
-                                    it.data?.instructor?.name,
-                                    last
-                                )
-                                tvUserNumber.text = it.data?.instructor?.phone_number
+                    tvStartTime.text = timeWithoutSeconds(it?.time)
+                    calculateEndTime(it?.time, tvEndTime)
+                    circleImageView.showImage(it?.instructor?.profile_photo?.small)
 
-                                tvStartDate.text = formatDate(it.data?.date)
-                                tvEndDate.text = formatDate(it.data?.date)
-
-                                tvStartTime.text = timeWithoutSeconds(it.data?.time)
-                                calculateEndTime(it.data?.time)
-
-                                val httpsImageUrl = it.data?.instructor?.profile_photo?.small?.replace(
-                                    "http://",
-                                    "https://"
-                                )
-                                Picasso.get()
-                                    .load(httpsImageUrl)
-                                    .placeholder(R.drawable.ic_default_photo)
-                                    .into(circleImageView)
-                            }
-
-                        }
-                    }
                 }
             }
-        }
-    }
+        )
 
-    private fun timeWithoutSeconds(inputTime: String?): String {
-        val timeParts = inputTime?.split(getString(R.string.delimeter))
-        return "${timeParts?.get(0)}:${timeParts?.get(1)}"
-    }
-
-    private fun formatDate(inputDate: String?): String {
-        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.getDefault())
-        val date = inputFormat.parse(inputDate) ?: return ""
-
-        val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
-        return outputFormat.format(date).replaceFirstChar { it.uppercase() }
     }
 
     private fun dateValidityCheck() {
@@ -146,7 +103,6 @@ class CurrentLessonDetailsFragment :
                 showAlert()
             }
         }
-
     }
 
     private fun showCancelAlert() {
@@ -210,24 +166,6 @@ class CurrentLessonDetailsFragment :
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun calculateEndTime(inputTime: String?) {
-        val timeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
-
-        try {
-            val date = inputTime?.let { timeFormat.parse(it) }
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            calendar.add(Calendar.HOUR_OF_DAY, 1)
-            val outputTimeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
-            val outputTime = outputTimeFormat.format(calendar.time)
-            val timeParts = outputTime.split(":")
-            binding.tvEndTime.text = getString(R.string.calc_time_text, timeParts[0], timeParts[1])
-        } catch (e: Exception) {
-            showToast(e.message.toString())
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
     private fun isLessThan4Hours(dt: String): Boolean {
         val dateFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_hh_mm_ss))
 
@@ -237,30 +175,4 @@ class CurrentLessonDetailsFragment :
         return timeDifference > (4 * 60 * 60 * 1000)
     }
 
-    private fun showImage() {
-        binding.circleImageView.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(true)
-            dialog.setContentView(R.layout.show_photo_profile)
-            val image = dialog.findViewById<ImageView>(R.id.image)
-
-            when (binding.circleImageView.drawable) {
-                is BitmapDrawable -> {
-                    image.setImageBitmap((binding.circleImageView.drawable as BitmapDrawable).bitmap)
-                }
-
-                is VectorDrawable -> {
-                    image.setImageDrawable(binding.circleImageView.drawable)
-                }
-
-                else -> {
-                    image.setImageResource(R.drawable.ic_default_photo)
-                }
-            }
-
-            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
-            dialog.show()
-        }
-    }
 }
