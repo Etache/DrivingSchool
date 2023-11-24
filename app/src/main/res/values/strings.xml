@@ -61,6 +61,7 @@
 
     //InstructorFragment
     <string name="experience">Стаж: </string>
+    <string name="experience_">Стаж</string>
     <string name="car_name">Honda Accord</string>
     <string name="feedback">Отзывы</string>
 
@@ -141,6 +142,34 @@
     <string name="yyyy_mm_dd_t_hh_mm_ss_ssssssx">yyyy-MM-dd\'T\'HH:mm:ss.SSSSSSX</string>
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
     <string name="cursant">Курсант</string>
+    <string name="save_lower">Сохранить</string>
+    <string name="number_of_lessons">Количество занятий</string>
+    <string name="main_page">Главная страница</string>
+    <string name="profile_title">Профиль</string>
+    <string name="no_title">No title</string>
+    <string name="instructor">instructor</string>
+    <string name="student">student</string>
+    <string name="tag">TAG</string>
+    <string name="r">r</string>
+    <string name="image_request_body">image/*</string>
+    <string name="image">image</string>
+    <string name="instructor_last_name">Иванович</string>
+    <string name="empty_state">Empty state</string>
+
+    <string name="active">active</string>
+    <string name="success">success</string>
+    <string name="error">error</string>
+    <string name="yyyy_mm_dd">yyyy-MM-dd</string>
+    <string name="d_mmmm">d MMMM</string>
+    <string name="hh_mm_ss">HH:mm:ss</string>
+    <string name="ru">ru</string>
+    <string name="empty">Empty</string>
+    <string name="your_lesson_started">Ваше занятие началось</string>
+    <string name="lesson_start_is_not_possible_due_to_time_constraints">Урок начать невозможно из-за ограничения времени</string>
+    <string name="your_lesson_ended">Ваше занятие закончилось</string>
+    <string name="yyyy_mm_dd_space_hh_mm_ss">yyyy-MM-dd HH:mm:ss</string>
+    <string name="student_ru">Курсант</string>
+    <string name="absent">Не пришел</string>
 
 
     <string-array name="mcv_monthLabels">

@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
-import com.example.drivingschool.data.models.FeedbackForInstructorRequest
-import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
-import com.example.drivingschool.data.repositories.DetailsRepository
 import com.example.drivingschool.data.repositories.InstructorDetailsRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel

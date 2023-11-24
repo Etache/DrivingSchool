@@ -2,10 +2,16 @@ package com.example.drivingschool.data.local.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.drivingschool.ui.fragments.Constants.ACCESS_TOKEN_KEY
+import com.example.drivingschool.ui.fragments.Constants.LOGIN_KEY
+import com.example.drivingschool.ui.fragments.Constants.PASSWORD_KEY
+import com.example.drivingschool.ui.fragments.Constants.REFRESH_TOKEN_KEY
+import com.example.drivingschool.ui.fragments.Constants.ROLE_KEY
+import javax.inject.Inject
 
-class PreferencesHelper(context: Context) {
+class PreferencesHelper @Inject constructor(context: Context) {
 
-    val sharedPreferences: SharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
 
     var isLoginSuccess: Boolean
         set(value) = sharedPreferences.edit().putBoolean(LOGIN_KEY, value).apply()
@@ -27,14 +33,4 @@ class PreferencesHelper(context: Context) {
         set(value) = sharedPreferences.edit().putString(PASSWORD_KEY, value).apply()
         get() = sharedPreferences.getString(PASSWORD_KEY, null)
 
-
-
-
-    companion object {
-        const val LOGIN_KEY = "login_key"
-        const val ACCESS_TOKEN_KEY = "access_key"
-        const val REFRESH_TOKEN_KEY = "refresh_key"
-        const val ROLE_KEY = "role_key"
-        const val PASSWORD_KEY = "password_key"
-    }
 }

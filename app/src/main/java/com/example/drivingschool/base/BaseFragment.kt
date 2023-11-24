@@ -13,6 +13,15 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     abstract val binding: VB
     abstract val viewModel: VM
 
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        binding = getViewBinding()
+//        return binding.root
+//    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -21,6 +30,8 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
         setupRequests()
         setupSubscribes()
     }
+
+    //abstract fun getViewBinding(): VB
 
     protected open fun initialize() {
     }
@@ -34,5 +45,4 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     protected open fun setupSubscribes() {
     }
 
-//    abstract fun EnrollWeekDayFormatter(): WeekDayFormatter?
 }

@@ -12,22 +12,22 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.ui.activity.MainActivity
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.profile.ProfileViewModel
 import com.squareup.picasso.MemoryPolicy
@@ -41,34 +41,30 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class InstructorProfileFragment : Fragment() {
+class InstructorProfileFragment :
+    BaseFragment<FragmentInstructorProfileBinding, ProfileViewModel>(R.layout.fragment_instructor_profile) {
 
-    private lateinit var binding: FragmentInstructorProfileBinding
-    private val viewModel: ProfileViewModel by viewModels()
-    private val preferences: PreferencesHelper by lazy {
-        PreferencesHelper(requireContext())
-    }
-    private lateinit var networkConnection: NetworkConnection
+    override val binding by viewBinding(FragmentInstructorProfileBinding::bind)
+    override val viewModel: ProfileViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentInstructorProfileBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    @Inject
+    lateinit var preferences: PreferencesHelper
+
+    @Inject
+    lateinit var networkConnection: NetworkConnection
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        networkConnection = NetworkConnection(requireContext())
         super.onViewCreated(view, savedInstanceState)
+
         binding.layoutSwipeRefresh.setOnRefreshListener {
             getInstructorProfileData()
             binding.layoutSwipeRefresh.isRefreshing = false
         }
         getInstructorProfileData()
-        showImage()
+        zoomImage()
         pickImageFromGallery()
         changePasswordInstructor()
         logoutInstructor()
@@ -86,7 +82,7 @@ class InstructorProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val imageUri = result.data?.data
                 uploadImage(imageUri)
-                networkConnection.observe(viewLifecycleOwner){
+                networkConnection.observe(viewLifecycleOwner) {
                     if (it) viewModel.getInstructorProfile()
                 }
                 viewModel.instructorProfile.observe(requireActivity()) { state ->
@@ -109,7 +105,7 @@ class InstructorProfileFragment : Fragment() {
             }
         }
 
-    private fun showImage() {
+    private fun zoomImage() {
         binding.ivProfile.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -129,7 +125,7 @@ class InstructorProfileFragment : Fragment() {
     private fun changePasswordInstructor() {
         binding.btnChangePassword.setOnClickListener {
             val fragment = com.example.drivingschool.ui.fragments.profile.BottomSheetDialog()
-            fragment.show(parentFragmentManager, "TAG")
+            fragment.show(parentFragmentManager, getString(R.string.tag))
         }
     }
 
@@ -142,7 +138,7 @@ class InstructorProfileFragment : Fragment() {
                     getString(R.string.choose_photo),
                     getString(R.string.delete_photo)
                 )
-            ) { dialog, which ->
+            ) { _, which ->
                 when (which) {
                     0 -> {
                         val intent =
@@ -152,7 +148,7 @@ class InstructorProfileFragment : Fragment() {
 
                     1 -> {
                         binding.ivProfile.setImageDrawable(null)
-                        networkConnection.observe(viewLifecycleOwner){
+                        networkConnection.observe(viewLifecycleOwner) {
                             if (it) viewModel.deleteProfilePhoto()
                         }
                     }
@@ -172,9 +168,11 @@ class InstructorProfileFragment : Fragment() {
                 File(requireContext().cacheDir, requireContext().contentResolver.getFileName(uri))
             val outputStream = FileOutputStream(file)
             inputStream.copyTo(outputStream)
-            val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-            val multipartBody = MultipartBody.Part.createFormData("image", file.name, requestBody)
-            networkConnection.observe(viewLifecycleOwner){
+            val requestBody =
+                file.asRequestBody(getString(R.string.image_request_body).toMediaTypeOrNull())
+            val multipartBody =
+                MultipartBody.Part.createFormData(getString(R.string.image), file.name, requestBody)
+            networkConnection.observe(viewLifecycleOwner) {
                 if (it) viewModel.updateProfilePhoto(multipartBody)
             }
         }
@@ -207,7 +205,7 @@ class InstructorProfileFragment : Fragment() {
                 preferences.role = null
                 val intent = Intent(requireActivity(), MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                intent.putExtra("isLoggedOut", true)
+                intent.putExtra(Constants.INTENT_IS_LOGGED_OUT, true)
                 activity?.startActivity(intent)
                 alert.cancel()
             }
@@ -217,7 +215,7 @@ class InstructorProfileFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun getInstructorProfileData() {
-        networkConnection.observe(viewLifecycleOwner){
+        networkConnection.observe(viewLifecycleOwner) {
             if (it) viewModel.getInstructorProfile()
         }
 
@@ -232,10 +230,13 @@ class InstructorProfileFragment : Fragment() {
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
-                        Picasso.get().load(state.data?.profilePhoto?.small).into(binding.ivProfile)
+                        Picasso.get().load(state.data?.profilePhoto?.big) //changed to big
+                            .into(binding.ivProfile)
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvNumber.text = state.data?.phoneNumber
+                        binding.rbRating.rating = state.data?.rate!!.toFloat()
+                        binding.tvRating.text = "Рейтинг: ${state.data?.rate!!.toFloat()}"
 
                         val experience = state.data?.experience
                         if (experience != null) {
@@ -243,9 +244,11 @@ class InstructorProfileFragment : Fragment() {
                                 in 1..4 -> {
                                     binding.tvExperience.text = "$experience года"
                                 }
+
                                 in 5..9 -> {
                                     binding.tvExperience.text = "$experience лет"
                                 }
+
                                 else -> {
                                     binding.tvExperience.text = "$experience лет"
                                 }
@@ -254,15 +257,18 @@ class InstructorProfileFragment : Fragment() {
 
                         binding.tvCar.text = state.data?.car
                         Log.d("madimadi", "getInstructorProfileData in Fragment: ${state.data}")
-                        Log.d("madimadi", "tokenInstructor in Fragment: ${preferences.accessToken}")
                     }
 
                     is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+                        showToast(getString(R.string.empty_state))
                     }
 
                     is UiState.Error -> {
-                        Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                        showToast(state.msg.toString())
+                    }
+
+                    else -> {
+                        //todo
                     }
                 }
             }

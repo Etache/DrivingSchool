@@ -1,12 +1,9 @@
 package com.example.drivingschool.ui.fragments.instructorLessonInfo
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
-import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -22,15 +19,15 @@ import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorCurrentLessonBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showOnlyPositiveAlert
 import com.example.drivingschool.tools.showToast
-import com.example.drivingschool.ui.fragments.BundleKeys
-import com.example.drivingschool.ui.fragments.instructorLessonInfo.viewModels.StartFinishLessonViewModel
+import com.example.drivingschool.ui.fragments.Constants
+import com.example.drivingschool.ui.fragments.instructorLessonInfo.viewModels.ChangeLessonStatusViewModel
 import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewModel
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,9 +37,8 @@ class InstructorCurrentLessonFragment :
 
     override val binding by viewBinding(FragmentInstructorCurrentLessonBinding::bind)
     override val viewModel: MainExploreViewModel by viewModels()
-    private val changeLessonStatusViewModel: StartFinishLessonViewModel by viewModels()
+    private val changeLessonStatusViewModel: ChangeLessonStatusViewModel by viewModels()
 
-    private lateinit var countDownTimer: CountDownTimer
     private lateinit var lessonId: String
     private lateinit var lessonDateTime: String
 
@@ -50,11 +46,8 @@ class InstructorCurrentLessonFragment :
 
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
-        networkConnection.observe(viewLifecycleOwner){
-            viewModel.getCurrentById(arguments?.getString("key") ?: "1")
-        }
 
-        lessonId = arguments?.getString(BundleKeys.CURRENT_KEY) ?: "1"
+        lessonId = arguments?.getString(Constants.CURRENT_KEY) ?: "1"
         viewModel.getCurrentById(lessonId)
 
         showImage()
@@ -94,15 +87,12 @@ class InstructorCurrentLessonFragment :
                         }
 
                         is UiState.Empty -> {
-                            Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(),
+                                getString(R.string.empty), Toast.LENGTH_SHORT).show()
                         }
 
                         is UiState.Error -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "Error: ${state.msg}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showToast("error")
                         }
 
                         is UiState.Success -> {
@@ -112,10 +102,10 @@ class InstructorCurrentLessonFragment :
 
                                 tvFullname.text =
                                     "${state.data?.student?.surname} ${state.data?.student?.name} ${state.data?.student?.lastname}"
-                                tvNumber.text = state.data?.student?.phone_number
+                                tvNumber.text = state.data?.student?.phoneNumber
 
                                 Picasso.get()
-                                    .load(state.data?.student?.profile_photo?.small)
+                                    .load(state.data?.student?.profilePhoto?.small)
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(ivProfileImage)
 
@@ -127,7 +117,7 @@ class InstructorCurrentLessonFragment :
 
                                 lessonDateTime = "${state.data?.date} ${timeWithoutSeconds(state.data?.time)}"
 
-                                if (state.data?.status == "active") {
+                                if (state.data?.status == getString(R.string.active)) {
                                     btnStartLesson.visibility = View.GONE
                                     btnEndLesson.visibility = View.VISIBLE
                                     btnNotVisit.visibility = View.VISIBLE
@@ -150,22 +140,22 @@ class InstructorCurrentLessonFragment :
     }
 
     private fun formatDate(inputDate: String?): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.getDefault())
         val date = inputFormat.parse(inputDate) ?: return ""
 
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+        val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
         return outputFormat.format(date).replaceFirstChar { it.uppercase() }
     }
 
     private fun calculateEndTime(inputTime: String?) {
-        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val timeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
 
         try {
             val date = inputTime?.let { timeFormat.parse(it) }
             val calendar = Calendar.getInstance()
             calendar.time = date
             calendar.add(Calendar.HOUR_OF_DAY, 1)
-            val outputTimeFormat = SimpleDateFormat("HH:mm:ss")
+            val outputTimeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
             val outputTime = outputTimeFormat.format(calendar.time)
             val timeParts = outputTime.split(":")
             binding.tvEndingTime.text = "${timeParts[0]}:${timeParts[1]}"
@@ -197,14 +187,14 @@ class InstructorCurrentLessonFragment :
 
     private fun startLesson() {
         changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner, Observer {
-            if (it?.status == "success" && isLessonTimeReached()) {
-                binding.btnEndLesson.isEnabled = false
-                showStartFinishAlert("Ваше занятие началось")
-                startTimer()
+            if (it?.status == getString(R.string.success)) {
+                showOnlyPositiveAlert(getString(R.string.your_lesson_started))
+
                 binding.btnStartLesson.visibility = View.GONE
                 binding.btnEndLesson.visibility = View.VISIBLE
-            } else if (it?.status == "success") {
-                showStartFinishAlert("Нельзя начать занятие из-за ограничений по времени")
+                binding.btnNotVisit.visibility = View.VISIBLE
+            } else if (it?.status == getString(R.string.error)) {
+                showOnlyPositiveAlert(getString(R.string.lesson_start_is_not_possible_due_to_time_constraints))
             } else {
                 Log.e("ahahaha", "startLesson: ${it?.status}")
             }
@@ -213,56 +203,24 @@ class InstructorCurrentLessonFragment :
 
     private fun finishLesson() {
         changeLessonStatusViewModel.finishLessonResult.observe(viewLifecycleOwner) {
-            if (it?.status == "success") {
-                showStartFinishAlert("Ваше занятие закончилось")
+            if (it?.status == getString(R.string.success)) {
+                showOnlyPositiveAlert(getString(R.string.your_lesson_ended))
                 binding.btnEndLesson.visibility = View.GONE
                 binding.btnNotVisit.visibility = View.GONE
             } else {
-                Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun studentAbsent() {
         changeLessonStatusViewModel.studentAbsentResult.observe(viewLifecycleOwner) {
-            if (it?.status == "success") {
+            if (it?.status == getString(R.string.success)) {
                 binding.btnNotVisit.visibility = View.GONE
+                binding.btnEndLesson.visibility = View.GONE
             } else {
-                Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun startTimer() {
-        countDownTimer = object : CountDownTimer(3000000, 1000) { //таймер на 50 минут
-            override fun onTick(timer: Long) {
-                binding.timer.text = timer.toString()
-            }
-            override fun onFinish() {
-                binding.btnEndLesson.post {
-                    binding.btnEndLesson.isEnabled = true
-                }
-            }
-        }.start()
-    }
-
-    private fun isLessonTimeReached(): Boolean {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val currentDateTime = Calendar.getInstance().time
-        val lessonTime = dateFormat.parse(lessonDateTime) ?: return false
-
-        return currentDateTime.after(lessonTime)
-    }
-
-    private fun showStartFinishAlert(alertMessage: String) {
-        AlertDialog.Builder(requireContext())
-            .setMessage(alertMessage)
-            .setPositiveButton(
-                "Ок",
-                DialogInterface.OnClickListener { dialog, _ ->
-                    dialog.cancel()
-                }
-            )
-            .show()
     }
 }

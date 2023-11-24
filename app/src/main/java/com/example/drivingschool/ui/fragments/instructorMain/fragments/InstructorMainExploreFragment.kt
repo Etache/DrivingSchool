@@ -10,13 +10,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
-import com.example.drivingschool.ui.fragments.BundleKeys.BUNDLE_LESSON_TYPE
+import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorMainExploreBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.viewVisibility
-import com.example.drivingschool.ui.fragments.BundleKeys
-import com.example.drivingschool.ui.fragments.BundleKeys.CURRENT_KEY
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.instructorMain.adapter.InstructorLessonAdapter
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewModel
@@ -63,12 +62,12 @@ class InstructorMainExploreFragment :
 
         if (lessonType == LessonType.Current) {
             val bundle = Bundle()
-            bundle.putString(CURRENT_KEY, id)
+            bundle.putString(Constants.CURRENT_KEY, id)
             findNavController().navigate(R.id.instructorCurrentLessonFragment, bundle)
         }
         else if (lessonType == LessonType.Previous) {
             val bundle = Bundle()
-            bundle.putString(BundleKeys.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY, id)
+            bundle.putString(Constants.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY, id)
             findNavController().navigate(R.id.instructorPreviousLessonFragment, bundle)
         }
     }

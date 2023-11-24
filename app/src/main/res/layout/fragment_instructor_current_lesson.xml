@@ -31,7 +31,6 @@
                 android:id="@+id/iv_profile_image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:contentDescription="profile image"
                 android:src="@drawable/ic_launcher_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,10 +41,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="@font/roboto_light"
-                    android:text="Курсант"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/student_ru"
                     android:textStyle="bold"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_average_point"
                     app:layout_constraintStart_toEndOf="@id/iv_profile_image"
                     app:layout_constraintTop_toTopOf="parent"/>
 
@@ -58,6 +58,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/full_name"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@id/iv_profile_image"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
@@ -67,9 +68,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:fontFamily="@font/roboto_light"
                     android:text="@string/number"
                     android:textSize="12sp"
+                    android:textColor="@color/dark_gray_text"
                     app:layout_constraintStart_toEndOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_fullname" />
 
@@ -163,14 +164,14 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/btn_not_visit_background"
             android:fontFamily="@font/roboto_medium"
-            android:text="Не пришел"
+            android:text="@string/absent"
             android:textAllCaps="false"
             android:textColor="@color/red"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/ll_buttons" />
+            app:layout_constraintBottom_toTopOf="@+id/fl_buttons" />
 
         <FrameLayout
-            android:id="@+id/ll_buttons"
+            android:id="@+id/fl_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
@@ -179,7 +180,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_start_lesson"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:backgroundTint="@color/light_blue"
                 android:text="@string/start_lesson"
                 android:textSize="16sp"
@@ -197,14 +198,6 @@
                 android:visibility="gone"
                 app:cornerRadius="8dp" />
         </FrameLayout>
-            <TextView
-                android:id="@+id/timer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="таймер"
-                android:textSize="25sp"
-                app:layout_constraintTop_toBottomOf="@id/cl_lesson_time"
-                app:layout_constraintStart_toStartOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

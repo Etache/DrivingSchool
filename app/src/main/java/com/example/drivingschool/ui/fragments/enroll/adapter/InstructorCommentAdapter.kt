@@ -34,7 +34,7 @@ class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor
         holder.binding.tvSurname.text = comment.student.surname
         holder.binding.tvComment.text = comment.text
 
-        val dateString = comment.created_at
+        val dateString = comment.createdAt
         val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
         format.timeZone = TimeZone.getTimeZone("UTC")
         val date = format.parse(dateString)
@@ -43,7 +43,7 @@ class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor
 
         holder.binding.tvCommentDate.text = formattedDate
         holder.binding.rbRating.rating = comment.mark.toFloat()
-        val httpsImageUrl = comment.student.profile_photo?.small?.replace("http://", "https://")
+        val httpsImageUrl = comment.student.profilePhoto?.small?.replace("http://", "https://")
         Picasso.get()
             .load(httpsImageUrl)
             .placeholder(R.drawable.ic_default_photo)

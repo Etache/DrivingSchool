@@ -45,7 +45,7 @@
     <fragment
         android:id="@+id/studentProfileFragment"
         android:name="com.example.drivingschool.ui.fragments.profile.studentProfile.StudentProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_student_profile" />
     <fragment
         android:id="@+id/selectDateTimeFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.selectDate.SelectDateTimeFragment"

@@ -3,15 +3,15 @@ package com.example.drivingschool.data.remote
 import com.example.drivingschool.data.models.CancelRequest
 import com.example.drivingschool.data.models.CancelResponse
 import com.example.drivingschool.data.models.EnrollLessonRequest
-import com.example.drivingschool.data.models.InstructorResponse
-import com.example.drivingschool.data.models.PasswordRequest
-import com.example.drivingschool.data.models.ProfileResponse
 import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
+import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.InstructorWorkWindowRequest
 import com.example.drivingschool.data.models.InstructorWorkWindowResponse
+import com.example.drivingschool.data.models.PasswordRequest
+import com.example.drivingschool.data.models.StudentProfileResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
@@ -43,11 +43,11 @@ interface DrivingApiService {
     @PATCH("change_password/")
     suspend fun changePassword(
         @Body requestBody: PasswordRequest
-    ): Response<ProfileResponse>
+    ): Response<StudentProfileResponse>
 
     @GET("lessons/{id}/")
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
- 
+
     @PATCH("lessons/{id}/start/")
     suspend fun startLesson(@Path("id") id: String): Response<ChangeLessonStatusResponse>
 
@@ -79,20 +79,20 @@ interface DrivingApiService {
     suspend fun getInstructorById(@Path("id") instructorId: Int): Response<InstructorResponse>
 
     @GET("profile/")
-    suspend fun getProfile(): Response<ProfileResponse>
+    suspend fun getProfile(): Response<StudentProfileResponse>
 
     @GET("profile/")
     suspend fun getInstructorProfile(): Response<InstructorResponse>
 
     @Multipart
     @PUT("change_pp/")
-    suspend fun updateStudentProfilePhoto(@Part photo: MultipartBody.Part): Response<ProfileResponse>
+    suspend fun updateStudentProfilePhoto(@Part photo: MultipartBody.Part): Response<StudentProfileResponse>
 
     @DELETE("delete_pp/")
-    suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
+    suspend fun deleteStudentProfilePhoto(): Response<StudentProfileResponse>
 
-    @PUT("lessons/cancel/")
-    suspend fun cancelLesson(@Body cancelRequest: CancelRequest): Response<CancelResponse>
+    @PATCH("lessons/{id}/cancel/") //doesn't work
+    suspend fun cancelLesson(@Path("id") lessonId: String, @Body cancelRequest: CancelRequest): Response<CancelResponse>
 
     @POST("feedbacks/instructor/create/")
     suspend fun createComment(@Body comment: FeedbackForInstructorRequest): Response<FeedbackForInstructorResponse>

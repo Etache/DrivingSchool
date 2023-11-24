@@ -1,6 +1,5 @@
 package com.example.drivingschool.ui.fragments.instructorLessonInfo.viewModels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class StartFinishLessonViewModel @Inject constructor(private val repository: MainRepository) :
+class ChangeLessonStatusViewModel @Inject constructor(private val repository: MainRepository) :
     BaseViewModel() {
 
     private var _startLessonResult = MutableLiveData<ChangeLessonStatusResponse?>()

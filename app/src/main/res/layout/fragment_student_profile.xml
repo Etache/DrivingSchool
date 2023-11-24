@@ -23,7 +23,7 @@
                 android:id="@+id/cardView"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="28dp"
                 app:cardCornerRadius="120dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +34,8 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/ic_default_photo"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="profile photo" />
+                    android:contentDescription="@string/content_des_profile_photo"
+                    android:scaleType="centerCrop" />
 
             </androidx.cardview.widget.CardView>
 
@@ -52,21 +52,43 @@
                     android:id="@+id/tvSurname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:text="Иванов"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textColor="@color/black_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Иванов" />
 
                 <TextView
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Иван"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:layout_marginHorizontal="8dp"
+                    android:textColor="@color/black_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Иван" />
+
+                <TextView
+                    android:id="@+id/tv_lastname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Иванович" />
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_average_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/gray_average_point"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_name_surname"
+                tools:text="Средний балл: " />
 
             <TextView
                 android:id="@+id/tvChangePhoto"
@@ -76,15 +98,16 @@
                 android:text="@string/change_profile_photo"
                 android:textColor="#655DA2"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ll_name_surname" />
+                app:layout_constraintTop_toBottomOf="@id/tv_average_point" />
 
             <TextView
                 android:id="@+id/number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="24dp"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="4dp"
                 android:text="@string/telephone_number"
@@ -101,10 +124,10 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
-                android:text="@string/number"
+                android:textColor="@color/gray"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/number" />
+                app:layout_constraintTop_toBottomOf="@id/number"
+                tools:text="@string/number" />
 
 
             <TextView
@@ -128,10 +151,36 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
-                android:text="@string/group_number"
+                android:textColor="@color/gray"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/group" />
+                app:layout_constraintTop_toBottomOf="@id/group"
+                tools:text="@string/group_number" />
+
+            <TextView
+                android:id="@+id/number_of_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/number_of_lessons"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tvGroup" />
+
+            <TextView
+                android:id="@+id/tv_number_of_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rectangle_bg_profile"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/number_of_lessons"
+                tools:text="2" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnChangePassword"
@@ -139,17 +188,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="#F3F3F3"
+                android:backgroundTint="@color/super_light_gray"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
                 android:text="@string/change_password"
                 android:textAlignment="textStart"
-                android:textColor="#5883CB"
+                android:textColor="@color/light_blue"
                 android:textSize="16sp"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_key_square_profile"
-                app:iconTint="#365CA7"
-                app:layout_constraintTop_toBottomOf="@id/tvGroup" />
+                app:iconTint="@color/light_blue"
+                app:layout_constraintTop_toBottomOf="@id/tv_number_of_lessons" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnExit"
@@ -157,16 +206,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="#F3F3F3"
-                android:paddingHorizontal="8dp"
+                android:backgroundTint="@color/super_light_gray"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
                 android:text="@string/exit"
                 android:textAlignment="textStart"
-                android:textColor="#585858"
+                android:textColor="@color/red"
                 android:textSize="16sp"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_exit_profile"
-                app:iconTint="#E94057"
+                app:iconTint="@color/red"
                 app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

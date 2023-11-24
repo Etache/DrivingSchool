@@ -7,7 +7,7 @@ import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
-import com.example.drivingschool.data.repositories.DetailsRepository
+import com.example.drivingschool.data.repositories.DrivingRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PreviousLessonDetailsViewModel @Inject constructor(
-    private val repository: DetailsRepository
+    private val repository: DrivingRepository
 ) : BaseViewModel() {
 
     private val _detailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
