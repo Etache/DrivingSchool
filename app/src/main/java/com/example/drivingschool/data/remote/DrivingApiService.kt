@@ -16,7 +16,9 @@ import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
+import com.example.drivingschool.data.models.notification.NotificationCheckResponse
 import com.example.drivingschool.data.models.notification.NotificationModel
+import com.example.drivingschool.data.models.notification.NotificationReadResponse
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
@@ -82,8 +84,8 @@ interface DrivingApiService {
     @DELETE("delete_pp/")
     suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
 
-    @PUT("lessons/cancel/")
-    suspend fun cancelLesson(@Body cancelRequest: CancelRequest): Response<CancelResponse>
+    @PATCH("lessons/{id}/cancel/") //doesn't work
+    suspend fun cancelLesson(@Path("id") lessonId: String, @Body cancelRequest: CancelRequest): Response<CancelResponse>
 
     @POST("feedbacks/instructor/create/")
     suspend fun createComment(@Body comment: FeedbackForInstructorRequest): Response<FeedbackForInstructorResponse>
@@ -111,4 +113,10 @@ interface DrivingApiService {
 
     @GET("notifications/")
     suspend fun getNotifications() : Response<NotificationModel>
+
+    @GET("notifications/check/")
+    suspend fun checkNotifications() : Response<NotificationCheckResponse>
+
+    @PATCH("notifications/read/")
+    suspend fun readNotifications(): Response<NotificationReadResponse>
 }

@@ -35,7 +35,7 @@
                     android:layout_height="80dp"
                     android:background="@drawable/ic_default_photo"
                     android:scaleType="centerCrop"
-                    android:contentDescription="profile photo" />
+                    android:contentDescription="@string/profile_photo" />
 
             </androidx.cardview.widget.CardView>
 
@@ -52,8 +52,7 @@
                     android:id="@+id/tvSurname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:text="Иванов"
+                    android:text="@string/instructor_surname"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -61,9 +60,11 @@
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Иван"
+                    android:text="@string/instructor_name"
+                    android:layout_marginHorizontal="8dp"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
+
 
             </LinearLayout>
 
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/change_profile_photo"
-                android:textColor="#655DA2"
+                android:textColor="@color/violet"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +102,7 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:text="@string/number"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/number" />
@@ -128,7 +129,7 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:text="@string/group_number"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/group" />
@@ -144,11 +145,11 @@
                 android:paddingVertical="14dp"
                 android:text="@string/change_password"
                 android:textAlignment="textStart"
-                android:textColor="#5883CB"
+                android:textColor="@color/bright_blue"
                 android:textSize="16sp"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_key_square_profile"
-                app:iconTint="#365CA7"
+                app:iconTint="@color/bright_blue"
                 app:layout_constraintTop_toBottomOf="@id/tvGroup" />
 
             <com.google.android.material.button.MaterialButton
@@ -162,11 +163,11 @@
                 android:paddingVertical="14dp"
                 android:text="@string/exit"
                 android:textAlignment="textStart"
-                android:textColor="#585858"
+                android:textColor="@color/red"
                 android:textSize="16sp"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_exit_profile"
-                app:iconTint="#E94057"
+                app:iconTint="@color/red"
                 app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

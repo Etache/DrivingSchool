@@ -13,9 +13,9 @@ import com.example.drivingschool.databinding.FragmentMainExploreBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
-import com.example.drivingschool.ui.fragments.BundleKeys.BUNDLE_LESSON_TYPE
-import com.example.drivingschool.ui.fragments.BundleKeys.MAIN_TO_CURRENT_KEY
-import com.example.drivingschool.ui.fragments.BundleKeys.MAIN_TO_PREVIOUS_KEY
+import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
+import com.example.drivingschool.ui.fragments.Constants.MAIN_TO_CURRENT_KEY
+import com.example.drivingschool.ui.fragments.Constants.MAIN_TO_PREVIOUS_KEY
 import com.example.drivingschool.ui.fragments.main.lesson.LessonAdapter
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection

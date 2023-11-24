@@ -21,7 +21,7 @@ import com.example.drivingschool.databinding.FragmentCurrentLessonDetailBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,13 +42,13 @@ class CurrentLessonDetailsFragment :
 
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
-        Log.e("ololololo", "initialize: ${arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY)}")
+        Log.e("ololololo", "initialize: ${arguments?.getString(Constants.MAIN_TO_CURRENT_KEY)}")
         networkConnection.observe(viewLifecycleOwner){
-            if (it) viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1")
+            if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1")
         }
         binding.layoutSwipeRefresh.setOnRefreshListener {
             networkConnection.observe(viewLifecycleOwner){
-                if (it) viewModel.getDetails(arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1")
+                if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1")
             }
             binding.layoutSwipeRefresh.isRefreshing = false
         }
@@ -162,17 +162,17 @@ class CurrentLessonDetailsFragment :
                 getString(R.string.confirm),
                 DialogInterface.OnClickListener { dialogInterface, i ->
                     viewModel.cancelLessonFromId(
-                        arguments?.getString(BundleKeys.MAIN_TO_CURRENT_KEY) ?: "1"
+                        arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1"
                     )
                     networkConnection.observe(viewLifecycleOwner){
                         if (it) {
                             viewModel.cancelLiveData.observe(viewLifecycleOwner) {
                                 Log.e("ololo", "showCancelAlert: ${it.toString()}")
-                                if (it?.success != null) {
+                                if (it?.status == "success") {
                                     showSuccessCancelAlert()
                                     binding.btnCancelLesson.viewVisibility(false)
                                 } else {
-                                    showToast("Success = null")
+                                    showToast("error")
                                 }
                             }
                         }

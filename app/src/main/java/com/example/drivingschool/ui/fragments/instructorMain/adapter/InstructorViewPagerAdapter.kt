@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorMainExploreFragment
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
-import com.example.drivingschool.ui.fragments.BundleKeys.BUNDLE_LESSON_TYPE
+import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
 
 
 class InstructorViewPagerAdapter(fragment: Fragment) :

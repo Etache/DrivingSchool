@@ -239,6 +239,7 @@ class StudentProfileFragment : Fragment() {
                             .into(binding.ivProfile)
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
+                        binding.tvSurname.text = state.data?.surname //lastname
                         binding.tvNumber.text = state.data?.phoneNumber
                         binding.tvGroup.text = state.data?.group?.name
                         Log.d("madimadi", "getProfileData in Fragment: ${state.data}")

@@ -9,5 +9,6 @@ data class Student(
     var name: String? = null,
     var phone_number: String? = null,
     var profile_photo: ProfilePhoto? = null,
-    var surname: String? = null
+    var surname: String? = null,
+    var rate: Int?=null
 )

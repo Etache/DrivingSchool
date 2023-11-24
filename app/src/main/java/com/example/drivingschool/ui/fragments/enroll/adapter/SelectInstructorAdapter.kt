@@ -10,7 +10,7 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.squareup.picasso.Picasso
 
 class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name : String, id : String) -> Unit) :
@@ -26,20 +26,47 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
     inner class SelectViewHolder(private val binding: InstructorInfoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        @SuppressLint("SetTextI18n")
+
         fun bind(instructor: InstructorResponse) {
+            val context = binding.root.context
             binding.tvName.text = instructor.name
             binding.tvSurname.text = instructor.surname
 
             when (val experience = instructor.experience) {
+                1 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_year, experience)
+                }
                 in 1..4 -> {
-                    binding.tvExpience.text = "$experience года"
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 22..24 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 32..34 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                } in 42..44 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 52..54 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 62..64 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 72..74 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 82..84 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 92..94 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
                 }
                 in 5..9 -> {
-                    binding.tvExpience.text = "$experience лет"
+                    binding.tvExpience.text = context.getString(R.string.experience_years_5__9, experience)
                 }
                 else -> {
-                    binding.tvExpience.text = "$experience лет"
+                    binding.tvExpience.text = context.getString(R.string.experience_years_5__9, experience)
                 }
             }
             binding.rbRating.rating = instructor.rate!!.toFloat()
@@ -54,7 +81,7 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
                 it.findNavController()
                     .navigate(
                         R.id.action_selectInstructorFragment_to_instructorInfoFragment,
-                        bundleOf(BundleKeys.ID_KEY to instructor.id)
+                        bundleOf(Constants.ID_KEY to instructor.id)
                     )
             }
             itemView.setOnClickListener {

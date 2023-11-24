@@ -35,7 +35,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/ic_default_photo"
                     android:scaleType="centerCrop"
-                    android:contentDescription="profile photo" />
+                    android:contentDescription="@string/profile_photo" />
 
             </androidx.cardview.widget.CardView>
 
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/change_profile_photo"
-                android:textColor="#655DA2"
+                android:textColor="@color/violet"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:text="@string/experience_num"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/experience" />
@@ -129,7 +129,7 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:text="@string/number"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/number" />
@@ -155,7 +155,7 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/black"
+                android:textColor="@color/gray"
                 android:text="@string/car_name"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/carMake" />
@@ -171,11 +171,11 @@
                 android:paddingVertical="14dp"
                 android:text="@string/change_password"
                 android:textAlignment="textStart"
-                android:textColor="#5883CB"
+                android:textColor="@color/bright_blue"
                 android:textSize="16sp"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_key_square_profile"
-                app:iconTint="#365CA7"
+                app:iconTint="@color/bright_blue"
                 app:layout_constraintTop_toBottomOf="@id/tvCar" />
 
             <com.google.android.material.button.MaterialButton
@@ -189,11 +189,11 @@
                 android:paddingVertical="14dp"
                 android:text="@string/exit"
                 android:textAlignment="textStart"
-                android:textColor="#585858"
+                android:textColor="@color/red"
                 android:textSize="16sp"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_exit_profile"
-                app:iconTint="#E94057"
+                app:iconTint="@color/red"
                 app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

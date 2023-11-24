@@ -36,7 +36,7 @@ class DetailsRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     suspend fun cancelLesson(id: String) = flow {
-        emit(apiService.cancelLesson(CancelRequest(lessonId = id)).body())
+        emit(apiService.cancelLesson(lessonId = id, CancelRequest(lessonId = id)).body())
     }
 
     suspend fun saveComment(comment: FeedbackForInstructorRequest) = flow {

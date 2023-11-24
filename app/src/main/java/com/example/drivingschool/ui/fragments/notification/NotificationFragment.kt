@@ -1,62 +1,61 @@
 package com.example.drivingschool.ui.fragments.notification
 
-import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentNotificationBinding
 import com.example.drivingschool.tools.UiState
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-class NotificationFragment : Fragment() {
+@AndroidEntryPoint
+class NotificationFragment :
+    BaseFragment<FragmentNotificationBinding, NotificationViewModel>(R.layout.fragment_notification) {
 
-    private lateinit var binding: FragmentNotificationBinding
-    private lateinit var adapter: NotificationAdapter
-    private val viewModel : NotificationViewModel by viewModels()
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding= FragmentNotificationBinding.inflate(inflater)
-        return binding.root
+    override val binding by viewBinding(FragmentNotificationBinding::bind)
+    override val viewModel: NotificationViewModel by viewModels()
+
+    private var adapter = NotificationAdapter(emptyList())
+
+    override fun initialize() {
+        getNotifications()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-       getNotifications()
-    }
-
-    private fun getNotifications(){
-        lifecycleScope.launch{
+    private fun getNotifications() {
+        lifecycleScope.launch {
             viewModel.getNotifications()
             viewModel.notifications.observe(viewLifecycleOwner, Observer { state ->
-                when(state) {
+                when (state) {
                     is UiState.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.mainContainer.visibility = View.GONE
                     }
+
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
 
+                        val sortedNewNotifications =
+                            state.data?.notifications?.sortedWith(compareByDescending { it.created_at })
 
                         if (state.data?.notifications != null) {
-                            adapter = NotificationAdapter(state.data?.notifications!!)
+                            adapter = NotificationAdapter(sortedNewNotifications!!)
+                            adapter.notifyDataSetChanged()
                             binding.rvNotification.adapter = adapter
-                            Log.d(
-                                "ololo",
-                                "getInstructorDetails in fragment: ${state.data}"
-                            )
-                        } else{
+                            Log.e("ololo", "notification: ${state.data?.notifications}")
+                        } else {
                             Toast.makeText(requireContext(), "Null", Toast.LENGTH_SHORT).show()
                         }
 
+                        viewModel.readNotifications()
                     }
+
                     is UiState.Empty -> {
                         Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
                     }
@@ -68,5 +67,4 @@ class NotificationFragment : Fragment() {
             })
         }
     }
-
 }

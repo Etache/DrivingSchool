@@ -14,6 +14,7 @@
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="login_ru">Войти</string>
+    <string name="notification_error">Не удалось получить данные</string>
     <string name="login_error_text">Логин или пароль введены неверно, Попробуйте еще раз</string>
 
     //NoInternetConnection
@@ -142,6 +143,11 @@
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
     <string name="cursant">Курсант</string>
     <string name="new_notification">Новое</string>
+    <string name="save_lower">Сохранить</string>
+    <string name="lesson_cancelled">Занятие отменено</string>
+    <string name="lesson_planed">Занятие запланировано</string>
+    <string name="student_name">Иван</string>
+    <string name="last_name">Иванович</string>
 
 
     <string-array name="mcv_monthLabels">
@@ -168,4 +174,13 @@
         <item>С</item>
         <item>В</item>
     </string-array>
+
+    <string name="experience_year">Стаж: %1$d год</string>
+    <string name="experience_years_2..4">Стаж: %1$d года</string>
+    <string name="experience_years_5..9">Стаж: %1$d лет</string>
+
+    <string name="year">"%1$d год"</string>
+    <string name="year_2..4">"%1$d года"</string>
+    <string name="year_5..9">"%1$d лет"</string>
+
 </resources>

@@ -18,10 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drivingschool.R
 import com.example.drivingschool.databinding.FragmentInstructorInfoBinding
 import com.example.drivingschool.tools.UiState
-import com.example.drivingschool.ui.fragments.BundleKeys
+import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.InstructorCommentAdapter
-import com.example.drivingschool.ui.fragments.enroll.adapter.SelectInstructorAdapter
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +48,7 @@ class InstructorInfoFragment : Fragment() {
         networkConnection = NetworkConnection(requireContext())
         binding.rvInstructorProfileComments.layoutManager = LinearLayoutManager(context)
         binding.rvInstructorProfileComments.isNestedScrollingEnabled = false
-        id = arguments?.getInt(BundleKeys.ID_KEY)
+        id = arguments?.getInt(Constants.ID_KEY)
         Log.d("madimadi", "instructor id in fragment: ${id}")
 
         networkConnection.observe(viewLifecycleOwner) {
@@ -67,7 +66,6 @@ class InstructorInfoFragment : Fragment() {
     }
 
 
-    @SuppressLint("SetTextI18n")
     private fun getInstructorProfile() {
         viewModel.getInstructorById(id = id!!)
         lifecycleScope.launch {
@@ -87,16 +85,41 @@ class InstructorInfoFragment : Fragment() {
                         val experience = state.data?.experience
                         if (experience != null) {
                             when (experience) {
+                                1 -> {
+                                binding.tvExperience.text = context?.getString(R.string.experience_year, experience)
+                                }
                                 in 1..4 -> {
-                                    binding.tvExpienceNum.text = "$experience года"
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
                                 }
-
+                                in 22..24 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 32..34 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 42..44 -> {
+                                binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 52..54 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 62..64 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 72..74 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 82..84 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 92..94 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
                                 in 5..9 -> {
-                                    binding.tvExpienceNum.text = "$experience лет"
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_5__9, experience)
                                 }
-
                                 else -> {
-                                    binding.tvExpienceNum.text = "$experience лет"
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_5__9, experience)
                                 }
                             }
                         }
