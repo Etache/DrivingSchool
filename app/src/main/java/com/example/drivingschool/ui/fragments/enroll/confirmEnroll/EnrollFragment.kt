@@ -58,7 +58,7 @@ class EnrollFragment :
                         }
 
                         else -> {
-                            showToast("enroll")
+                            showToast("")
                         }
                     }
                 }
