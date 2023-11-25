@@ -41,7 +41,7 @@ class LoginFragment : Fragment() {
         if (context is CheckRoleCallBack){
             callback = context
         } else {
-
+            //todo
         }
     }
     override fun onCreateView(

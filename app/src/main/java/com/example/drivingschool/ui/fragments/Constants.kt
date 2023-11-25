@@ -1,7 +1,7 @@
 package com.example.drivingschool.ui.fragments
 
 object Constants {
-    const val BASE_URL = "https://0a59-94-143-197-63.ngrok-free.app/"
+    const val BASE_URL = "http://134.209.252.52:89/"
     const val BUNDLE_LESSON_TYPE = "bundle_media_type"
     const val MAIN_TO_CURRENT_KEY = "main_to_current"
     const val MAIN_TO_PREVIOUS_KEY = "main_to_previous"
