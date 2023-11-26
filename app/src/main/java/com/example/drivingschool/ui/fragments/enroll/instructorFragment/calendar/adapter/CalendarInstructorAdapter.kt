@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.Times
 import com.example.drivingschool.databinding.ItemEnrollInstructorTimeBinding
+import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYTIMES
 
 class CalendarInstructorAdapter(
     private val context: Context,
     private var times: ArrayList<Times>
 ) : RecyclerView.Adapter<CalendarInstructorAdapter.TimeViewHolder>() {
-    //Теперь всё работает как надо
 
     private val timesArray = arrayListOf<String>()
 
@@ -31,13 +31,13 @@ class CalendarInstructorAdapter(
 
     fun onSaveInstanceState(): Bundle {
         val bundle = Bundle()
-        bundle.putStringArrayList("timesArray", timesArray)
+        bundle.putStringArrayList(CTFEFARRAYTIMES, timesArray)
         return bundle
     }
 
     fun onRestoreInstanceState(bundle: Bundle) {
         timesArray.clear()
-        timesArray.addAll(bundle.getStringArrayList("timesArray") ?: emptyList())
+        timesArray.addAll(bundle.getStringArrayList(CTFEFARRAYTIMES) ?: emptyList())
         notifyDataSetChanged()
     }
 

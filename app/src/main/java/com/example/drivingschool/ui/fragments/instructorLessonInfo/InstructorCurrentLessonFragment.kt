@@ -186,6 +186,7 @@ class InstructorCurrentLessonFragment :
     }
 
     private fun startLesson() {
+        //проверка на начало нет
         changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner, Observer {
             if (it?.status == getString(R.string.success)) {
                 showOnlyPositiveAlert(getString(R.string.your_lesson_started))

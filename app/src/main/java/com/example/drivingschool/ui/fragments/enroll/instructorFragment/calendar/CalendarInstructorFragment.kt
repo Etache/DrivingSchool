@@ -5,7 +5,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,8 +14,13 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.adapter.CalendarInstructorAdapter
 import com.example.drivingschool.data.models.Times
 import com.example.drivingschool.databinding.FragmentCalendarInstructorBinding
+import com.example.drivingschool.ui.fragments.Constants.ADAPTERSTATE
+import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYDATES
+import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYTIMES
+import com.example.drivingschool.ui.fragments.Constants.EFCIFCURRENTWEEKEMPTY
+import com.example.drivingschool.ui.fragments.Constants.LISTOFDATES
+import com.example.drivingschool.ui.fragments.Constants.LISTOFTIMES
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.CalendarWeekDayFormatter
-import com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.EnrollInstructorFragment.Companion.EFCIFCURRENTWEEKEMPTY
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
@@ -31,7 +35,6 @@ import java.util.Locale
 
 class CalendarInstructorFragment :
     BaseFragment<FragmentCalendarInstructorBinding, CalendarInstructorViewModel>(R.layout.fragment_calendar_instructor) {
-    //Теперь всё работает корректно
 
     override val binding by viewBinding(FragmentCalendarInstructorBinding::bind)
     override val viewModel: CalendarInstructorViewModel by viewModels()
@@ -64,23 +67,22 @@ class CalendarInstructorFragment :
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putStringArrayList("listOfDates", listOfDates)
-        outState.putStringArrayList("listOfTimes", listOfTimes)
-        outState.putBundle("adapterState", adapter.onSaveInstanceState())
+        outState.putStringArrayList(LISTOFDATES, listOfDates)
+        outState.putStringArrayList(LISTOFTIMES, listOfTimes)
+        outState.putBundle(ADAPTERSTATE, adapter.onSaveInstanceState())
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            listOfTimes.addAll(savedInstanceState.getStringArrayList("listOfTimes") ?: emptyList())
-            adapter.onRestoreInstanceState(savedInstanceState.getBundle("adapterState") ?: Bundle())
+            listOfTimes.addAll(savedInstanceState.getStringArrayList(LISTOFTIMES) ?: emptyList())
+            adapter.onRestoreInstanceState(savedInstanceState.getBundle(ADAPTERSTATE) ?: Bundle())
         }
     }
 
     override fun initialize() {
         super.initialize()
         with(binding) {
-            val arguments = arguments
             val today = CalendarDay.today()
             calendarView.setDateSelected(today, false)
             calendarView.selectionMode = SELECTION_MODE_MULTIPLE
@@ -104,8 +106,8 @@ class CalendarInstructorFragment :
                 listOfTimes.clear()
                 listOfTimes.addAll(adapter.getTimeArray())
                 val bundle = Bundle()
-                bundle.putStringArrayList("dates_array", listOfDates)
-                bundle.putStringArrayList("times_array", listOfTimes)
+                bundle.putStringArrayList(CTFEFARRAYDATES, listOfDates)
+                bundle.putStringArrayList(CTFEFARRAYTIMES, listOfTimes)
                 findNavController().navigate(R.id.checkTimetableFragment, bundle)
             }
             calendarView.setOnDateChangedListener(object : OnDateSelectedListener {
@@ -115,12 +117,10 @@ class CalendarInstructorFragment :
                     val outputDateString = outputDateFormat.format(selectedDate)
 
                     if (selected) {
-                        //Если выбрана
                         if (!listOfDates.contains(outputDateString)) {
                             listOfDates.add(outputDateString)
                         }
                     } else {
-                        //Если убрана
                         listOfDates.remove(outputDateString)
                     }
                 }
@@ -196,12 +196,5 @@ class CalendarInstructorFragment :
         binding.calendarView.state().edit().setMinimumDate(CalendarDay.from(currentDate)).commit()
         val today = CalendarDay.today()
         binding.calendarView.setDateSelected(today, true)
-    }
-
-    companion object{
-        const val CTFEFARRAYDATES = "dates_array"
-        const val CTFEFARRAYTIMES = "times_array"
-        const val ADAPTERSTATE = "adapterState"
-        const val LISTOFTIMES = "listOfTimes"
     }
 }

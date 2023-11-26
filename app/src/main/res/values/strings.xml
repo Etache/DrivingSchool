@@ -179,6 +179,8 @@
     <string name="yyyy_mm_dd_space_hh_mm_ss">yyyy-MM-dd HH:mm:ss</string>
     <string name="student_ru">Курсант</string>
     <string name="absent">Не пришел</string>
+    <string name="Check_timetable">Расписание на следующую неделю составляется с пятницы по воскресенье</string>
+    <string name="dd_mm_yyyy">dd.MM.yyyy</string>
 
 
     <string-array name="mcv_monthLabels">
@@ -196,7 +198,7 @@
         <item>Декабрь</item>
     </string-array>
 
-    <string-array name="mcv_weekLabeles">
+    <string-array name="mcv_weekLabels">
         <item>П</item>
         <item>В</item>
         <item>С</item>

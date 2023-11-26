@@ -2,6 +2,7 @@ package com.example.drivingschool.ui.fragments.enroll.selectInstructor
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -48,6 +49,13 @@ class SelectInstructorFragment :
             }
             binding.layoutSwipeRefresh.isRefreshing = false
         }
+
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finish()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun getInstructorsList() {

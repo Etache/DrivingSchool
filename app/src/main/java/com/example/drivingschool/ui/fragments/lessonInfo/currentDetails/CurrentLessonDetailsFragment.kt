@@ -111,10 +111,7 @@ class CurrentLessonDetailsFragment :
                                 tvStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.big?.replace(
-                                    "http://",
-                                    "https://"
-                                )
+                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.big
                                 Picasso.get()
                                     .load(httpsImageUrl)
                                     .placeholder(R.drawable.ic_default_photo)

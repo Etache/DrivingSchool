@@ -35,7 +35,6 @@ class LoginInterceptor @Inject constructor(
                 return chain.proceed(newRequest)
             }
         }
-
         return response
     }
 
