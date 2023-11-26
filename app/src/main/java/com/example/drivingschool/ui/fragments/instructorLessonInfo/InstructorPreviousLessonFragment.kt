@@ -30,6 +30,7 @@ import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
+import com.example.drivingschool.ui.fragments.instructorLessonInfo.viewModels.InstructorPreviousLessonViewModel
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -110,7 +111,6 @@ class InstructorPreviousLessonFragment :
                             binding.detailsProgressBar.viewVisibility(false)
                             binding.mainContainer.viewVisibility(true)
                             Log.e("ololo", "setupSubscribes: $it")
-                            //showToast("UiState.Success")
                             binding.apply {
                                 detailsProgressBar.viewVisibility(false)
                                 btnComment.viewVisibility(true)
@@ -124,12 +124,8 @@ class InstructorPreviousLessonFragment :
                                 tvPreviousStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.student?.profilePhoto?.big?.replace(
-                                    "http://",
-                                    "https://"
-                                )
                                 Picasso.get()
-                                    .load(httpsImageUrl)
+                                    .load(it.data?.student?.profilePhoto?.big)
                                     .placeholder(R.drawable.ic_default_photo)
                                     .into(circleImageView)
 
@@ -169,15 +165,9 @@ class InstructorPreviousLessonFragment :
                                         formatDateTime(it.data?.feedbackForInstructor?.createdAt!!)
                                     rbCommentSmall.rating =
                                         it.data?.feedbackForInstructor?.mark?.toInt()!!.toFloat()
-                                    Log.e("ololo", "setupSubscribes: full ${it.data}")
-                                    val httpToHttps =
-                                        it.data?.feedbackForInstructor?.student?.profilePhoto?.big?.replace(
-                                            "http://",
-                                            "https://"
-                                        )
-                                    Log.e("ololo", "setupSubscribes: after $httpToHttps")
+
                                     Picasso.get()
-                                        .load(httpToHttps)
+                                        .load(it.data?.feedbackForInstructor?.student?.profilePhoto?.big)
                                         .placeholder(R.drawable.ic_default_photo)
                                         .into(circleCommentImage)
                                 }
@@ -196,18 +186,18 @@ class InstructorPreviousLessonFragment :
     }
 
     private fun formatDate(inputDate: String?): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.getDefault())
         val date = inputFormat.parse(inputDate) ?: return ""
 
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+        val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
         return outputFormat.format(date).replaceFirstChar { it.uppercase() }
     }
 
     private fun formatDateTime(createdAt: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX", Locale.ENGLISH)
+        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_t_hh_mm_ss_ssssssx), Locale.ENGLISH)
         val date = inputFormat.parse(createdAt)
 
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
+        val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
         val formattedDate = outputFormat.format(date)
         val calendar = Calendar.getInstance()
         calendar.time = date
@@ -266,21 +256,21 @@ class InstructorPreviousLessonFragment :
             if (it) viewModel.saveComment(comment)
         }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let { showToast("Ваш комментарий оставлен") }
+            it.access?.let { showToast(getString(R.string.your_comment_saved)) }
         }
         viewModel.getDetails(lessonId)
     }
 
     @SuppressLint("SimpleDateFormat")
     private fun calculateEndTime(inputTime: String?) {
-        val timeFormat = SimpleDateFormat("HH:mm:ss")
+        val timeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
 
         try {
             val date = inputTime?.let { timeFormat.parse(it) }
             val calendar = Calendar.getInstance()
             calendar.time = date
             calendar.add(Calendar.HOUR_OF_DAY, 1)
-            val outputTimeFormat = SimpleDateFormat("HH:mm:ss")
+            val outputTimeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
             val outputTime = outputTimeFormat.format(calendar.time)
             val timeParts = outputTime.split(":")
             binding.tvPreviousEndTime.text = "${timeParts[0]}:${timeParts[1]}"

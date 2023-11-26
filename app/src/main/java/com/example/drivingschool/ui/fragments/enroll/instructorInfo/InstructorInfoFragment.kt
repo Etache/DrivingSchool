@@ -10,14 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorInfoBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.adapter.InstructorCommentAdapter
@@ -27,20 +28,20 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class InstructorInfoFragment : Fragment() {
+class InstructorInfoFragment :
+    BaseFragment<FragmentInstructorInfoBinding, EnrollViewModel>(R.layout.fragment_instructor_info) {
 
-    private lateinit var binding: FragmentInstructorInfoBinding
+    override val binding by viewBinding(FragmentInstructorInfoBinding::bind)
+    override val viewModel: EnrollViewModel by viewModels()
     private lateinit var adapter: InstructorCommentAdapter
-    private val viewModel: EnrollViewModel by viewModels()
-    private var id: Int? = null
     private lateinit var networkConnection: NetworkConnection
+    private var id: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentInstructorInfoBinding.inflate(layoutInflater)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_instructor_info, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +50,6 @@ class InstructorInfoFragment : Fragment() {
         binding.rvInstructorProfileComments.layoutManager = LinearLayoutManager(context)
         binding.rvInstructorProfileComments.isNestedScrollingEnabled = false
         id = arguments?.getInt(Constants.ID_KEY)
-        Log.d("madimadi", "instructor id in fragment: ${id}")
 
         networkConnection.observe(viewLifecycleOwner) {
             if (it) getInstructorProfile()
@@ -66,6 +66,7 @@ class InstructorInfoFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun getInstructorProfile() {
         viewModel.getInstructorById(id = id!!)
         lifecycleScope.launch {
@@ -136,23 +137,18 @@ class InstructorInfoFragment : Fragment() {
                             )
                         }
 
-
-                        val httpsImageUrl = state.data?.profilePhoto?.big?.replace("http://", "https://")
                         Picasso.get()
-                            .load(httpsImageUrl)
+                            .load(state.data?.profilePhoto?.big)
                             .placeholder(R.drawable.ic_default_photo)
                             .into(binding.ivProfileImage)
-
-                        Log.d("madimadi", "getInstructorDetails in fragment: ${state.data}")
                     }
 
                     is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+                        showToast(getString(R.string.empty_state))
                     }
 
                     is UiState.Error -> {
-                        Toast.makeText(requireContext(), "Error: ${state.msg}", Toast.LENGTH_SHORT)
-                            .show()
+                        showToast("Error: ${state.msg}")
                     }
                 }
             }
@@ -167,7 +163,7 @@ class InstructorInfoFragment : Fragment() {
             dialog.setContentView(R.layout.show_photo_profile)
             val image = dialog.findViewById<ImageView>(R.id.image)
             if (binding.ivProfileImage.drawable != null) {
-                image.setImageBitmap((binding.ivProfileImage.drawable as BitmapDrawable).bitmap) //crash
+                image.setImageBitmap((binding.ivProfileImage.drawable as BitmapDrawable).bitmap)
             } else {
                 image.setImageResource(R.drawable.ic_default_photo)
             }

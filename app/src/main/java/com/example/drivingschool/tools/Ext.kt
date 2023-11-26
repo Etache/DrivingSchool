@@ -1,5 +1,7 @@
 package com.example.drivingschool.tools
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -30,4 +32,15 @@ fun TextView.timePressed() {
         }
         isPressed = !isPressed
     }
+}
+
+fun Fragment.showOnlyPositiveAlert(message: String) {
+    AlertDialog.Builder(requireContext())
+        .setMessage(message)
+        .setPositiveButton(
+            getString(R.string.ok),
+            DialogInterface.OnClickListener { dialog, _ ->
+                dialog.cancel()
+            }
+        ).show()
 }

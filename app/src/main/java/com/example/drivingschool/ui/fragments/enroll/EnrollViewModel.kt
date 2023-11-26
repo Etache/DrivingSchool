@@ -30,14 +30,14 @@ class EnrollViewModel @Inject constructor(private val enrollRepository: EnrollRe
     fun getInstructors() = viewModelScope.launch {
         enrollRepository.getInstructors().collect {
             _instructors.postValue(it)
-            Log.d("madimadi", "getInstructors view model: $_instructors")
+            Log.d("ahahaha", "getInstructors view model: $_instructors")
         }
     }
 
     fun getInstructorById(id: Int) = viewModelScope.launch {
         enrollRepository.getInstructorById(id).collect {
             _instructorDetails.postValue(it)
-            Log.d("madimadi", "getInstructorDetails view model: $_instructorDetails")
+            Log.d("ahahaha", "getInstructorDetails view model: $_instructorDetails")
         }
     }
 

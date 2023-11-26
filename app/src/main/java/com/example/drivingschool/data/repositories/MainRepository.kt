@@ -1,11 +1,11 @@
 package com.example.drivingschool.data.repositories
 
+import android.util.Log
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import java.sql.Struct
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
@@ -15,6 +15,7 @@ class MainRepository @Inject constructor(
     suspend fun getCurrentLessons() = flow {
         emit(UiState.Loading())
         val response = mainApiService.getCurrent().body()
+        Log.e("ahahaha", "getCurrentLessons: ${response}", )
         if (response != null) {
             emit(UiState.Success(response))
         } else {
@@ -32,7 +33,7 @@ class MainRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-
+    //iman
     suspend fun getCurrentLessonsById(id: String) = flow {
         emit(UiState.Loading())
         val response = mainApiService.getCurrentDetailsInstructor(id)
@@ -42,4 +43,19 @@ class MainRepository @Inject constructor(
             emit(UiState.Empty())
         }
     }.flowOn(Dispatchers.IO)
+
+    suspend fun startLesson(id: String) = flow {
+        val response = mainApiService.startLesson(id)
+        emit(response.body())
+    }
+
+    suspend fun finishLesson(id : String) = flow {
+        val response = mainApiService.finishLesson(id)
+        emit(response.body())
+    }
+
+    suspend fun studentAbsent(id: String) = flow {
+        val response = mainApiService.studentAbsent(id)
+        emit(response.body())
+    }
 }

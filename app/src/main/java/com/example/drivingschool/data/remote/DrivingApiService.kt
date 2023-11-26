@@ -22,6 +22,7 @@ import com.example.drivingschool.data.models.notification.NotificationReadRespon
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
+import com.example.drivingschool.data.models.start_finish_lesson.ChangeLessonStatusResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -47,16 +48,25 @@ interface DrivingApiService {
         @Body requestBody: PasswordRequest
     ): Response<StudentProfileResponse>
 
-    @GET("lessons/{id}")
+    @PATCH("lessons/{id}/start/")
+    suspend fun startLesson(@Path("id") id: String): Response<ChangeLessonStatusResponse>
+
+    @PATCH("lessons/{id}/finish/")
+    suspend fun finishLesson(@Path("id") id: String): Response<ChangeLessonStatusResponse>
+
+    @PATCH("lessons/{id}/absent/")
+    suspend fun studentAbsent(@Path("id") id: String): Response<ChangeLessonStatusResponse>
+
+    @GET("lessons/{id}/") //Details
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/") //Details
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/")
     suspend fun getCurrentDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/")
     suspend fun getPreviousDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
     @GET("lessons/current/")
@@ -93,15 +103,14 @@ interface DrivingApiService {
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
 
+    @POST("lessons/create/")
+    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonRequest): Response<EnrollLessonResponse>
+
     @GET("workwindows/details/")
     suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>
 
     @POST("workwindows/create/")
     suspend fun setWorkWindows(@Body instructorWorkWindowRequest: InstructorWorkWindowRequest): Response<InstructorWorkWindowResponse>
-
-    @POST("lessons/create/")
-    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonRequest): Response<EnrollLessonResponse>
-
 
     @GET("notifications/")
     suspend fun getNotifications() : Response<NotificationModel>

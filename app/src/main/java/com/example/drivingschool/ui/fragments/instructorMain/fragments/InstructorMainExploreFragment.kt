@@ -16,6 +16,7 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.ActivityMainBinding
 import com.example.drivingschool.databinding.FragmentInstructorMainExploreBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.instructorMain.adapter.InstructorLessonAdapter
@@ -65,7 +66,7 @@ class InstructorMainExploreFragment :
 
         if (lessonType == LessonType.Current) {
             val bundle = Bundle()
-            bundle.putString("key", id)
+            bundle.putString(Constants.CURRENT_KEY, id)
             findNavController().navigate(R.id.instructorCurrentLessonFragment, bundle)
         } else if (lessonType == LessonType.Previous) {
             val bundle = Bundle()
@@ -86,7 +87,6 @@ class InstructorMainExploreFragment :
         }
     }
 
-
     private fun initCurrentLessonSections() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -98,10 +98,6 @@ class InstructorMainExploreFragment :
                                 rvLessonsList.viewVisibility(false)
                                 noLessons.viewVisibility(false)
                             }
-                            Log.d(
-                                "ahahaha",
-                                "InstructorMainExploreFragment initCurrentLessonSection Loading работает"
-                            )
                         }
 
                         is UiState.Empty -> {
@@ -110,10 +106,6 @@ class InstructorMainExploreFragment :
                                 rvLessonsList.viewVisibility(false)
                                 noLessons.viewVisibility(true)
                             }
-                            Log.d(
-                                "ahahaha",
-                                "InstructorMainExploreFragment initCurrentLessonSection Empty работает"
-                            )
                         }
 
                         is UiState.Error -> {
@@ -122,10 +114,6 @@ class InstructorMainExploreFragment :
                                 "lessons error: ${it.msg}",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            Log.d(
-                                "ahahaha",
-                                "InstructorMainExploreFragment initCurrentLessonSection Error работает"
-                            )
                         }
 
                         is UiState.Success -> {
@@ -135,7 +123,6 @@ class InstructorMainExploreFragment :
                                 noLessons.viewVisibility(false)
                                 adapter.updateList(it.data ?: emptyList())
                             }
-                            Log.d("ahahaha", "${it.data}")
                         }
 
                         else -> {}
@@ -149,7 +136,6 @@ class InstructorMainExploreFragment :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.previousState.collect {
-                    Log.d("ahahaha", "initPreviousLessonSection Работает")
                     when (it) {
                         is UiState.Loading -> {
                             binding.apply {
@@ -168,11 +154,7 @@ class InstructorMainExploreFragment :
                         }
 
                         is UiState.Error -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "lessons error: ${it.msg}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showToast(it.msg.toString())
                         }
 
                         is UiState.Success -> {
@@ -182,7 +164,6 @@ class InstructorMainExploreFragment :
                                 noLessons.viewVisibility(false)
                                 adapter.updateList(it.data ?: emptyList())
                             }
-                            Log.d("ahahaha", "initPreviousLessonSections: ${it.data}")
                         }
 
                         else -> {}
