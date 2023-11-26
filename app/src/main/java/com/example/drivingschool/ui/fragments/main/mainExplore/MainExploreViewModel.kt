@@ -17,7 +17,7 @@ class MainExploreViewModel @Inject constructor(
     private val repository: MainRepository,
 ) : BaseViewModel() {
 
-        private val _currentState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
+    private val _currentState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
     val currentState = _currentState.asStateFlow()
 
     private val _previousState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
@@ -39,6 +39,7 @@ class MainExploreViewModel @Inject constructor(
             _previousState.value = it
         }
     }
+
     fun getCurrentById(id: String) = viewModelScope.launch {
         repository.getCurrentLessonsById(id).collect {
             _currentDetailsState.value = it

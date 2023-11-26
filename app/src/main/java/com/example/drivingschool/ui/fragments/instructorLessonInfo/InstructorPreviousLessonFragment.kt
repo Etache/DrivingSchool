@@ -2,41 +2,27 @@ package com.example.drivingschool.ui.fragments.instructorLessonInfo
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Dialog
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.VectorDrawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Window
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.databinding.FragmentInstructorPreviousLessonBinding
-import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showImage
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.instructorLessonInfo.viewModels.InstructorPreviousLessonViewModel
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 @AndroidEntryPoint
 class InstructorPreviousLessonFragment :
@@ -51,22 +37,14 @@ class InstructorPreviousLessonFragment :
     private lateinit var networkConnection: NetworkConnection
 
     override fun initialize() {
-        lessonId = arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY) ?: "1"
+        lessonId = arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY) ?: Constants.DEFAULT_KEY
         Log.e("ololo", "initialize: $lessonId")
         networkConnection = NetworkConnection(requireContext())
         networkConnection.observe(viewLifecycleOwner) {
             if (it) viewModel.getDetails(lessonId)
         }
 
-        binding.tvCommentBody.setOnClickListener {
-            if (binding.tvCommentBody.maxHeight > 60) {
-                binding.tvCommentBody.maxHeight = 60
-            } else {
-                binding.tvCommentBody.maxHeight = 400
-            }
-        }
-
-        showImage()
+        binding.circleImageView.showFullSizeImage()
 
         binding.btnComment.setOnClickListener {
             if (!isCommentCreated) showCustomDialog()
@@ -83,128 +61,54 @@ class InstructorPreviousLessonFragment :
     }
 
     override fun setupSubscribes() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.detailsState.collect {
-                    when (it) {
-                        is UiState.Empty -> {
-                            showToast("UiState.Empty")
-                            binding.detailsProgressBar.viewVisibility(false)
-                            binding.mainContainer.viewVisibility(true)
-                        }
 
-                        is UiState.Error -> {
-                            showToast(it.msg.toString())
-                            binding.detailsProgressBar.viewVisibility(false)
-                            binding.mainContainer.viewVisibility(true)
-                            showToast("UiState.Error")
-                        }
+        viewModel.detailsState.collectStateFlow(
+            empty = {
+                showToast("UiState.Empty")
+                binding.detailsProgressBar.viewVisibility(false)
+                binding.mainContainer.viewVisibility(true)
+            },
+            loading = {
+                binding.detailsProgressBar.viewVisibility(true)
+                binding.mainContainer.viewVisibility(false)
+            },
+            error = {
+                showToast(it)
+                binding.detailsProgressBar.viewVisibility(false)
+                binding.mainContainer.viewVisibility(true)
+            },
+            success = {
+                binding.detailsProgressBar.viewVisibility(false)
+                binding.mainContainer.viewVisibility(true)
+                Log.e("ololo", "setupSubscribes: $it")
+                binding.apply {
+                    detailsProgressBar.viewVisibility(false)
+                    btnComment.viewVisibility(true)
+                    instructorId = it?.instructor?.id.toString()
+                    val last = it?.student?.lastname ?: ""
+                    tvUserName.text = getString(
+                        R.string.person_full_name,
+                        it?.student?.surname,
+                        it?.student?.name,
+                        last
+                    )
+                    tvUserNumber.text = it?.student?.phoneNumber
+                    tvPreviousStartDate.text = formatDate(it?.date)
+                    tvScheduleEndDate.text = formatDate(it?.date)
+                    tvPreviousStartTime.text = timeWithoutSeconds(it?.time)
+                    calculateEndTime(it?.time, tvPreviousEndTime)
+                    circleImageView.showImage(it?.student?.profilePhoto?.big)
 
-                        is UiState.Loading -> {
-                            binding.apply {
-                                detailsProgressBar.viewVisibility(true)
-                                mainContainer.viewVisibility(false)
-                            }
-                        }
-
-                        is UiState.Success -> {
-                            binding.detailsProgressBar.viewVisibility(false)
-                            binding.mainContainer.viewVisibility(true)
-                            Log.e("ololo", "setupSubscribes: $it")
-                            binding.apply {
-                                detailsProgressBar.viewVisibility(false)
-                                btnComment.viewVisibility(true)
-                                instructorId = it.data?.instructor?.id.toString()
-                                val last = it.data?.student?.lastname ?: ""
-                                tvUserName.text =
-                                    "${it.data?.student?.surname} ${it.data?.student?.name} $last"
-                                tvUserNumber.text = it.data?.student?.phoneNumber
-                                tvPreviousStartDate.text = formatDate(it.data?.date)
-                                tvScheduleEndDate.text = formatDate(it.data?.date)
-                                tvPreviousStartTime.text = timeWithoutSeconds(it.data?.time)
-                                calculateEndTime(it.data?.time)
-
-                                Picasso.get()
-                                    .load(it.data?.student?.profilePhoto?.big)
-                                    .placeholder(R.drawable.ic_default_photo)
-                                    .into(circleImageView)
-
-                                if (it.data?.feedbackForStudent != null) {
-                                    isCommentCreated = true
-                                    binding.btnComment.apply {
-                                        isClickable = false
-                                        setBackgroundColor(
-                                            ContextCompat.getColor(
-                                                requireContext(),
-                                                R.color.light_gray
-                                            )
-                                        )
-                                        setTextColor(
-                                            ContextCompat.getColor(
-                                                requireContext(),
-                                                R.color.dark_gray_text
-                                            )
-                                        )
-                                    }
-
-                                }
-
-                                if (it.data?.feedbackForInstructor != null) {
-                                    containerComment.viewVisibility(true)
-                                    val lastILN =
-                                        it.data?.feedbackForInstructor?.student?.lastname ?: ""
-                                    tvCommentTitle.text =
-                                        getString(
-                                            R.string.person_full_name,
-                                            it.data?.feedbackForInstructor?.student?.surname,
-                                            it.data?.feedbackForInstructor?.student?.name,
-                                            lastILN
-                                        )
-                                    tvCommentBody.text = it.data?.feedbackForInstructor?.text
-                                    tvCommentDate.text =
-                                        formatDateTime(it.data?.feedbackForInstructor?.createdAt!!)
-                                    rbCommentSmall.rating =
-                                        it.data?.feedbackForInstructor?.mark?.toInt()!!.toFloat()
-
-                                    Picasso.get()
-                                        .load(it.data?.feedbackForInstructor?.student?.profilePhoto?.big)
-                                        .placeholder(R.drawable.ic_default_photo)
-                                        .into(circleCommentImage)
-                                }
-                            }
-                        }
-
+                    if (it?.feedbackForStudent != null) {
+                        isCommentCreated = true
+                        isCommentCreated = true
+                        binding.btnComment.viewVisibility(false)
                     }
+
                 }
             }
-        }
-    }
+        )
 
-    private fun timeWithoutSeconds(inputTime: String?): String {
-        val timeParts = inputTime?.split(":")
-        return "${timeParts?.get(0)}:${timeParts?.get(1)}"
-    }
-
-    private fun formatDate(inputDate: String?): String {
-        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.getDefault())
-        val date = inputFormat.parse(inputDate) ?: return ""
-
-        val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
-        return outputFormat.format(date).replaceFirstChar { it.uppercase() }
-    }
-
-    private fun formatDateTime(createdAt: String): String {
-        val inputFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_t_hh_mm_ss_ssssssx), Locale.ENGLISH)
-        val date = inputFormat.parse(createdAt)
-
-        val outputFormat = SimpleDateFormat(getString(R.string.d_mmmm), Locale(getString(R.string.ru)))
-        val formattedDate = outputFormat.format(date)
-        val calendar = Calendar.getInstance()
-        calendar.time = date
-
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = formattedDate.split(" ")[1]
-        return "$day $month"
     }
 
     @SuppressLint("MissingInflatedId")
@@ -247,7 +151,6 @@ class InstructorPreviousLessonFragment :
             )
             dialog.dismiss()
         }
-
         dialog.show()
     }
 
@@ -256,48 +159,23 @@ class InstructorPreviousLessonFragment :
             if (it) viewModel.saveComment(comment)
         }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let { showToast(getString(R.string.your_comment_saved)) }
+            it.access?.let {
+                showAlert()
+            }
         }
         viewModel.getDetails(lessonId)
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun calculateEndTime(inputTime: String?) {
-        val timeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
-
-        try {
-            val date = inputTime?.let { timeFormat.parse(it) }
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            calendar.add(Calendar.HOUR_OF_DAY, 1)
-            val outputTimeFormat = SimpleDateFormat(getString(R.string.hh_mm_ss))
-            val outputTime = outputTimeFormat.format(calendar.time)
-            val timeParts = outputTime.split(":")
-            binding.tvPreviousEndTime.text = "${timeParts[0]}:${timeParts[1]}"
-        } catch (e: Exception) {
-            showToast(e.message.toString())
-        }
-    }
-
-    private fun showImage() {
-        binding.circleImageView.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(true)
-            dialog.setContentView(R.layout.show_photo_profile)
-            val image = dialog.findViewById<ImageView>(R.id.image)
-
-            if (binding.circleImageView.drawable is BitmapDrawable) {
-                image.setImageBitmap((binding.circleImageView.drawable as BitmapDrawable).bitmap)
-            } else if (binding.circleImageView.drawable is VectorDrawable) {
-                image.setImageDrawable(binding.circleImageView.drawable)
-            } else {
-                image.setImageResource(R.drawable.ic_default_photo)
+    private fun showAlert() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.comment_is_sended))
+            .setCancelable(true)
+            .setNegativeButton(
+                getString(R.string.ok)
+            ) { dialogInterface, _ ->
+                dialogInterface.cancel()
             }
-            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
-            dialog.show()
-        }
+            .show()
     }
-
 
 }

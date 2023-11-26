@@ -2,34 +2,22 @@ package com.example.drivingschool.ui.fragments.lessonInfo.currentDetails
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.VectorDrawable
 import android.util.Log
-import android.view.Window
-import android.widget.ImageView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentCurrentLessonDetailBinding
-import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showImage
 import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 @AndroidEntryPoint
 class CurrentLessonDetailsFragment :
@@ -42,19 +30,17 @@ class CurrentLessonDetailsFragment :
 
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
-        Log.e("ololololo", "initialize: ${arguments?.getString(Constants.MAIN_TO_CURRENT_KEY)}")
         networkConnection.observe(viewLifecycleOwner){
-            if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1")
+            if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: Constants.DEFAULT_KEY)
         }
         binding.layoutSwipeRefresh.setOnRefreshListener {
             networkConnection.observe(viewLifecycleOwner){
-                if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1")
+                if (it) viewModel.getDetails(arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: Constants.DEFAULT_KEY)
             }
             binding.layoutSwipeRefresh.isRefreshing = false
         }
 
-        showImage()
-
+        binding.circleImageView.showFullSizeImage()
     }
 
     override fun setupListeners() {
@@ -64,78 +50,58 @@ class CurrentLessonDetailsFragment :
     }
 
     override fun setupSubscribes() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.detailsState.collect {
-                    when (it) {
-                        is UiState.Empty -> {
-                            showToast("UiState.Empty")
-                            binding.detailsProgressBar.viewVisibility(false)
-                            binding.mainContainer.viewVisibility(true)
-                        }
 
-                        is UiState.Error -> {
-                            showToast(it.msg.toString())
-                            binding.detailsProgressBar.viewVisibility(false)
-                            binding.mainContainer.viewVisibility(true)
-                            showToast("UiState.Error")
-                        }
+        viewModel.detailsState.collectStateFlow(
+            empty = {
+                binding.detailsProgressBar.viewVisibility(false)
+                binding.mainContainer.viewVisibility(true)
+            },
+            loading = {
+                binding.detailsProgressBar.viewVisibility(true)
+                binding.mainContainer.viewVisibility(false)
+            },
+            error = {
+                showToast(it)
+                binding.detailsProgressBar.viewVisibility(false)
+                binding.mainContainer.viewVisibility(true)
+                showToast("UiState.Error")
+            },
+            success = {
+                inputDateTimeString = "${it?.date}, ${it?.time}"
+                Log.e("ololo", "inputDateTimeString: $inputDateTimeString")
+                Log.e("ololo", "setupSubscribes: $it")
+                //showToast("UiState.Success")
+                binding.apply {
+                    detailsProgressBar.viewVisibility(false)
+                    mainContainer.viewVisibility(true)
+                    val last = it?.instructor?.lastname ?: ""
+                    tvUserName.text = getString(
+                        R.string.person_full_name,
+                        it?.instructor?.surname,
+                        it?.instructor?.name,
+                        last
+                    )
+                    tvUserNumber.text = it?.instructor?.phoneNumber
 
-                        is UiState.Loading -> {
-                            binding.apply {
-                                detailsProgressBar.viewVisibility(true)
-                                mainContainer.viewVisibility(false)
-                            }
-                        }
+                    tvStartDate.text = formatDate(it?.date)
+                    tvEndDate.text = formatDate(it?.date)
 
-                        is UiState.Success -> {
-                            inputDateTimeString = "${it.data?.date}, ${it.data?.time}"
-                            Log.e("ololo", "inputDateTimeString: $inputDateTimeString")
-                            Log.e("ololo", "setupSubscribes: $it")
-                            //showToast("UiState.Success")
-                            binding.apply {
-                                detailsProgressBar.viewVisibility(false)
-                                mainContainer.viewVisibility(true)
-                                val last = it.data?.instructor?.lastname ?: ""
-                                tvUserName.text = getString(
-                                    R.string.person_full_name,
-                                    it.data?.instructor?.surname,
-                                    it.data?.instructor?.name,
-                                    last
-                                )
-                                tvUserNumber.text = it.data?.instructor?.phoneNumber
+                    tvStartTime.text = timeWithoutSeconds(it?.time)
+                    calculateEndTime(it?.time, tvEndTime)
+                    circleImageView.showImage(it?.instructor?.profilePhoto?.big)
 
-                                tvStartDate.text = formatDate(it.data?.date)
-                                tvEndDate.text = formatDate(it.data?.date)
+//                    Picasso.get().load(it?.instructor?.profilePhoto?.big) //changed to big
+//                        .into(binding.circleImageView)
 
-                                tvStartTime.text = timeWithoutSeconds(it.data?.time)
-                                calculateEndTime(it.data?.time)
-
-                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.big
-                                Picasso.get()
-                                    .load(httpsImageUrl)
-                                    .placeholder(R.drawable.ic_default_photo)
-                                    .into(circleImageView)
-                            }
-
-                        }
+                    if(it?.status == getString(R.string.active)) {
+                        btnCancelLesson.viewVisibility(false)
+                    } else {
+                        btnCancelLesson.viewVisibility(true)
                     }
                 }
             }
-        }
-    }
+        )
 
-    private fun timeWithoutSeconds(inputTime: String?): String {
-        val timeParts = inputTime?.split(":")
-        return "${timeParts?.get(0)}:${timeParts?.get(1)}"
-    }
-
-    private fun formatDate(inputDate: String?): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val date = inputFormat.parse(inputDate) ?: return ""
-
-        val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
-        return outputFormat.format(date).replaceFirstChar { it.uppercase() }
     }
 
     private fun dateValidityCheck() {
@@ -145,10 +111,7 @@ class CurrentLessonDetailsFragment :
             } else {
                 showAlert()
             }
-        } else {
-            showToast("Время начала урока неизвестно")
         }
-
     }
 
     private fun showCancelAlert() {
@@ -156,77 +119,59 @@ class CurrentLessonDetailsFragment :
             .setTitle(getString(R.string.cancel_lesson_text))
             .setCancelable(true)
             .setPositiveButton(
-                getString(R.string.confirm),
-                DialogInterface.OnClickListener { dialogInterface, i ->
-                    viewModel.cancelLessonFromId(
-                        arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1"
-                    )
-                    networkConnection.observe(viewLifecycleOwner){
-                        if (it) {
-                            viewModel.cancelLiveData.observe(viewLifecycleOwner) {
-                                Log.e("ololo", "showCancelAlert: ${it.toString()}")
-                                if (it?.status == "success") {
-                                    showSuccessCancelAlert()
-                                    binding.btnCancelLesson.viewVisibility(false)
-                                } else {
-                                    showToast("error")
-                                }
+                getString(R.string.confirm)
+            ) { dialogInterface, _ ->
+                viewModel.cancelLessonFromId(
+                    arguments?.getString(Constants.MAIN_TO_CURRENT_KEY) ?: "1"
+                )
+                networkConnection.observe(viewLifecycleOwner) { data ->
+                    if (data) {
+                        viewModel.cancelLiveData.observe(viewLifecycleOwner) {
+                            Log.e("ololo", "showCancelAlert: ${it.toString()}")
+                            if (it?.status == "success") {
+                                showSuccessCancelAlert()
+                                binding.btnCancelLesson.viewVisibility(false)
+                            } else {
+                                showToast("error")
                             }
                         }
                     }
-
-                    dialogInterface.cancel()
-                })
+                }
+                dialogInterface.cancel()
+            }
             .setNegativeButton(
-                getString(R.string.back),
-                DialogInterface.OnClickListener { dialogInterface, i ->
-                    dialogInterface.cancel()
-                })
+                getString(R.string.back)
+            ) { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
             .show()
     }
 
 
     private fun showAlert() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Отмена занятия невозможна")
+            .setTitle(getString(R.string.cancel_is_impossible))
+            .setMessage(getString(R.string.cancel_alert_msg))
             .setCancelable(true)
             .setNegativeButton(
-                getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface, i ->
-                    dialogInterface.cancel()
-                })
+                getString(R.string.ok)
+            ) { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
             .show()
     }
 
     private fun showSuccessCancelAlert() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Ваше занятие отменено")
+            .setTitle(getString(R.string.canceled_text))
             .setCancelable(true)
             .setNegativeButton(
-                getString(R.string.ok),
-                DialogInterface.OnClickListener { dialogInterface, i ->
-                    findNavController().navigateUp()
-                    dialogInterface.cancel()
-                })
+                getString(R.string.ok)
+            ) { dialogInterface, _ ->
+                findNavController().navigateUp()
+                dialogInterface.cancel()
+            }
             .show()
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun calculateEndTime(inputTime: String?) {
-        val timeFormat = SimpleDateFormat("HH:mm:ss")
-
-        try {
-            val date = inputTime?.let { timeFormat.parse(it) }
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            calendar.add(Calendar.HOUR_OF_DAY, 1)
-            val outputTimeFormat = SimpleDateFormat("HH:mm:ss")
-            val outputTime = outputTimeFormat.format(calendar.time)
-            val timeParts = outputTime.split(":")
-            binding.tvEndTime.text = "${timeParts[0]}:${timeParts[1]}"
-        } catch (e: Exception) {
-            showToast(e.message.toString())
-        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -239,24 +184,4 @@ class CurrentLessonDetailsFragment :
         return timeDifference > (4 * 60 * 60 * 1000)
     }
 
-    private fun showImage() {
-        binding.circleImageView.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(true)
-            dialog.setContentView(R.layout.show_photo_profile)
-            val image = dialog.findViewById<ImageView>(R.id.image)
-
-            if (binding.circleImageView.drawable is BitmapDrawable) {
-                image.setImageBitmap((binding.circleImageView.drawable as BitmapDrawable).bitmap)
-            } else if (binding.circleImageView.drawable is VectorDrawable) {
-                image.setImageDrawable(binding.circleImageView.drawable)
-            } else {
-                image.setImageResource(R.drawable.ic_default_photo)
-            }
-
-            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
-            dialog.show()
-        }
-    }
 }

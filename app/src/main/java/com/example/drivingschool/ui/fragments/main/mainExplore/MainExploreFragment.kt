@@ -1,18 +1,15 @@
 package com.example.drivingschool.ui.fragments.main.mainExplore
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentMainExploreBinding
-import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.itVisibleOtherGone
 import com.example.drivingschool.tools.showToast
-import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
 import com.example.drivingschool.ui.fragments.Constants.MAIN_TO_CURRENT_KEY
 import com.example.drivingschool.ui.fragments.Constants.MAIN_TO_PREVIOUS_KEY
@@ -20,7 +17,6 @@ import com.example.drivingschool.ui.fragments.main.lesson.LessonAdapter
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -36,12 +32,7 @@ class MainExploreFragment :
 
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
-        networkConnection.observe(viewLifecycleOwner){
-            if (it) {
-                if (lessonType == LessonType.Current) viewModel.getCurrent()
-                else if (lessonType == LessonType.Previous) viewModel.getPrevious()
-            }
-        }
+        dataRefresh()
 
         @Suppress("DEPRECATION")
         lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
@@ -58,16 +49,10 @@ class MainExploreFragment :
             dataRefresh()
             binding.swipeRefresh.isRefreshing = false
         }
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dataRefresh()
     }
 
     private fun dataRefresh() {
-        networkConnection.observe(viewLifecycleOwner){
+        networkConnection.observe(viewLifecycleOwner) {
             if (it) {
                 if (lessonType == LessonType.Current) viewModel.getCurrent()
                 else if (lessonType == LessonType.Previous) viewModel.getPrevious()
@@ -90,86 +75,59 @@ class MainExploreFragment :
     }
 
     private fun initCurrentLessonSections() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.currentState.collect {
-                    when (it) {
-                        is UiState.Empty -> {
-                            binding.apply {
-                                mainProgressBar.viewVisibility(false)
-                                rvMainExplore.viewVisibility(false)
-                                viewNoLessons.viewVisibility(true)
-                            }
-                        }
 
-                        is UiState.Error -> {
-                            showToast(it.msg.toString())
-                        }
-
-                        is UiState.Loading -> {
-                            binding.apply {
-                                mainProgressBar.viewVisibility(true)
-                                rvMainExplore.viewVisibility(false)
-                                viewNoLessons.viewVisibility(false)
-                            }
-
-                        }
-
-                        is UiState.Success -> {
-                            binding.apply {
-                                mainProgressBar.viewVisibility(false)
-                                rvMainExplore.viewVisibility(true)
-                                viewNoLessons.viewVisibility(false)
-                                adapter.updateList(it.data ?: emptyList())
-                            }
-
-                        }
-                    }
+        viewModel.currentState.collectStateFlow(
+            empty = {
+                binding.apply {
+                    itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                }
+            },
+            loading = {
+                binding.apply {
+                    itVisibleOtherGone(mainProgressBar, rvMainExplore, viewNoLessons)
+                }
+            },
+            error = {
+                showToast(it)
+            },
+            success = {
+                binding.apply {
+                    itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                    Log.e(
+                        "ololo",
+                        "initCurrentLessonSections: UiState.Success $it"
+                    )
+                    adapter.updateList(it ?: emptyList())
                 }
             }
-        }
+        )
     }
 
     private fun initPreviousLessonSections() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.previousState.collect {
-                    when (it) {
-                        is UiState.Empty -> {
-                            binding.apply {
-                                mainProgressBar.viewVisibility(false)
-                                rvMainExplore.viewVisibility(false)
-                                viewNoLessons.viewVisibility(true)
-                            }
-                        }
-
-                        is UiState.Error -> {
-                            showToast(it.msg.toString())
-                        }
-
-                        is UiState.Loading -> {
-                            binding.apply {
-                                mainProgressBar.viewVisibility(true)
-                                rvMainExplore.viewVisibility(false)
-                                viewNoLessons.viewVisibility(false)
-                            }
-
-                        }
-
-                        is UiState.Success -> {
-                            binding.apply {
-                                mainProgressBar.viewVisibility(false)
-                                rvMainExplore.viewVisibility(true)
-                                viewNoLessons.viewVisibility(false)
-
-                                adapter.updateList(it.data ?: emptyList())
-                            }
-
-                        }
-                    }
+        viewModel.previousState.collectStateFlow(
+            empty = {
+                binding.apply {
+                    itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                }
+            },
+            loading = {
+                binding.apply {
+                    itVisibleOtherGone(mainProgressBar, rvMainExplore, viewNoLessons)
+                }
+            },
+            error = {
+                showToast(it)
+            },
+            success = {
+                binding.apply {
+                    itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                    Log.e(
+                        "ololo",
+                        "initCurrentLessonSections: UiState.Success $it"
+                    )
+                    adapter.updateList(it ?: emptyList())
                 }
             }
-        }
+        )
     }
-
 }

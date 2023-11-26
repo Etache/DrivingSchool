@@ -1,15 +1,17 @@
 package com.example.drivingschool.ui.fragments.enroll.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.FeedbackInstructor
 import com.example.drivingschool.databinding.InstructorProfileCommentItemBinding
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
-import java.util.TimeZone
 
 class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor>?) :
     RecyclerView.Adapter<InstructorCommentAdapter.CommentViewHolder>() {
@@ -26,6 +28,7 @@ class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         if (commentsList != null){
             val comment = commentsList!![position]
@@ -35,11 +38,9 @@ class InstructorCommentAdapter(private var commentsList: List<FeedbackInstructor
             holder.binding.tvComment.text = comment.text
 
             val dateString = comment.createdAt
-            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
-            format.timeZone = TimeZone.getTimeZone("UTC")
-            val date = dateString?.let { format.parse(it) }
-            val outputFormat = SimpleDateFormat("d MMMM", Locale("ru"))
-            val formattedDate = date?.let { outputFormat.format(it) }
+            val dateTime = OffsetDateTime.parse(dateString)
+            val formatter = DateTimeFormatter.ofPattern("d MMMM", Locale("ru", "RU"))
+            val formattedDate = dateTime.format(formatter)
 
             holder.binding.tvCommentDate.text = formattedDate
             holder.binding.rbRating.rating = comment.mark?.toFloat()!!

@@ -75,7 +75,7 @@
     <string name="confirm">Подтвердить</string>
     <string name="make_a_schedule">Составить расписание</string>
     <string name="continue_text">Отправить</string>
-    <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
+    <string name="comment_body_text">Ваше занятие завершено, поставьте \nоценку вашему инструктору</string>
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
     <string name="choose_photo">Выбрать фото</string>
@@ -104,7 +104,6 @@
     <string name="ok_upperCase">OK</string>
     <string name="comment">Комментарий</string>
     <string name="_0_250">(0/250)</string>
-    <string name="practical_driving">Практическое вождение</string>
     <string name="start">Начало</string>
     <string name="end_text">Конец</string>
     <string name="cancel_lesson_text">Вы точно хотите отменить занятие?</string>
@@ -181,6 +180,19 @@
     <string name="absent">Не пришел</string>
     <string name="Check_timetable">Расписание на следующую неделю составляется с пятницы по воскресенье</string>
     <string name="dd_mm_yyyy">dd.MM.yyyy</string>
+    <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа!</string>
+    <string name="instructor_text">Инструктор</string>
+    <string name="cancel_is_impossible">Отмена занятия невозможна</string>
+    <string name="canceled_text">Ваше занятие отменено</string>
+    <string name="calc_time_text">%1$s:%2$s</string>
+    <string name="delimeter">:</string>
+    <string name="comment_is_sended">Ваш комментарий отправлен</string>
+    <string name="planned">Запланирован</string>
+    <string name="active_ru">Активен</string>
+    <string name="canceled">Отменен</string>
+    <string name="finished">Завершен</string>
+    <string name="unknown_status">Неизвестный статус</string>
+    <string name="unknown_date_type">Unknown date type</string>
 
 
     <string-array name="mcv_monthLabels">
