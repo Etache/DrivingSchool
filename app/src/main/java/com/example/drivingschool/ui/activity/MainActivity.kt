@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         setAppBar()
         checkRole()
         checkNotifications()
-
     }
 
     private fun checkNotifications() {
@@ -85,7 +84,8 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                     }
 
                     is UiState.Empty -> {
-                        Toast.makeText(this,getString(R.string.empty_state), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.empty_state), Toast.LENGTH_SHORT)
+                            .show()
                     }
 
                     else -> {
@@ -182,7 +182,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 binding.notificationIcon.visibility = View.GONE
 
             }
-
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
         }
@@ -194,6 +193,9 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
 
     override fun onSupportNavigateUp(): Boolean {
+        if (preferences.role == getString(R.string.instructor)) {
+            checkNotifications()
+        }
         return NavigationUI.navigateUp(
             navController,
             appBarConfiguration
@@ -242,6 +244,13 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         rotateAnimation.repeatCount = Animation.INFINITE
         rotateAnimation.duration = 1700
         binding.contentNoInternet.progressBar.startAnimation(rotateAnimation)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (preferences.role == getString(R.string.instructor)) {
+            checkNotifications()
+        }
     }
 
 }

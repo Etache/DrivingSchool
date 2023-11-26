@@ -5,13 +5,15 @@ import android.app.Dialog
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
@@ -24,13 +26,26 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
-    @LayoutRes layoutId: Int
-) : Fragment(layoutId) {
+abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
 
-    abstract val binding: VB
-    abstract val viewModel: VM
+    private var _binding: VB? = null
+    protected val binding: VB get() = _binding!!
 
+    protected abstract fun getViewBinding(): VB
+    abstract val viewModel : VM
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        _binding = getViewBinding()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,8 +66,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
 
     protected open fun setupSubscribes() {
     }
-
-//    abstract fun EnrollWeekDayFormatter(): WeekDayFormatter?
 
     protected fun <T> Flow<UiState<T>>.collectStateFlow(
         empty: () -> Unit,
@@ -164,5 +177,4 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
             dialog.show()
         }
     }
-
 }

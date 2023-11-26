@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
@@ -19,7 +18,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
@@ -46,9 +44,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class InstructorProfileFragment :
-    BaseFragment<FragmentInstructorProfileBinding, ProfileViewModel>(R.layout.fragment_instructor_profile) {
+    BaseFragment<FragmentInstructorProfileBinding, ProfileViewModel>() {
 
-    override val binding by viewBinding(FragmentInstructorProfileBinding::bind)
+    override fun getViewBinding(): FragmentInstructorProfileBinding = FragmentInstructorProfileBinding.inflate(layoutInflater)
+
     override val viewModel: ProfileViewModel by viewModels()
 
     @Inject

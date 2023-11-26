@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.databinding.ItemMainBinding
-import com.example.drivingschool.ui.fragments.main.lesson.LessonStatus
-import com.example.drivingschool.ui.fragments.main.lesson.LessonType
+import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonStatus
+import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonType
 import java.text.SimpleDateFormat
 import java.util.Locale
 

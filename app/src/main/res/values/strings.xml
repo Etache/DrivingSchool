@@ -180,7 +180,7 @@
     <string name="absent">Не пришел</string>
     <string name="Check_timetable">Расписание на следующую неделю составляется с пятницы по воскресенье</string>
     <string name="dd_mm_yyyy">dd.MM.yyyy</string>
-    <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа!</string>
+    <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа</string>
     <string name="instructor_text">Инструктор</string>
     <string name="cancel_is_impossible">Отмена занятия невозможна</string>
     <string name="canceled_text">Ваше занятие отменено</string>
@@ -228,5 +228,7 @@
     <string name="year_2..4">"%1$d года"</string>
     <string name="year_5..9">"%1$d лет"</string>
     <string name="notifications">Уведомления</string>
+    <string name="for_instructor">инструктору</string>
+    <string name="for_student">студенту</string>
 
 </resources>

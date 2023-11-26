@@ -2,25 +2,23 @@ package com.example.drivingschool.ui.fragments.notification
 
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentNotificationBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NotificationFragment :
-    BaseFragment<FragmentNotificationBinding, NotificationViewModel>(R.layout.fragment_notification) {
+    BaseFragment<FragmentNotificationBinding, NotificationViewModel>() {
+    override fun getViewBinding(): FragmentNotificationBinding =
+        FragmentNotificationBinding.inflate(layoutInflater)
 
-    override val binding by viewBinding(FragmentNotificationBinding::bind)
     override val viewModel: NotificationViewModel by viewModels()
-
     private var adapter = NotificationAdapter(emptyList())
 
     override fun initialize() {
@@ -30,7 +28,7 @@ class NotificationFragment :
     private fun getNotifications() {
         lifecycleScope.launch {
             viewModel.getNotifications()
-            viewModel.notifications.observe(viewLifecycleOwner, Observer { state ->
+            viewModel.notifications.observe(viewLifecycleOwner) { state ->
                 when (state) {
                     is UiState.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
@@ -50,21 +48,21 @@ class NotificationFragment :
                             binding.rvNotification.adapter = adapter
                             Log.e("ololo", "notification: ${state.data?.notifications}")
                         } else {
-                            Toast.makeText(requireContext(), "Null", Toast.LENGTH_SHORT).show()
+                            showToast("null")
                         }
 
                         viewModel.readNotifications()
                     }
 
                     is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+                        showToast(getString(R.string.empty_state))
                     }
 
                     is UiState.Error -> {
-                        Toast.makeText(requireContext(), state.msg, Toast.LENGTH_SHORT).show()
+                        showToast(state.msg.toString())
                     }
                 }
-            })
+            }
         }
     }
 }

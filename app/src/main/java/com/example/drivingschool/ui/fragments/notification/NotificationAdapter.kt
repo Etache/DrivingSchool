@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.notification.Notification
 import com.example.drivingschool.databinding.ItemNotificationBinding
-import com.example.drivingschool.ui.fragments.main.lesson.LessonStatus
+import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonStatus
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Locale

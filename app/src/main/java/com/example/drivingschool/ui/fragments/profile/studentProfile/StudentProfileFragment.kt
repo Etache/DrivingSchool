@@ -19,7 +19,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
@@ -46,8 +45,9 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class StudentProfileFragment :
-    BaseFragment<FragmentStudentProfileBinding, ProfileViewModel>(R.layout.fragment_student_profile) {
-    override val binding by viewBinding(FragmentStudentProfileBinding::bind)
+    BaseFragment<FragmentStudentProfileBinding, ProfileViewModel>() {
+
+    override fun getViewBinding(): FragmentStudentProfileBinding = FragmentStudentProfileBinding.inflate(layoutInflater)
     override val viewModel: ProfileViewModel by viewModels()
 
     @Inject

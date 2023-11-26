@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="16dp"
-    tools:context=".ui.fragments.enroll.selectInstructor.SelectInstructorFragment">
+    tools:context=".ui.fragments.enroll.student.SelectInstructorFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_swipe_refresh"

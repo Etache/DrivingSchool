@@ -48,10 +48,6 @@ fun Fragment.showOnlyPositiveAlert(message: String) {
 }
 
 fun ImageView.showImage(img: String?) {
-//    val httpsImageUrl = img?.replace(
-//        "http://",
-//        "https://"
-//    )
     Picasso.get()
         .load(img)
         .placeholder(R.drawable.ic_default_photo)
