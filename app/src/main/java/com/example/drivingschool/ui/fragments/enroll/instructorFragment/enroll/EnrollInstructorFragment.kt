@@ -105,12 +105,7 @@ class EnrollInstructorFragment :
                             }
                             nextSchedule = nextWeekDates
 
-                            val currentWeekTimes: List<String> =
-                                it.data?.currentWeek?.flatMap { currentWeek ->
-                                    currentWeek.times?.mapNotNull { it.time } ?: emptyList()
-                                } ?: emptyList()
-
-                            adapter = EnrollInstructorAdapter(currentWeekDates, currentWeekTimes)
+                            adapter = EnrollInstructorAdapter(it.data?.currentWeek)
                             binding.recyclerDateAndTime.adapter = adapter
                             currentSchedule = currentWeekDates
                         }
@@ -118,7 +113,6 @@ class EnrollInstructorFragment :
                         is UiState.Error -> {
                             Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
                         }
-
                         is UiState.Empty -> {
                             Toast.makeText(requireContext(), "empty", Toast.LENGTH_SHORT).show()
                         }

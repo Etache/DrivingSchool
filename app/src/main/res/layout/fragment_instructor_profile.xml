@@ -34,8 +34,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/ic_default_photo"
-                    android:contentDescription="@string/content_des_profile_photo"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/profile_photo" />
 
             </androidx.cardview.widget.CardView>
 
@@ -212,11 +212,11 @@
                 android:paddingVertical="14dp"
                 android:text="@string/change_password"
                 android:textAlignment="textStart"
-                android:textColor="#5883CB"
+                android:textColor="@color/bright_blue"
                 android:textSize="16sp"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_key_square_profile"
-                app:iconTint="#365CA7"
+                app:iconTint="@color/bright_blue"
                 app:layout_constraintTop_toBottomOf="@id/tvCar" />
 
             <com.google.android.material.button.MaterialButton

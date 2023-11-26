@@ -94,7 +94,7 @@ class InstructorProfileFragment :
 
                         is UiState.Success -> {
                             binding.progressBar.viewVisibility(false)
-                            Picasso.get().load(state.data?.profilePhoto?.small).memoryPolicy(
+                            Picasso.get().load(state.data?.profilePhoto?.big).memoryPolicy(
                                 MemoryPolicy.NO_CACHE
                             ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
 
@@ -242,16 +242,41 @@ class InstructorProfileFragment :
                         val experience = state.data?.experience
                         if (experience != null) {
                             when (experience) {
+                                1 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.year, experience)
+                                }
                                 in 1..4 -> {
-                                    binding.tvExperience.text = "$experience года"
+                                    binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
                                 }
-
                                 in 5..9 -> {
-                                    binding.tvExperience.text = "$experience лет"
+                                    binding.tvExperience.text = context?.getString(R.string.year_5__9, experience)
                                 }
-
+                                in 22..24 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
+                                }
+                                in 32..34 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
+                                }
+                                in 42..44 -> {
+                                binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
+                                }
+                                in 52..54 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
+                                }
+                                in 62..64 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
+                                }
+                                in 72..74 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
+                                }
+                                in 82..84 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
+                                }
+                                in 92..94 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.year_2__4, experience)
+                                }
                                 else -> {
-                                    binding.tvExperience.text = "$experience лет"
+                                    binding.tvExperience.text = context?.getString(R.string.year_5__9, experience)
                                 }
                             }
                         }

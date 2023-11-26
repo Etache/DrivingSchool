@@ -15,6 +15,7 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.Date
 import com.example.drivingschool.data.models.TimeInWorkWindows
 import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
+import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.instructorFragment.calendar.customCalendar.CalendarWeekDayFormatter
@@ -87,6 +88,8 @@ class SelectDateTimeFragment :
                 bundle.putString(Constants.FULL_NAME, instructorFullName)
                 bundle.putString(Constants.INSTRUCTOR_ID_ENROLL, instructorID)
                 findNavController().navigate(R.id.enrollFragment, bundle)
+            } else {
+                showToast("Выберите время")
             }
 
         }
@@ -109,11 +112,14 @@ class SelectDateTimeFragment :
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onTimeClick(time: TimeInWorkWindows) {
-        val oldTime =
-            LocalTime.parse(time.time, DateTimeFormatter.ofPattern(getString(R.string.hh_mm)))
-        selectedFinalTime =
+    fun onTimeClick(time: TimeInWorkWindows?) {
+        selectedFinalTime = if(time != null){
+            val oldTime =
+                LocalTime.parse(time.time, DateTimeFormatter.ofPattern(getString(R.string.hh_mm)))
             oldTime.format(DateTimeFormatter.ofPattern(getString(R.string.hh_mm_ss)))
+        } else {
+            null
+        }
     }
 
     private fun setGrayDaysDecorator(calendarView: MaterialCalendarView) {

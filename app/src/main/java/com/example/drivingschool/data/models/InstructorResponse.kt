@@ -14,6 +14,6 @@ data class InstructorResponse(
     var car: String? = null,
     var rate: Float? = null,
     var feedbacks: List<FeedbackInstructor>? = null,
-    var workwindows: ArrayList<Date> = arrayListOf()
+    var workwindows: ArrayList<Date> ?= null
 
 )

@@ -3,6 +3,7 @@ package com.example.drivingschool.ui.fragments.enroll.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -28,18 +29,45 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
 
         @SuppressLint("SetTextI18n")
         fun bind(instructor: InstructorResponse) {
+            val context = binding.root.context
             binding.tvName.text = instructor.name
             binding.tvSurname.text = instructor.surname
 
             when (val experience = instructor.experience) {
+                1 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_year, experience)
+                }
                 in 1..4 -> {
-                    binding.tvExpience.text = "Стаж: $experience года"
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 22..24 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 32..34 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                } in 42..44 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 52..54 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 62..64 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 72..74 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 82..84 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
+                }
+                in 92..94 -> {
+                    binding.tvExpience.text = context.getString(R.string.experience_years_2__4, experience)
                 }
                 in 5..9 -> {
-                    binding.tvExpience.text = "Стаж: $experience лет"
+                    binding.tvExpience.text = context.getString(R.string.experience_years_5__9, experience)
                 }
                 else -> {
-                    binding.tvExpience.text = "Стаж: $experience лет"
+                    binding.tvExpience.text = context.getString(R.string.experience_years_5__9, experience)
                 }
             }
             binding.rbRating.rating = instructor.rate!!.toFloat()
@@ -58,7 +86,11 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
                     )
             }
             itemView.setOnClickListener {
-                onClick(instructor.workwindows, "${instructor.name} ${instructor.surname} ${instructor.lastname}", instructor.id.toString())
+                if(instructor.workwindows != null){
+                    onClick(instructor.workwindows!!, "${instructor.name} ${instructor.surname} ${instructor.lastname}", instructor.id.toString())
+                } else {
+                    Toast.makeText(context, "Инструктор еще не создал расписание", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

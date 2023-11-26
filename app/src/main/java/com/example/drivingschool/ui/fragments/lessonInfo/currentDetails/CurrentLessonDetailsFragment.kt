@@ -111,7 +111,7 @@ class CurrentLessonDetailsFragment :
                                 tvStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.small?.replace(
+                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.big?.replace(
                                     "http://",
                                     "https://"
                                 )
@@ -177,6 +177,7 @@ class CurrentLessonDetailsFragment :
                             }
                         }
                     }
+
                     dialogInterface.cancel()
                 })
             .setNegativeButton(

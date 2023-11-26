@@ -12,5 +12,6 @@ data class Student(
     var phoneNumber: String? = null,
     @SerializedName("profile_photo")
     var profilePhoto: ProfilePhoto? = null,
-    var surname: String? = null
+    var surname: String? = null,
+    var rate: Int?=null
 )

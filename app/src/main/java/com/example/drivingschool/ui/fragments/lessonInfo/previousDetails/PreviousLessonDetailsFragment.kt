@@ -123,7 +123,7 @@ class PreviousLessonDetailsFragment :
                                 tvPreviousStartTime.text = timeWithoutSeconds(it.data?.time)
                                 calculateEndTime(it.data?.time)
 
-                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.small?.replace(
+                                val httpsImageUrl = it.data?.instructor?.profilePhoto?.big?.replace(
                                     "http://",
                                     "https://"
                                 )
@@ -172,7 +172,7 @@ class PreviousLessonDetailsFragment :
                                         it.data?.feedbackForStudent?.mark?.toInt()!!.toFloat()
                                     Log.e("ololo", "setupSubscribes: full ${it.data}")
                                     val httpToHttps =
-                                        it.data?.feedbackForStudent?.instructor?.profilePhoto?.small?.replace(
+                                        it.data?.feedbackForStudent?.instructor?.profilePhoto?.big?.replace(
                                             "http://",
                                             "https://"
                                         )

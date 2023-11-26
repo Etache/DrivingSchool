@@ -142,6 +142,7 @@
     <string name="yyyy_mm_dd_t_hh_mm_ss_ssssssx">yyyy-MM-dd\'T\'HH:mm:ss.SSSSSSX</string>
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
     <string name="cursant">Курсант</string>
+    <string name="new_notification">Новое</string>
     <string name="save_lower">Сохранить</string>
     <string name="number_of_lessons">Количество занятий</string>
     <string name="main_page">Главная страница</string>
@@ -160,6 +161,11 @@
     <string name="hh_mm">HH:mm</string>
     <string name="hh_mm_ss">HH:mm:ss</string>
     <string name="successfully_enrolled">Запись забронирована</string>
+    <string name="lesson_cancelled">Занятие отменено</string>
+    <string name="lesson_planed">Занятие запланировано</string>
+    <string name="notification_error">Не удалось получить данные</string>
+    <string name="student_name">Иван</string>
+    <string name="last_name">Иванович</string>
 
 
     <string-array name="mcv_monthLabels">
@@ -186,4 +192,14 @@
         <item>С</item>
         <item>В</item>
     </string-array>
+
+    <string name="experience_year">Стаж: %1$d год</string>
+    <string name="experience_years_2..4">Стаж: %1$d года</string>
+    <string name="experience_years_5..9">Стаж: %1$d лет</string>
+
+    <string name="year">"%1$d год"</string>
+    <string name="year_2..4">"%1$d года"</string>
+    <string name="year_5..9">"%1$d лет"</string>
+    <string name="notifications">Уведомления</string>
+
 </resources>

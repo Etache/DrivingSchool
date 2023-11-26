@@ -10,7 +10,7 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.models.TimeInWorkWindows
 import com.example.drivingschool.databinding.ItemTimeBinding
 
-class TimeAdapter(val onClick : (TimeInWorkWindows) -> Unit) : Adapter<TimeAdapter.TimeViewHolder>() {
+class TimeAdapter(val onClick : (TimeInWorkWindows?) -> Unit) : Adapter<TimeAdapter.TimeViewHolder>() {
 
     var list = arrayListOf<TimeInWorkWindows>()
 
@@ -31,26 +31,33 @@ class TimeAdapter(val onClick : (TimeInWorkWindows) -> Unit) : Adapter<TimeAdapt
 
     inner class TimeViewHolder(val binding: ItemTimeBinding) : ViewHolder(binding.root) {
         fun onBind(time: TimeInWorkWindows) {
+            var isPressed = false
             binding.tvText.text = time.time
 
             if (time.isFree == true) {
-                binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector_normal)
-                binding.tvText.setTextColor(Color.parseColor("#8E8E8E"))
+                if(isPressed){
+                    binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector)
+                    binding.tvText.setTextColor(Color.parseColor("#5883CB"))
+                } else {
+                    binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector_normal)
+                    binding.tvText.setTextColor(Color.parseColor("#8E8E8E"))
+                }
             } else {
                 binding.tvText.isClickable = false
                 binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector_inactive)
                 binding.tvText.setTextColor(Color.parseColor("#D3D3D3"))
             }
 
-            var isPressed = false
+
             binding.tvText.setOnClickListener {
-                onClick(time)
                 if(time.isFree == true){
                     isPressed = !isPressed
                     if (isPressed) {
+                        onClick(time)
                         binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector)
                         binding.tvText.setTextColor(Color.parseColor("#5883CB"))
                     } else {
+                        onClick(null)
                         binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector_normal)
                         binding.tvText.setTextColor(Color.parseColor("#8E8E8E"))
                     }

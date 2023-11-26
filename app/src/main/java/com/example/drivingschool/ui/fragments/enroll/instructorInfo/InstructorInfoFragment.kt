@@ -66,7 +66,6 @@ class InstructorInfoFragment : Fragment() {
     }
 
 
-    @SuppressLint("SetTextI18n")
     private fun getInstructorProfile() {
         viewModel.getInstructorById(id = id!!)
         lifecycleScope.launch {
@@ -86,16 +85,41 @@ class InstructorInfoFragment : Fragment() {
                         val experience = state.data?.experience
                         if (experience != null) {
                             when (experience) {
+                                1 -> {
+                                binding.tvExperience.text = context?.getString(R.string.experience_year, experience)
+                                }
                                 in 1..4 -> {
-                                    binding.tvExpienceNum.text = "$experience года"
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
                                 }
-
+                                in 22..24 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 32..34 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 42..44 -> {
+                                binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 52..54 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 62..64 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 72..74 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 82..84 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
+                                in 92..94 -> {
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                }
                                 in 5..9 -> {
-                                    binding.tvExpienceNum.text = "$experience лет"
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_5__9, experience)
                                 }
-
                                 else -> {
-                                    binding.tvExpienceNum.text = "$experience лет"
+                                    binding.tvExperience.text = context?.getString(R.string.experience_years_5__9, experience)
                                 }
                             }
                         }
@@ -113,7 +137,7 @@ class InstructorInfoFragment : Fragment() {
                         }
 
 
-                        val httpsImageUrl = state.data?.profilePhoto?.small?.replace("http://", "https://")
+                        val httpsImageUrl = state.data?.profilePhoto?.big?.replace("http://", "https://")
                         Picasso.get()
                             .load(httpsImageUrl)
                             .placeholder(R.drawable.ic_default_photo)

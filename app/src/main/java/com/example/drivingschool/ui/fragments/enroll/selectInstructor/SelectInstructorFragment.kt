@@ -81,7 +81,7 @@ class SelectInstructorFragment :
         }
     }
 
-    fun onClick(workWindows: ArrayList<Date>, name: String, id: String) {
+    private fun onClick(workWindows: ArrayList<Date>, name: String, id: String) {
         val bundle = Bundle()
         bundle.putString(Constants.FULL_NAME, name)
         bundle.putString(Constants.INSTRUCTOR_ID_ENROLL, id)

@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.system.Os.bind
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -24,7 +23,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
-import com.example.drivingschool.databinding.FragmentInstructorProfileBinding
 import com.example.drivingschool.databinding.FragmentStudentProfileBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
@@ -49,7 +47,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class StudentProfileFragment :
     BaseFragment<FragmentStudentProfileBinding, ProfileViewModel>(R.layout.fragment_student_profile) {
-    //override fun getViewBinding() = FragmentStudentProfileBinding.inflate(layoutInflater)
     override val binding by viewBinding(FragmentStudentProfileBinding::bind)
     override val viewModel: ProfileViewModel by viewModels()
 
@@ -92,7 +89,7 @@ class StudentProfileFragment :
 
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
-                            Picasso.get().load(state.data?.profilePhoto?.small).memoryPolicy(
+                            Picasso.get().load(state.data?.profilePhoto?.big).memoryPolicy(
                                 MemoryPolicy.NO_CACHE
                             ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
                         }

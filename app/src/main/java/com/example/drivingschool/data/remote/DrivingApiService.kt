@@ -3,19 +3,22 @@ package com.example.drivingschool.data.remote
 import com.example.drivingschool.data.models.CancelRequest
 import com.example.drivingschool.data.models.CancelResponse
 import com.example.drivingschool.data.models.EnrollLessonRequest
+import com.example.drivingschool.data.models.InstructorResponse
+import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
-import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.InstructorWorkWindowRequest
 import com.example.drivingschool.data.models.InstructorWorkWindowResponse
-import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.StudentProfileResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
+import com.example.drivingschool.data.models.notification.NotificationCheckResponse
+import com.example.drivingschool.data.models.notification.NotificationModel
+import com.example.drivingschool.data.models.notification.NotificationReadResponse
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
@@ -99,4 +102,13 @@ interface DrivingApiService {
     @POST("lessons/create/")
     suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonRequest): Response<EnrollLessonResponse>
 
+
+    @GET("notifications/")
+    suspend fun getNotifications() : Response<NotificationModel>
+
+    @GET("notifications/check/")
+    suspend fun checkNotifications() : Response<NotificationCheckResponse>
+
+    @PATCH("notifications/read/")
+    suspend fun readNotifications(): Response<NotificationReadResponse>
 }

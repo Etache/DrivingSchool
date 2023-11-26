@@ -34,8 +34,8 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/ic_default_photo"
-                    android:contentDescription="@string/content_des_profile_photo"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/profile_photo" />
 
             </androidx.cardview.widget.CardView>
 
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/change_profile_photo"
-                android:textColor="#655DA2"
+                android:textColor="@color/violet"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

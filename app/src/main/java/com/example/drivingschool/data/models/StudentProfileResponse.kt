@@ -17,8 +17,8 @@ data class StudentProfileResponse(
 )
 
 data class ProfilePhoto(
-    @SerializedName("small") var small : String?=null,
+    //@SerializedName("small") var small : String?=null,
     @SerializedName("medium") var medium : String?=null,
     @SerializedName("big") var big : String?=null,
-    @SerializedName("large") var large : String?=null
+   // @SerializedName("large") var large : String?=null
 )

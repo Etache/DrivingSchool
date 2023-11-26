@@ -13,6 +13,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
 import com.example.drivingschool.base.BaseFragment
+import com.example.drivingschool.databinding.ActivityMainBinding
 import com.example.drivingschool.databinding.FragmentInstructorMainExploreBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.viewVisibility
@@ -21,6 +22,7 @@ import com.example.drivingschool.ui.fragments.instructorMain.adapter.InstructorL
 import com.example.drivingschool.ui.fragments.main.lesson.LessonType
 import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewModel
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
+import com.example.drivingschool.ui.fragments.notification.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -40,7 +42,7 @@ class InstructorMainExploreFragment :
         networkConnection = NetworkConnection(requireContext())
         binding.rvLessonsList.layoutManager = LinearLayoutManager(requireContext())
 
-        networkConnection.observe(viewLifecycleOwner){
+        networkConnection.observe(viewLifecycleOwner) {
             if (it) {
                 if (lessonType == LessonType.Current) viewModel.getCurrent()
                 else if (lessonType == LessonType.Previous) viewModel.getPrevious()
@@ -65,8 +67,7 @@ class InstructorMainExploreFragment :
             val bundle = Bundle()
             bundle.putString("key", id)
             findNavController().navigate(R.id.instructorCurrentLessonFragment, bundle)
-        }
-        else if (lessonType == LessonType.Previous) {
+        } else if (lessonType == LessonType.Previous) {
             val bundle = Bundle()
             bundle.putString(Constants.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY, id)
             findNavController().navigate(R.id.instructorPreviousLessonFragment, bundle)
@@ -75,7 +76,7 @@ class InstructorMainExploreFragment :
 
     private fun dataRefresh() {
         binding.layoutSwipeRefresh.setOnRefreshListener {
-            networkConnection.observe(viewLifecycleOwner){
+            networkConnection.observe(viewLifecycleOwner) {
                 if (it) {
                     if (lessonType == LessonType.Current) viewModel.getCurrent()
                     else if (lessonType == LessonType.Previous) viewModel.getPrevious()
@@ -84,6 +85,7 @@ class InstructorMainExploreFragment :
             binding.layoutSwipeRefresh.isRefreshing = false
         }
     }
+
 
     private fun initCurrentLessonSections() {
         lifecycleScope.launch {
@@ -96,7 +98,10 @@ class InstructorMainExploreFragment :
                                 rvLessonsList.viewVisibility(false)
                                 noLessons.viewVisibility(false)
                             }
-                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Loading работает")
+                            Log.d(
+                                "ahahaha",
+                                "InstructorMainExploreFragment initCurrentLessonSection Loading работает"
+                            )
                         }
 
                         is UiState.Empty -> {
@@ -105,7 +110,10 @@ class InstructorMainExploreFragment :
                                 rvLessonsList.viewVisibility(false)
                                 noLessons.viewVisibility(true)
                             }
-                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Empty работает")
+                            Log.d(
+                                "ahahaha",
+                                "InstructorMainExploreFragment initCurrentLessonSection Empty работает"
+                            )
                         }
 
                         is UiState.Error -> {
@@ -114,7 +122,10 @@ class InstructorMainExploreFragment :
                                 "lessons error: ${it.msg}",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            Log.d("ahahaha", "InstructorMainExploreFragment initCurrentLessonSection Error работает")
+                            Log.d(
+                                "ahahaha",
+                                "InstructorMainExploreFragment initCurrentLessonSection Error работает"
+                            )
                         }
 
                         is UiState.Success -> {

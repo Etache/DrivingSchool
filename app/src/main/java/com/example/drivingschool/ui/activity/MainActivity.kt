@@ -2,9 +2,12 @@ package com.example.drivingschool.ui.activity
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -18,9 +21,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.ActivityMainBinding
+import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.login.CheckRoleCallBack
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
+import com.example.drivingschool.ui.fragments.notification.NotificationViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,15 +38,11 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     private lateinit var navController: NavController
     private lateinit var navigation: NavGraph
     private lateinit var networkConnection: NetworkConnection
-
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private val viewModel: NotificationViewModel by viewModels()
 
     @Inject
     lateinit var preferences: PreferencesHelper
-
-//    private val preferences: PreferencesHelper by lazy {
-//        PreferencesHelper(this)
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +63,37 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
         setAppBar()
         checkRole()
+        checkNotifications()
+
+    }
+
+    private fun checkNotifications() {
+        if (preferences.role == getString(R.string.instructor)) {
+            viewModel.checkNotifications()
+            viewModel.notificationCheck.observe(this) { state ->
+                when (state) {
+                    is UiState.Success -> {
+                        if (state.data?.is_notification == true) {
+                            binding.notificationIcon.setImageResource(R.drawable.ic_new_notification)
+                        } else {
+                            binding.notificationIcon.setImageResource(R.drawable.ic_notification)
+                        }
+                    }
+
+                    is UiState.Error -> {
+                        Toast.makeText(this, state.msg, Toast.LENGTH_SHORT).show()
+                    }
+
+                    is UiState.Empty -> {
+                        Toast.makeText(this,getString(R.string.empty_state), Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> {
+                        //todo
+                    }
+                }
+            }
+        }
     }
 
     override fun checkRole() {
@@ -92,16 +124,10 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
             R.id.checkTimetableFragment,
             R.id.currentLessonDetailsFragment,
             R.id.previousLessonDetailsFragment,
-            R.id.checkTimetableFragment,
-            R.id.calendarInstructorFragment,
             R.id.instructorCurrentLessonFragment,
             R.id.instructorPreviousLessonFragment,
             R.id.selectDateTimeFragment,
-            R.id.currentLessonDetailsFragment,
-            R.id.instructorCurrentLessonFragment,
-            R.id.instructorPreviousLessonFragment,
-            R.id.previousLessonDetailsFragment
-
+            R.id.notificationFragment
         )
 
         appBarConfiguration = AppBarConfiguration(
@@ -132,6 +158,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 R.id.calendarInstructorFragment -> getString(R.string.timetable)
                 R.id.studentProfileFragment -> getString(R.string.profile_title)
                 R.id.instructorProfileFragment -> getString(R.string.profile_title)
+                R.id.notificationFragment -> getString(R.string.notifications)
 
                 else -> getString(R.string.no_title)
             }
@@ -144,6 +171,18 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 supportActionBar?.show()
                 navView.isVisible = true
             }
+            if (preferences.role == getString(R.string.instructor) &&
+                destination.id == R.id.instructorMainFragment
+            ) {
+                binding.notificationIcon.visibility = View.VISIBLE
+                binding.notificationIcon.setOnClickListener {
+                    navController.navigate(R.id.notificationFragment)
+                }
+            } else {
+                binding.notificationIcon.visibility = View.GONE
+
+            }
+
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
         }
@@ -153,7 +192,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
     }
 
-    //
+
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(
             navController,

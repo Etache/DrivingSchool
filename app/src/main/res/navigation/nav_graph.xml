@@ -82,5 +82,9 @@
         android:id="@+id/enrollInstructorFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.instructorFragment.enroll.EnrollInstructorFragment"
         tools:layout="@layout/fragment_enroll_instructor" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.example.drivingschool.ui.fragments.notification.NotificationFragment"
+        tools:layout="@layout/fragment_notification" />
 
 </navigation>
