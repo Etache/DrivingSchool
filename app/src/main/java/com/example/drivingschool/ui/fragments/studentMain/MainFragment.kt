@@ -47,7 +47,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         "Текущие", "Предыдущие"
     )
 
-
     @SuppressLint("InflateParams")
     private fun setUpTabLayoutWitViewPager() {
         TabLayoutMediator(binding.tabLayoutMain, binding.viewPagerMain) { tab, position ->
