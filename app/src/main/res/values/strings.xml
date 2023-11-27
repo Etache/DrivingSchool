@@ -230,5 +230,7 @@
     <string name="notifications">Уведомления</string>
     <string name="for_instructor">инструктору</string>
     <string name="for_student">студенту</string>
+    <string name="current_week">Текущая неделя</string>
+    <string name="next_week">Следующая неделя</string>
 
 </resources>

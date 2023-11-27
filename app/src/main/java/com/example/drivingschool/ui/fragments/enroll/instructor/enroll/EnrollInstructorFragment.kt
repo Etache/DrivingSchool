@@ -1,7 +1,8 @@
 package com.example.drivingschool.ui.fragments.enroll.instructor.enroll
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -16,8 +17,10 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentEnrollInstructorBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
+import com.example.drivingschool.ui.activity.MainActivity
 import com.example.drivingschool.ui.fragments.Constants.EFCIFCURRENTWEEKEMPTY
-import com.example.drivingschool.ui.fragments.enroll.instructor.enroll.adapter.EnrollInstructorAdapter
+import com.example.drivingschool.ui.fragments.enroll.instructor.enroll.adapter.CurrentEnrollInstructorAdapter
+import com.example.drivingschool.ui.fragments.enroll.instructor.enroll.adapter.NextEnrollInstructorAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -29,16 +32,10 @@ class EnrollInstructorFragment :
         FragmentEnrollInstructorBinding.inflate(layoutInflater)
 
     override val viewModel: EnrollInstructorViewModel by viewModels()
-    private lateinit var adapter: EnrollInstructorAdapter
+    private lateinit var currentAdapter: CurrentEnrollInstructorAdapter
+    private lateinit var nextAdapter: NextEnrollInstructorAdapter
     private var currentSchedule: List<String>? = null
     private var nextSchedule: List<String>? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_enroll_instructor, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,11 +59,15 @@ class EnrollInstructorFragment :
                     bundle.putBoolean(EFCIFCURRENTWEEKEMPTY, isCurrentWeekEmpty)
                     findNavController().navigate(R.id.calendarInstructorFragment, bundle)
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "сегодня не пятница и не суббота или же у вас есть расписание на следующую неделю",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle("Нельзя составить расписание")
+                    builder.setMessage(
+                        "Новое расписание можно составить при условии, что у вас еще нет расписания " +
+                                "на следующую неделю и сегодня день недели с пятницы по воскресенье"
+                    )
+                    builder.setPositiveButton("Ok") { dialog, which ->
+                        dialog.cancel()
+                    }.create().show()
                 }
             }
         }
@@ -84,7 +85,7 @@ class EnrollInstructorFragment :
                 viewModel.currentTimetable.collect {
                     when (it) {
                         is UiState.Loading -> {
-                            showToast("loading") //need to show progress bar
+                            closeViews()
                         }
 
                         is UiState.Success -> {
@@ -100,10 +101,12 @@ class EnrollInstructorFragment :
                                 }
                             }
                             nextSchedule = nextWeekDates
-
-                            adapter = EnrollInstructorAdapter(it.data?.currentWeek)
-                            binding.recyclerDateAndTime.adapter = adapter
                             currentSchedule = currentWeekDates
+                            currentAdapter = CurrentEnrollInstructorAdapter(it.data?.currentWeek)
+                            binding.recyclerDateAndTimeCurrentWeek.adapter = currentAdapter
+                            nextAdapter = NextEnrollInstructorAdapter(it.data?.nextWeek)
+                            binding.recyclerDateAndTimeNextWeek.adapter = nextAdapter
+                            openViews()
                         }
 
                         is UiState.Error -> {
@@ -113,13 +116,31 @@ class EnrollInstructorFragment :
                         is UiState.Empty -> {
                             showToast(getString(R.string.empty_state))
                         }
-
-                        else -> {
-                            //todo
-                        }
                     }
                 }
             }
+        }
+    }
+
+    private fun closeViews() {
+        with(binding) {
+            progressBar.visibility = View.VISIBLE
+            tvDateAndTimeEnrollCurrentWeek.visibility = View.GONE
+            recyclerDateAndTimeCurrentWeek.visibility = View.GONE
+            tvDateAndTimeEnrollNextWeek.visibility = View.GONE
+            recyclerDateAndTimeNextWeek.visibility = View.GONE
+            btnMakeASchedule.visibility = View.GONE
+        }
+    }
+
+    private fun openViews() {
+        with(binding) {
+            progressBar.visibility = View.GONE
+            tvDateAndTimeEnrollCurrentWeek.visibility = View.VISIBLE
+            recyclerDateAndTimeCurrentWeek.visibility = View.VISIBLE
+            tvDateAndTimeEnrollNextWeek.visibility = View.VISIBLE
+            recyclerDateAndTimeNextWeek.visibility = View.VISIBLE
+            btnMakeASchedule.visibility = View.VISIBLE
         }
     }
 }

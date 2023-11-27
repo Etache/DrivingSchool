@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -54,6 +55,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
         binding.btnLogin.setOnClickListener {
             context?.let { it1 -> hideKeyboard(context = it1, view) }
             setLogin()
+        }
+
+        binding.etPassword.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                binding.btnLogin.performClick()
+                return@setOnKeyListener true
+            }
+            false
         }
 
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {

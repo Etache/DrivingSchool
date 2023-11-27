@@ -27,13 +27,6 @@ class CheckTimetableFragment :
     lateinit var adapter: CheckTimetableAdapter
     private lateinit var instructorWorkWindowCreate: InstructorWorkWindowRequest
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_check_timetable, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val arguments = arguments
@@ -45,7 +38,7 @@ class CheckTimetableFragment :
             instructorWorkWindowCreate.date as ArrayList<String>,
             instructorWorkWindowCreate.time as ArrayList<String>
         )
-        binding.recyclerDateAndTime.adapter = adapter
+        binding.recyclerDateAndTimeTimetable.adapter = adapter
     }
 
     override fun setupListeners() {
