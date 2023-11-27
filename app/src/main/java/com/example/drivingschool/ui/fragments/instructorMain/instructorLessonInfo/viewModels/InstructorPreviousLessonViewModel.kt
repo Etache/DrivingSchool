@@ -7,7 +7,7 @@ import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
-import com.example.drivingschool.data.repositories.InstructorDetailsRepository
+import com.example.drivingschool.data.repositories.DrivingRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InstructorPreviousLessonViewModel @Inject constructor(
-    private val repository: InstructorDetailsRepository
+    private val repository: DrivingRepository
 )  : BaseViewModel() {
 
     private val _detailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
@@ -27,13 +27,13 @@ class InstructorPreviousLessonViewModel @Inject constructor(
     val commentLiveData = _commentLiveData as LiveData<FeedbackForStudentResponse>
 
     fun getDetails(id: String) = viewModelScope.launch {
-        repository.getPreviousDetails(id).collect {
+        repository.getPreviousDetailsInstructor(id).collect {
             _detailsState.value = it
         }
     }
 
     fun saveComment(comment: FeedbackForStudentRequest) = viewModelScope.launch{
-        repository.saveComment(comment).collect{
+        repository.saveInstructorComment(comment).collect{
             _commentLiveData.value = it
         }
     }

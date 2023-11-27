@@ -8,14 +8,14 @@ import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.EnrollLessonRequest
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
-import com.example.drivingschool.data.repositories.EnrollRepository
+import com.example.drivingschool.data.repositories.DrivingRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EnrollViewModel @Inject constructor(private val enrollRepository: EnrollRepository) :
+class EnrollViewModel @Inject constructor(private val enrollRepository: DrivingRepository) :
     BaseViewModel() {
 
     private val _instructors = MutableLiveData<UiState<List<InstructorResponse>>>()
@@ -48,7 +48,4 @@ class EnrollViewModel @Inject constructor(private val enrollRepository: EnrollRe
         }
     }
 
-//    suspend fun enrollForLesson(instructor: String, date : String, time : String) : LiveData<String>{
-//        return enrollRepository.enrollForLesson(instructor, date, time)
-//    }
 }

@@ -8,8 +8,7 @@ import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.StudentProfileResponse
-import com.example.drivingschool.data.repositories.PasswordRepository
-import com.example.drivingschool.data.repositories.ProfileRepository
+import com.example.drivingschool.data.repositories.DrivingRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,8 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val profileRepository: ProfileRepository,
-    private val passwordRepository: PasswordRepository
+    private val profileRepository: DrivingRepository
 ) : BaseViewModel() {
 
     private var _profile = MutableLiveData<UiState<StudentProfileResponse>>()
@@ -47,14 +45,8 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-//    fun changePassword(passwordRequest: PasswordRequest) = viewModelScope.launch{
-//        passwordRepository.changePassword(passwordRequest).collect{
-//            Log.d("madimadi", "changePassword: password changed $passwordRequest")
-//        }
-//    }
-
     suspend fun changePassword(passwordRequest: PasswordRequest) {
-        passwordRepository.changePassword(passwordRequest)
+        profileRepository.changePassword(passwordRequest)
     }
 
     fun deleteProfilePhoto() {

@@ -5,18 +5,19 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorCurrentLessonBinding
 import com.example.drivingschool.tools.showImage
 import com.example.drivingschool.tools.showOnlyPositiveAlert
 import com.example.drivingschool.tools.showToast
+import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.instructorMain.instructorLessonInfo.viewModels.ChangeLessonStatusViewModel
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.studentMain.mainExplore.MainExploreViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -61,8 +62,14 @@ class InstructorCurrentLessonFragment :
         }
 
         binding.btnStartLesson.setOnClickListener {
-            changeLessonStatusViewModel.startLesson(lessonId)
-            startLesson()
+            networkConnection.observe(viewLifecycleOwner) {
+                if (isItTimeToStart(lessonDateTime)) {                    //check time to start
+                    changeLessonStatusViewModel.startLesson(lessonId)
+                    startLesson()
+                } else {
+                    showOnlyPositiveAlert(getString(R.string.lesson_start_is_not_possible_due_to_time_constraints))
+                }
+            }
         }
         binding.btnEndLesson.setOnClickListener {
             changeLessonStatusViewModel.finishLesson(lessonId)
@@ -107,7 +114,7 @@ class InstructorCurrentLessonFragment :
 
                     ivProfileImage.showImage(it?.student?.profilePhoto?.big)
 
-                    lessonDateTime = "${it?.date} ${timeWithoutSeconds(it?.time)}"
+                    lessonDateTime = "${it?.date}, ${it?.time}"
                     lessonId = it?.id.toString()
 
                     if (it?.status == getString(R.string.active)) {
@@ -125,24 +132,20 @@ class InstructorCurrentLessonFragment :
     }
 
     private fun startLesson() {
-        //проверка на начало нет
-        changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner, Observer {
+        changeLessonStatusViewModel.startLessonResult.observe(viewLifecycleOwner) {
             when (it?.status) {
                 getString(R.string.success) -> {
                     showOnlyPositiveAlert(getString(R.string.your_lesson_started))
+                    binding.btnStartLesson.viewVisibility(false)
+                    binding.btnEndLesson.viewVisibility(true)
+                    binding.btnNotVisit.viewVisibility(true)
+                }
 
-                    binding.btnStartLesson.visibility = View.GONE
-                    binding.btnEndLesson.visibility = View.VISIBLE
-                    binding.btnNotVisit.visibility = View.VISIBLE
-                }
-                getString(R.string.error) -> {
-                    showOnlyPositiveAlert(getString(R.string.lesson_start_is_not_possible_due_to_time_constraints))
-                }
                 else -> {
                     Log.e("ahahaha", "startLesson: ${it?.status}")
                 }
             }
-        })
+        }
     }
 
     private fun finishLesson() {
@@ -167,6 +170,17 @@ class InstructorCurrentLessonFragment :
                 Toast.makeText(requireContext(), getString(R.string.error), Toast.LENGTH_SHORT)
                     .show()
             }
+        }
+    }
+
+    private fun isItTimeToStart(dt: String): Boolean {
+        val dateFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_hh_mm_ss))
+        val targetDateTime = dateFormat.parse(dt)
+        val currentTime = Date()
+        return if (targetDateTime != null) {
+            currentTime.time > targetDateTime.time
+        } else {
+            false
         }
     }
 }

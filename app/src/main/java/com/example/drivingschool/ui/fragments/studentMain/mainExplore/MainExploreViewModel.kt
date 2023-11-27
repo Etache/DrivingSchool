@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
-import com.example.drivingschool.data.repositories.MainRepository
+import com.example.drivingschool.data.repositories.DrivingRepository
 import com.example.drivingschool.tools.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainExploreViewModel @Inject constructor(
-    private val repository: MainRepository,
+    private val repository: DrivingRepository,
 ) : BaseViewModel() {
 
     private val _currentState = MutableStateFlow<UiState<Lessons>>(UiState.Loading())
@@ -26,7 +26,6 @@ class MainExploreViewModel @Inject constructor(
 
     private val _currentDetailsState = MutableStateFlow<UiState<LessonsItem>>(UiState.Loading())
     val currentDetailsState = _currentDetailsState.asStateFlow()
-
 
     fun getCurrent() = viewModelScope.launch {
         repository.getCurrentLessons().collect {

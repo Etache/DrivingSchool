@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.start_finish_lesson.ChangeLessonStatusResponse
-import com.example.drivingschool.data.repositories.MainRepository
+import com.example.drivingschool.data.repositories.DrivingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChangeLessonStatusViewModel @Inject constructor(private val repository: MainRepository) :
+class ChangeLessonStatusViewModel @Inject constructor(private val repository: DrivingRepository) :
     BaseViewModel() {
 
     private var _startLessonResult = MutableLiveData<ChangeLessonStatusResponse?>()
