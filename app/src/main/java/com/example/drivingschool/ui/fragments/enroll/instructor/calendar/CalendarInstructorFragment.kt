@@ -52,13 +52,6 @@ class CalendarInstructorFragment :
         Times("18:00", false)
     )
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_calendar_instructor, container, false)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putStringArrayList(LISTOFDATES, listOfDates)

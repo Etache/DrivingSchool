@@ -17,10 +17,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class EnrollInstructorAdapter(
+class CurrentEnrollInstructorAdapter(
     private val currentWeek: List<InstructorWorkWindowResponse.CurrentWeek>?
 ) :
-    RecyclerView.Adapter<EnrollInstructorAdapter.EnrollInstructorViewHolder>() {
+    RecyclerView.Adapter<CurrentEnrollInstructorAdapter.EnrollInstructorViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EnrollInstructorViewHolder {
@@ -32,11 +32,7 @@ class EnrollInstructorAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if(currentWeek != null) {
-            currentWeek.size!!
-        } else {
-            0
-        }
+        return currentWeek?.size!!
     }
 
     override fun onBindViewHolder(holder: EnrollInstructorViewHolder, position: Int) {
