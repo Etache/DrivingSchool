@@ -20,22 +20,10 @@ class NotificationViewModel @Inject constructor(
     private var _notifications = MutableLiveData<UiState<NotificationModel>>()
     val notifications: LiveData<UiState<NotificationModel>> = _notifications
 
-    private var _notificationCheck = MutableLiveData<UiState<NotificationCheckResponse>>()
-    val notificationCheck: LiveData<UiState<NotificationCheckResponse>> = _notificationCheck
-
     fun getNotifications() {
         viewModelScope.launch {
             repository.getNotifications().collect {
                 _notifications.postValue(it)
-                Log.d("ololo", "getNotifications: $_notifications")
-            }
-        }
-    }
-
-    fun checkNotifications() {
-        viewModelScope.launch {
-            repository.checkNotifications().collect {
-                _notificationCheck.postValue(it)
                 Log.d("ololo", "getNotifications: $_notifications")
             }
         }

@@ -1,14 +1,11 @@
 package com.example.drivingschool.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -22,11 +19,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.ActivityMainBinding
-import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.login.CheckRoleCallBack
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
-import com.example.drivingschool.ui.fragments.notification.NotificationViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -40,7 +35,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
     private lateinit var navigation: NavGraph
     private lateinit var networkConnection: NetworkConnection
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val viewModel: NotificationViewModel by viewModels()
 
     @Inject
     lateinit var preferences: PreferencesHelper
@@ -64,15 +58,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
         setAppBar()
         checkRole()
-        checkNotifications()
-        observeNotifications()
-    }
-
-    private fun checkNotifications() {
-        if (preferences.role == getString(R.string.instructor)) {
-            viewModel.checkNotifications()
-            observeNotifications()
-        }
     }
 
     override fun checkRole() {
@@ -150,7 +135,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 supportActionBar?.show()
                 navView.isVisible = true
             }
-
             if (preferences.role == getString(R.string.instructor) &&
                 destination.id == R.id.instructorMainFragment
             ) {
@@ -160,12 +144,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 }
             } else {
                 binding.notificationIcon.visibility = View.GONE
-            }
 
-            if(destination.id == R.id.mainFragment) {
-                viewModel.checkNotifications()
-                observeNotifications()
-                Log.e("madimadi", "setAppBar: mainfragment", )
             }
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -178,9 +157,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
 
     override fun onSupportNavigateUp(): Boolean {
-        if (preferences.role == getString(R.string.instructor)) {
-            checkNotifications()
-        }
         return NavigationUI.navigateUp(
             navController,
             appBarConfiguration
@@ -229,42 +205,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         rotateAnimation.repeatCount = Animation.INFINITE
         rotateAnimation.duration = 1700
         binding.contentNoInternet.progressBar.startAnimation(rotateAnimation)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (preferences.role == getString(R.string.instructor)) {
-            checkNotifications()
-            observeNotifications()
-        }
-    }
-
-    private fun observeNotifications(){
-        viewModel.notificationCheck.observe(this) { state ->
-            when (state) {
-                is UiState.Success -> {
-                    if (state.data?.isNotification == true) {
-                        binding.notificationIcon.setImageResource(R.drawable.ic_new_notification)
-                    } else {
-                        binding.notificationIcon.setImageResource(R.drawable.ic_notification)
-                    }
-                    Log.d("madimadi", "observeNotifications: ${state.data}")
-                }
-
-                is UiState.Error -> {
-                    Toast.makeText(this, state.msg, Toast.LENGTH_SHORT).show()
-                }
-
-                is UiState.Empty -> {
-                    Toast.makeText(this, getString(R.string.empty_state), Toast.LENGTH_SHORT)
-                        .show()
-                }
-
-                else -> {
-                    //todo
-                }
-            }
-        }
     }
 
 }
