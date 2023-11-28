@@ -89,7 +89,8 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
                 if(instructor.workwindows != null){
                     onClick(instructor.workwindows!!, "${instructor.name} ${instructor.surname} ${instructor.lastname}", instructor.id.toString())
                 } else {
-                    Toast.makeText(context, "Инструктор еще не создал расписание", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,
+                        context.getString(R.string.instructor_has_not_created_timetable), Toast.LENGTH_SHORT).show()
                 }
             }
         }

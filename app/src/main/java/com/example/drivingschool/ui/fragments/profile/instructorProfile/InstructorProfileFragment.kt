@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.ContentResolver
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.provider.OpenableColumns
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -155,6 +157,11 @@ class InstructorProfileFragment :
                 }
             }
             val dialog = builder.create()
+            dialog.setOnShowListener {
+                val listView = dialog.listView
+                val textView = listView.getChildAt(1) as TextView
+                textView.setTextColor(Color.RED)
+            }
             dialog.show()
         }
     }

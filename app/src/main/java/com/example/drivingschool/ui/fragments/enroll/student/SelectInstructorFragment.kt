@@ -84,7 +84,6 @@ class SelectInstructorFragment :
                         showToast(getString(R.string.empty_state))
                     }
                 }
-
             }
         }
     }
@@ -96,4 +95,5 @@ class SelectInstructorFragment :
         bundle.putSerializable(Constants.WORK_WINDOWS, workWindows)
         findNavController().navigate(R.id.selectDateTimeFragment, bundle)
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.drivingschool.ui.fragments.studentMain.mainExplore
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.mainresponse.Lessons

@@ -32,7 +32,7 @@ class CurrentEnrollInstructorAdapter(
     }
 
     override fun getItemCount(): Int {
-        return currentWeek?.size!!
+        return currentWeek?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: EnrollInstructorViewHolder, position: Int) {

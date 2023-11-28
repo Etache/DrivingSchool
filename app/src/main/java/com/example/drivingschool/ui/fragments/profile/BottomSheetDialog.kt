@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.databinding.ChangePasswordBottomSheetBinding
@@ -22,7 +23,6 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: ChangePasswordBottomSheetBinding
 
-    //private val viewModel: ProfileViewModel by viewModels()
     private lateinit var viewModel: ProfileViewModel
     private lateinit var networkConnection: NetworkConnection
 
@@ -52,7 +52,7 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog =
-            com.google.android.material.bottomsheet.BottomSheetDialog(requireContext(), theme)
+            BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
             val bottomSheetDialog = it as BottomSheetDialog
             val parentLayout =
@@ -75,36 +75,37 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
 
     private fun changePassword() {
         binding.btnSavePassword.setOnClickListener {
-            if (binding.edtOldPassword.text.isNotEmpty() && binding.edtNewPassword.text.isNotEmpty() && binding.edtConfirmPassword.text.isNotEmpty()) {
+            if (binding.edtOldPassword.text.isNotEmpty() && binding.etNewPassword.text.isNotEmpty() && binding.etConfirmPassword.text.isNotEmpty()) {
                 if (binding.edtOldPassword.text.toString() == preferences.password) {
-                    if (binding.edtNewPassword.text.toString().length >= 6) {
-                        if (binding.edtNewPassword.text.toString() == binding.edtConfirmPassword.text.toString()) {
+                    if (binding.etNewPassword.text.toString().length >= 6) {
+                        if (binding.etNewPassword.text.toString() == binding.etConfirmPassword.text.toString()) {
                             networkConnection.observe(viewLifecycleOwner) {
                                 if (it) {
                                     viewLifecycleOwner.lifecycleScope.launch {
                                         viewModel.changePassword(
                                             PasswordRequest(
                                                 binding.edtOldPassword.text.toString(),
-                                                binding.edtNewPassword.text.toString()
+                                                binding.etNewPassword.text.toString()
                                             )
                                         )
                                     }
                                 }
                             }
-                            preferences.password = binding.edtNewPassword.text.toString()
-                            showAlertDialog("Пароль успешно изменен")
+                            preferences.password = binding.etNewPassword.text.toString()
+                            showAlertDialog(getString(R.string.password_successfully_changed))
                             dialog?.dismiss()
                         } else {
-                            binding.tvError.text = "Пароли не совпадают"
+                            binding.tvError.text = getString(R.string.password_are_not_the_same)
                         }
                     } else {
-                        binding.tvError.text = "Пароль должен содержать не менее 6 символов"
+                        binding.tvError.text =
+                            getString(R.string.password_should_include_more_than_6_symbols)
                     }
                 } else {
-                    binding.tvError.text = "Неверный старый пароль";
+                    binding.tvError.text = getString(R.string.old_password_is_not_correct)
                 }
             } else {
-                binding.tvError.text = "Заполните все поля"
+                binding.tvError.text = getString(R.string.please_fill_all_the_fields)
             }
         }
         binding.btnCancel.setOnClickListener {

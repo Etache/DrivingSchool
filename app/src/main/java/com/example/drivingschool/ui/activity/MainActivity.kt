@@ -1,6 +1,7 @@
 package com.example.drivingschool.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
@@ -64,35 +65,13 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         setAppBar()
         checkRole()
         checkNotifications()
+        observeNotifications()
     }
 
     private fun checkNotifications() {
         if (preferences.role == getString(R.string.instructor)) {
             viewModel.checkNotifications()
-            viewModel.notificationCheck.observe(this) { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        if (state.data?.is_notification == true) {
-                            binding.notificationIcon.setImageResource(R.drawable.ic_new_notification)
-                        } else {
-                            binding.notificationIcon.setImageResource(R.drawable.ic_notification)
-                        }
-                    }
-
-                    is UiState.Error -> {
-                        Toast.makeText(this, state.msg, Toast.LENGTH_SHORT).show()
-                    }
-
-                    is UiState.Empty -> {
-                        Toast.makeText(this, getString(R.string.empty_state), Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    else -> {
-                        //todo
-                    }
-                }
-            }
+            observeNotifications()
         }
     }
 
@@ -171,6 +150,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 supportActionBar?.show()
                 navView.isVisible = true
             }
+
             if (preferences.role == getString(R.string.instructor) &&
                 destination.id == R.id.instructorMainFragment
             ) {
@@ -180,7 +160,12 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
                 }
             } else {
                 binding.notificationIcon.visibility = View.GONE
+            }
 
+            if(destination.id == R.id.mainFragment) {
+                viewModel.checkNotifications()
+                observeNotifications()
+                Log.e("madimadi", "setAppBar: mainfragment", )
             }
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -250,6 +235,35 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         super.onResume()
         if (preferences.role == getString(R.string.instructor)) {
             checkNotifications()
+            observeNotifications()
+        }
+    }
+
+    private fun observeNotifications(){
+        viewModel.notificationCheck.observe(this) { state ->
+            when (state) {
+                is UiState.Success -> {
+                    if (state.data?.isNotification == true) {
+                        binding.notificationIcon.setImageResource(R.drawable.ic_new_notification)
+                    } else {
+                        binding.notificationIcon.setImageResource(R.drawable.ic_notification)
+                    }
+                    Log.d("madimadi", "observeNotifications: ${state.data}")
+                }
+
+                is UiState.Error -> {
+                    Toast.makeText(this, state.msg, Toast.LENGTH_SHORT).show()
+                }
+
+                is UiState.Empty -> {
+                    Toast.makeText(this, getString(R.string.empty_state), Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+                else -> {
+                    //todo
+                }
+            }
         }
     }
 

@@ -48,7 +48,7 @@ class NotificationFragment :
                             binding.rvNotification.adapter = adapter
                             Log.e("ololo", "notification: ${state.data?.notifications}")
                         } else {
-                            showToast("null")
+                            showToast("null") //
                         }
 
                         viewModel.readNotifications()
