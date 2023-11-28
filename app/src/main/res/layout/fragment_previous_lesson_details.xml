@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="16dp"
     android:paddingVertical="24dp"
-    tools:context=".ui.fragments.lessonInfo.previousDetails.PreviousLessonDetailsFragment">
+    tools:context=".ui.fragments.studentMain.studentLessonInfo.previousDetails.PreviousLessonDetailsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_swipe_refresh"

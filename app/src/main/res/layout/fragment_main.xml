@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.main.MainFragment">
+    tools:context=".ui.fragments.studentMain.MainFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_main"
@@ -21,6 +21,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager_main"
         android:layout_width="match_parent"
+        android:saveEnabled="false"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tab_layout_main" />

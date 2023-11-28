@@ -1,11 +1,13 @@
 package com.example.drivingschool.data.models
 
 import com.example.drivingschool.data.models.mainresponse.Student
+import com.google.gson.annotations.SerializedName
 
 data class FeedbackInstructor(
-    val created_at: String,
-    val lesson: Int,
-    val mark: String ,
-    val student: Student ,
-    val text: String
+    @SerializedName("created_at")
+    val createdAt: String? = null,
+    val lesson: Int? = null,
+    val mark: String? = null,
+    val student: Student? = null,
+    val text: String? = null
 )

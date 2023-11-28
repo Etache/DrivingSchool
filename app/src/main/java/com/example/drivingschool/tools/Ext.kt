@@ -1,5 +1,7 @@
 package com.example.drivingschool.tools
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -34,13 +36,20 @@ fun TextView.timePressed() {
     }
 }
 
+fun Fragment.showOnlyPositiveAlert(message: String) {
+    AlertDialog.Builder(requireContext())
+        .setMessage(message)
+        .setPositiveButton(
+            getString(R.string.ok),
+            DialogInterface.OnClickListener { dialog, _ ->
+                dialog.cancel()
+            }
+        ).show()
+}
+
 fun ImageView.showImage(img: String?) {
-    val httpsImageUrl = img?.replace(
-        "http://",
-        "https://"
-    )
     Picasso.get()
-        .load(httpsImageUrl)
+        .load(img)
         .placeholder(R.drawable.ic_default_photo)
         .into(this)
 }

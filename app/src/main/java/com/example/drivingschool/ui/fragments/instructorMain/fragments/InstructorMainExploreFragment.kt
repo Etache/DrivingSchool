@@ -13,16 +13,16 @@ import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
 import com.example.drivingschool.ui.fragments.instructorMain.adapter.InstructorLessonAdapter
-import com.example.drivingschool.ui.fragments.main.lesson.LessonType
-import com.example.drivingschool.ui.fragments.main.mainExplore.MainExploreViewModel
+import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonType
+import com.example.drivingschool.ui.fragments.studentMain.mainExplore.MainExploreViewModel
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class InstructorMainExploreFragment :
-    BaseFragment<FragmentInstructorMainExploreBinding, MainExploreViewModel>(R.layout.fragment_instructor_main_explore) {
+    BaseFragment<FragmentInstructorMainExploreBinding, MainExploreViewModel>() {
+    override fun getViewBinding(): FragmentInstructorMainExploreBinding = FragmentInstructorMainExploreBinding.inflate(layoutInflater)
 
-    override val binding by viewBinding(FragmentInstructorMainExploreBinding::bind)
     override val viewModel: MainExploreViewModel by viewModels()
     private lateinit var adapter: InstructorLessonAdapter
     private var lessonType: LessonType? = null
@@ -34,7 +34,7 @@ class InstructorMainExploreFragment :
         networkConnection = NetworkConnection(requireContext())
         binding.rvLessonsList.layoutManager = LinearLayoutManager(requireContext())
 
-        networkConnection.observe(viewLifecycleOwner){
+        networkConnection.observe(viewLifecycleOwner) {
             if (it) {
                 if (lessonType == LessonType.Current) viewModel.getCurrent()
                 else if (lessonType == LessonType.Previous) viewModel.getPrevious()
@@ -59,8 +59,7 @@ class InstructorMainExploreFragment :
             val bundle = Bundle()
             bundle.putString(Constants.INSTRUCTOR_MAIN_TO_CURRENT_KEY, id)
             findNavController().navigate(R.id.instructorCurrentLessonFragment, bundle)
-        }
-        else if (lessonType == LessonType.Previous) {
+        } else if (lessonType == LessonType.Previous) {
             val bundle = Bundle()
             bundle.putString(Constants.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY, id)
             findNavController().navigate(R.id.instructorPreviousLessonFragment, bundle)
@@ -69,7 +68,7 @@ class InstructorMainExploreFragment :
 
     private fun dataRefresh() {
         binding.layoutSwipeRefresh.setOnRefreshListener {
-            networkConnection.observe(viewLifecycleOwner){
+            networkConnection.observe(viewLifecycleOwner) {
                 if (it) {
                     if (lessonType == LessonType.Current) viewModel.getCurrent()
                     else if (lessonType == LessonType.Previous) viewModel.getPrevious()

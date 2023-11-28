@@ -10,5 +10,5 @@ data class FeedbackForStudentRequest(
     @SerializedName("text")
     val text: String,
     @SerializedName("mark")
-    val mark: Int,
+    val mark: Int
 )

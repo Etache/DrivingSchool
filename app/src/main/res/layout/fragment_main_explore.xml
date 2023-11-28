@@ -8,7 +8,7 @@
     android:backgroundTint="@color/blue"
     android:paddingHorizontal="20dp"
     app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue"
-    tools:context=".ui.fragments.main.mainExplore.MainExploreFragment">
+    tools:context=".ui.fragments.studentMain.mainExplore.MainExploreFragment">
 
     <FrameLayout
         android:layout_width="match_parent"

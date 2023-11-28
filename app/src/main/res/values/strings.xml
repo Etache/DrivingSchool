@@ -61,6 +61,7 @@
 
     //InstructorFragment
     <string name="experience">Стаж: </string>
+    <string name="experience_">Стаж</string>
     <string name="car_name">Honda Accord</string>
     <string name="feedback">Отзывы</string>
 
@@ -140,23 +141,56 @@
     <string name="yyyy_mm_dd_t_hh_mm_ss_ssssssx">yyyy-MM-dd\'T\'HH:mm:ss.SSSSSSX</string>
     <string name="your_comment_saved">Ваш комментарий оставлен</string>
     <string name="cursant">Курсант</string>
+    <string name="new_notification">Новое</string>
     <string name="save_lower">Сохранить</string>
-    <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа!</string>
-    <string name="instructor_text">Инструктор</string>
+    <string name="number_of_lessons">Количество занятий</string>
+    <string name="main_page">Главная страница</string>
+    <string name="profile_title">Профиль</string>
+    <string name="no_title">No title</string>
+    <string name="instructor">instructor</string>
+    <string name="student">student</string>
+    <string name="tag">TAG</string>
+    <string name="r">r</string>
+    <string name="image_request_body">image/*</string>
+    <string name="image">image</string>
+    <string name="instructor_last_name">Иванович</string>
+    <string name="empty_state">Empty state</string>
+    <string name="eee_mmm_dd_hh_mm_ss_gmt_z_yyyy">EEE MMM dd HH:mm:ss \'GMT\'Z yyyy</string>
     <string name="yyyy_mm_dd">yyyy-MM-dd</string>
+    <string name="hh_mm">HH:mm</string>
+    <string name="hh_mm_ss">HH:mm:ss</string>
+    <string name="successfully_enrolled">Запись забронирована</string>
+    <string name="lesson_cancelled">Занятие отменено</string>
+    <string name="lesson_planed">Занятие запланировано</string>
+    <string name="notification_error">Не удалось получить данные</string>
+    <string name="student_name">Иван</string>
+    <string name="last_name">Иванович</string>
+
+    <string name="active">active</string>
+    <string name="success">success</string>
+    <string name="error">error</string>
     <string name="d_mmmm">d MMMM</string>
     <string name="ru">ru</string>
+    <string name="empty">Empty</string>
+    <string name="your_lesson_started">Ваше занятие началось</string>
+    <string name="lesson_start_is_not_possible_due_to_time_constraints">Урок начать невозможно из-за ограничения времени</string>
+    <string name="your_lesson_ended">Ваше занятие закончилось</string>
+    <string name="yyyy_mm_dd_space_hh_mm_ss">yyyy-MM-dd HH:mm:ss</string>
+    <string name="student_ru">Курсант</string>
+    <string name="absent">Не пришел</string>
+    <string name="Check_timetable">Расписание на следующую неделю составляется с пятницы по воскресенье</string>
+    <string name="dd_mm_yyyy">dd.MM.yyyy</string>
+    <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа</string>
+    <string name="instructor_text">Инструктор</string>
     <string name="cancel_is_impossible">Отмена занятия невозможна</string>
     <string name="canceled_text">Ваше занятие отменено</string>
-    <string name="hh_mm_ss">HH:mm:ss</string>
     <string name="calc_time_text">%1$s:%2$s</string>
     <string name="delimeter">:</string>
     <string name="comment_is_sended">Ваш комментарий отправлен</string>
     <string name="planned">Запланирован</string>
-    <string name="active">Активен</string>
+    <string name="active_ru">Активен</string>
     <string name="canceled">Отменен</string>
     <string name="finished">Завершен</string>
-    <string name="absent">Не пришел</string>
     <string name="unknown_status">Неизвестный статус</string>
     <string name="unknown_date_type">Unknown date type</string>
 
@@ -176,7 +210,7 @@
         <item>Декабрь</item>
     </string-array>
 
-    <string-array name="mcv_weekLabeles">
+    <string-array name="mcv_weekLabels">
         <item>П</item>
         <item>В</item>
         <item>С</item>
@@ -185,4 +219,18 @@
         <item>С</item>
         <item>В</item>
     </string-array>
+
+    <string name="experience_year">Стаж: %1$d год</string>
+    <string name="experience_years_2..4">Стаж: %1$d года</string>
+    <string name="experience_years_5..9">Стаж: %1$d лет</string>
+
+    <string name="year">"%1$d год"</string>
+    <string name="year_2..4">"%1$d года"</string>
+    <string name="year_5..9">"%1$d лет"</string>
+    <string name="notifications">Уведомления</string>
+    <string name="for_instructor">инструктору</string>
+    <string name="for_student">студенту</string>
+    <string name="current_week">Текущая неделя</string>
+    <string name="next_week">Следующая неделя</string>
+
 </resources>
