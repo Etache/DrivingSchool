@@ -182,5 +182,6 @@
     <string name="year">"%1$d год"</string>
     <string name="year_2..4">"%1$d года"</string>
     <string name="year_5..9">"%1$d лет"</string>
+    <string name="no_tv_notification">У вас пока нет уведомления</string>
 
 </resources>

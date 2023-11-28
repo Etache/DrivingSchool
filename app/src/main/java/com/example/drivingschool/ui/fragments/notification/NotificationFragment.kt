@@ -21,7 +21,8 @@ class NotificationFragment :
     override val binding by viewBinding(FragmentNotificationBinding::bind)
     override val viewModel: NotificationViewModel by viewModels()
 
-    private var adapter = NotificationAdapter(emptyList())
+    //private var adapter = NotificationAdapter(emptyList())
+    private lateinit var adapter:NotificationAdapter
 
     override fun initialize() {
         getNotifications()
@@ -35,11 +36,13 @@ class NotificationFragment :
                     is UiState.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.mainContainer.visibility = View.GONE
+                        binding.noNotification.visibility = View.GONE
                     }
 
                     is UiState.Success -> {
                         binding.progressBar.visibility = View.GONE
                         binding.mainContainer.visibility = View.VISIBLE
+                        binding.noNotification.visibility = View.GONE
 
                         val sortedNewNotifications =
                             state.data?.notifications?.sortedWith(compareByDescending { it.created_at })
@@ -50,13 +53,18 @@ class NotificationFragment :
                             binding.rvNotification.adapter = adapter
                             Log.e("ololo", "notification: ${state.data?.notifications}")
                         } else {
-                            Toast.makeText(requireContext(), "Null", Toast.LENGTH_SHORT).show()
+                            binding.mainContainer.visibility = View.GONE
+                            binding.noNotification.visibility = View.VISIBLE
+                            binding.progressBar.visibility = View.GONE
                         }
 
                         viewModel.readNotifications()
                     }
 
                     is UiState.Empty -> {
+                        binding.mainContainer.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
+                        binding.noNotification.visibility = View.VISIBLE
                         Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
                     }
 

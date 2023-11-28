@@ -22,7 +22,7 @@ class NotificationRepository @Inject constructor(
             if (response.isSuccessful) {
                 emit(UiState.Success(response.body()))
             } else {
-                emit(UiState.Error(R.string.notification_error))
+               emit(UiState.Error(R.string.notification_error))
             }
         } catch (e: Exception) {
             emit(UiState.Error(R.string.notification_error))
