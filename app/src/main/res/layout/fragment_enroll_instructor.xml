@@ -24,6 +24,7 @@
             android:text="@string/current_week"
             android:textColor="@color/gray"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/tv_date_and_time_enroll_next_week"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/next_week"
             android:textColor="@color/gray"
@@ -55,6 +58,7 @@
             android:id="@+id/recycler_date_and_time_next_week"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginBottom="32dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintVertical_bias="0"
@@ -77,6 +81,34 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/view_no_schedule"
+            android:visibility="gone"
+            android:layout_width="200dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/no_lessons" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/no_text_schedule"
+                android:textColor="@color/gray"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"

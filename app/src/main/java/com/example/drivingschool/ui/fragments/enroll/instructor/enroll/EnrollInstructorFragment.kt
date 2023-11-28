@@ -136,11 +136,16 @@ class EnrollInstructorFragment :
     private fun openViews() {
         with(binding) {
             progressBar.visibility = View.GONE
-            tvDateAndTimeEnrollCurrentWeek.visibility = View.VISIBLE
-            recyclerDateAndTimeCurrentWeek.visibility = View.VISIBLE
-            tvDateAndTimeEnrollNextWeek.visibility = View.VISIBLE
-            recyclerDateAndTimeNextWeek.visibility = View.VISIBLE
-            btnMakeASchedule.visibility = View.VISIBLE
+            if (currentSchedule.isNullOrEmpty() && nextSchedule.isNullOrEmpty()){
+                viewNoSchedule.visibility = View.VISIBLE
+            } else {
+                viewNoSchedule.visibility = View.GONE
+                tvDateAndTimeEnrollCurrentWeek.visibility = View.VISIBLE
+                recyclerDateAndTimeCurrentWeek.visibility = View.VISIBLE
+                tvDateAndTimeEnrollNextWeek.visibility = View.VISIBLE
+                recyclerDateAndTimeNextWeek.visibility = View.VISIBLE
+                btnMakeASchedule.visibility = View.VISIBLE
+            }
         }
     }
 }

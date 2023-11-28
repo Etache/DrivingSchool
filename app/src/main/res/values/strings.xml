@@ -232,5 +232,6 @@
     <string name="for_student">студенту</string>
     <string name="current_week">Текущая неделя</string>
     <string name="next_week">Следующая неделя</string>
+    <string name="no_text_schedule">У вас пока нет расписания</string>
 
 </resources>
