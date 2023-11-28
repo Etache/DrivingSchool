@@ -63,37 +63,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
         setAppBar()
         checkRole()
-        checkNotifications()
-    }
-
-    private fun checkNotifications() {
-        if (preferences.role == getString(R.string.instructor)) {
-            viewModel.checkNotifications()
-            viewModel.notificationCheck.observe(this) { state ->
-                when (state) {
-                    is UiState.Success -> {
-                        if (state.data?.is_notification == true) {
-                            binding.notificationIcon.setImageResource(R.drawable.ic_new_notification)
-                        } else {
-                            binding.notificationIcon.setImageResource(R.drawable.ic_notification)
-                        }
-                    }
-
-                    is UiState.Error -> {
-                        Toast.makeText(this, state.msg, Toast.LENGTH_SHORT).show()
-                    }
-
-                    is UiState.Empty -> {
-                        Toast.makeText(this, getString(R.string.empty_state), Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    else -> {
-                        //todo
-                    }
-                }
-            }
-        }
     }
 
     override fun checkRole() {
@@ -193,9 +162,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
 
     override fun onSupportNavigateUp(): Boolean {
-        if (preferences.role == getString(R.string.instructor)) {
-            checkNotifications()
-        }
         return NavigationUI.navigateUp(
             navController,
             appBarConfiguration
@@ -244,13 +210,6 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         rotateAnimation.repeatCount = Animation.INFINITE
         rotateAnimation.duration = 1700
         binding.contentNoInternet.progressBar.startAnimation(rotateAnimation)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (preferences.role == getString(R.string.instructor)) {
-            checkNotifications()
-        }
     }
 
 }
