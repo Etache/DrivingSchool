@@ -32,7 +32,11 @@ class NextEnrollInstructorAdapter(
     }
 
     override fun getItemCount(): Int {
-        return nextWeek?.size!!
+        return if(nextWeek != null) {
+            nextWeek.size!!
+        } else {
+            0
+        }
     }
 
     override fun onBindViewHolder(holder: EnrollInstructorViewHolder, position: Int) {
