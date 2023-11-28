@@ -16,6 +16,7 @@ import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
 import com.example.drivingschool.data.models.mainresponse.LessonsItem
+import com.example.drivingschool.data.models.notification.Notification
 import com.example.drivingschool.data.models.notification.NotificationCheckResponse
 import com.example.drivingschool.data.models.notification.NotificationModel
 import com.example.drivingschool.data.models.notification.NotificationReadResponse
@@ -113,7 +114,7 @@ interface DrivingApiService {
     suspend fun setWorkWindows(@Body instructorWorkWindowRequest: InstructorWorkWindowRequest): Response<InstructorWorkWindowResponse>
 
     @GET("notifications/")
-    suspend fun getNotifications() : Response<NotificationModel>
+    suspend fun getNotifications() : Response<List<Notification>>
 
     @GET("notifications/check/")
     suspend fun checkNotifications() : Response<NotificationCheckResponse>

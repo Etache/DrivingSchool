@@ -136,6 +136,7 @@ class EnrollInstructorFragment :
     private fun openViews() {
         with(binding) {
             progressBar.visibility = View.GONE
+            btnMakeASchedule.visibility = View.VISIBLE
             if (currentSchedule.isNullOrEmpty() && nextSchedule.isNullOrEmpty()){
                 viewNoSchedule.visibility = View.VISIBLE
             } else {
@@ -144,7 +145,6 @@ class EnrollInstructorFragment :
                 recyclerDateAndTimeCurrentWeek.visibility = View.VISIBLE
                 tvDateAndTimeEnrollNextWeek.visibility = View.VISIBLE
                 recyclerDateAndTimeNextWeek.visibility = View.VISIBLE
-                btnMakeASchedule.visibility = View.VISIBLE
             }
         }
     }
