@@ -32,7 +32,10 @@ class InstructorCurrentLessonFragment :
             viewModel.getCurrentById(arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_CURRENT_KEY) ?: Constants.DEFAULT_KEY)
         }
 
-        binding.ivProfileImage.showFullSizeImage()
+        binding.ivProfileImage.setOnClickListener {
+            binding.ivProfileImage.showFullSizeImage()
+        }
+
     }
 
     override fun setupListeners() {

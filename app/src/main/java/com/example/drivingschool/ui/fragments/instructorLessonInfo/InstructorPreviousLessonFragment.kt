@@ -43,7 +43,9 @@ class InstructorPreviousLessonFragment :
             if (it) viewModel.getDetails(lessonId)
         }
 
-        binding.circleImageView.showFullSizeImage()
+        binding.circleImageView.setOnClickListener {
+            binding.circleImageView.showFullSizeImage()
+        }
 
         binding.btnComment.setOnClickListener {
             if (!isCommentCreated) showCustomDialog()

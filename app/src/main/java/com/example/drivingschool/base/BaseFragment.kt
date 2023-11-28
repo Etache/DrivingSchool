@@ -140,29 +140,27 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     }
 
     protected fun ImageView.showFullSizeImage() {
-        this.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(true)
-            dialog.setContentView(R.layout.show_photo_profile)
-            val image = dialog.findViewById<ImageView>(R.id.image)
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.show_photo_profile)
+        val image = dialog.findViewById<ImageView>(R.id.image)
 
-            when (this.drawable) {
-                is BitmapDrawable -> {
-                    image.setImageBitmap((this.drawable as BitmapDrawable).bitmap)
-                }
-
-                is VectorDrawable -> {
-                    image.setImageDrawable(this.drawable)
-                }
-
-                else -> {
-                    image.setImageResource(R.drawable.ic_default_photo)
-                }
+        when (this.drawable) {
+            is BitmapDrawable -> {
+                image.setImageBitmap((this.drawable as BitmapDrawable).bitmap)
             }
-            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
-            dialog.show()
+
+            is VectorDrawable -> {
+                image.setImageDrawable(this.drawable)
+            }
+
+            else -> {
+                image.setImageResource(R.drawable.ic_default_photo)
+            }
         }
+        dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
+        dialog.show()
     }
 
 }
