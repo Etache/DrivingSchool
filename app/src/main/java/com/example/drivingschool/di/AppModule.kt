@@ -4,6 +4,8 @@ import android.content.Context
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.data.remote.LoginInterceptor
+import com.example.drivingschool.ui.fragments.Constants
+import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +25,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): DrivingApiService {
         return Retrofit.Builder()
-            .baseUrl("http://134.209.252.52:89/")
+            .baseUrl(Constants.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -38,11 +40,15 @@ object AppModule {
             .connectTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
-            .callTimeout(30, TimeUnit.SECONDS)
+//            .callTimeout(30, TimeUnit.SECONDS) //crash
             .build()
     }
 
     @Provides
     @Singleton
     fun providesPreferencesHelper(@ApplicationContext context: Context) = PreferencesHelper(context)
+
+    @Provides
+    @Singleton
+    fun provideNetworkConnection(@ApplicationContext context: Context) = NetworkConnection(context)
 }

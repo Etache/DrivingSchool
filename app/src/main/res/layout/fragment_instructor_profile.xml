@@ -53,7 +53,6 @@
                     android:id="@+id/tvSurname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
                     android:text="@string/instructor_surname"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
@@ -62,9 +61,51 @@
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
+                    android:layout_marginHorizontal="8dp"
                     android:text="@string/instructor_name"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_lastname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/instructor_last_name"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_name_surname">
+
+                <TextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Рейтинг: 4,8"
+                    android:textColor="@color/gray_rating"
+                    android:textSize="16sp" />
+
+                <RatingBar
+                    android:id="@+id/rb_rating"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:numStars="5"
+                    android:progressTint="@color/yellow"
+                    android:stepSize="1"
+                    android:theme="@style/CustomRatingBar"
+                    tools:rating="4" />
 
             </LinearLayout>
 
@@ -77,48 +118,22 @@
                 android:text="@string/change_profile_photo"
                 android:textColor="@color/violet"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ll_name_surname" />
-
-            <TextView
-                android:id="@+id/experience"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="4dp"
-                android:text="@string/experience"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
-
-            <TextView
-                android:id="@+id/tvExperience"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/rectangle_bg_profile"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:textColor="@color/gray"
-                android:text="@string/experience_num"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/experience" />
-
+                app:layout_constraintTop_toBottomOf="@id/ll_rating" />
 
             <TextView
                 android:id="@+id/number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginVertical="8dp"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="4dp"
                 android:text="@string/telephone_number"
                 android:textColor="@color/gray"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/tvExperience" />
+                app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
 
             <TextView
                 android:id="@+id/tvNumber"
@@ -129,10 +144,36 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/gray"
                 android:text="@string/number"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/number" />
+
+            <TextView
+                android:id="@+id/experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="4dp"
+                android:text="@string/experience_"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tvNumber" />
+
+            <TextView
+                android:id="@+id/tvExperience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/rectangle_bg_profile"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:text="@string/experience_num"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/experience" />
 
             <TextView
                 android:id="@+id/carMake"
@@ -144,7 +185,7 @@
                 android:text="@string/car_brand"
                 android:textColor="@color/gray"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/tvNumber" />
+                app:layout_constraintTop_toBottomOf="@id/tvExperience" />
 
             <TextView
                 android:id="@+id/tvCar"
@@ -155,8 +196,8 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:textColor="@color/gray"
                 android:text="@string/car_name"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/carMake" />
 
@@ -185,7 +226,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="#F3F3F3"
-                android:paddingHorizontal="8dp"
+                android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
                 android:text="@string/exit"
                 android:textAlignment="textStart"

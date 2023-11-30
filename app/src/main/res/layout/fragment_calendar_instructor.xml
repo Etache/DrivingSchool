@@ -5,8 +5,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="16dp"
-        tools:context=".ui.fragments.enroll.instructorFragment.calendar.CalendarInstructorFragment">
+        android:paddingHorizontal="16dp"
+        tools:context=".ui.fragments.enroll.instructor.calendar.CalendarInstructorFragment">
 
         <TextView
             android:id="@+id/select_date"

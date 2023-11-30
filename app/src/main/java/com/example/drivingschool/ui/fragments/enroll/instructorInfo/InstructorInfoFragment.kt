@@ -10,38 +10,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorInfoBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.tools.showToast
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
-import com.example.drivingschool.ui.fragments.enroll.adapter.InstructorCommentAdapter
+import com.example.drivingschool.ui.fragments.enroll.student.adapter.InstructorCommentAdapter
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class InstructorInfoFragment : Fragment() {
+class InstructorInfoFragment :
+    BaseFragment<FragmentInstructorInfoBinding, EnrollViewModel>() {
 
-    private lateinit var binding: FragmentInstructorInfoBinding
+    override fun getViewBinding(): FragmentInstructorInfoBinding =
+        FragmentInstructorInfoBinding.inflate(layoutInflater)
+
+    override val viewModel: EnrollViewModel by viewModels()
     private lateinit var adapter: InstructorCommentAdapter
-    private val viewModel: EnrollViewModel by viewModels()
-    private var id: Int? = null
     private lateinit var networkConnection: NetworkConnection
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentInstructorInfoBinding.inflate(layoutInflater)
-        return binding.root
-    }
+    private var id: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +44,6 @@ class InstructorInfoFragment : Fragment() {
         binding.rvInstructorProfileComments.layoutManager = LinearLayoutManager(context)
         binding.rvInstructorProfileComments.isNestedScrollingEnabled = false
         id = arguments?.getInt(Constants.ID_KEY)
-        Log.d("madimadi", "instructor id in fragment: ${id}")
 
         networkConnection.observe(viewLifecycleOwner) {
             if (it) getInstructorProfile()
@@ -65,7 +59,7 @@ class InstructorInfoFragment : Fragment() {
         showImage()
     }
 
-
+    @SuppressLint("SetTextI18n")
     private fun getInstructorProfile() {
         viewModel.getInstructorById(id = id!!)
         lifecycleScope.launch {
@@ -86,46 +80,90 @@ class InstructorInfoFragment : Fragment() {
                         if (experience != null) {
                             when (experience) {
                                 1 -> {
-                                binding.tvExperience.text = context?.getString(R.string.experience_year, experience)
+                                    binding.tvExperience.text =
+                                        context?.getString(R.string.experience_year, experience)
                                 }
+
                                 in 1..4 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 22..24 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 32..34 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 42..44 -> {
-                                binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 52..54 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 62..64 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 72..74 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 82..84 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 92..94 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_2__4, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_2__4,
+                                        experience
+                                    )
                                 }
+
                                 in 5..9 -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_5__9, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_5__9,
+                                        experience
+                                    )
                                 }
+
                                 else -> {
-                                    binding.tvExperience.text = context?.getString(R.string.experience_years_5__9, experience)
+                                    binding.tvExperience.text = context?.getString(
+                                        R.string.experience_years_5__9,
+                                        experience
+                                    )
                                 }
                             }
                         }
                         binding.tvNumber.text = state.data?.phoneNumber
                         binding.tvCarName.text = state.data?.car
-
 
                         if (state.data?.feedbacks != null) {
                             adapter = InstructorCommentAdapter(state.data?.feedbacks!!)
@@ -136,23 +174,18 @@ class InstructorInfoFragment : Fragment() {
                             )
                         }
 
-
-                        val httpsImageUrl = state.data?.profilePhoto?.big?.replace("http://", "https://")
                         Picasso.get()
-                            .load(httpsImageUrl)
+                            .load(state.data?.profilePhoto?.big)
                             .placeholder(R.drawable.ic_default_photo)
                             .into(binding.ivProfileImage)
-
-                        Log.d("madimadi", "getInstructorDetails in fragment: ${state.data}")
                     }
 
                     is UiState.Empty -> {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+                        showToast(getString(R.string.empty_state))
                     }
 
                     is UiState.Error -> {
-                        Toast.makeText(requireContext(), "Error: ${state.msg}", Toast.LENGTH_SHORT)
-                            .show()
+                        showToast("Error: ${state.msg}")
                     }
                 }
             }
@@ -167,7 +200,7 @@ class InstructorInfoFragment : Fragment() {
             dialog.setContentView(R.layout.show_photo_profile)
             val image = dialog.findViewById<ImageView>(R.id.image)
             if (binding.ivProfileImage.drawable != null) {
-                image.setImageBitmap((binding.ivProfileImage.drawable as BitmapDrawable).bitmap) //crash
+                image.setImageBitmap((binding.ivProfileImage.drawable as BitmapDrawable).bitmap)
             } else {
                 image.setImageResource(R.drawable.ic_default_photo)
             }

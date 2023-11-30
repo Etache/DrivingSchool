@@ -14,7 +14,6 @@
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="login_ru">Войти</string>
-    <string name="notification_error">Не удалось получить данные</string>
     <string name="login_error_text">Логин или пароль введены неверно, Попробуйте еще раз</string>
 
     //NoInternetConnection
@@ -62,6 +61,7 @@
 
     //InstructorFragment
     <string name="experience">Стаж: </string>
+    <string name="experience_">Стаж</string>
     <string name="car_name">Honda Accord</string>
     <string name="feedback">Отзывы</string>
 
@@ -75,14 +75,14 @@
     <string name="confirm">Подтвердить</string>
     <string name="make_a_schedule">Составить расписание</string>
     <string name="continue_text">Отправить</string>
-    <string name="comment_body_text">Ваше занятие завершено, поставьте оценку вашему инструктору</string>
+    <string name="comment_body_text">Ваше занятие завершено, поставьте \nоценку вашему инструктору</string>
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
     <string name="choose_photo">Выбрать фото</string>
     <string name="content_des_profile_photo">profile photo</string>
     <string name="content_des_fullscreen_profile_photo">fullscreen profile photo</string>
     <string name="old_password">Старый пароль</string>
-    <string name="input_old_password">Введите старый пароль</string>
+    <string name="input_old_password">Старый пароль</string>
     <string name="instructor_surname">Иванов</string>
     <string name="instructor_name">Иван</string>
     <string name="change_profile_photo">Изменить фотографию</string>
@@ -93,6 +93,7 @@
     <string name="experience_num">15 </string>
     <string name="car_brand">Марка авто</string>
     <string name="text_no_lesson">У вас пока нет занятий</string>
+    <string name="text_no_lesson_previous">У вас пока не было занятий</string>
     <string name="fish_text">Lorem ipsum dolor sit amet consectetur. Sapien turpis elementum quis gravida augue placerat neque. Nibh nunc nulla tellus scelerisque sit diam facilisis. Eu euismod mi tellus augue. In cras et elementum risus faucibus. Lectus suspendisse aliquet nisi erat facilisis egestas eros. Dolor lectus massa egestas magna sem mi massa tempus risus. Aliquam scelerisque vel massa etiam volutpat amet. porttitor</string>
     <string name="profile_photo">profile photo</string>
     <string name="select_instructor">Выберите инструктора</string>
@@ -104,7 +105,6 @@
     <string name="ok_upperCase">OK</string>
     <string name="comment">Комментарий</string>
     <string name="_0_250">(0/250)</string>
-    <string name="practical_driving">Практическое вождение</string>
     <string name="start">Начало</string>
     <string name="end_text">Конец</string>
     <string name="cancel_lesson_text">Вы точно хотите отменить занятие?</string>
@@ -144,10 +144,56 @@
     <string name="cursant">Курсант</string>
     <string name="new_notification">Новое</string>
     <string name="save_lower">Сохранить</string>
+    <string name="number_of_lessons">Количество занятий</string>
+    <string name="main_page">Главная страница</string>
+    <string name="profile_title">Профиль</string>
+    <string name="no_title">No title</string>
+    <string name="instructor">instructor</string>
+    <string name="student">student</string>
+    <string name="tag">TAG</string>
+    <string name="r">r</string>
+    <string name="image_request_body">image/*</string>
+    <string name="image">image</string>
+    <string name="instructor_last_name">Иванович</string>
+    <string name="empty_state">Empty state</string>
+    <string name="eee_mmm_dd_hh_mm_ss_gmt_z_yyyy">EEE MMM dd HH:mm:ss \'GMT\'Z yyyy</string>
+    <string name="yyyy_mm_dd">yyyy-MM-dd</string>
+    <string name="hh_mm">HH:mm</string>
+    <string name="hh_mm_ss">HH:mm:ss</string>
+    <string name="successfully_enrolled">Запись забронирована</string>
     <string name="lesson_cancelled">Занятие отменено</string>
     <string name="lesson_planed">Занятие запланировано</string>
+    <string name="notification_error">Не удалось получить данные</string>
     <string name="student_name">Иван</string>
     <string name="last_name">Иванович</string>
+
+    <string name="active">active</string>
+    <string name="success">success</string>
+    <string name="error">error</string>
+    <string name="d_mmmm">d MMMM</string>
+    <string name="ru">ru</string>
+    <string name="empty">Empty</string>
+    <string name="your_lesson_started">Ваше занятие началось</string>
+    <string name="lesson_start_is_not_possible_due_to_time_constraints">Урок начать невозможно из-за ограничения времени</string>
+    <string name="your_lesson_ended">Ваше занятие закончилось</string>
+    <string name="yyyy_mm_dd_space_hh_mm_ss">yyyy-MM-dd HH:mm:ss</string>
+    <string name="student_ru">Курсант</string>
+    <string name="absent">Не пришел</string>
+    <string name="Check_timetable">Расписание на следующую неделю составляется с пятницы по воскресенье</string>
+    <string name="dd_mm_yyyy">dd.MM.yyyy</string>
+    <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа</string>
+    <string name="instructor_text">Инструктор</string>
+    <string name="cancel_is_impossible">Отмена занятия невозможна</string>
+    <string name="canceled_text">Ваше занятие отменено</string>
+    <string name="calc_time_text">%1$s:%2$s</string>
+    <string name="delimeter">:</string>
+    <string name="comment_is_sended">Ваш комментарий отправлен</string>
+    <string name="planned">Запланирован</string>
+    <string name="active_ru">Активен</string>
+    <string name="canceled">Отменен</string>
+    <string name="finished">Завершен</string>
+    <string name="unknown_status">Неизвестный статус</string>
+    <string name="unknown_date_type">Unknown date type</string>
 
 
     <string-array name="mcv_monthLabels">
@@ -165,7 +211,7 @@
         <item>Декабрь</item>
     </string-array>
 
-    <string-array name="mcv_weekLabeles">
+    <string-array name="mcv_weekLabels">
         <item>П</item>
         <item>В</item>
         <item>С</item>
@@ -182,6 +228,17 @@
     <string name="year">"%1$d год"</string>
     <string name="year_2..4">"%1$d года"</string>
     <string name="year_5..9">"%1$d лет"</string>
+    <string name="notifications">Уведомления</string>
+    <string name="for_instructor">инструктору</string>
+    <string name="for_student">студенту</string>
+    <string name="current_week">Текущая неделя</string>
+    <string name="next_week">Следующая неделя</string>
+    <string name="password_successfully_changed">Пароль успешно изменен</string>
+    <string name="password_are_not_the_same">Пароли не совпадают</string>
+    <string name="password_should_include_more_than_6_symbols">Пароль должен содержать не менее 6 символов</string>
+    <string name="old_password_is_not_correct">Неверный старый пароль</string>
+    <string name="please_fill_all_the_fields">Заполните все поля</string>
+    <string name="instructor_has_not_created_timetable">Инструктор еще не создал расписание</string>
     <string name="no_tv_notification">У вас пока нет уведомления</string>
 
 </resources>

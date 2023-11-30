@@ -79,9 +79,8 @@
                             android:id="@+id/tv_experience"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
                             android:text="@string/experience_num"
-                            android:textColor="#545454"
+                            android:textColor="@color/gray_average_point"
                             android:textSize="16sp" />
                     </LinearLayout>
 
@@ -91,15 +90,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="@string/number"
-                        android:textColor="#545454"
+                        android:textColor="@color/gray_average_point"
                         android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_car_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
                         android:text="@string/car_name"
-                        android:textColor="#545454"
+                        android:textColor="@color/gray_average_point"
                         android:textSize="12sp" />
                 </LinearLayout>
 

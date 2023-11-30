@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
 import com.example.drivingschool.data.models.notification.Notification
 import com.example.drivingschool.databinding.ItemNotificationBinding
-import com.example.drivingschool.ui.fragments.main.lesson.LessonStatus
+import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonStatus
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -60,12 +60,12 @@ class NotificationAdapter(private var notificationList: List<Notification>) :
 
             binding.tvName.text = notifications.lesson?.student?.name
             binding.tvSurname.text = notifications.lesson?.student?.surname
-            binding.tvNumber.text = notifications.lesson?.student?.phone_number
+            binding.tvNumber.text = notifications.lesson?.student?.phoneNumber
             binding.tvDate.text = formatDate(notifications.lesson?.date)
 
 
             val httpsImageUrl =
-                notifications.lesson?.student?.profile_photo?.big
+                notifications.lesson?.student?.profilePhoto?.big
             Picasso.get()
                 .load(httpsImageUrl)
                 .placeholder(R.drawable.ic_default_photo)

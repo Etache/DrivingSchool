@@ -1,5 +1,8 @@
 package com.example.drivingschool.data.models.notification
 
+import com.google.gson.annotations.SerializedName
+
 data class NotificationCheckResponse(
-    val is_notification: Boolean
+    @SerializedName("is_notification")
+    val isNotification: Boolean
 )

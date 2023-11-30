@@ -5,18 +5,18 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.drivingschool.R
+import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.databinding.FragmentLoginBinding
@@ -26,9 +26,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
-    private lateinit var binding: FragmentLoginBinding
-    private val viewModel: LoginViewModel by viewModels()
+class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
+    override fun getViewBinding(): FragmentLoginBinding =
+        FragmentLoginBinding.inflate(layoutInflater)
+
+    override val viewModel: LoginViewModel by viewModels()
     private var callback: CheckRoleCallBack? = null
 
     private val preferences: PreferencesHelper by lazy {
@@ -38,18 +40,11 @@ class LoginFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is CheckRoleCallBack){
+        if (context is CheckRoleCallBack) {
             callback = context
         } else {
-
+            //todo
         }
-    }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,6 +55,14 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             context?.let { it1 -> hideKeyboard(context = it1, view) }
             setLogin()
+        }
+
+        binding.etPassword.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                binding.btnLogin.performClick()
+                return@setOnKeyListener true
+            }
+            false
         }
 
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -83,7 +86,7 @@ class LoginFragment : Fragment() {
 
     private fun saveToken(username: String, password: String) {
         lifecycleScope.launch {
-            networkConnection.observe(viewLifecycleOwner){
+            networkConnection.observe(viewLifecycleOwner) {
                 if (it) viewModel.getToken(LoginRequest(username, password))
             }
             viewModel.token.observe(requireActivity()) { state ->
@@ -100,9 +103,9 @@ class LoginFragment : Fragment() {
                             preferences.isLoginSuccess = true
                             preferences.password = binding.etPassword.text.toString()
                             callback?.checkRole()
-                            if (preferences.role == "instructor"){
+                            if (preferences.role == "instructor") {
                                 findNavController().navigate(R.id.instructorMainFragment)
-                            } else if (preferences.role == "student"){
+                            } else if (preferences.role == "student") {
                                 findNavController().navigate(R.id.mainFragment)
                             }
                         }
@@ -146,10 +149,10 @@ class LoginFragment : Fragment() {
                 editText.setBackgroundResource(R.drawable.edit_text_active_bg)
                 editText.setBackgroundResource(R.drawable.edit_text_active_bg)
             }
-            val user_login = binding.etLogin.text.toString().trim()
-            val user_password = binding.etPassword.text.toString().trim()
+            val userLogin = binding.etLogin.text.toString().trim()
+            val userPassword = binding.etPassword.text.toString().trim()
 
-            if (user_login.isNotEmpty() && user_password.isNotEmpty()) {
+            if (userLogin.isNotEmpty() && userPassword.isNotEmpty()) {
                 binding.btnLogin.setBackgroundResource(R.drawable.button_active_bg)
                 binding.btnLogin.isEnabled = true
             } else {

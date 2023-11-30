@@ -2,6 +2,8 @@ package com.example.drivingschool.data.remote
 
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
+import com.example.drivingschool.ui.fragments.Constants.AUTHORIZATION
+import com.example.drivingschool.ui.fragments.Constants.BEARER
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -17,7 +19,7 @@ class LoginInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val currentAccessToken = preferencesHelper.accessToken
         val request = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer $currentAccessToken")
+            .addHeader(AUTHORIZATION, "$BEARER $currentAccessToken")
             .build()
 
         val response = chain.proceed(request)
@@ -28,12 +30,11 @@ class LoginInterceptor @Inject constructor(
             }
             if (refreshedAccessToken != null) {
                 val newRequest = request.newBuilder()
-                    .header("Authorization", "Bearer $refreshedAccessToken")
+                    .header(AUTHORIZATION, "$BEARER $refreshedAccessToken")
                     .build()
                 return chain.proceed(newRequest)
             }
         }
-
         return response
     }
 

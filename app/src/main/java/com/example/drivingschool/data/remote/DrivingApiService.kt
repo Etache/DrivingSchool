@@ -5,13 +5,13 @@ import com.example.drivingschool.data.models.CancelResponse
 import com.example.drivingschool.data.models.EnrollLessonRequest
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.data.models.PasswordRequest
-import com.example.drivingschool.data.models.ProfileResponse
 import com.example.drivingschool.data.models.FeedbackForInstructorRequest
 import com.example.drivingschool.data.models.FeedbackForInstructorResponse
 import com.example.drivingschool.data.models.FeedbackForStudentRequest
 import com.example.drivingschool.data.models.FeedbackForStudentResponse
 import com.example.drivingschool.data.models.InstructorWorkWindowRequest
 import com.example.drivingschool.data.models.InstructorWorkWindowResponse
+import com.example.drivingschool.data.models.StudentProfileResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.mainresponse.Lessons
@@ -22,6 +22,7 @@ import com.example.drivingschool.data.models.notification.NotificationReadRespon
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.models.refresh.RefreshTokenRequest
 import com.example.drivingschool.data.models.refresh.RefreshTokenResponse
+import com.example.drivingschool.data.models.start_finish_lesson.ChangeLessonStatusResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -45,18 +46,27 @@ interface DrivingApiService {
     @PATCH("change_password/")
     suspend fun changePassword(
         @Body requestBody: PasswordRequest
-    ): Response<ProfileResponse>
+    ): Response<StudentProfileResponse>
 
-    @GET("lessons/{id}")
+    @PATCH("lessons/{id}/start/")
+    suspend fun startLesson(@Path("id") id: String): Response<ChangeLessonStatusResponse>
+
+    @PATCH("lessons/{id}/finish/")
+    suspend fun finishLesson(@Path("id") id: String): Response<ChangeLessonStatusResponse>
+
+    @PATCH("lessons/{id}/absent/")
+    suspend fun studentAbsent(@Path("id") id: String): Response<ChangeLessonStatusResponse>
+
+    @GET("lessons/{id}/") //Details
     suspend fun getCurrent(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/") //Details
     suspend fun getPrevious(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/")
     suspend fun getCurrentDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
-    @GET("lessons/{id}")
+    @GET("lessons/{id}/")
     suspend fun getPreviousDetailsInstructor(@Path("id") id: String): Response<LessonsItem>
 
     @GET("lessons/current/")
@@ -72,17 +82,17 @@ interface DrivingApiService {
     suspend fun getInstructorById(@Path("id") instructorId: Int): Response<InstructorResponse>
 
     @GET("profile/")
-    suspend fun getProfile(): Response<ProfileResponse>
+    suspend fun getProfile(): Response<StudentProfileResponse>
 
     @GET("profile/")
     suspend fun getInstructorProfile(): Response<InstructorResponse>
 
     @Multipart
     @PUT("change_pp/")
-    suspend fun updateStudentProfilePhoto(@Part photo: MultipartBody.Part): Response<ProfileResponse>
+    suspend fun updateStudentProfilePhoto(@Part photo: MultipartBody.Part): Response<StudentProfileResponse>
 
     @DELETE("delete_pp/")
-    suspend fun deleteStudentProfilePhoto(): Response<ProfileResponse>
+    suspend fun deleteStudentProfilePhoto(): Response<StudentProfileResponse>
 
     @PATCH("lessons/{id}/cancel/") //doesn't work
     suspend fun cancelLesson(@Path("id") lessonId: String, @Body cancelRequest: CancelRequest): Response<CancelResponse>
@@ -93,23 +103,14 @@ interface DrivingApiService {
     @POST("feedbacks/student/create/")
     suspend fun createInstructorComment(@Body comment: FeedbackForStudentRequest): Response<FeedbackForStudentResponse>
 
-    //    @Multipart
-//    @POST("lessons/create/")
-//    suspend fun enrollForLesson(
-//        @Part("instructor") instructor: String,
-//        @Part("date") date: String,
-//        @Part("time") time: String,
-//        @Part file: MultipartBody.Part
-//    ): Call<EnrollLessonResponse>
+    @POST("lessons/create/")
+    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonRequest): Response<EnrollLessonResponse>
 
     @GET("workwindows/details/")
     suspend fun getWorkWindows(): Response<InstructorWorkWindowResponse>
 
     @POST("workwindows/create/")
     suspend fun setWorkWindows(@Body instructorWorkWindowRequest: InstructorWorkWindowRequest): Response<InstructorWorkWindowResponse>
-
-    @POST("lessons/create/")
-    suspend fun enrollForLesson(@Body enrollResponse: EnrollLessonRequest): Response<EnrollLessonResponse>
 
     @GET("notifications/")
     suspend fun getNotifications() : Response<NotificationModel>
