@@ -101,17 +101,16 @@ class InstructorMainExploreFragment :
             },
             success = {
                 binding.apply {
-                    if(it?.size == 0) {
-                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
-                        Log.d("madimadi", "currentlessonslist: ${it.size}")
+                    if (it?.isNotEmpty() == true) {
+                        itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                        Log.e(
+                            "ololo",
+                            "initCurrentLessonSections: UiState.Success $it"
+                        )
+                        adapter.updateList(sortDataByDateTime(it, LessonType.Current))
                     } else {
-                        itVisibleOtherGone(rvMainExplore, viewNoLessons, mainProgressBar)
-                        adapter.updateList(it ?: emptyList())
+                        itVisibleOtherGone(viewNoLessons, mainProgressBar, rvMainExplore)
                     }
-                    Log.e(
-                        "ololo",
-                        "initCurrentLessonSections: UiState.Success $it"
-                    )
                 }
             }
         )
@@ -135,16 +134,16 @@ class InstructorMainExploreFragment :
             },
             success = {
                 binding.apply {
-                    if(it?.size == 0) {
-                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
-                    } else {
+                    if (it?.isNotEmpty() == true) {
                         itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
-                        adapter.updateList(it ?: emptyList())
+                        Log.e(
+                            "ololo",
+                            "initCurrentLessonSections: UiState.Success $it"
+                        )
+                        adapter.updateList(sortDataByDateTime(it, LessonType.Previous))
+                    } else {
+                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
                     }
-                    Log.e(
-                        "ololo",
-                        "initCurrentLessonSections: UiState.Success $it"
-                    )
                     tvNoLessons.text = getString(R.string.text_no_lesson_previous)
                 }
             }

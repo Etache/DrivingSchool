@@ -145,19 +145,4 @@ class MainExploreFragment :
             }
         )
     }
-
-    private fun sortDataByDateTime(data: List<LessonsItem>, type: LessonType): List<LessonsItem> {
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val formattedData = data.map { customData ->
-            Pair(sdf.parse("${customData.date} ${customData.time}"), customData)
-        }
-
-        val sortedData = if (type == LessonType.Current){
-            formattedData.sortedBy { it.first }
-        } else {
-            formattedData.sortedByDescending { it.first }
-        }
-
-        return sortedData.map { it.second }
-    }
 }
