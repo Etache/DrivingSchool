@@ -102,7 +102,7 @@ class MainExploreFragment :
                             "ololo",
                             "initCurrentLessonSections: UiState.Success $it"
                         )
-                        adapter.updateList(sortDataByDateTime(it))
+                        adapter.updateList(sortDataByDateTime(it, LessonType.Current))
                     } else {
                         itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
                     }
@@ -135,9 +135,9 @@ class MainExploreFragment :
                             "ololo",
                             "initCurrentLessonSections: UiState.Success $it"
                         )
-                        adapter.updateList(sortDataByDateTime(it))
+                        adapter.updateList(sortDataByDateTime(it, LessonType.Previous))
                         Log.e("ololo", "Before Sorting: $it")
-                        Log.e("ololo", "After Sorting: ${sortDataByDateTime(it)}")
+                        Log.e("ololo", "After Sorting: ${sortDataByDateTime(it, LessonType.Previous)}")
                     } else {
                         itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
                     }
@@ -146,14 +146,17 @@ class MainExploreFragment :
         )
     }
 
-    private fun sortDataByDateTime(data: List<LessonsItem>): List<LessonsItem> {
+    private fun sortDataByDateTime(data: List<LessonsItem>, type: LessonType): List<LessonsItem> {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-
         val formattedData = data.map { customData ->
             Pair(sdf.parse("${customData.date} ${customData.time}"), customData)
         }
 
-        val sortedData = formattedData.sortedBy { it.first }
+        val sortedData = if (type == LessonType.Current){
+            formattedData.sortedBy { it.first }
+        } else {
+            formattedData.sortedByDescending { it.first }
+        }
 
         return sortedData.map { it.second }
     }
