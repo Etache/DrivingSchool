@@ -16,8 +16,6 @@ import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -68,7 +66,7 @@ class InstructorProfileFragment :
             binding.layoutSwipeRefresh.isRefreshing = false
         }
         getInstructorProfileData()
-        showImage()
+        zoomImage()
         pickImageFromGallery()
         changePasswordInstructor()
         logoutInstructor()
