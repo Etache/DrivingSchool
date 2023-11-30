@@ -233,6 +233,7 @@
     <string name="for_student">студенту</string>
     <string name="current_week">Текущая неделя</string>
     <string name="next_week">Следующая неделя</string>
+    <string name="no_text_schedule">У вас пока нет расписания</string>
     <string name="password_successfully_changed">Пароль успешно изменен</string>
     <string name="password_are_not_the_same">Пароли не совпадают</string>
     <string name="password_should_include_more_than_6_symbols">Пароль должен содержать не менее 6 символов</string>

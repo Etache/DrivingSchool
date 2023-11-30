@@ -19,7 +19,7 @@ class NotificationFragment :
         FragmentNotificationBinding.inflate(layoutInflater)
 
     override val viewModel: NotificationViewModel by viewModels()
-    private var adapter = NotificationAdapter(emptyList())
+    private lateinit var adapter: NotificationAdapter
 
     override fun initialize() {
         getNotifications()
@@ -33,6 +33,7 @@ class NotificationFragment :
                     is UiState.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.mainContainer.visibility = View.GONE
+                        binding.noNotification.visibility = View.GONE
                     }
 
                     is UiState.Success -> {
@@ -46,15 +47,15 @@ class NotificationFragment :
                             adapter = NotificationAdapter(sortedNewNotifications!!)
                             adapter.notifyDataSetChanged()
                             binding.rvNotification.adapter = adapter
-                            Log.e("ololo", "notification: ${state.data?.notifications}")
+                            Log.e("ololo", "notification: ${state.data}")
+                            viewModel.readNotifications()
                         } else {
-                            showToast("null") //
+                            //showToast("null") //
+
                             binding.mainContainer.visibility = View.GONE
                             binding.noNotification.visibility = View.VISIBLE
                             binding.progressBar.visibility = View.GONE
                         }
-
-                        viewModel.readNotifications()
                     }
 
                     is UiState.Empty -> {
