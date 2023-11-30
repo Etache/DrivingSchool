@@ -12,12 +12,14 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.drivingschool.ui.fragments.studentMain.MainFragment"
+        app:launchSingleTop="true"
         tools:layout="@layout/fragment_main" />
 
     <fragment
         android:id="@+id/selectInstructorFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.student.SelectInstructorFragment"
-        tools:layout="@layout/fragment_select_instructor" >
+        app:launchSingleTop="true"
+        tools:layout="@layout/fragment_select_instructor">
         <action
             android:id="@+id/action_selectInstructorFragment_to_instructorInfoFragment"
             app:destination="@id/instructorInfoFragment" />
@@ -25,6 +27,7 @@
     <fragment
         android:id="@+id/instructorInfoFragment"
         android:name="com.example.drivingschool.ui.fragments.enroll.instructorInfo.InstructorInfoFragment"
+        app:launchSingleTop="true"
         tools:layout="@layout/fragment_instructor_info" />
     <fragment
         android:id="@+id/currentLessonDetailsFragment"
@@ -37,14 +40,17 @@
     <fragment
         android:id="@+id/instructorProfileFragment"
         android:name="com.example.drivingschool.ui.fragments.profile.instructorProfile.InstructorProfileFragment"
+        app:launchSingleTop="true"
         tools:layout="@layout/fragment_instructor_profile" />
     <fragment
         android:id="@+id/mainExploreFragment"
         android:name="com.example.drivingschool.ui.fragments.studentMain.mainExplore.MainExploreFragment"
+        app:launchSingleTop="true"
         tools:layout="@layout/fragment_main_explore" />
     <fragment
         android:id="@+id/studentProfileFragment"
         android:name="com.example.drivingschool.ui.fragments.profile.studentProfile.StudentProfileFragment"
+        app:launchSingleTop="true"
         tools:layout="@layout/fragment_student_profile" />
     <fragment
         android:id="@+id/selectDateTimeFragment"
@@ -65,6 +71,7 @@
     <fragment
         android:id="@+id/instructorMainFragment"
         android:name="com.example.drivingschool.ui.fragments.instructorMain.fragments.InstructorMainFragment"
+        app:launchSingleTop="true"
         tools:layout="@layout/fragment_instructor_main" />
     <fragment
         android:id="@+id/instructorMainExploreFragment"

@@ -44,7 +44,9 @@ class CurrentLessonDetailsFragment :
             binding.layoutSwipeRefresh.isRefreshing = false
         }
 
-        binding.circleImageView.showFullSizeImage()
+        binding.circleImageView.setOnClickListener {
+            binding.circleImageView.showFullSizeImage()
+        }
     }
 
     override fun setupListeners() {

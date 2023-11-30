@@ -50,6 +50,8 @@ class InstructorMainFragment : BaseFragment<FragmentInstructorMainBinding, MainE
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+        setUpTabLayoutWitViewPager()
+        checkNotifications()
     }
 
     @SuppressLint("InflateParams")
@@ -83,12 +85,15 @@ class InstructorMainFragment : BaseFragment<FragmentInstructorMainBinding, MainE
                     }
 
                     is UiState.Error -> {
+                        Log.e("ololo", "checkNotifications: ${state.msg}")
                     }
 
                     is UiState.Empty -> {
+                        Log.e("ololo", "checkNotifications: Empty")
                     }
 
                     else -> {
+                        //todo
                     }
                 }
             }

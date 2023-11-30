@@ -2,23 +2,18 @@ package com.example.drivingschool.ui.fragments.instructorMain.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toolbar
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorMainExploreBinding
-import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.itVisibleOtherGone
 import com.example.drivingschool.tools.showToast
-import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.Constants.BUNDLE_LESSON_TYPE
 import com.example.drivingschool.ui.fragments.instructorMain.adapter.InstructorLessonAdapter
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
-import com.example.drivingschool.ui.fragments.notification.NotificationViewModel
 import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonType
 import com.example.drivingschool.ui.fragments.studentMain.mainExplore.MainExploreViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -101,11 +96,15 @@ class InstructorMainExploreFragment :
             },
             success = {
                 binding.apply {
-                    if(it?.size == 0) {
-                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                    if (it?.isNotEmpty() == true) {
+                        itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                        Log.e(
+                            "ololo",
+                            "initCurrentLessonSections: UiState.Success $it"
+                        )
+                        adapter.updateList(sortDataByDateTime(it, LessonType.Current))
                     } else {
-                        itVisibleOtherGone(rvMainExplore, viewNoLessons, mainProgressBar)
-                        adapter.updateList(it ?: emptyList())
+                        itVisibleOtherGone(viewNoLessons, mainProgressBar, rvMainExplore)
                     }
                 }
             }
@@ -130,11 +129,15 @@ class InstructorMainExploreFragment :
             },
             success = {
                 binding.apply {
-                    if(it?.size == 0) {
-                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
-                    } else {
+                    if (it?.isNotEmpty() == true) {
                         itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
-                        adapter.updateList(it ?: emptyList())
+                        Log.e(
+                            "ololo",
+                            "initCurrentLessonSections: UiState.Success $it"
+                        )
+                        adapter.updateList(sortDataByDateTime(it, LessonType.Previous))
+                    } else {
+                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
                     }
                     tvNoLessons.text = getString(R.string.text_no_lesson_previous)
                 }
