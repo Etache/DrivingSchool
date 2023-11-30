@@ -6,7 +6,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
-import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.databinding.FragmentMainExploreBinding
 import com.example.drivingschool.tools.itVisibleOtherGone
 import com.example.drivingschool.tools.showToast
@@ -17,8 +16,6 @@ import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonAdapter
 import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonType
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 @AndroidEntryPoint
