@@ -1,4 +1,4 @@
-package com.example.drivingschool.ui.fragments.login
+package com.example.drivingschool.ui.activity
 
 interface CheckRoleCallBack {
 

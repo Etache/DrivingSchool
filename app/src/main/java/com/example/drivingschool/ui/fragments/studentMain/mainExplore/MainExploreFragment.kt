@@ -99,10 +99,6 @@ class MainExploreFragment :
                         itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
                         adapter.updateList(it ?: emptyList())
                     }
-                    Log.e(
-                        "ololo",
-                        "initCurrentLessonSections: UiState.Success $it"
-                    )
                 }
             }
         )
@@ -132,10 +128,6 @@ class MainExploreFragment :
                         itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
                         adapter.updateList(it ?: emptyList())
                     }
-                    Log.e(
-                        "ololo",
-                        "initCurrentLessonSections: UiState.Success $it"
-                    )
                     tvNoLessons.text = getString(R.string.text_no_lesson_previous)
                 }
             }

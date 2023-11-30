@@ -39,7 +39,6 @@ class PreviousLessonDetailsFragment :
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
         lessonId = arguments?.getString(Constants.MAIN_TO_PREVIOUS_KEY) ?: Constants.DEFAULT_KEY
-        Log.e("ololo", "initialize: $lessonId")
         networkConnection.observe(viewLifecycleOwner) {
             if (it) viewModel.getDetails(lessonId)
         }
@@ -89,7 +88,6 @@ class PreviousLessonDetailsFragment :
             success = {
                 binding.detailsProgressBar.viewVisibility(false)
                 binding.mainContainer.viewVisibility(true)
-                Log.e("ololo", "setupSubscribes: $it")
                 binding.apply {
                     detailsProgressBar.viewVisibility(false)
                     btnComment.viewVisibility(true)
@@ -127,15 +125,10 @@ class PreviousLessonDetailsFragment :
                                 lastILN
                             )
                         tvCommentBody.text = it.feedbackForStudent?.text
-                        Log.e(
-                            "ololo",
-                            "setupSubscribes:formatDateTime ${it.feedbackForStudent?.createdAt!!}"
-                        )
                         tvCommentDate.text =
                             formatDateTime(it.feedbackForStudent?.createdAt!!)
                         rbCommentSmall.rating =
                             it.feedbackForStudent?.mark?.toInt()!!.toFloat()
-                        Log.e("ololo", "setupSubscribes: full $it")
                         circleCommentImage.showImage(it.feedbackForStudent?.instructor?.profilePhoto?.big)
                     }
                 }

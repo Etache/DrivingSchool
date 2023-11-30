@@ -70,13 +70,6 @@ class InstructorProfileFragment :
         pickImageFromGallery()
         changePasswordInstructor()
         logoutInstructor()
-
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private val pickImageResult =

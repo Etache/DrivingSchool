@@ -21,6 +21,7 @@ import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.databinding.FragmentLoginBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.activity.CheckRoleCallBack
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

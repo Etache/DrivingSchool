@@ -60,7 +60,6 @@ class DrivingRepository @Inject constructor(
     suspend fun getCurrentDetails(id: String) = flow {
         emit(UiState.Loading())
         val response = drivingApiService.getCurrent(id)
-        Log.e("ololo", "getLessonDetails: ${response.body()}")
         if (response.isSuccessful) {
             emit(UiState.Success(response.body()))
         } else {
@@ -71,7 +70,6 @@ class DrivingRepository @Inject constructor(
     suspend fun getPreviousDetails(id: String) = flow {
         emit(UiState.Loading())
         val response = drivingApiService.getPrevious(id)
-        Log.e("ololo", "getLessonDetails: ${response.body()}")
         if (response.isSuccessful) {
             emit(UiState.Success(response.body()))
         } else {
@@ -86,7 +84,6 @@ class DrivingRepository @Inject constructor(
     suspend fun saveComment(comment: FeedbackForInstructorRequest) = flow {
         val data = drivingApiService.createComment(comment = comment).body()
         emit(data)
-        Log.e("ololo", "repositorySaveComment: $data")
     }
 
     suspend fun getInstructors(): Flow<UiState<List<InstructorResponse>>> = flow {
@@ -111,13 +108,11 @@ class DrivingRepository @Inject constructor(
             emit(UiState.Loading())
             val data = drivingApiService.enrollForLesson(enrollRequest).body()
             emit(UiState.Success(data))
-            Log.e("ololo", "repositoryEnrollForLesson: $enrollRequest")
         }.flowOn(Dispatchers.IO)
 
     suspend fun getPreviousDetailsInstructor(id: String) = flow {
         emit(UiState.Loading())
         val response = drivingApiService.getPreviousDetailsInstructor(id)
-        Log.e("ololo", "getLessonDetails: ${response.body()}")
         if (response.isSuccessful) {
             emit(UiState.Success(response.body()))
         } else {
@@ -128,13 +123,11 @@ class DrivingRepository @Inject constructor(
     suspend fun saveInstructorComment(comment: FeedbackForStudentRequest) = flow {
         val data = drivingApiService.createInstructorComment(comment = comment).body()
         emit(data)
-        Log.e("ololo", "repositorySaveComment: $data")
     }
 
     suspend fun getCurrentLessons() = flow {
         emit(UiState.Loading())
         val response = drivingApiService.getCurrent().body()
-        Log.e("ahahaha", "getCurrentLessons: ${response}")
         if (response != null) {
             emit(UiState.Success(response))
         } else {
