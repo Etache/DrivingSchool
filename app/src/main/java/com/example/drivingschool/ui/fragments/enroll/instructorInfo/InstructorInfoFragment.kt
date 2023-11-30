@@ -38,13 +38,6 @@ class InstructorInfoFragment :
     private lateinit var networkConnection: NetworkConnection
     private var id: Int? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.fragment_instructor_info, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkConnection = NetworkConnection(requireContext())
@@ -65,7 +58,6 @@ class InstructorInfoFragment :
 
         showImage()
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun getInstructorProfile() {

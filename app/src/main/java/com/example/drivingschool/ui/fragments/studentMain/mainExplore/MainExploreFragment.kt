@@ -116,6 +116,7 @@ class MainExploreFragment :
             empty = {
                 binding.apply {
                     itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                    tvNoLessons.text = getString(R.string.text_no_lesson_previous)
                 }
             },
             loading = {
