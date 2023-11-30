@@ -72,7 +72,6 @@ class EnrollFragment :
         selectedTime = arguments?.getString(Constants.TIMETABLE_TO_ENROLL_TIME).toString()
         instructorFullName = arguments?.getString(Constants.FULL_NAME).toString()
         instructorID = arguments?.getString(Constants.INSTRUCTOR_ID_ENROLL).toString()
-        Log.d("madimadi", "arguments in enrollFragment: $selectedDate $selectedTime $instructorID")
 
         binding.tvDate.text = "$selectedDate, $selectedTime"
         binding.tvInstructor.text = instructorFullName

@@ -36,10 +36,6 @@ class InstructorCurrentLessonFragment :
 
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
-        Log.e(
-            "ololololo",
-            "initialize: ${arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_CURRENT_KEY)}"
-        )
         networkConnection.observe(viewLifecycleOwner) {
             viewModel.getCurrentById(
                 arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_CURRENT_KEY)
@@ -95,11 +91,6 @@ class InstructorCurrentLessonFragment :
                 showToast("Error $it")
             },
             success = {
-                Log.e(
-                    "ahahaha",
-                    "InstructorCurrentLessonFragment Success: $it",
-                )
-
                 binding.apply {
                     progressBar.visibility = View.GONE
                     clContainer.visibility = View.VISIBLE
@@ -142,7 +133,6 @@ class InstructorCurrentLessonFragment :
                 }
 
                 else -> {
-                    Log.e("ahahaha", "startLesson: ${it?.status}")
                 }
             }
         }

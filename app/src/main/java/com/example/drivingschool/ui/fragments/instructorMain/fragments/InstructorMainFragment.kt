@@ -42,15 +42,14 @@ class InstructorMainFragment : BaseFragment<FragmentInstructorMainBinding, MainE
         if (!pref.isLoginSuccess) {
             findNavController().navigate(R.id.loginFragment)
         }
-
+        setUpTabLayoutWitViewPager()
+        checkNotifications()
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        setUpTabLayoutWitViewPager()
-        checkNotifications()
     }
 
     @SuppressLint("InflateParams")
@@ -84,15 +83,12 @@ class InstructorMainFragment : BaseFragment<FragmentInstructorMainBinding, MainE
                     }
 
                     is UiState.Error -> {
-                        Log.e("ololo", "checkNotifications: ${state.msg}")
                     }
 
                     is UiState.Empty -> {
-                        Log.e("ololo", "checkNotifications: Empty")
                     }
 
                     else -> {
-                        //todo
                     }
                 }
             }

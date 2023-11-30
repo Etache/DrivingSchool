@@ -103,15 +103,10 @@ class InstructorMainExploreFragment :
                 binding.apply {
                     if(it?.size == 0) {
                         itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
-                        Log.d("madimadi", "currentlessonslist: ${it.size}")
                     } else {
                         itVisibleOtherGone(rvMainExplore, viewNoLessons, mainProgressBar)
                         adapter.updateList(it ?: emptyList())
                     }
-                    Log.e(
-                        "ololo",
-                        "initCurrentLessonSections: UiState.Success $it"
-                    )
                 }
             }
         )
@@ -141,10 +136,6 @@ class InstructorMainExploreFragment :
                         itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
                         adapter.updateList(it ?: emptyList())
                     }
-                    Log.e(
-                        "ololo",
-                        "initCurrentLessonSections: UiState.Success $it"
-                    )
                     tvNoLessons.text = getString(R.string.text_no_lesson_previous)
                 }
             }

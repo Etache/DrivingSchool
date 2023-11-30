@@ -66,13 +66,6 @@ class StudentProfileFragment :
         pickImageFromGallery()
         changePassword()
         logout()
-
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private val pickImageResult =
@@ -245,7 +238,6 @@ class StudentProfileFragment :
                         binding.tvGroup.text = state.data?.group?.name
                         binding.tvAveragePoint.text = "Средний балл: ${state.data?.rate}"
                         binding.tvNumberOfLessons.text = state.data?.numberOfLessons
-                        Log.d("madimadi", "getStudentProfileData in Fragment: ${state.data}")
                     }
 
                     is UiState.Empty -> {

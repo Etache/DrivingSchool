@@ -47,7 +47,6 @@ class NotificationFragment :
                             adapter = NotificationAdapter(sortedNewNotifications!!)
                             adapter.notifyDataSetChanged()
                             binding.rvNotification.adapter = adapter
-                            Log.e("ololo", "notification: ${state.data}")
                             viewModel.readNotifications()
                         } else {
                             showToast("null")

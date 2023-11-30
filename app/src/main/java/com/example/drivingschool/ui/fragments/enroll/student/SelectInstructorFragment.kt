@@ -49,13 +49,6 @@ class SelectInstructorFragment :
             }
             binding.layoutSwipeRefresh.isRefreshing = false
         }
-
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun getInstructorsList() {

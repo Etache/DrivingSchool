@@ -25,7 +25,6 @@ class NotificationViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getNotifications().collect {
                 _notifications.postValue(it)
-                Log.d("ololo", "getNotifications: $_notifications")
             }
         }
     }

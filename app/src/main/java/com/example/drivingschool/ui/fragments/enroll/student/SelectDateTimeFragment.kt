@@ -49,10 +49,6 @@ class SelectDateTimeFragment :
         workWindows = arguments?.getSerializable(Constants.WORK_WINDOWS) as ArrayList<Date>
         instructorFullName = arguments?.getString(Constants.FULL_NAME).toString()
         instructorID = arguments?.getString(Constants.INSTRUCTOR_ID_ENROLL).toString()
-        Log.d(
-            "madimadi",
-            "dates in SelectDateTimeFragment: $workWindows $instructorFullName $instructorID"
-        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

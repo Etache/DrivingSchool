@@ -72,9 +72,6 @@ class CurrentLessonDetailsFragment :
             },
             success = {
                 inputDateTimeString = "${it?.date}, ${it?.time}"
-                Log.e("ololo", "inputDateTimeString: $inputDateTimeString")
-                Log.e("ololo", "setupSubscribes: $it")
-                //showToast("UiState.Success")
                 binding.apply {
                     detailsProgressBar.viewVisibility(false)
                     mainContainer.viewVisibility(true)
@@ -128,7 +125,6 @@ class CurrentLessonDetailsFragment :
                 networkConnection.observe(viewLifecycleOwner) { data ->
                     if (data) {
                         viewModel.cancelLiveData.observe(viewLifecycleOwner) {
-                            Log.e("ololo", "showCancelAlert: ${it.toString()}")
                             if (it?.status == "success") {
                                 showSuccessCancelAlert()
                                 binding.btnCancelLesson.viewVisibility(false)

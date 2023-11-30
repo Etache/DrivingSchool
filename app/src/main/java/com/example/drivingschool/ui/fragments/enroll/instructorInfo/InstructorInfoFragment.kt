@@ -168,10 +168,6 @@ class InstructorInfoFragment :
                         if (state.data?.feedbacks != null) {
                             adapter = InstructorCommentAdapter(state.data?.feedbacks!!)
                             binding.rvInstructorProfileComments.adapter = adapter
-                            Log.d(
-                                "ololo",
-                                "getInstructorDetails in fragment: ${state.data?.feedbacks}"
-                            )
                         }
 
                         Picasso.get()

@@ -39,7 +39,6 @@ class InstructorPreviousLessonFragment :
     override fun initialize() {
         lessonId =
             arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY) ?: Constants.DEFAULT_KEY
-        Log.e("ololo", "initialize: $lessonId")
         networkConnection = NetworkConnection(requireContext())
         networkConnection.observe(viewLifecycleOwner) {
             if (it) viewModel.getDetails(lessonId)
@@ -81,7 +80,6 @@ class InstructorPreviousLessonFragment :
             success = {
                 binding.detailsProgressBar.viewVisibility(false)
                 binding.mainContainer.viewVisibility(true)
-                Log.e("ololo", "setupSubscribes: $it")
                 binding.apply {
                     detailsProgressBar.viewVisibility(false)
                     btnComment.viewVisibility(true)
