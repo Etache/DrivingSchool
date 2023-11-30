@@ -53,8 +53,9 @@
                     android:id="@+id/tvSurname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/instructor_surname"
-                    android:textColor="@color/black"
+                    tools:text="@string/instructor_surname"
+                    android:textColor="@color/black_light"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <TextView
@@ -62,16 +63,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
-                    android:text="@string/instructor_name"
-                    android:textColor="@color/black"
+                    tools:text="@string/instructor_name"
+                    android:textColor="@color/black_light"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_lastname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/instructor_last_name"
-                    android:textColor="@color/black"
+                    tools:text="@string/instructor_last_name"
+                    android:textColor="@color/black_light"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -144,8 +147,8 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:text="@string/number"
-                android:textColor="@color/black"
+                tools:text="@string/number"
+                android:textColor="@color/gray"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/number" />
 
@@ -170,8 +173,8 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:text="@string/experience_num"
-                android:textColor="@color/black"
+                tools:text="@string/experience_num"
+                android:textColor="@color/gray"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/experience" />
 
@@ -196,8 +199,8 @@
                 android:background="@drawable/rectangle_bg_profile"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
-                android:text="@string/car_name"
-                android:textColor="@color/black"
+                tools:text="@string/car_name"
+                android:textColor="@color/gray"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/carMake" />
 

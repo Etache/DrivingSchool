@@ -93,12 +93,16 @@ class MainExploreFragment :
             },
             success = {
                 binding.apply {
-                    itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                    if(it?.size == 0) {
+                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                    } else {
+                        itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                        adapter.updateList(it ?: emptyList())
+                    }
                     Log.e(
                         "ololo",
                         "initCurrentLessonSections: UiState.Success $it"
                     )
-                    adapter.updateList(it ?: emptyList())
                 }
             }
         )
@@ -109,6 +113,7 @@ class MainExploreFragment :
             empty = {
                 binding.apply {
                     itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                    tvNoLessons.text = getString(R.string.text_no_lesson_previous)
                 }
             },
             loading = {
@@ -121,12 +126,17 @@ class MainExploreFragment :
             },
             success = {
                 binding.apply {
-                    itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                    if(it?.size == 0) {
+                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                    } else {
+                        itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                        adapter.updateList(it ?: emptyList())
+                    }
                     Log.e(
                         "ololo",
                         "initCurrentLessonSections: UiState.Success $it"
                     )
-                    adapter.updateList(it ?: emptyList())
+                    tvNoLessons.text = getString(R.string.text_no_lesson_previous)
                 }
             }
         )

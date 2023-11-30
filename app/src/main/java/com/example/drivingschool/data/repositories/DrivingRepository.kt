@@ -13,6 +13,7 @@ import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.StudentProfileResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
+import com.example.drivingschool.data.models.notification.Notification
 import com.example.drivingschool.data.models.notification.NotificationCheckResponse
 import com.example.drivingschool.data.models.notification.NotificationModel
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
@@ -205,7 +206,7 @@ class DrivingRepository @Inject constructor(
     suspend fun updateProfilePhoto(image: MultipartBody.Part) =
         drivingApiService.updateStudentProfilePhoto(image)
 
-    suspend fun getNotifications(): Flow<UiState<NotificationModel>> = flow {
+    suspend fun getNotifications(): Flow<UiState<List<Notification>>> = flow {
         emit(UiState.Loading())
         try {
             val response = drivingApiService.getNotifications()
