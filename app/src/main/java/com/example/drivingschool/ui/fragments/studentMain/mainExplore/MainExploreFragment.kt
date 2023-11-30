@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
+import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.databinding.FragmentMainExploreBinding
 import com.example.drivingschool.tools.itVisibleOtherGone
 import com.example.drivingschool.tools.showToast
@@ -16,6 +17,8 @@ import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonAdapter
 import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonType
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -93,12 +96,16 @@ class MainExploreFragment :
             },
             success = {
                 binding.apply {
-                    itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
-                    Log.e(
-                        "ololo",
-                        "initCurrentLessonSections: UiState.Success $it"
-                    )
-                    adapter.updateList(it ?: emptyList())
+                    if (it?.isNotEmpty() == true) {
+                        itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                        Log.e(
+                            "ololo",
+                            "initCurrentLessonSections: UiState.Success $it"
+                        )
+                        adapter.updateList(sortDataByDateTime(it))
+                    } else {
+                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                    }
                 }
             }
         )
@@ -119,16 +126,34 @@ class MainExploreFragment :
             error = {
                 showToast(it)
             },
-            success = {
+            success = { it ->
                 binding.apply {
-                    itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
-                    Log.e(
-                        "ololo",
-                        "initCurrentLessonSections: UiState.Success $it"
-                    )
-                    adapter.updateList(it ?: emptyList())
+                    if (it?.isNotEmpty() == true) {
+                        itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)
+                        Log.e(
+                            "ololo",
+                            "initCurrentLessonSections: UiState.Success $it"
+                        )
+                        adapter.updateList(sortDataByDateTime(it))
+                        Log.e("ololo", "Before Sorting: $it")
+                        Log.e("ololo", "After Sorting: ${sortDataByDateTime(it)}")
+                    } else {
+                        itVisibleOtherGone(viewNoLessons, rvMainExplore, mainProgressBar)
+                    }
                 }
             }
         )
+    }
+
+    private fun sortDataByDateTime(data: List<LessonsItem>): List<LessonsItem> {
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
+        val formattedData = data.map { customData ->
+            Pair(sdf.parse("${customData.date} ${customData.time}"), customData)
+        }
+
+        val sortedData = formattedData.sortedBy { it.first }
+
+        return sortedData.map { it.second }
     }
 }
