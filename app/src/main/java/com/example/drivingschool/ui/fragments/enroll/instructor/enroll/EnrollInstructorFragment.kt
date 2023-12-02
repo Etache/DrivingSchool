@@ -1,11 +1,8 @@
 package com.example.drivingschool.ui.fragments.enroll.instructor.enroll
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,7 +14,6 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentEnrollInstructorBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
-import com.example.drivingschool.ui.activity.MainActivity
 import com.example.drivingschool.ui.fragments.Constants.EFCIFCURRENTWEEKEMPTY
 import com.example.drivingschool.ui.fragments.enroll.instructor.enroll.adapter.CurrentEnrollInstructorAdapter
 import com.example.drivingschool.ui.fragments.enroll.instructor.enroll.adapter.NextEnrollInstructorAdapter
@@ -60,12 +56,11 @@ class EnrollInstructorFragment :
                     findNavController().navigate(R.id.calendarInstructorFragment, bundle)
                 } else {
                     val builder = AlertDialog.Builder(requireContext())
-                    builder.setTitle("Нельзя составить расписание")
+                    builder.setTitle(getString(R.string.cant_make_a_schedule))
                     builder.setMessage(
-                        "Новое расписание можно составить при условии, что у вас еще нет расписания " +
-                                "на следующую неделю и сегодня день недели с пятницы по воскресенье"
+                        getString(R.string.msg_cant_make_a_schedule)
                     )
-                    builder.setPositiveButton("Ok") { dialog, which ->
+                    builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                         dialog.cancel()
                     }.create().show()
                 }
@@ -82,7 +77,7 @@ class EnrollInstructorFragment :
     private fun getWorkWindows() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.currentTimetable.collect {
+                viewModel.currentTimetable.collect { it ->
                     when (it) {
                         is UiState.Loading -> {
                             closeViews()

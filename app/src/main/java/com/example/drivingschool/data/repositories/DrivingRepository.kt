@@ -15,7 +15,6 @@ import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
 import com.example.drivingschool.data.models.notification.Notification
 import com.example.drivingschool.data.models.notification.NotificationCheckResponse
-import com.example.drivingschool.data.models.notification.NotificationModel
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse
 import com.example.drivingschool.data.remote.DrivingApiService
 import com.example.drivingschool.tools.UiState
@@ -134,7 +133,7 @@ class DrivingRepository @Inject constructor(
     suspend fun getCurrentLessons() = flow {
         emit(UiState.Loading())
         val response = drivingApiService.getCurrent().body()
-        Log.e("ahahaha", "getCurrentLessons: ${response}")
+        Log.e("ahahaha", "getCurrentLessons: $response")
         if (response != null) {
             emit(UiState.Success(response))
         } else {

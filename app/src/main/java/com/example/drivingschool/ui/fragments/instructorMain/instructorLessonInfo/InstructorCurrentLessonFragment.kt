@@ -37,7 +37,7 @@ class InstructorCurrentLessonFragment :
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
         Log.e(
-            "ololololo",
+            "ololo",
             "initialize: ${arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_CURRENT_KEY)}"
         )
         networkConnection.observe(viewLifecycleOwner) {
@@ -47,7 +47,9 @@ class InstructorCurrentLessonFragment :
             )
         }
 
-        binding.ivProfileImage.showFullSizeImage()
+        binding.ivProfileImage.setOnClickListener {
+            binding.ivProfileImage.showFullSizeImage()
+        }
     }
 
     override fun setupListeners() {
@@ -173,6 +175,7 @@ class InstructorCurrentLessonFragment :
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun isItTimeToStart(dt: String): Boolean {
         val dateFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_hh_mm_ss))
         val targetDateTime = dateFormat.parse(dt)

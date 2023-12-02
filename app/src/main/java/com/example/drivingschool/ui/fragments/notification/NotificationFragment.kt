@@ -1,5 +1,6 @@
 package com.example.drivingschool.ui.fragments.notification
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -25,6 +26,7 @@ class NotificationFragment :
         getNotifications()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun getNotifications() {
         lifecycleScope.launch {
             viewModel.getNotifications()
@@ -38,7 +40,7 @@ class NotificationFragment :
 
                     is UiState.Success -> {
                         val sortedNewNotifications =
-                            state.data?.sortedWith(compareByDescending { it.created_at })
+                            state.data?.sortedWith(compareByDescending { it.createdAt })
 
                         if (state.data != null) {
                             binding.progressBar.visibility = View.GONE

@@ -49,8 +49,11 @@ class LessonAdapter(
         fun bind(lesson: LessonsItem, position: Int) {
             binding.apply {
                 val last = lesson.instructor?.lastname ?: ""
-                tvTitle.text = "${lesson.instructor?.surname} ${lesson.instructor?.name} $last"
-                tvDate.text = formatDate(lesson.date)
+                tvTitle.text = context.getString(R.string.person_full_name,
+                    lesson.student?.surname,
+                    lesson.student?.name,
+                    last)
+                tvDate.text = lesson.date?.let { formatDate(it) }
                 tvTime.text = timeWithoutSeconds(lesson.time)
                 tvStatus.text = getStatus(lesson.status, binding.tvStatus, context)
             }
@@ -112,7 +115,7 @@ class LessonAdapter(
             return "${timeParts?.get(0)}:${timeParts?.get(1)}"
         }
 
-        private fun formatDate(inputDate: String?): String {
+        private fun formatDate(inputDate: String): String {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val date = inputFormat.parse(inputDate) ?: return ""
 

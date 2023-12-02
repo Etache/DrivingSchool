@@ -1,5 +1,6 @@
 package com.example.drivingschool.ui.fragments.enroll.instructor.checkTable.adapter
 
+import android.content.Context
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
@@ -16,7 +17,7 @@ import java.util.Locale
 
 class CheckTimetableAdapter(
     private val listOfDates: ArrayList<String>?,
-    private val listOfTimes: ArrayList<String>?
+    private val listOfTimes: ArrayList<String>?,
 ) : RecyclerView.Adapter<CheckTimetableViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckTimetableViewHolder {
