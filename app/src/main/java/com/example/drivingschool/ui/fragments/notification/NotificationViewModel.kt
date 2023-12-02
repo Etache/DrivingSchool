@@ -18,8 +18,8 @@ import javax.inject.Inject
 class NotificationViewModel @Inject constructor(
     private val repository: DrivingRepository
 ) : BaseViewModel() {
-    private var _notifications = MutableLiveData<UiState<List<Notification>>>()
-    val notifications: LiveData<UiState<List<Notification>>> = _notifications
+    private var _notifications = MutableLiveData<UiState<NotificationModel>>()
+    val notifications: LiveData<UiState<NotificationModel>> = _notifications
 
     fun getNotifications() {
         viewModelScope.launch {

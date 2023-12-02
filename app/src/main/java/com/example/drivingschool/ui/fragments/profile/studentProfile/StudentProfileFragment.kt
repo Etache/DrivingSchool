@@ -140,6 +140,7 @@ class StudentProfileFragment :
                         networkConnection.observe(viewLifecycleOwner) {
                             if (it) viewModel.deleteProfilePhoto()
                         }
+
                     }
                 }
             }

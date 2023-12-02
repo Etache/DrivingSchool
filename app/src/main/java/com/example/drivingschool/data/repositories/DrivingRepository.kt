@@ -199,7 +199,7 @@ class DrivingRepository @Inject constructor(
     suspend fun updateProfilePhoto(image: MultipartBody.Part) =
         drivingApiService.updateStudentProfilePhoto(image)
 
-    suspend fun getNotifications(): Flow<UiState<List<Notification>>> = flow {
+    suspend fun getNotifications(): Flow<UiState<NotificationModel>> = flow {
         emit(UiState.Loading())
         try {
             val response = drivingApiService.getNotifications()

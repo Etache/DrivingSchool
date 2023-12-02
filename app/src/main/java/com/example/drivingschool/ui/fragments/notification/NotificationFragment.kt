@@ -38,27 +38,28 @@ class NotificationFragment :
 
                     is UiState.Success -> {
                         val sortedNewNotifications =
-                            state.data?.sortedWith(compareByDescending { it.created_at })
+                            state.data?.notifications?.sortedWith(compareByDescending { it.created_at })
 
-                        if (state.data != null) {
+                        if (state.data != null && sortedNewNotifications != null) {
                             binding.progressBar.visibility = View.GONE
                             binding.mainContainer.visibility = View.VISIBLE
                             binding.noNotification.visibility = View.GONE
-                            adapter = NotificationAdapter(sortedNewNotifications!!)
+                            adapter = NotificationAdapter(sortedNewNotifications)
                             adapter.notifyDataSetChanged()
                             binding.rvNotification.adapter = adapter
                             viewModel.readNotifications()
                         } else {
-                            showToast("null")
-                            binding.mainContainer.visibility = View.GONE
+                            //showToast("null")
+                            binding.mainContainer.visibility = View.VISIBLE
                             binding.noNotification.visibility = View.VISIBLE
                             binding.progressBar.visibility = View.GONE
                         }
+
                     }
 
                     is UiState.Empty -> {
                         showToast(getString(R.string.empty_state))
-                        binding.mainContainer.visibility = View.GONE
+                        binding.mainContainer.visibility = View.VISIBLE
                         binding.progressBar.visibility = View.GONE
                         binding.noNotification.visibility = View.VISIBLE
                     }
