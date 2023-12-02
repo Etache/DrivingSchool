@@ -3,11 +3,10 @@ package com.example.drivingschool.ui.fragments.enroll.instructorInfo
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
@@ -195,8 +194,10 @@ class InstructorInfoFragment :
             dialog.setCancelable(true)
             dialog.setContentView(R.layout.show_photo_profile)
             val image = dialog.findViewById<ImageView>(R.id.image)
-            if (binding.ivProfileImage.drawable != null) {
+            if (binding.ivProfileImage.drawable is BitmapDrawable) {
                 image.setImageBitmap((binding.ivProfileImage.drawable as BitmapDrawable).bitmap)
+            } else if (binding.ivProfileImage.drawable is VectorDrawable) {
+              image.setImageDrawable(binding.ivProfileImage.drawable)
             } else {
                 image.setImageResource(R.drawable.ic_default_photo)
             }
