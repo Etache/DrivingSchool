@@ -241,5 +241,7 @@
     <string name="please_fill_all_the_fields">Заполните все поля</string>
     <string name="instructor_has_not_created_timetable">Инструктор еще не создал расписание</string>
     <string name="no_tv_notification">У вас пока нет уведомления</string>
+    <string name="made_by_geeks_pro">Made by Geeks Pro</string>
+    <string name="no_feedbacks">Отзывов пока нет</string>
 
 </resources>
