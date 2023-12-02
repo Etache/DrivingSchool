@@ -56,8 +56,7 @@ class EnrollInstructorFragment :
                     val builder = AlertDialog.Builder(requireContext())
                     builder.setTitle("Нельзя составить расписание")
                     builder.setMessage(
-                        "Новое расписание можно составить при условии, что у вас еще нет расписания " +
-                                "на следующую неделю и сегодня день недели с пятницы по воскресенье"
+                        "У вас уже есть расписание на следующую неделю"
                     )
                     builder.setPositiveButton("Ok") { dialog, which ->
                         dialog.cancel()
