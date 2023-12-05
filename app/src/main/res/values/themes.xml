@@ -6,6 +6,8 @@
         <item name="android:statusBarColor">@color/gray_btn</item>
     </style>
 
-    <style name="Theme.DrivingSchool" parent="Base.Theme.DrivingSchool" />
+    <style name="Theme.DrivingSchool" parent="Base.Theme.DrivingSchool">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
 
 </resources>

@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
@@ -62,6 +62,7 @@ class InstructorPreviousLessonFragment :
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setupSubscribes() {
 
         viewModel.detailsState.collectStateFlow(
@@ -120,12 +121,14 @@ class InstructorPreviousLessonFragment :
             LayoutInflater.from(requireContext())
                 .inflate(R.layout.instructor_custom_rate_dialog, null)
         builder.setView(customDialog)
+        builder.setCancelable(false)
 
         val header = customDialog.findViewById<TextView>(R.id.tv_comment_header)
         val rating = customDialog.findViewById<RatingBar>(R.id.rb_comment_small)
         val edt = customDialog.findViewById<EditText>(R.id.et_comment_text)
         val counter = customDialog.findViewById<TextView>(R.id.tv_comment_character_count)
-        val btn = customDialog.findViewById<Button>(R.id.btn_comment_confirm)
+        val btnSend = customDialog.findViewById<Button>(R.id.btn_comment_confirm)
+        val btnDismiss = customDialog.findViewById<ImageButton>(R.id.btn_dismiss)
 
         val headerText = header.text.toString()
         header.text = headerText.replace(getString(R.string.for_instructor),
@@ -139,12 +142,20 @@ class InstructorPreviousLessonFragment :
                 counter.text = "(${p0?.length.toString()}/250)"
             }
 
-            override fun afterTextChanged(p0: Editable?) {}
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.length == 0) {
+                    btnSend.isClickable = false
+                    btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
+                } else {
+                    btnSend.isClickable = true
+                    btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
+                }
+            }
         })
 
         val dialog = builder.create()
 
-        btn.setOnClickListener {
+        btnSend.setOnClickListener {
             createComment(
                 FeedbackForStudentRequest(
                     lesson = lessonId.toInt(),
@@ -153,6 +164,9 @@ class InstructorPreviousLessonFragment :
                     mark = rating.rating.toInt()
                 )
             )
+            dialog.dismiss()
+        }
+        btnDismiss.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
@@ -167,7 +181,7 @@ class InstructorPreviousLessonFragment :
                 showAlert()
             }
         }
-        viewModel.getDetails(lessonId)
+        showAlert()
     }
 
     private fun showAlert() {
@@ -177,6 +191,9 @@ class InstructorPreviousLessonFragment :
             .setNegativeButton(
                 getString(R.string.ok)
             ) { dialogInterface, _ ->
+                networkConnection.observe(viewLifecycleOwner) {
+                    if (it) viewModel.getDetails(lessonId)
+                }
                 dialogInterface.cancel()
             }
             .show()

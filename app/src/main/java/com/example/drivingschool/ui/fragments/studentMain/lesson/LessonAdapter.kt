@@ -59,11 +59,11 @@ class LessonAdapter(
             }
             if (position == 0 && lessonType == LessonType.Current) {
                 binding.apply {
-                    tvTitle.setTextColor(ContextCompat.getColor(context, R.color.black))
+                    tvTitle.setTextColor(ContextCompat.getColor(context, R.color.dark_blue))
                     dividerView.setBackgroundColor(
                         ContextCompat.getColor(
                             context,
-                            R.color.black
+                            R.color.dark_blue
                         )
                     )
                 }

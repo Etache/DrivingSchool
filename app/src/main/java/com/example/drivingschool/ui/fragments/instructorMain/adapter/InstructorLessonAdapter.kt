@@ -2,6 +2,7 @@ package com.example.drivingschool.ui.fragments.instructorMain.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -49,6 +50,7 @@ class InstructorLessonAdapter(
     inner class ViewHolder(private val binding: ItemMainBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(lesson: LessonsItem, position: Int) {
+
             binding.apply {
                 val last = lesson.student?.lastname ?: ""
                 tvTitle.text = context.getString(R.string.person_full_name,
@@ -59,13 +61,15 @@ class InstructorLessonAdapter(
                 tvStatus.text = getStatus(lesson.status, binding.tvStatus, context)
                 tvDate.text = lesson.date?.let { formatDate(it) }
             }
+            Log.e("ololo", "bind: $lessonType")
+            Log.d("ololo", "bind: position = $position")
             if (position == 0 && lessonType == LessonType.Current) {
                 binding.apply {
-                    tvTitle.setTextColor(ContextCompat.getColor(context, R.color.black))
+                    tvTitle.setTextColor(ContextCompat.getColor(context, R.color.dark_blue))
                     dividerView.setBackgroundColor(
                         ContextCompat.getColor(
                             context,
-                            R.color.black
+                            R.color.dark_blue
                         )
                     )
                 }

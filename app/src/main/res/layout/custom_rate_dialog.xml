@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -59,7 +60,8 @@
             android:maxLength="250"
             android:maxLines="4"
             android:minHeight="48dp"
-            android:padding="6dp" />
+            android:padding="6dp"
+            tools:targetApi="p" />
 
         <TextView
             android:id="@+id/tv_comment_character_count"
@@ -76,7 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:backgroundTint="@color/bright_blue"
+            android:backgroundTint="@color/gray_btn"
+            android:clickable="false"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/continue_text"
             android:textSize="16sp"
