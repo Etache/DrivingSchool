@@ -11,7 +11,8 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.models.TimeInWorkWindows
 import com.example.drivingschool.databinding.ItemTimeBinding
 
-class TimeAdapter(val onClick : (TimeInWorkWindows?) -> Unit) : Adapter<TimeAdapter.TimeViewHolder>() {
+class TimeAdapter(val onClick: (TimeInWorkWindows?) -> Unit) :
+    Adapter<TimeAdapter.TimeViewHolder>() {
 
     var list = listOf<TimeInWorkWindows>()
     private var selectedPosition: Int = RecyclerView.NO_POSITION
@@ -39,7 +40,7 @@ class TimeAdapter(val onClick : (TimeInWorkWindows?) -> Unit) : Adapter<TimeAdap
             binding.tvText.text = time.time
 
             if (time.isFree == true) {
-                if(isSelected){
+                if (isSelected) {
                     binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector)
                     binding.tvText.setTextColor(Color.parseColor("#5883CB"))
                 } else {
@@ -53,7 +54,7 @@ class TimeAdapter(val onClick : (TimeInWorkWindows?) -> Unit) : Adapter<TimeAdap
             }
 
             itemView.setOnClickListener {
-                if(time.isFree == true) {
+                if (time.isFree == true) {
                     handleTimeClick(adapterPosition)
                     onClick(time)
                 } else {

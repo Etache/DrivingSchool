@@ -35,6 +35,10 @@ class InstructorMainExploreFragment :
         networkConnection = NetworkConnection(requireContext())
         binding.rvMainExplore.layoutManager = LinearLayoutManager(requireContext())
 
+        lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
+            it.getSerializable(BUNDLE_LESSON_TYPE) as? LessonType
+        }
+
         networkConnection.observe(viewLifecycleOwner) {
             if (it) {
                 if (lessonType == LessonType.Current) viewModel.getCurrent()
@@ -44,10 +48,6 @@ class InstructorMainExploreFragment :
 
         adapter = InstructorLessonAdapter(this::onClick, requireContext(), lessonType)
         binding.rvMainExplore.adapter = adapter
-
-        lessonType = arguments?.takeIf { it.containsKey(BUNDLE_LESSON_TYPE) }?.let {
-            it.getSerializable(BUNDLE_LESSON_TYPE) as? LessonType
-        }
 
         if (lessonType == LessonType.Current) initCurrentLessonSections()
         else if (lessonType == LessonType.Previous) initPreviousLessonSections()
