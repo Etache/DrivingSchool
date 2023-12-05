@@ -162,7 +162,8 @@ class InstructorInfoFragment :
                                 }
                             }
                         }
-                        binding.tvNumber.text = state.data?.phoneNumber
+                        val number = state.data?.phoneNumber
+                        binding.tvNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                         binding.tvCarName.text = state.data?.car
 
                         if (state.data?.feedbacks != null) {

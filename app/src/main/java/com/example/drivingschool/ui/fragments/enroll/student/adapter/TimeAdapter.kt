@@ -12,11 +12,13 @@ import com.example.drivingschool.databinding.ItemTimeBinding
 
 class TimeAdapter(val onClick : (TimeInWorkWindows?) -> Unit) : Adapter<TimeAdapter.TimeViewHolder>() {
 
-    var list = arrayListOf<TimeInWorkWindows>()
+    var list = listOf<TimeInWorkWindows>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setTimesList(timesList: ArrayList<TimeInWorkWindows>) {
-        list = timesList
+    fun setTimesList(timesList: List<TimeInWorkWindows>?) {
+        if (timesList != null) {
+            list = timesList
+        }
         notifyDataSetChanged()
     }
 

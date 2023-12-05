@@ -30,7 +30,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.viewPagerMain.adapter = MainExploreViewPagerAdapter(this@MainFragment)
         binding.viewPagerMain.isSaveEnabled = false
 
-        if (!pref.isLoginSuccess) {
+        if (!pref.isLoginSuccess || pref.accessToken == null) { //check token
             findNavController().navigate(R.id.loginFragment)
         }
         if (pref.role == getString(R.string.instructor)){

@@ -42,7 +42,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/text_no_lesson"
-                android:textColor="@color/dark_gray_text"
+                android:textColor="@color/gray"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 

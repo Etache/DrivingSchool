@@ -100,7 +100,9 @@ class SelectDateTimeFragment :
 
             workWindows.forEach { dates ->
                 if (dates.date == outputDateString) {
-                    adapter.setTimesList(dates.times!!)
+                    val sortedTimes = dates.times?.sortedBy { LocalTime.parse(it.time) }
+                    adapter.setTimesList(sortedTimes)
+                    Log.d("madimadi", "sortedTimesList: $sortedTimes")
                 }
             }
         }
