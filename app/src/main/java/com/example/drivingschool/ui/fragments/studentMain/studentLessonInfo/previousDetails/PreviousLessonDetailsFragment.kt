@@ -102,7 +102,8 @@ class PreviousLessonDetailsFragment :
                         it?.instructor?.name,
                         last
                     )
-                    tvUserNumber.text = it?.instructor?.phoneNumber
+                    val number = it?.instructor?.phoneNumber
+                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                     tvPreviousStartDate.text = formatDate(it?.date)
                     tvScheduleEndDate.text = formatDate(it?.date)
                     tvPreviousStartTime.text = timeWithoutSeconds(it?.time)
@@ -158,6 +159,7 @@ class PreviousLessonDetailsFragment :
         edt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
+            @SuppressLint("SetTextI18n")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 counter.text = "(${p0?.length.toString()}/250)"
             }

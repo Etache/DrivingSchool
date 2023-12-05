@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">DrivingSchool</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     //Fragments
@@ -181,7 +180,7 @@
     <string name="absent">Не пришел</string>
     <string name="Check_timetable">Расписание на следующую неделю составляется с пятницы по воскресенье</string>
     <string name="dd_mm_yyyy">dd.MM.yyyy</string>
-    <string name="cancel_alert_msg">Занятие можно отметить только за 4 часа</string>
+    <string name="cancel_alert_msg">Занятие можно отменить только \nза 4 часа</string>
     <string name="instructor_text">Инструктор</string>
     <string name="cancel_is_impossible">Отмена занятия невозможна</string>
     <string name="canceled_text">Ваше занятие отменено</string>
@@ -243,5 +242,9 @@
     <string name="no_tv_notification">У вас пока нет уведомлений</string>
     <string name="made_by_geeks_pro">Made by Geeks Pro</string>
     <string name="no_feedbacks">Отзывов пока нет</string>
+    <string name="schedule_has_been_drawn_up">Расписание составлено</string>
+    <string name="cant_make_a_schedule">Нельзя составить расписание</string>
+    <string name="msg_cant_make_a_schedule">Новое расписание можно составить при условии, что у вас еще нет расписания на следующую неделю и сегодня день недели с пятницы по воскресенье</string>
+    <string name="choose_a_time">Выберите время</string>
 
 </resources>

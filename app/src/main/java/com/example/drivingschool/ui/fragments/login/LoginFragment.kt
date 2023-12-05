@@ -58,7 +58,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             setLogin()
         }
 
-        binding.etPassword.setOnKeyListener { v, keyCode, event ->
+        binding.etPassword.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 binding.btnLogin.performClick()
                 return@setOnKeyListener true

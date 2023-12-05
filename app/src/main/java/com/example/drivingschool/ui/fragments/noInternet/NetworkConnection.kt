@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.drivingschool.ui.fragments.noInternet
 
 import android.content.Context
@@ -20,10 +22,10 @@ class NetworkConnection @Inject constructor(context: Context) : LiveData<Boolean
         connectivityManager.registerDefaultNetworkCallback(connectionCallback())
     }
 
-    override fun onInactive() {
-        super.onInactive()
+//    override fun onInactive() {
+//        super.onInactive()
 //        connectivityManager.unregisterNetworkCallback(connectionCallback())
-    }
+//    }
 
     private fun connectionCallback(): ConnectivityManager.NetworkCallback {
         networkConnectionCallback = object : ConnectivityManager.NetworkCallback() {

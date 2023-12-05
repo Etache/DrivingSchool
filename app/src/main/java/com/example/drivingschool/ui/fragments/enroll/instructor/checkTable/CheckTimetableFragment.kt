@@ -3,9 +3,7 @@ package com.example.drivingschool.ui.fragments.enroll.instructor.checkTable
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
@@ -16,12 +14,12 @@ import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYDATES
 import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYTIMES
 import com.example.drivingschool.ui.fragments.enroll.instructor.checkTable.adapter.CheckTimetableAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.ArrayList
 
 @AndroidEntryPoint
 class CheckTimetableFragment :
     BaseFragment<FragmentCheckTimetableBinding, CheckTimetableViewModel>() {
-    override fun getViewBinding(): FragmentCheckTimetableBinding = FragmentCheckTimetableBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentCheckTimetableBinding =
+        FragmentCheckTimetableBinding.inflate(layoutInflater)
 
     override val viewModel: CheckTimetableViewModel by viewModels()
     lateinit var adapter: CheckTimetableAdapter
@@ -36,7 +34,7 @@ class CheckTimetableFragment :
         )
         adapter = CheckTimetableAdapter(
             instructorWorkWindowCreate.date as ArrayList<String>,
-            instructorWorkWindowCreate.time as ArrayList<String>
+            instructorWorkWindowCreate.time as ArrayList<String>,
         )
         binding.recyclerDateAndTimeTimetable.adapter = adapter
     }
@@ -45,8 +43,8 @@ class CheckTimetableFragment :
         super.setupListeners()
         binding.btnConfirmTimetable.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Расписание составлено")
-            builder.setPositiveButton("Ok") { dialog, which ->
+            builder.setTitle(getString(R.string.schedule_has_been_drawn_up))
+            builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                 val intent = Intent(requireActivity(), MainActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 createTimetable(instructorWorkWindowCreate)
