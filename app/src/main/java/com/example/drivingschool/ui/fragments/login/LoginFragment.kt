@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.PasswordTransformationMethod
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +73,29 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+        hidePasswordIcon()
+    }
+
+    private fun hidePasswordIcon() {
+        with(binding) {
+            val showPasswordIcon = R.drawable.ic_password_eye_on
+            val hidePasswordIcon = R.drawable.ic_password_eye_off
+            tilPassword.setEndIconDrawable(hidePasswordIcon)
+            tilPassword.setEndIconOnClickListener {
+                etPassword?.let {
+                    val selection = it.selectionEnd
+                    if (it.transformationMethod is PasswordTransformationMethod) {
+                        it.transformationMethod = null
+                        tilPassword.setEndIconDrawable(showPasswordIcon)
+                    } else {
+                        // Переключаемся на скрытие пароля
+                        it.transformationMethod = PasswordTransformationMethod.getInstance()
+                        tilPassword.setEndIconDrawable(hidePasswordIcon)
+                    }
+                    it.setSelection(selection)
+                }
+            }
+        }
     }
 
     private fun hideKeyboard(context: Context, view: View?) {
