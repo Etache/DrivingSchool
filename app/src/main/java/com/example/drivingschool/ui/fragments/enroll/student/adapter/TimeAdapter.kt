@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.drivingschool.R
@@ -13,6 +14,7 @@ import com.example.drivingschool.databinding.ItemTimeBinding
 class TimeAdapter(val onClick : (TimeInWorkWindows?) -> Unit) : Adapter<TimeAdapter.TimeViewHolder>() {
 
     var list = listOf<TimeInWorkWindows>()
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     @SuppressLint("NotifyDataSetChanged")
     fun setTimesList(timesList: List<TimeInWorkWindows>?) {
@@ -28,16 +30,16 @@ class TimeAdapter(val onClick : (TimeInWorkWindows?) -> Unit) : Adapter<TimeAdap
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: TimeViewHolder, position: Int) {
-        holder.onBind(list[position])
+        val time = list[position]
+        holder.onBind(time, position == selectedPosition)
     }
 
     inner class TimeViewHolder(val binding: ItemTimeBinding) : ViewHolder(binding.root) {
-        fun onBind(time: TimeInWorkWindows) {
-            var isPressed = false
+        fun onBind(time: TimeInWorkWindows, isSelected: Boolean) {
             binding.tvText.text = time.time
 
             if (time.isFree == true) {
-                if(isPressed){
+                if(isSelected){
                     binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector)
                     binding.tvText.setTextColor(Color.parseColor("#5883CB"))
                 } else {
@@ -50,21 +52,26 @@ class TimeAdapter(val onClick : (TimeInWorkWindows?) -> Unit) : Adapter<TimeAdap
                 binding.tvText.setTextColor(Color.parseColor("#D3D3D3"))
             }
 
-
-            binding.tvText.setOnClickListener {
-                if(time.isFree == true){
-                    isPressed = !isPressed
-                    if (isPressed) {
-                        onClick(time)
-                        binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector)
-                        binding.tvText.setTextColor(Color.parseColor("#5883CB"))
-                    } else {
-                        onClick(null)
-                        binding.tvText.setBackgroundResource(R.drawable.calendar_time_selector_normal)
-                        binding.tvText.setTextColor(Color.parseColor("#8E8E8E"))
-                    }
+            itemView.setOnClickListener {
+                if(time.isFree == true) {
+                    handleTimeClick(adapterPosition)
+                    onClick(time)
+                } else {
+                    onClick(null)
                 }
             }
         }
+
+    }
+
+    private fun handleTimeClick(position: Int) {
+        if (selectedPosition != RecyclerView.NO_POSITION) {
+            // Сброс цвета для предыдущего выбранного времени
+            notifyItemChanged(selectedPosition)
+        }
+
+        // Обновление цвета для нового выбранного времени
+        selectedPosition = position
+        notifyItemChanged(selectedPosition)
     }
 }
