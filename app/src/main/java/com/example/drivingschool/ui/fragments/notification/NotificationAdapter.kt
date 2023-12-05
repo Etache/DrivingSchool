@@ -52,7 +52,7 @@ class NotificationAdapter(private var notificationList: List<Notification>) :
                 }
             }
 
-            if (notifications.is_read == false) {
+            if (notifications.isRead == false) {
                 binding.tvNewNotification.visibility = View.VISIBLE
             } else {
                 binding.tvNewNotification.visibility = View.GONE

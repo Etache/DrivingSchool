@@ -42,7 +42,8 @@ class InstructorMainFragment : BaseFragment<FragmentInstructorMainBinding, MainE
         if (!pref.isLoginSuccess) {
             findNavController().navigate(R.id.loginFragment)
         }
-
+        setUpTabLayoutWitViewPager()
+        checkNotifications()
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()

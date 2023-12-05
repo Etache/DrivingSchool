@@ -17,6 +17,7 @@ import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.databinding.FragmentInstructorInfoBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
+import com.example.drivingschool.tools.viewVisibility
 import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import com.example.drivingschool.ui.fragments.enroll.student.adapter.InstructorCommentAdapter
@@ -161,16 +162,21 @@ class InstructorInfoFragment :
                                 }
                             }
                         }
-                        binding.tvNumber.text = state.data?.phoneNumber
+                        val number = state.data?.phoneNumber
+                        binding.tvNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                         binding.tvCarName.text = state.data?.car
 
                         if (state.data?.feedbacks != null) {
                             adapter = InstructorCommentAdapter(state.data?.feedbacks!!)
                             binding.rvInstructorProfileComments.adapter = adapter
-                            Log.d(
-                                "ololo",
-                                "getInstructorDetails in fragment: ${state.data?.feedbacks}"
-                            )
+                        }
+
+                        if(state.data?.feedbacks?.size == 0){
+                            binding.rvInstructorProfileComments.viewVisibility(false)
+                            binding.noFeedback.viewVisibility(true)
+                        } else {
+                            binding.rvInstructorProfileComments.viewVisibility(true)
+                            binding.noFeedback.viewVisibility(false)
                         }
 
                         Picasso.get()

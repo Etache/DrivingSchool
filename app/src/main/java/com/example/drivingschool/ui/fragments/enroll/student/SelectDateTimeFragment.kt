@@ -6,12 +6,13 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
-import com.example.drivingschool.data.models.Date
+import com.example.drivingschool.data.models.Dates
 import com.example.drivingschool.data.models.TimeInWorkWindows
 import com.example.drivingschool.databinding.FragmentSelectDateTimeBinding
 import com.example.drivingschool.tools.showToast
@@ -38,7 +39,7 @@ class SelectDateTimeFragment :
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val adapter = TimeAdapter(this::onTimeClick)
-    private lateinit var workWindows: ArrayList<Date>
+    private lateinit var workWindows: Dates
     private lateinit var instructorFullName: String
     private var instructorID: String? = null
     private var selectedFinalDate: String? = null
@@ -46,13 +47,10 @@ class SelectDateTimeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        workWindows = arguments?.getSerializable(Constants.WORK_WINDOWS) as ArrayList<Date>
+        @Suppress("DEPRECATION")
+        workWindows = arguments?.getParcelable<Dates>(Constants.WORK_WINDOWS) as Dates
         instructorFullName = arguments?.getString(Constants.FULL_NAME).toString()
         instructorID = arguments?.getString(Constants.INSTRUCTOR_ID_ENROLL).toString()
-        Log.d(
-            "madimadi",
-            "dates in SelectDateTimeFragment: $workWindows $instructorFullName $instructorID"
-        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -88,7 +86,7 @@ class SelectDateTimeFragment :
                 bundle.putString(Constants.INSTRUCTOR_ID_ENROLL, instructorID)
                 findNavController().navigate(R.id.enrollFragment, bundle)
             } else {
-                showToast("Выберите время")
+                showToast(getString(R.string.choose_a_time))
             }
 
         }
@@ -102,9 +100,11 @@ class SelectDateTimeFragment :
 
             selectedFinalDate = outputDateString //saveSelectedDate
 
-            workWindows.forEach { dates ->
+            workWindows.dates.forEach { dates ->
                 if (dates.date == outputDateString) {
-                    adapter.setTimesList(dates.times!!)
+                    val sortedTimes = dates.times?.sortedBy { LocalTime.parse(it.time) }
+                    adapter.setTimesList(sortedTimes)
+                    Log.d("madimadi", "sortedTimesList: $sortedTimes")
                 }
             }
         }
@@ -132,7 +132,7 @@ class SelectDateTimeFragment :
             override fun decorate(view: DayViewFacade) {
                 view.addSpan(
                     ForegroundColorSpan(
-                        resources.getColor(R.color.gray)
+                        ContextCompat.getColor(requireContext(), R.color.gray)
                     )
                 )
                 view.setDaysDisabled(true)
@@ -148,7 +148,7 @@ class SelectDateTimeFragment :
         val parsedDate = inputDateFormat.parse(day.date.toString())
         val outputDateFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd), Locale.US)
         val outputDateString = outputDateFormat.format(parsedDate!!)
-        workWindows.forEach { date ->
+        workWindows.dates.forEach { date ->
             if (date.date == outputDateString) {
                 isActive = true
             }

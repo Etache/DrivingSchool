@@ -8,17 +8,18 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.drivingschool.R
-import com.example.drivingschool.data.models.Date
+import com.example.drivingschool.data.models.Dates
 import com.example.drivingschool.data.models.InstructorResponse
 import com.example.drivingschool.databinding.InstructorInfoItemBinding
 import com.example.drivingschool.ui.fragments.Constants
 import com.squareup.picasso.Picasso
 
-class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name : String, id : String) -> Unit) :
+class SelectInstructorAdapter(val onClick : (workWindows: Dates, name : String, id : String) -> Unit) :
     RecyclerView.Adapter<SelectInstructorAdapter.SelectViewHolder>() {
 
     private var instructors = arrayListOf<InstructorResponse>()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(it: List<InstructorResponse>) {
         instructors = it as ArrayList<InstructorResponse>
         notifyDataSetChanged()
@@ -87,7 +88,7 @@ class SelectInstructorAdapter(val onClick : (workWindows: ArrayList<Date>, name 
             }
             itemView.setOnClickListener {
                 if(instructor.workwindows != null){
-                    onClick(instructor.workwindows!!, "${instructor.name} ${instructor.surname} ${instructor.lastname}", instructor.id.toString())
+                    onClick(Dates(dates = instructor.workwindows!!), "${instructor.name} ${instructor.surname} ${instructor.lastname}", instructor.id.toString())
                 } else {
                     Toast.makeText(context,
                         context.getString(R.string.instructor_has_not_created_timetable), Toast.LENGTH_SHORT).show()

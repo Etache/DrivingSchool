@@ -18,7 +18,7 @@ class GridSpacingItemDecoration(
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         if (parent.getChildLayoutPosition(view) == 0) {
-            outRect.top = spacing;
+            outRect.top = spacing
         } else {
             outRect.top = 0
         }

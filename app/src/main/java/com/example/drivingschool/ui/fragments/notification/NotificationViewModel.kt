@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.drivingschool.base.BaseViewModel
 import com.example.drivingschool.data.models.notification.Notification
-import com.example.drivingschool.data.models.notification.NotificationCheckResponse
 import com.example.drivingschool.data.models.notification.NotificationModel
 import com.example.drivingschool.data.repositories.DrivingRepository
 import com.example.drivingschool.tools.UiState
@@ -18,14 +17,13 @@ import javax.inject.Inject
 class NotificationViewModel @Inject constructor(
     private val repository: DrivingRepository
 ) : BaseViewModel() {
-    private var _notifications = MutableLiveData<UiState<List<Notification>>>()
-    val notifications: LiveData<UiState<List<Notification>>> = _notifications
+    private var _notifications = MutableLiveData<UiState<NotificationModel>>()
+    val notifications: LiveData<UiState<NotificationModel>> = _notifications
 
     fun getNotifications() {
         viewModelScope.launch {
             repository.getNotifications().collect {
                 _notifications.postValue(it)
-                Log.d("ololo", "getNotifications: $_notifications")
             }
         }
     }

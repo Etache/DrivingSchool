@@ -39,12 +39,6 @@ class EnrollInstructorFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
         getWorkWindows()
     }
 
@@ -60,12 +54,11 @@ class EnrollInstructorFragment :
                     findNavController().navigate(R.id.calendarInstructorFragment, bundle)
                 } else {
                     val builder = AlertDialog.Builder(requireContext())
-                    builder.setTitle("Нельзя составить расписание")
+                    builder.setTitle(getString(R.string.cant_make_a_schedule))
                     builder.setMessage(
-                        "Новое расписание можно составить при условии, что у вас еще нет расписания " +
-                                "на следующую неделю и сегодня день недели с пятницы по воскресенье"
+                        "У вас уже есть расписание на следующую неделю"
                     )
-                    builder.setPositiveButton("Ok") { dialog, which ->
+                    builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                         dialog.cancel()
                     }.create().show()
                 }
@@ -82,7 +75,7 @@ class EnrollInstructorFragment :
     private fun getWorkWindows() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.currentTimetable.collect {
+                viewModel.currentTimetable.collect { it ->
                     when (it) {
                         is UiState.Loading -> {
                             closeViews()

@@ -44,7 +44,9 @@ class CurrentLessonDetailsFragment :
             binding.layoutSwipeRefresh.isRefreshing = false
         }
 
-        binding.circleImageView.showFullSizeImage()
+        binding.circleImageView.setOnClickListener {
+            binding.circleImageView.showFullSizeImage()
+        }
     }
 
     override fun setupListeners() {
@@ -72,9 +74,6 @@ class CurrentLessonDetailsFragment :
             },
             success = {
                 inputDateTimeString = "${it?.date}, ${it?.time}"
-                Log.e("ololo", "inputDateTimeString: $inputDateTimeString")
-                Log.e("ololo", "setupSubscribes: $it")
-                //showToast("UiState.Success")
                 binding.apply {
                     detailsProgressBar.viewVisibility(false)
                     mainContainer.viewVisibility(true)
@@ -85,7 +84,8 @@ class CurrentLessonDetailsFragment :
                         it?.instructor?.name,
                         last
                     )
-                    tvUserNumber.text = it?.instructor?.phoneNumber
+                    val number = it?.instructor?.phoneNumber
+                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
 
                     tvStartDate.text = formatDate(it?.date)
                     tvEndDate.text = formatDate(it?.date)
@@ -128,7 +128,6 @@ class CurrentLessonDetailsFragment :
                 networkConnection.observe(viewLifecycleOwner) { data ->
                     if (data) {
                         viewModel.cancelLiveData.observe(viewLifecycleOwner) {
-                            Log.e("ololo", "showCancelAlert: ${it.toString()}")
                             if (it?.status == "success") {
                                 showSuccessCancelAlert()
                                 binding.btnCancelLesson.viewVisibility(false)

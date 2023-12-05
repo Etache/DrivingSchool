@@ -39,7 +39,6 @@ class PreviousLessonDetailsFragment :
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
         lessonId = arguments?.getString(Constants.MAIN_TO_PREVIOUS_KEY) ?: Constants.DEFAULT_KEY
-        Log.e("ololo", "initialize: $lessonId")
         networkConnection.observe(viewLifecycleOwner) {
             if (it) viewModel.getDetails(lessonId)
         }
@@ -59,7 +58,10 @@ class PreviousLessonDetailsFragment :
             }
         }
 
-        binding.circleImageView.showFullSizeImage()
+        binding.circleImageView.setOnClickListener {
+            binding.circleImageView.showFullSizeImage()
+        }
+
 
         binding.btnComment.setOnClickListener {
             if (!isCommentCreated) showCustomDialog()
@@ -89,7 +91,6 @@ class PreviousLessonDetailsFragment :
             success = {
                 binding.detailsProgressBar.viewVisibility(false)
                 binding.mainContainer.viewVisibility(true)
-                Log.e("ololo", "setupSubscribes: $it")
                 binding.apply {
                     detailsProgressBar.viewVisibility(false)
                     btnComment.viewVisibility(true)
@@ -101,7 +102,8 @@ class PreviousLessonDetailsFragment :
                         it?.instructor?.name,
                         last
                     )
-                    tvUserNumber.text = it?.instructor?.phoneNumber
+                    val number = it?.instructor?.phoneNumber
+                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                     tvPreviousStartDate.text = formatDate(it?.date)
                     tvScheduleEndDate.text = formatDate(it?.date)
                     tvPreviousStartTime.text = timeWithoutSeconds(it?.time)
@@ -127,15 +129,10 @@ class PreviousLessonDetailsFragment :
                                 lastILN
                             )
                         tvCommentBody.text = it.feedbackForStudent?.text
-                        Log.e(
-                            "ololo",
-                            "setupSubscribes:formatDateTime ${it.feedbackForStudent?.createdAt!!}"
-                        )
                         tvCommentDate.text =
                             formatDateTime(it.feedbackForStudent?.createdAt!!)
                         rbCommentSmall.rating =
                             it.feedbackForStudent?.mark?.toInt()!!.toFloat()
-                        Log.e("ololo", "setupSubscribes: full $it")
                         circleCommentImage.showImage(it.feedbackForStudent?.instructor?.profilePhoto?.big)
                     }
                 }
@@ -162,6 +159,7 @@ class PreviousLessonDetailsFragment :
         edt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
+            @SuppressLint("SetTextI18n")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 counter.text = "(${p0?.length.toString()}/250)"
             }

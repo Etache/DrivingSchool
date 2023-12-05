@@ -51,10 +51,13 @@ class InstructorLessonAdapter(
         fun bind(lesson: LessonsItem, position: Int) {
             binding.apply {
                 val last = lesson.student?.lastname ?: ""
-                tvTitle.text = "${lesson.student?.surname} ${lesson.student?.name} $last"
+                tvTitle.text = context.getString(R.string.person_full_name,
+                    lesson.student?.surname,
+                    lesson.student?.name,
+                    last)
                 tvTime.text = timeWithoutSeconds(lesson.time)
                 tvStatus.text = getStatus(lesson.status, binding.tvStatus, context)
-                tvDate.text = formatDate(lesson.date)
+                tvDate.text = lesson.date?.let { formatDate(it) }
             }
             if (position == 0 && lessonType == LessonType.Current) {
                 binding.apply {
@@ -75,7 +78,7 @@ class InstructorLessonAdapter(
             }
         }
 
-        private fun formatDate(inputDate: String?): String {
+        private fun formatDate(inputDate: String): String {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val date = inputFormat.parse(inputDate) ?: return ""
 
@@ -108,11 +111,6 @@ class InstructorLessonAdapter(
                 LessonStatus.ABSENT.status -> {
                     tvStatus.setTextColor(ContextCompat.getColor(context, R.color.red))
                     context.getString(R.string.absent)
-                }
-
-                LessonStatus.ABSENT.status -> {
-                    tvStatus.setTextColor(ContextCompat.getColor(context,R.color.red))
-                    "Не пришел"
                 }
 
                 else -> {

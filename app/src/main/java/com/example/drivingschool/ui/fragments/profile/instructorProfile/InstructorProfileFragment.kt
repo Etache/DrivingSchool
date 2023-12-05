@@ -70,13 +70,6 @@ class InstructorProfileFragment :
         pickImageFromGallery()
         changePasswordInstructor()
         logoutInstructor()
-
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private val pickImageResult =
@@ -242,7 +235,8 @@ class InstructorProfileFragment :
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvLastname.text = state.data?.lastname
-                        binding.tvNumber.text = state.data?.phoneNumber
+                        val number = state.data?.phoneNumber
+                        binding.tvNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                         binding.rbRating.rating = state.data?.rate!!.toFloat()
                         binding.tvRating.text = "Рейтинг: ${state.data?.rate!!.toFloat()}"
 

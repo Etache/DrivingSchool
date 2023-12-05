@@ -39,13 +39,14 @@ class InstructorPreviousLessonFragment :
     override fun initialize() {
         lessonId =
             arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_PREVIOUS_KEY) ?: Constants.DEFAULT_KEY
-        Log.e("ololo", "initialize: $lessonId")
         networkConnection = NetworkConnection(requireContext())
         networkConnection.observe(viewLifecycleOwner) {
             if (it) viewModel.getDetails(lessonId)
         }
 
-        binding.circleImageView.showFullSizeImage()
+        binding.circleImageView.setOnClickListener {
+            binding.circleImageView.showFullSizeImage()
+        }
 
         binding.btnComment.setOnClickListener {
             if (!isCommentCreated) showCustomDialog()
@@ -81,7 +82,6 @@ class InstructorPreviousLessonFragment :
             success = {
                 binding.detailsProgressBar.viewVisibility(false)
                 binding.mainContainer.viewVisibility(true)
-                Log.e("ololo", "setupSubscribes: $it")
                 binding.apply {
                     detailsProgressBar.viewVisibility(false)
                     btnComment.viewVisibility(true)
@@ -93,7 +93,8 @@ class InstructorPreviousLessonFragment :
                         it?.student?.name,
                         last
                     )
-                    tvUserNumber.text = it?.student?.phoneNumber
+                    val number = it?.student?.phoneNumber
+                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                     tvPreviousStartDate.text = formatDate(it?.date)
                     tvScheduleEndDate.text = formatDate(it?.date)
                     tvPreviousStartTime.text = timeWithoutSeconds(it?.time)
@@ -133,6 +134,7 @@ class InstructorPreviousLessonFragment :
         edt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
+            @SuppressLint("SetTextI18n")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 counter.text = "(${p0?.length.toString()}/250)"
             }

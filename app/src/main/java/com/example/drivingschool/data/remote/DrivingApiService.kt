@@ -114,7 +114,7 @@ interface DrivingApiService {
     suspend fun setWorkWindows(@Body instructorWorkWindowRequest: InstructorWorkWindowRequest): Response<InstructorWorkWindowResponse>
 
     @GET("notifications/")
-    suspend fun getNotifications() : Response<List<Notification>>
+    suspend fun getNotifications() : Response<NotificationModel>
 
     @GET("notifications/check/")
     suspend fun checkNotifications() : Response<NotificationCheckResponse>

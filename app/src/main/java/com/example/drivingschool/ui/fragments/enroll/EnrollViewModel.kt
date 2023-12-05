@@ -30,21 +30,18 @@ class EnrollViewModel @Inject constructor(private val enrollRepository: DrivingR
     fun getInstructors() = viewModelScope.launch {
         enrollRepository.getInstructors().collect {
             _instructors.postValue(it)
-            Log.d("ahahaha", "getInstructors view model: $_instructors")
         }
     }
 
     fun getInstructorById(id: Int) = viewModelScope.launch {
         enrollRepository.getInstructorById(id).collect {
             _instructorDetails.postValue(it)
-            Log.d("ahahaha", "getInstructorDetails view model: $_instructorDetails")
         }
     }
 
     fun enrollForLesson(enrollRequest : EnrollLessonRequest) = viewModelScope.launch {
         enrollRepository.enrollForLesson(enrollRequest).collect {
             _enrollResponse.postValue(it)
-            Log.d("madimadi", "enrollResponse in viewModel: $_enrollResponse")
         }
     }
 

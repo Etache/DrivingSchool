@@ -34,14 +34,12 @@ class ProfileViewModel @Inject constructor(
     fun getProfile() = viewModelScope.launch {
         profileRepository.getProfile().collect {
             _profile.postValue(it)
-            Log.d("madimadi", "getProfile: $_profile")
         }
     }
 
     fun getInstructorProfile() = viewModelScope.launch {
         profileRepository.getInstructorProfile().collect {
             _instructorProfile.postValue(it)
-            Log.d("madimadi", "getInstructorProfile: $_instructorProfile")
         }
     }
 

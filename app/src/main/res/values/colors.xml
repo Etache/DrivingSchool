@@ -22,5 +22,6 @@
     <color name="gray_average_point">#545454</color>
     <color name="gray_rating">#8A8A8A</color>
     <color name="yellow">#FDCF08</color>
+    <color name="gray_made_by">#888888</color>
 
 </resources>

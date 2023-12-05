@@ -18,8 +18,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import com.example.drivingschool.R
+import com.example.drivingschool.data.models.mainresponse.LessonsItem
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
+import com.example.drivingschool.ui.fragments.studentMain.lesson.LessonType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -153,28 +155,41 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
     }
 
     protected fun ImageView.showFullSizeImage() {
-        this.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(true)
-            dialog.setContentView(R.layout.show_photo_profile)
-            val image = dialog.findViewById<ImageView>(R.id.image)
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.show_photo_profile)
+        val image = dialog.findViewById<ImageView>(R.id.image)
 
-            when (this.drawable) {
-                is BitmapDrawable -> {
-                    image.setImageBitmap((this.drawable as BitmapDrawable).bitmap)
-                }
-
-                is VectorDrawable -> {
-                    image.setImageDrawable(this.drawable)
-                }
-
-                else -> {
-                    image.setImageResource(R.drawable.ic_default_photo)
-                }
+        when (this.drawable) {
+            is BitmapDrawable -> {
+                image.setImageBitmap((this.drawable as BitmapDrawable).bitmap)
             }
-            dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
-            dialog.show()
+
+            is VectorDrawable -> {
+                image.setImageDrawable(this.drawable)
+            }
+
+            else -> {
+                image.setImageResource(R.drawable.ic_default_photo)
+            }
         }
+        dialog.window?.setBackgroundDrawableResource(R.drawable.ic_default_photo)
+        dialog.show()
+    }
+
+    protected fun sortDataByDateTime(data: List<LessonsItem>, type: LessonType): List<LessonsItem> {
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val formattedData = data.map { customData ->
+            Pair(sdf.parse("${customData.date} ${customData.time}"), customData)
+        }
+
+        val sortedData = if (type == LessonType.Current){
+            formattedData.sortedBy { it.first }
+        } else {
+            formattedData.sortedByDescending { it.first }
+        }
+
+        return sortedData.map { it.second }
     }
 }

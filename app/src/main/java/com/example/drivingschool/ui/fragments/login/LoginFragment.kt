@@ -21,6 +21,7 @@ import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.databinding.FragmentLoginBinding
 import com.example.drivingschool.tools.UiState
+import com.example.drivingschool.ui.activity.CheckRoleCallBack
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -57,7 +58,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             setLogin()
         }
 
-        binding.etPassword.setOnKeyListener { v, keyCode, event ->
+        binding.etPassword.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 binding.btnLogin.performClick()
                 return@setOnKeyListener true

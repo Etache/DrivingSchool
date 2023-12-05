@@ -66,13 +66,6 @@ class StudentProfileFragment :
         pickImageFromGallery()
         changePassword()
         logout()
-
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finish()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private val pickImageResult =
@@ -147,6 +140,7 @@ class StudentProfileFragment :
                         networkConnection.observe(viewLifecycleOwner) {
                             if (it) viewModel.deleteProfilePhoto()
                         }
+
                     }
                 }
             }
@@ -241,11 +235,11 @@ class StudentProfileFragment :
                         binding.tvName.text = state.data?.name
                         binding.tvSurname.text = state.data?.surname
                         binding.tvLastname.text = state.data?.lastname
-                        binding.tvNumber.text = state.data?.phoneNumber
+                        val number = state.data?.phoneNumber
+                        binding.tvNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                         binding.tvGroup.text = state.data?.group?.name
                         binding.tvAveragePoint.text = "Средний балл: ${state.data?.rate}"
                         binding.tvNumberOfLessons.text = state.data?.numberOfLessons
-                        Log.d("madimadi", "getStudentProfileData in Fragment: ${state.data}")
                     }
 
                     is UiState.Empty -> {

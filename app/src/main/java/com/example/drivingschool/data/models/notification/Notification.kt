@@ -1,9 +1,13 @@
 package com.example.drivingschool.data.models.notification
 
+import com.google.gson.annotations.SerializedName
+
 data class Notification(
-    val created_at: String? = null,
+    @SerializedName("created_at")
+    val createdAt: String? = null,
     val id: Int? = null,
-    val is_read: Boolean? = null,
+    @SerializedName("is_read")
+    val isRead: Boolean? = null,
     val lesson: NotificationLesson? = null,
     val status: String? = null
 )

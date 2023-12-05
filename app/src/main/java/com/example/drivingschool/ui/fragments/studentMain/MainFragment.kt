@@ -30,17 +30,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.viewPagerMain.adapter = MainExploreViewPagerAdapter(this@MainFragment)
         binding.viewPagerMain.isSaveEnabled = false
 
-        if (!pref.isLoginSuccess) {
+        if (!pref.isLoginSuccess || pref.accessToken == null) { //check token
             findNavController().navigate(R.id.loginFragment)
         }
-
+        if (pref.role == getString(R.string.instructor)){
+            findNavController().navigate(R.id.instructorMainFragment)
+        } else {
+            setUpTabLayoutWitViewPager()
+        }
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finish()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-        setUpTabLayoutWitViewPager()
     }
 
     private val tabTitles = arrayListOf(

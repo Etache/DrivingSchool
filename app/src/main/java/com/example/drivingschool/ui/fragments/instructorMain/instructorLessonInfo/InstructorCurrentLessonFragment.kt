@@ -36,10 +36,6 @@ class InstructorCurrentLessonFragment :
 
     override fun initialize() {
         networkConnection = NetworkConnection(requireContext())
-        Log.e(
-            "ololololo",
-            "initialize: ${arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_CURRENT_KEY)}"
-        )
         networkConnection.observe(viewLifecycleOwner) {
             viewModel.getCurrentById(
                 arguments?.getString(Constants.INSTRUCTOR_MAIN_TO_CURRENT_KEY)
@@ -47,7 +43,9 @@ class InstructorCurrentLessonFragment :
             )
         }
 
-        binding.ivProfileImage.showFullSizeImage()
+        binding.ivProfileImage.setOnClickListener {
+            binding.ivProfileImage.showFullSizeImage()
+        }
     }
 
     override fun setupListeners() {
@@ -95,18 +93,14 @@ class InstructorCurrentLessonFragment :
                 showToast("Error $it")
             },
             success = {
-                Log.e(
-                    "ahahaha",
-                    "InstructorCurrentLessonFragment Success: $it",
-                )
-
                 binding.apply {
                     progressBar.visibility = View.GONE
                     clContainer.visibility = View.VISIBLE
 
                     tvFullname.text =
                         "${it?.student?.surname} ${it?.student?.name} ${it?.student?.lastname}"
-                    tvNumber.text = it?.student?.phoneNumber
+                    val number = it?.student?.phoneNumber
+                    binding.tvNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                     tvBeginningTime.text = timeWithoutSeconds(it?.time)
                     calculateEndTime(it?.time, tvEndingTime)
                     binding.tvBeginningDate.text = formatDate(it?.date)
@@ -142,7 +136,7 @@ class InstructorCurrentLessonFragment :
                 }
 
                 else -> {
-                    Log.e("ahahaha", "startLesson: ${it?.status}")
+                    //todo
                 }
             }
         }
@@ -173,6 +167,7 @@ class InstructorCurrentLessonFragment :
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun isItTimeToStart(dt: String): Boolean {
         val dateFormat = SimpleDateFormat(getString(R.string.yyyy_mm_dd_hh_mm_ss))
         val targetDateTime = dateFormat.parse(dt)

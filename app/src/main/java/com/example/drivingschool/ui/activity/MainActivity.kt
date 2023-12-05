@@ -7,9 +7,11 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -20,7 +22,6 @@ import com.example.drivingschool.R
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
 import com.example.drivingschool.databinding.ActivityMainBinding
 import com.example.drivingschool.tools.viewVisibility
-import com.example.drivingschool.ui.fragments.login.CheckRoleCallBack
 import com.example.drivingschool.ui.fragments.noInternet.NetworkConnection
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         checkConnection()
 
@@ -53,24 +55,23 @@ class MainActivity : AppCompatActivity(), CheckRoleCallBack {
 
         val inflater = navHostFragment.navController.navInflater
         navigation = inflater.inflate(R.navigation.nav_graph)
+        checkRole()
 
         setSupportActionBar(binding.myToolbar)
 
         setAppBar()
-        checkRole()
     }
 
     override fun checkRole() {
         if (preferences.role == getString(R.string.instructor)) {
             navView.menu.clear() //clear old inflated items.
+            navView.invalidate()
             navView.inflateMenu(R.menu.instructor_bottom_nav_menu)
             navigation.setStartDestination(R.id.instructorMainFragment)
-            navController.navigate(R.id.instructorMainFragment)
         } else if (preferences.role == getString(R.string.student)) {
             navView.menu.clear()
             navView.inflateMenu(R.menu.bottom_nav_menu)
             navigation.setStartDestination(R.id.mainFragment)
-            navController.navigate(R.id.mainFragment)
         }
     }
 
