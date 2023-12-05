@@ -2,9 +2,7 @@ package com.example.drivingschool.ui.fragments.enroll.instructor.calendar
 
 import android.os.Bundle
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,12 +10,11 @@ import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.Times
 import com.example.drivingschool.databinding.FragmentCalendarInstructorBinding
-import com.example.drivingschool.ui.fragments.Constants.ADAPTERSTATE
+import com.example.drivingschool.ui.fragments.Constants.ADAPTER_STATE
 import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYDATES
 import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYTIMES
-import com.example.drivingschool.ui.fragments.Constants.EFCIFCURRENTWEEKEMPTY
-import com.example.drivingschool.ui.fragments.Constants.LISTOFDATES
-import com.example.drivingschool.ui.fragments.Constants.LISTOFTIMES
+import com.example.drivingschool.ui.fragments.Constants.LIST_OF_DATES
+import com.example.drivingschool.ui.fragments.Constants.LIST_OF_TIMES
 import com.example.drivingschool.ui.fragments.enroll.instructor.calendar.adapter.CalendarInstructorAdapter
 import com.example.drivingschool.ui.fragments.enroll.instructor.calendar.customCalendar.CalendarWeekDayFormatter
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -33,7 +30,8 @@ import java.util.Locale
 
 class CalendarInstructorFragment :
     BaseFragment<FragmentCalendarInstructorBinding, CalendarInstructorViewModel>() {
-    override fun getViewBinding(): FragmentCalendarInstructorBinding = FragmentCalendarInstructorBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentCalendarInstructorBinding =
+        FragmentCalendarInstructorBinding.inflate(layoutInflater)
 
     override val viewModel: CalendarInstructorViewModel by viewModels()
     lateinit var adapter: CalendarInstructorAdapter
@@ -54,16 +52,16 @@ class CalendarInstructorFragment :
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putStringArrayList(LISTOFDATES, listOfDates)
-        outState.putStringArrayList(LISTOFTIMES, listOfTimes)
-        outState.putBundle(ADAPTERSTATE, adapter.onSaveInstanceState())
+        outState.putStringArrayList(LIST_OF_DATES, listOfDates)
+        outState.putStringArrayList(LIST_OF_TIMES, listOfTimes)
+        outState.putBundle(ADAPTER_STATE, adapter.onSaveInstanceState())
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            listOfTimes.addAll(savedInstanceState.getStringArrayList(LISTOFTIMES) ?: emptyList())
-            adapter.onRestoreInstanceState(savedInstanceState.getBundle(ADAPTERSTATE) ?: Bundle())
+            listOfTimes.addAll(savedInstanceState.getStringArrayList(LIST_OF_TIMES) ?: emptyList())
+            adapter.onRestoreInstanceState(savedInstanceState.getBundle(ADAPTER_STATE) ?: Bundle())
         }
     }
 
@@ -120,13 +118,13 @@ class CalendarInstructorFragment :
         val nextWeekEnd = getNextWeekEnd()
             val grayDaysDecorator = object : DayViewDecorator {
                 override fun shouldDecorate(day: CalendarDay): Boolean {
-                    return !((day.isInRange(nextWeekStart,nextWeekEnd)))
+                    return !((day.isInRange(nextWeekStart, nextWeekEnd)))
                 }
 
                 override fun decorate(view: DayViewFacade) {
                     view.addSpan(
                         ForegroundColorSpan(
-                            resources.getColor(R.color.gray)
+                            ContextCompat.getColor(requireContext(), R.color.gray)
                         )
                     )
                     view.setDaysDisabled(true)
