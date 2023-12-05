@@ -3,6 +3,7 @@ package com.example.drivingschool.ui.fragments.profile
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,7 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
         networkConnection = NetworkConnection(requireContext())
         super.onViewCreated(view, savedInstanceState)
         //changePassword()
+        hidePasswordIcon()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -67,6 +69,55 @@ class BottomSheetDialog : BottomSheetDialogFragment() {
             changePassword()
         }
         return dialog
+    }
+
+    private fun hidePasswordIcon() {
+        with(binding) {
+            val showPasswordIcon = R.drawable.ic_password_eye_on
+            val hidePasswordIcon = R.drawable.ic_password_eye_off
+            tilOldPassword.setEndIconDrawable(hidePasswordIcon)
+            tilOldPassword.setEndIconOnClickListener {
+                edtOldPassword?.let {
+                    val selection = it.selectionEnd
+                    if (it.transformationMethod is PasswordTransformationMethod) {
+                        it.transformationMethod = null
+                        tilOldPassword.setEndIconDrawable(showPasswordIcon)
+                    } else {
+                        it.transformationMethod = PasswordTransformationMethod.getInstance()
+                        tilOldPassword.setEndIconDrawable(hidePasswordIcon)
+                    }
+                    it.setSelection(selection)
+                }
+            }
+            tilNewPassword.setEndIconDrawable(hidePasswordIcon)
+            tilNewPassword.setEndIconOnClickListener {
+                etNewPassword?.let {
+                    val selection = it.selectionEnd
+                    if (it.transformationMethod is PasswordTransformationMethod) {
+                        it.transformationMethod = null
+                        tilNewPassword.setEndIconDrawable(showPasswordIcon)
+                    } else {
+                        it.transformationMethod = PasswordTransformationMethod.getInstance()
+                        tilNewPassword.setEndIconDrawable(hidePasswordIcon)
+                    }
+                    it.setSelection(selection)
+                }
+            }
+            tilConfirmPassword.setEndIconDrawable(hidePasswordIcon)
+            tilConfirmPassword.setEndIconOnClickListener {
+                etConfirmPassword?.let {
+                    val selection = it.selectionEnd
+                    if (it.transformationMethod is PasswordTransformationMethod) {
+                        it.transformationMethod = null
+                        tilConfirmPassword.setEndIconDrawable(showPasswordIcon)
+                    } else {
+                        it.transformationMethod = PasswordTransformationMethod.getInstance()
+                        tilConfirmPassword.setEndIconDrawable(hidePasswordIcon)
+                    }
+                    it.setSelection(selection)
+                }
+            }
+        }
     }
 
     private fun setupFullHeight(bottomSheet: View) {

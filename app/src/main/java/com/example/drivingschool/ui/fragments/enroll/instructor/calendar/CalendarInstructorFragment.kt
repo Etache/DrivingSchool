@@ -13,7 +13,6 @@ import com.example.drivingschool.databinding.FragmentCalendarInstructorBinding
 import com.example.drivingschool.ui.fragments.Constants.ADAPTER_STATE
 import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYDATES
 import com.example.drivingschool.ui.fragments.Constants.CTFEFARRAYTIMES
-import com.example.drivingschool.ui.fragments.Constants.EFCIFCURRENTWEEKEMPTY
 import com.example.drivingschool.ui.fragments.Constants.LIST_OF_DATES
 import com.example.drivingschool.ui.fragments.Constants.LIST_OF_TIMES
 import com.example.drivingschool.ui.fragments.enroll.instructor.calendar.adapter.CalendarInstructorAdapter
@@ -116,25 +115,6 @@ class CalendarInstructorFragment :
         val nextWeekStart = getNextWeekStart()
         val currentWeekStart = getCurrentWeekStart()
         val nextWeekEnd = getNextWeekEnd()
-
-        if (arguments?.getBoolean(EFCIFCURRENTWEEKEMPTY) == true) {
-            val grayDaysDecorator = object : DayViewDecorator {
-                override fun shouldDecorate(day: CalendarDay): Boolean {
-                    return !(day.isInRange(currentWeekStart, nextWeekEnd))
-                }
-
-                override fun decorate(view: DayViewFacade) {
-                    view.addSpan(
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(requireContext(), R.color.gray)
-                        )
-                    )
-                    view.setDaysDisabled(true)
-                }
-            }
-
-            calendarView.addDecorator(grayDaysDecorator)
-        } else {
             val grayDaysDecorator = object : DayViewDecorator {
                 override fun shouldDecorate(day: CalendarDay): Boolean {
                     return !((day.isInRange(nextWeekStart, nextWeekEnd)))
@@ -151,7 +131,6 @@ class CalendarInstructorFragment :
             }
 
             calendarView.addDecorator(grayDaysDecorator)
-        }
     }
 
     private fun getCurrentWeekStart(): CalendarDay {

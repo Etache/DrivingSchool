@@ -30,22 +30,17 @@ import java.util.Locale
 
 abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
 
-    private var _binding: VB? = null
-    protected val binding: VB get() = _binding!!
+    protected lateinit var binding: VB
 
     protected abstract fun getViewBinding(): VB
     abstract val viewModel : VM
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        _binding = getViewBinding()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = getViewBinding()
         return binding.root
     }
 
