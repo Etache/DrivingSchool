@@ -1,6 +1,5 @@
 package com.example.drivingschool.ui.fragments.notification
 
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,7 +37,7 @@ class NotificationFragment :
 
                     is UiState.Success -> {
                         val sortedNewNotifications =
-                            state.data?.notifications?.sortedWith(compareByDescending { it.created_at })
+                            state.data?.notifications?.sortedWith(compareByDescending { it.createdAt })
 
                         if (state.data != null && sortedNewNotifications != null) {
                             binding.progressBar.visibility = View.GONE

@@ -13,7 +13,6 @@ import com.example.drivingschool.data.models.PasswordRequest
 import com.example.drivingschool.data.models.StudentProfileResponse
 import com.example.drivingschool.data.models.login.LoginRequest
 import com.example.drivingschool.data.models.login.LoginResponse
-import com.example.drivingschool.data.models.notification.Notification
 import com.example.drivingschool.data.models.notification.NotificationCheckResponse
 import com.example.drivingschool.data.models.notification.NotificationModel
 import com.example.drivingschool.data.models.refresh.EnrollLessonResponse

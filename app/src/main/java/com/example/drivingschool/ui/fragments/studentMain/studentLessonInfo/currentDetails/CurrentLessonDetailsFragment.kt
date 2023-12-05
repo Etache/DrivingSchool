@@ -84,7 +84,8 @@ class CurrentLessonDetailsFragment :
                         it?.instructor?.name,
                         last
                     )
-                    tvUserNumber.text = it?.instructor?.phoneNumber
+                    val number = it?.instructor?.phoneNumber
+                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
 
                     tvStartDate.text = formatDate(it?.date)
                     tvEndDate.text = formatDate(it?.date)

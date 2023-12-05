@@ -51,11 +51,11 @@ class EnrollInstructorFragment :
                     findNavController().navigate(R.id.calendarInstructorFragment)
                 } else if (isFridayOrSaturday()) {
                     val builder = AlertDialog.Builder(requireContext())
-                    builder.setTitle("Нельзя составить расписание")
+                    builder.setTitle(getString(R.string.cant_make_a_schedule))
                     builder.setMessage(
                         "У вас уже есть расписание"
                     )
-                    builder.setPositiveButton("Ok") { dialog, which ->
+                    builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                         dialog.cancel()
                     }.create().show()
                 }
@@ -72,7 +72,7 @@ class EnrollInstructorFragment :
     private fun getWorkWindows() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.currentTimetable.collect {
+                viewModel.currentTimetable.collect { it ->
                     when (it) {
                         is UiState.Loading -> {
                             closeViews()

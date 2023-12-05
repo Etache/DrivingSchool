@@ -124,7 +124,7 @@ class MainExploreFragment :
             error = {
                 showToast(it)
             },
-            success = { it ->
+            success = {
                 binding.apply {
                     if (it?.isNotEmpty() == true) {
                         itVisibleOtherGone(rvMainExplore, mainProgressBar, viewNoLessons)

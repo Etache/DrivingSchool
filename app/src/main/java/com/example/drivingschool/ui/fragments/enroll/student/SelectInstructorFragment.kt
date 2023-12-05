@@ -6,10 +6,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
-import com.example.drivingschool.data.models.Date
+import com.example.drivingschool.data.models.Dates
 import com.example.drivingschool.databinding.FragmentSelectInstructorBinding
 import com.example.drivingschool.tools.UiState
 import com.example.drivingschool.tools.showToast
@@ -81,11 +80,11 @@ class SelectInstructorFragment :
         }
     }
 
-    private fun onClick(workWindows: ArrayList<Date>, name: String, id: String) {
+    private fun onClick(workWindows: Dates, name: String, id: String) {
         val bundle = Bundle()
         bundle.putString(Constants.FULL_NAME, name)
         bundle.putString(Constants.INSTRUCTOR_ID_ENROLL, id)
-        bundle.putSerializable(Constants.WORK_WINDOWS, workWindows)
+        bundle.putParcelable(Constants.WORK_WINDOWS, workWindows)
         findNavController().navigate(R.id.selectDateTimeFragment, bundle)
     }
 
