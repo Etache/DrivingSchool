@@ -13,224 +13,233 @@
         android:backgroundTint="@color/blue"
         app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/mainContainer"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
+            android:fillViewport="true"
+            android:scrollbars="vertical" >
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="28dp"
-                app:cardCornerRadius="120dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/ivProfile"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/ic_default_photo"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/profile_photo" />
+                    android:layout_marginTop="28dp"
+                    app:cardCornerRadius="120dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:id="@+id/ivProfile"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/ic_default_photo"
+                        android:contentDescription="@string/profile_photo"
+                        android:scaleType="centerCrop" />
 
-            <LinearLayout
-                android:id="@+id/ll_name_surname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardView">
+                </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/tvSurname"
+                <LinearLayout
+                    android:id="@+id/ll_name_surname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/black_light"
-                    android:textStyle="bold"
-                    tools:text="Иванов" />
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardView">
+
+                    <TextView
+                        android:id="@+id/tvSurname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black_light"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="Иванов" />
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:textColor="@color/black_light"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="Иван" />
+
+                    <TextView
+                        android:id="@+id/tv_lastname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black_light"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="Иванович" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tvName"
+                    android:id="@+id/tv_average_point"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:textColor="@color/black_light"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    tools:text="Иван" />
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/gray_average_point"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_name_surname"
+                    tools:text="Средний балл: " />
 
                 <TextView
-                    android:id="@+id/tv_lastname"
+                    android:id="@+id/tvChangePhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black_light"
-                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/change_profile_photo"
+                    android:textColor="@color/violet"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    tools:text="Иванович" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_average_point" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/telephone_number"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
 
-            <TextView
-                android:id="@+id/tv_average_point"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/gray_average_point"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ll_name_surname"
-                tools:text="Средний балл: " />
-
-            <TextView
-                android:id="@+id/tvChangePhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/change_profile_photo"
-                android:textColor="@color/violet"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_average_point" />
-
-            <TextView
-                android:id="@+id/number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="4dp"
-                android:text="@string/telephone_number"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/tvChangePhoto" />
-
-            <TextView
-                android:id="@+id/tvNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/rectangle_bg_profile"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/number"
-                tools:text="@string/number" />
+                <TextView
+                    android:id="@+id/tvNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/rectangle_bg_profile"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="14dp"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/number"
+                    tools:text="@string/number" />
 
 
-            <TextView
-                android:id="@+id/group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="4dp"
-                android:text="@string/group"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/tvNumber" />
+                <TextView
+                    android:id="@+id/group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/group"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvNumber" />
 
-            <TextView
-                android:id="@+id/tvGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/rectangle_bg_profile"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/group"
-                tools:text="@string/group_number" />
+                <TextView
+                    android:id="@+id/tvGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/rectangle_bg_profile"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="14dp"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/group"
+                    tools:text="@string/group_number" />
 
-            <TextView
-                android:id="@+id/number_of_lessons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="4dp"
-                android:text="@string/number_of_lessons"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/tvGroup" />
+                <TextView
+                    android:id="@+id/number_of_lessons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/number_of_lessons"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvGroup" />
 
-            <TextView
-                android:id="@+id/tv_number_of_lessons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/rectangle_bg_profile"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/number_of_lessons"
-                tools:text="2" />
+                <TextView
+                    android:id="@+id/tv_number_of_lessons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/rectangle_bg_profile"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="14dp"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toBottomOf="@id/number_of_lessons"
+                    tools:text="2" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnChangePassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/super_light_gray"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:text="@string/change_password"
-                android:textAlignment="textStart"
-                android:textColor="@color/light_blue"
-                android:textSize="16sp"
-                app:cornerRadius="5dp"
-                app:icon="@drawable/ic_key_square_profile"
-                app:iconTint="@color/light_blue"
-                app:layout_constraintTop_toBottomOf="@id/tv_number_of_lessons" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnChangePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@color/super_light_gray"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="14dp"
+                    android:text="@string/change_password"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/light_blue"
+                    android:textSize="16sp"
+                    app:cornerRadius="5dp"
+                    app:icon="@drawable/ic_key_square_profile"
+                    app:iconTint="@color/light_blue"
+                    app:layout_constraintTop_toBottomOf="@id/tv_number_of_lessons" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnExit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/super_light_gray"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="14dp"
-                android:text="@string/exit"
-                android:textAlignment="textStart"
-                android:textColor="@color/red"
-                android:textSize="16sp"
-                app:cornerRadius="5dp"
-                app:icon="@drawable/ic_exit_profile"
-                app:iconTint="@color/red"
-                app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnExit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/super_light_gray"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="14dp"
+                    android:text="@string/exit"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/red"
+                    android:textSize="16sp"
+                    app:cornerRadius="5dp"
+                    app:icon="@drawable/ic_exit_profile"
+                    app:iconTint="@color/red"
+                    app:layout_constraintBottom_toTopOf="@id/made_by_gp"
+                    app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
 
-            <TextView
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/gray_made_by"
-                android:text="@string/made_by_geeks_pro"
-                android:layout_marginBottom="12dp"
-                />
+                <TextView
+                    android:id="@+id/made_by_gp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/made_by_geeks_pro"
+                    android:textColor="@color/gray_made_by"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -238,8 +247,8 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
+        android:visibility="gone" />
 
 </FrameLayout>
