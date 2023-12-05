@@ -43,7 +43,9 @@ class InstructorCurrentLessonFragment :
             )
         }
 
-        binding.ivProfileImage.showFullSizeImage()
+        binding.ivProfileImage.setOnClickListener {
+            binding.ivProfileImage.showFullSizeImage()
+        }
     }
 
     override fun setupListeners() {

@@ -13,13 +13,12 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/calendar_time_selector_normal"
         android:fontFamily="@font/sf_pro_text_medium"
-        android:paddingStart="18dp"
         android:paddingTop="8dp"
+        android:textAlignment="center"
         android:text="@string/beginning_time"
         android:textColor="#8E8E8E"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlSymmetry" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </FrameLayout>

@@ -46,17 +46,14 @@ class EnrollInstructorFragment :
         super.setupListeners()
         with(binding) {
             btnMakeASchedule.setOnClickListener {
-                val isCurrentWeekEmpty = currentSchedule.isNullOrEmpty()
                 val isNextWeekEmpty = nextSchedule.isNullOrEmpty()
-                if ((isFridayOrSaturday() && isNextWeekEmpty) || currentSchedule.isNullOrEmpty()) {
-                    val bundle = Bundle()
-                    bundle.putBoolean(EFCIFCURRENTWEEKEMPTY, isCurrentWeekEmpty)
-                    findNavController().navigate(R.id.calendarInstructorFragment, bundle)
-                } else {
+                if (isNextWeekEmpty) {
+                    findNavController().navigate(R.id.calendarInstructorFragment)
+                } else if (isFridayOrSaturday()) {
                     val builder = AlertDialog.Builder(requireContext())
                     builder.setTitle("Нельзя составить расписание")
                     builder.setMessage(
-                        "У вас уже есть расписание на следующую неделю"
+                        "У вас уже есть расписание"
                     )
                     builder.setPositiveButton("Ok") { dialog, which ->
                         dialog.cancel()
