@@ -211,7 +211,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="20dp"
                     android:backgroundTint="@color/super_light_gray"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="14dp"
@@ -222,7 +222,6 @@
                     app:cornerRadius="5dp"
                     app:icon="@drawable/ic_exit_profile"
                     app:iconTint="@color/red"
-                    app:layout_constraintBottom_toTopOf="@id/made_by_gp"
                     app:layout_constraintTop_toBottomOf="@id/btnChangePassword" />
 
                 <TextView
