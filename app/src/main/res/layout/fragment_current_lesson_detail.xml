@@ -35,10 +35,9 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:fontFamily="@font/roboto_light"
+                android:layout_marginStart="20dp"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/instructor_text"
-                android:textStyle="bold"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/circle_image_view"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -47,11 +46,10 @@
                 android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@id/circle_image_view"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
                 tools:text="Иванов Иван Иванович" />
@@ -60,11 +58,10 @@
                 android:id="@+id/tv_user_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/dark_gray_text"
                 android:textSize="14sp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@id/circle_image_view"
                 app:layout_constraintTop_toBottomOf="@id/tv_user_name"
                 tools:text="+996 39458320985" />
@@ -152,6 +149,18 @@
                 </LinearLayout>
 
             </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:text="@string/cancel_4_times"
+                android:textColor="@color/gray_made_by"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/layout_start_end"
+                android:layout_marginTop="12dp"/>
 
             <!--     visibility этой кнопки изначально должен быть Gone    -->
             <com.google.android.material.button.MaterialButton
