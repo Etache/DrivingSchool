@@ -46,13 +46,13 @@ class NextEnrollInstructorAdapter(
             val spannableStringBuilder = SpannableStringBuilder()
 
             spannableStringBuilder.append(getDayOfWeek(currentWeek.date ?: ""))
-            spannableStringBuilder.append(" ")
+            spannableStringBuilder.append(", ")
             spannableStringBuilder.append(changeDateFormat(currentWeek.date ?: ""))
             spannableStringBuilder.append("\n")
 
             currentWeek.times?.forEach { time ->
                 if (time.isFree == false) {
-                    val greenText = "${time.time} "
+                    val greenText = "${time.time}, "
                     val spannableString = SpannableString(greenText)
                     spannableString.setSpan(
                         ForegroundColorSpan(ContextCompat.getColor(itemView.context, R.color.green)),
@@ -62,7 +62,7 @@ class NextEnrollInstructorAdapter(
                     )
                     spannableStringBuilder.append(spannableString)
                 } else {
-                    spannableStringBuilder.append("${time.time} ")
+                    spannableStringBuilder.append("${time.time}, ")
                 }
             }
 
