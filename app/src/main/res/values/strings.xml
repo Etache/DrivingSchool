@@ -77,6 +77,7 @@
     <string name="make_a_schedule">Составить расписание</string>
     <string name="continue_text">Отправить</string>
     <string name="comment_body_text">Ваше занятие завершено, поставьте \nоценку вашему инструктору</string>
+    <string name="comment_instructor_body_text">Ваше занятие завершено, поставьте \nоценку вашему курсанту</string>
     <string name="change_photo">Изменить фотографию</string>
     <string name="delete_photo">Удалить фото</string>
     <string name="choose_photo">Выбрать фото</string>

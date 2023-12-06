@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
@@ -69,6 +68,7 @@ class PreviousLessonDetailsFragment :
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setupSubscribes() {
 
         viewModel.detailsState.collectStateFlow(
@@ -164,7 +164,15 @@ class PreviousLessonDetailsFragment :
                 counter.text = "(${p0?.length.toString()}/250)"
             }
 
-            override fun afterTextChanged(p0: Editable?) {}
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.length == 0) {
+                    btnSend.isClickable = false
+                    btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
+                } else {
+                    btnSend.isClickable = true
+                    btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
+                }
+            }
         })
 
         val dialog = builder.create()
@@ -194,7 +202,6 @@ class PreviousLessonDetailsFragment :
                 showAlert()
             }
         }
-        viewModel.getDetails(lessonId)
         showAlert()
     }
 
@@ -205,6 +212,9 @@ class PreviousLessonDetailsFragment :
             .setNegativeButton(
                 getString(R.string.ok)
             ) { dialogInterface, _ ->
+                networkConnection.observe(viewLifecycleOwner) {
+                    if (it) viewModel.getDetails(lessonId)
+                }
                 dialogInterface.cancel()
             }
             .show()
