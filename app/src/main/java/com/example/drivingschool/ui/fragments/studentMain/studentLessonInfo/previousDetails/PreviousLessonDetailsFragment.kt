@@ -125,8 +125,7 @@ class PreviousLessonDetailsFragment :
                             getString(
                                 R.string.person_full_name,
                                 it.feedbackForStudent?.instructor?.surname,
-                                it.feedbackForStudent?.instructor?.name,
-                                lastILN
+                                it.feedbackForStudent?.instructor?.name
                             )
                         tvCommentBody.text = it.feedbackForStudent?.text
                         tvCommentDate.text =
