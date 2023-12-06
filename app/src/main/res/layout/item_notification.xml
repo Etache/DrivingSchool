@@ -69,7 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/cursant"
-            android:textColor="@color/dark_gray_text"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/gray_notification"
             android:textSize="12sp" />
 
         <LinearLayout

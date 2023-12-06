@@ -95,15 +95,16 @@ class PreviousLessonDetailsFragment :
                     detailsProgressBar.viewVisibility(false)
                     btnComment.viewVisibility(true)
                     studentId = it?.student?.id.toString()
-                    val last = it?.instructor?.lastname ?: ""
                     tvUserName.text = getString(
                         R.string.person_full_name,
                         it?.instructor?.surname,
-                        it?.instructor?.name,
-                        last
+                        it?.instructor?.name
                     )
                     val number = it?.instructor?.phoneNumber
-                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
+                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(
+                        4,
+                        7
+                    ) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                     tvPreviousStartDate.text = formatDate(it?.date)
                     tvScheduleEndDate.text = formatDate(it?.date)
                     tvPreviousStartTime.text = timeWithoutSeconds(it?.time)
@@ -114,19 +115,15 @@ class PreviousLessonDetailsFragment :
                     if (it?.feedbackForInstructor != null) {
                         isCommentCreated = true
                         binding.btnComment.viewVisibility(false)
-
                     }
 
                     if (it?.feedbackForStudent != null) {
                         containerComment.viewVisibility(true)
-                        val lastILN =
-                            it.feedbackForStudent?.instructor?.lastname ?: ""
                         tvCommentTitle.text =
                             getString(
                                 R.string.person_full_name,
                                 it.feedbackForStudent?.instructor?.surname,
-                                it.feedbackForStudent?.instructor?.name,
-                                lastILN
+                                it.feedbackForStudent?.instructor?.name
                             )
                         tvCommentBody.text = it.feedbackForStudent?.text
                         tvCommentDate.text =
@@ -157,19 +154,28 @@ class PreviousLessonDetailsFragment :
         val btnDismiss = customDialog.findViewById<ImageButton>(R.id.btn_dismiss)
 
         edt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length == 0) {
+                    btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
+                } else {
+                    btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
+                }
+            }
 
             @SuppressLint("SetTextI18n")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 counter.text = "(${p0?.length.toString()}/250)"
+                if (p0?.length == 0) {
+                    btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
+                } else {
+                    btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
+                }
             }
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length == 0) {
-                    btnSend.isClickable = false
                     btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
                 } else {
-                    btnSend.isClickable = true
                     btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
                 }
             }
@@ -177,15 +183,17 @@ class PreviousLessonDetailsFragment :
 
         val dialog = builder.create()
         btnSend.setOnClickListener {
-            createComment(
-                FeedbackForInstructorRequest(
-                    lesson = lessonId.toInt(),
-                    instructor = studentId.toInt(),
-                    text = edt.text.toString(),
-                    mark = rating.rating.toInt()
+            if (edt.text.toString().isNotEmpty()) {
+                createComment(
+                    FeedbackForInstructorRequest(
+                        lesson = lessonId.toInt(),
+                        instructor = studentId.toInt(),
+                        text = edt.text.toString(),
+                        mark = rating.rating.toInt()
+                    )
                 )
-            )
-            dialog.dismiss()
+                dialog.dismiss()
+            }
         }
         btnDismiss.setOnClickListener {
             dialog.dismiss()
@@ -198,11 +206,12 @@ class PreviousLessonDetailsFragment :
             if (it) viewModel.saveComment(comment)
         }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let {
+            if(it.status == getString(R.string.success)) {
                 showAlert()
+            } else {
+                showToast(getString(R.string.couldnt_create_comment))
             }
         }
-        showAlert()
     }
 
     private fun showAlert() {

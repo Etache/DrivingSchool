@@ -98,7 +98,7 @@ class InstructorCurrentLessonFragment :
                     clContainer.visibility = View.VISIBLE
 
                     tvFullname.text =
-                        "${it?.student?.surname} ${it?.student?.name} ${it?.student?.lastname}"
+                        "${it?.student?.surname} ${it?.student?.name}"
                     val number = it?.student?.phoneNumber
                     binding.tvNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                     tvBeginningTime.text = timeWithoutSeconds(it?.time)

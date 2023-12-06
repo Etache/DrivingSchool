@@ -48,11 +48,9 @@ class LessonAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(lesson: LessonsItem, position: Int) {
             binding.apply {
-                val last = lesson.instructor?.lastname ?: ""
                 tvTitle.text = context.getString(R.string.person_full_name,
                     lesson.instructor?.surname,
-                    lesson.instructor?.name,
-                    last)
+                    lesson.instructor?.name)
                 tvDate.text = lesson.date?.let { formatDate(it) }
                 tvTime.text = timeWithoutSeconds(lesson.time)
                 tvStatus.text = getStatus(lesson.status, binding.tvStatus, context)

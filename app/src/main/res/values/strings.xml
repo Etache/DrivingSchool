@@ -137,7 +137,7 @@
     <string name="yyyy_mm_dd_hh_mm_ss">yyyy-MM-dd, HH:mm:ss</string>
     <string name="alert_continue_text">Продолжить</string>
     <string name="leave_a_comment">Оставить комментарий</string>
-    <string name="person_full_name">%1$s %2$s %3$s</string>
+    <string name="person_full_name">%1$s %2$s</string>
     <string name="comment_hint">Ваш комментарий</string>
     <string name="date">10</string>
     <string name="select_date_enroll_instructor">Выберите дату</string>
@@ -249,5 +249,6 @@
     <string name="cant_make_a_schedule">Нельзя составить расписание</string>
     <string name="msg_cant_make_a_schedule">Новое расписание можно составить при условии, что у вас еще нет расписания на следующую неделю и сегодня день недели с пятницы по воскресенье</string>
     <string name="choose_a_time">Выберите время</string>
+    <string name="couldnt_create_comment">Не удалось отправить комментарий</string>
 
 </resources>
