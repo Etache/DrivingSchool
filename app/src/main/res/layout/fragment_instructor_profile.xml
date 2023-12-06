@@ -237,6 +237,7 @@
                     android:backgroundTint="#F3F3F3"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="14dp"
+                    app:layout_constraintVertical_bias="0"
                     android:text="@string/exit"
                     android:textAlignment="textStart"
                     android:textColor="@color/red"
