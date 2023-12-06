@@ -80,7 +80,7 @@ class EnrollFragment :
         instructorID = arguments?.getString(Constants.INSTRUCTOR_ID_ENROLL).toString()
 
         val spannableStringBuilder = SpannableStringBuilder()
-        spannableStringBuilder.append("${getDayOfWeek(selectedDate)} ${changeDateFormat(selectedDate)}")
+        spannableStringBuilder.append("${getDayOfWeek(selectedDate)}, ${changeDateFormat(selectedDate)}")
         val stringAfterSpannable = SpannableString(spannableStringBuilder)
         binding.tvDate.text = "$stringAfterSpannable, $selectedTime"
         binding.tvInstructor.text = instructorFullName
