@@ -135,7 +135,15 @@ class InstructorPreviousLessonFragment :
             getString(R.string.for_student))
 
         edt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p3 == 0) {
+                    btnSend.isClickable = false
+                    btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
+                } else {
+                    btnSend.isClickable = true
+                    btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
+                }
+            }
 
             @SuppressLint("SetTextI18n")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
