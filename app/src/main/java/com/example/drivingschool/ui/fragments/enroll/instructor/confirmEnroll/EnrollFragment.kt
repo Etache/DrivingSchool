@@ -2,6 +2,8 @@ package com.example.drivingschool.ui.fragments.enroll.instructor.confirmEnroll
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -19,11 +21,15 @@ import com.example.drivingschool.ui.fragments.Constants
 import com.example.drivingschool.ui.fragments.enroll.EnrollViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class EnrollFragment :
     BaseFragment<FragmentEnrollBinding, EnrollViewModel>() {
-    override fun getViewBinding(): FragmentEnrollBinding = FragmentEnrollBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentEnrollBinding =
+        FragmentEnrollBinding.inflate(layoutInflater)
 
     override val viewModel: EnrollViewModel by viewModels()
     private lateinit var selectedDate: String
@@ -73,8 +79,32 @@ class EnrollFragment :
         instructorFullName = arguments?.getString(Constants.FULL_NAME).toString()
         instructorID = arguments?.getString(Constants.INSTRUCTOR_ID_ENROLL).toString()
 
-        binding.tvDate.text = "$selectedDate, $selectedTime"
+        val spannableStringBuilder = SpannableStringBuilder()
+        spannableStringBuilder.append("${getDayOfWeek(selectedDate)}, ${changeDateFormat(selectedDate)}")
+        val stringAfterSpannable = SpannableString(spannableStringBuilder)
+        binding.tvDate.text = "$stringAfterSpannable, $selectedTime"
         binding.tvInstructor.text = instructorFullName
+    }
+
+    private fun changeDateFormat(date: String): String {
+        val originalFormat = "yyyy-MM-dd"
+        val targetFormat = "dd.MM.yyyy"
+        val originalDateFormat = SimpleDateFormat(originalFormat, Locale.getDefault())
+        val targetDateFormat = SimpleDateFormat(targetFormat, Locale.getDefault())
+
+        val originalDate = originalDateFormat.parse(date)
+        return targetDateFormat.format(originalDate)
+    }
+
+    private fun getDayOfWeek(dateString: String): String {
+        val pattern = "yyyy-MM-dd"
+        val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+        val date = dateFormat.parse(dateString)
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        val daysOfWeek = arrayOf("Вc", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб")
+        return daysOfWeek[dayOfWeek - 1]
     }
 
     private fun showDialog() {
