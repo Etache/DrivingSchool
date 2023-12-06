@@ -61,6 +61,11 @@ class StudentProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            getProfileData()
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
+
         getProfileData()
         zoomImage()
         pickImageFromGallery()

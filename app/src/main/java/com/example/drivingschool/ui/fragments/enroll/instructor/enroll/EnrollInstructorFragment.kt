@@ -39,6 +39,10 @@ class EnrollInstructorFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun initialize() {
+        super.initialize()
         getWorkWindows()
     }
 
@@ -47,9 +51,7 @@ class EnrollInstructorFragment :
         with(binding) {
             btnMakeASchedule.setOnClickListener {
                 val isNextWeekEmpty = nextSchedule.isNullOrEmpty()
-                if (isNextWeekEmpty) {
-                    findNavController().navigate(R.id.calendarInstructorFragment)
-                } else if (isFridayOrSaturday()) {
+                if (!isNextWeekEmpty) {
                     val builder = AlertDialog.Builder(requireContext())
                     builder.setTitle(getString(R.string.cant_make_a_schedule))
                     builder.setMessage(
@@ -58,6 +60,17 @@ class EnrollInstructorFragment :
                     builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                         dialog.cancel()
                     }.create().show()
+                } else if (isFridayOrSaturday()) {
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle(getString(R.string.cant_make_a_schedule))
+                    builder.setMessage(
+                        "Невозможно составить расписание"
+                    )
+                    builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                        dialog.cancel()
+                    }.create().show()
+                } else {
+                    findNavController().navigate(R.id.calendarInstructorFragment)
                 }
             }
         }
