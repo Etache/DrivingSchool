@@ -66,6 +66,18 @@ class StudentProfileFragment :
         pickImageFromGallery()
         changePassword()
         logout()
+        refreshProfileData()
+    }
+
+    private fun refreshProfileData() {
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            networkConnection.observe(viewLifecycleOwner) {
+                if (it) {
+                    viewModel.getProfile()
+                }
+                binding.layoutSwipeRefresh.isRefreshing = false
+            }
+        }
     }
 
     private val pickImageResult =
