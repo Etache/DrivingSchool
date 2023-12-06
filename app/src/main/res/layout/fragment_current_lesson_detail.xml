@@ -153,6 +153,18 @@
 
             </FrameLayout>
 
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:text="@string/cancel_4_times"
+                android:textColor="@color/gray_made_by"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/layout_start_end"
+                android:layout_marginTop="12dp"/>
+
             <!--     visibility этой кнопки изначально должен быть Gone    -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cancel_lesson"
