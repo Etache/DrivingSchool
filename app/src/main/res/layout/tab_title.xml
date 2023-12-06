@@ -7,6 +7,5 @@
     android:background="@drawable/tab_background_selector"
     android:gravity="center"
     android:layout_margin="0dp"
-    android:paddingHorizontal="40dp"
     android:paddingVertical="8dp"
     tools:text="Title" />
