@@ -103,6 +103,7 @@ class EnrollInstructorFragment :
                                     nextWeek.date?.let { add(it) }
                                 }
                             }
+
                             nextSchedule = nextWeekDates
                             currentSchedule = currentWeekDates
                             currentAdapter = CurrentEnrollInstructorAdapter(it.data?.currentWeek)
