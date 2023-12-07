@@ -81,6 +81,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
             val showPasswordIcon = R.drawable.ic_password_eye_on
             val hidePasswordIcon = R.drawable.ic_password_eye_off
             tilPassword.setEndIconDrawable(hidePasswordIcon)
+            binding.tilPassword.isEndIconVisible = false
             tilPassword.setEndIconOnClickListener {
                 etPassword?.let {
                     val selection = it.selectionEnd
@@ -153,7 +154,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
     private fun activateViews() {
         with(binding) {
             etLogin.addTextChangedListener(loginTextWatcher(etLogin))
-            etPassword.addTextChangedListener(loginTextWatcher(etPassword))
+            etPassword.addTextChangedListener(loginTextWatcherPassword(etPassword))
         }
     }
 
@@ -169,9 +170,40 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             if (editText.text.isEmpty()) {
                 editText.setBackgroundResource(R.drawable.edit_text_bg)
-                editText.setBackgroundResource(R.drawable.edit_text_bg)
             } else {
                 editText.setBackgroundResource(R.drawable.edit_text_active_bg)
+            }
+            val userLogin = binding.etLogin.text.toString().trim()
+            val userPassword = binding.etPassword.text.toString().trim()
+
+            if (userLogin.isNotEmpty() && userPassword.isNotEmpty()) {
+                binding.btnLogin.setBackgroundResource(R.drawable.button_active_bg)
+                binding.btnLogin.isEnabled = true
+            } else {
+                binding.btnLogin.setBackgroundResource(R.drawable.button_bg)
+            }
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+        }
+
+    }
+    private fun loginTextWatcherPassword(editText: EditText) = object : TextWatcher {
+        override fun beforeTextChanged(
+            s: CharSequence?,
+            start: Int,
+            count: Int,
+            after: Int
+        ) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            binding.tilPassword.isEndIconVisible = true
+            if (editText.text.isEmpty()) {
+                binding.tilPassword.isEndIconVisible = false
+                editText.setBackgroundResource(R.drawable.edit_text_bg)
+            } else {
+                binding.tilPassword.isEndIconVisible = true
                 editText.setBackgroundResource(R.drawable.edit_text_active_bg)
             }
             val userLogin = binding.etLogin.text.toString().trim()

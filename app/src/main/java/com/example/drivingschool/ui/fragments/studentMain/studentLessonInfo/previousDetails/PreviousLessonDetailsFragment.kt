@@ -99,8 +99,7 @@ class PreviousLessonDetailsFragment :
                     tvUserName.text = getString(
                         R.string.person_full_name,
                         it?.instructor?.surname,
-                        it?.instructor?.name,
-                        last
+                        it?.instructor?.name
                     )
                     val number = it?.instructor?.phoneNumber
                     binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
