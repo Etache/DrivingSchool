@@ -250,5 +250,6 @@
     <string name="msg_cant_make_a_schedule">Новое расписание можно составить при условии, что у вас еще нет расписания на следующую неделю и сегодня день недели с пятницы по воскресенье</string>
     <string name="choose_a_time">Выберите время</string>
     <string name="cancel_4_times">Отмена возможна только за 4 часа до начала урока</string>
+    <string name="couldnt_create_comment">Не удалось отправить комментарий</string>
 
 </resources>
