@@ -27,53 +27,50 @@
                 android:layout_marginTop="24dp"
                 app:layout_constraintTop_toTopOf="parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_profile_image"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_default_photo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_profile_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_default_photo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/roboto_light"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="@string/student_ru"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
                     android:textColor="@color/gray_average_point"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/iv_profile_image"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_fullname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto_medium"
-                tools:text="Иванов Иван"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@id/iv_profile_image"
-                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+                <TextView
+                    android:id="@+id/tv_fullname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title"
+                    tools:text="Иванов Иван" />
 
                 <TextView
                     android:id="@+id/tv_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:fontFamily="@font/roboto_medium"
-                    tools:text="@string/number"
+                    android:textColor="@color/black_light"
                     android:textSize="14sp"
-                    android:textColor="@color/dark_gray_text"
-                    app:layout_constraintStart_toEndOf="@id/iv_profile_image"
-                    app:layout_constraintTop_toBottomOf="@id/tv_fullname" />
+                    app:layout_constraintStart_toStartOf="@id/tv_fullname"
+                    app:layout_constraintTop_toBottomOf="@id/tv_fullname"
+                    tools:text="@string/number" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,7 +81,7 @@
                 android:layout_marginTop="34dp"
                 android:background="@drawable/lesson_info_background"
                 android:paddingHorizontal="32dp"
-                android:paddingVertical="10.5dp"
+                android:paddingVertical="14.5dp"
                 app:layout_constraintTop_toBottomOf="@id/cl_about_instructor">
 
                 <LinearLayout
@@ -154,47 +151,50 @@
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_not_visit"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/btn_not_visit_background"
-            android:fontFamily="@font/roboto_medium"
-            android:text="@string/absent"
-            android:textAllCaps="false"
-            android:textColor="@color/red"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/fl_buttons" />
-
-        <FrameLayout
-            android:id="@+id/fl_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_start_lesson"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_not_visit"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:backgroundTint="@color/light_blue"
-                android:text="@string/start_lesson"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                app:cornerRadius="8dp" />
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_not_visit_background"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/absent"
+                android:textAllCaps="false"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/fl_buttons"
+                tools:ignore="TouchTargetSizeCheck" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_end_lesson"
+            <FrameLayout
+                android:id="@+id/fl_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/light_blue"
-                android:text="@string/end_lesson"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                app:cornerRadius="8dp" />
-        </FrameLayout>
+                android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_start_lesson"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="@string/start_lesson"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:cornerRadius="8dp"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_end_lesson"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:text="@string/end_lesson"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:cornerRadius="8dp"
+                    />
+            </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

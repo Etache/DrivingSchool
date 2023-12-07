@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="16dp"
     android:paddingVertical="24dp"
     tools:context=".ui.fragments.instructorMain.instructorLessonInfo.InstructorPreviousLessonFragment">
@@ -27,22 +27,22 @@
                 android:layout_height="60dp"
                 android:contentDescription="@string/main"
                 android:src="@drawable/ic_default_photo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_title"
                 app:layout_constraintBottom_toBottomOf="@id/tv_user_number"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_title" />
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:fontFamily="@font/roboto_light"
+                android:fontFamily="@font/roboto_medium"
                 android:text="@string/student_ru"
+                android:textColor="@color/gray_average_point"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/circle_image_view"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_user_name"
@@ -50,9 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/black"
+                android:textColor="@color/black_light"
                 android:textSize="20sp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@id/circle_image_view"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
                 tools:text="Иванов Иван" />
@@ -62,10 +61,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:fontFamily="@font/roboto_medium"
-                android:textColor="@color/dark_gray_text"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/black_light"
                 android:textSize="14sp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toEndOf="@id/circle_image_view"
                 app:layout_constraintTop_toBottomOf="@id/tv_user_name"
                 tools:text="+996 39458320985" />
@@ -91,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/start"
-                        android:textColor="@color/dark_gray_text"
+                        android:textColor="@color/gray_average_point"
                         android:textSize="20sp" />
 
                     <TextView
@@ -99,8 +98,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/dark_gray_text"
-                        android:textSize="14sp"
+                        android:textColor="@color/gray_average_point"
+                        android:textSize="13sp"
                         tools:text="29 Октября" />
 
                     <TextView
@@ -109,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/dark_gray_text"
+                        android:textColor="@color/gray_average_point"
                         android:textSize="14sp"
                         tools:text="11:00" />
 
@@ -128,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="@string/end_text"
-                        android:textColor="@color/dark_gray_text"
+                        android:textColor="@color/gray_average_point"
                         android:textSize="20sp" />
 
                     <TextView
@@ -136,8 +135,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/dark_gray_text"
-                        android:textSize="14sp"
+                        android:textColor="@color/gray_average_point"
+                        android:textSize="13sp"
                         tools:text="29 Октября" />
 
                     <TextView
@@ -146,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/dark_gray_text"
+                        android:textColor="@color/gray_average_point"
                         android:textSize="14sp"
                         tools:text="12:00" />
 
@@ -154,92 +153,92 @@
 
             </FrameLayout>
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:id="@+id/container_comment"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:visibility="gone"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/layout_start_end">-->
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:id="@+id/container_comment"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/layout_start_end">-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_comment"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:fontFamily="@font/roboto_medium"-->
-<!--                    android:text="@string/comment"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="20sp"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/tv_comment"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="8dp"-->
+            <!--                    android:layout_marginTop="20dp"-->
+            <!--                    android:fontFamily="@font/roboto_medium"-->
+            <!--                    android:text="@string/comment"-->
+            <!--                    android:textColor="@color/black"-->
+            <!--                    android:textSize="20sp"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--                <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                    android:id="@+id/circle_comment_image"-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:src="@drawable/ic_default_photo"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/tv_comment" />-->
+            <!--                <de.hdodenhof.circleimageview.CircleImageView-->
+            <!--                    android:id="@+id/circle_comment_image"-->
+            <!--                    android:layout_width="50dp"-->
+            <!--                    android:layout_height="50dp"-->
+            <!--                    android:layout_marginTop="20dp"-->
+            <!--                    android:src="@drawable/ic_default_photo"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toBottomOf="@id/tv_comment" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_comment_title"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:fontFamily="@font/roboto_medium"-->
-<!--                    tools:text="Иванов Иван Иванович"-->
-<!--                    android:textColor="@color/dark_gray_text"-->
-<!--                    android:textSize="20sp"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/circle_comment_image"-->
-<!--                    app:layout_constraintTop_toTopOf="@id/circle_comment_image" />-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/tv_comment_title"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="8dp"-->
+            <!--                    android:fontFamily="@font/roboto_medium"-->
+            <!--                    tools:text="Иванов Иван Иванович"-->
+            <!--                    android:textColor="@color/dark_gray_text"-->
+            <!--                    android:textSize="20sp"-->
+            <!--                    app:layout_constraintStart_toEndOf="@id/circle_comment_image"-->
+            <!--                    app:layout_constraintTop_toTopOf="@id/circle_comment_image" />-->
 
-<!--                <RatingBar-->
-<!--                    android:id="@+id/rb_comment_small"-->
-<!--                    style="?android:attr/ratingBarStyleSmall"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:numStars="5"-->
-<!--                    android:rating="4.2"-->
-<!--                    android:theme="@style/CustomRatingBar"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@id/circle_comment_image"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/circle_comment_image" />-->
+            <!--                <RatingBar-->
+            <!--                    android:id="@+id/rb_comment_small"-->
+            <!--                    style="?android:attr/ratingBarStyleSmall"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="8dp"-->
+            <!--                    android:numStars="5"-->
+            <!--                    android:rating="4.2"-->
+            <!--                    android:theme="@style/CustomRatingBar"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@id/circle_comment_image"-->
+            <!--                    app:layout_constraintStart_toEndOf="@id/circle_comment_image" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_comment_date"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:fontFamily="@font/roboto_regular"-->
-<!--                    tools:text="25 Октября"-->
-<!--                    android:textColor="@color/dark_gray_text"-->
-<!--                    android:textSize="14sp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@id/circle_comment_image"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/rb_comment_small" />-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/tv_comment_date"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="8dp"-->
+            <!--                    android:fontFamily="@font/roboto_regular"-->
+            <!--                    tools:text="25 Октября"-->
+            <!--                    android:textColor="@color/dark_gray_text"-->
+            <!--                    android:textSize="14sp"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@id/circle_comment_image"-->
+            <!--                    app:layout_constraintStart_toEndOf="@id/rb_comment_small" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_comment_body"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:fontFamily="@font/roboto_regular"-->
-<!--                    android:maxHeight="60dp"-->
-<!--                    android:text="@string/fish_text"-->
-<!--                    android:textColor="@color/gray"-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/rb_comment_small"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/circle_comment_image" />-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/tv_comment_body"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginTop="20dp"-->
+            <!--                    android:fontFamily="@font/roboto_regular"-->
+            <!--                    android:maxHeight="60dp"-->
+            <!--                    android:text="@string/fish_text"-->
+            <!--                    android:textColor="@color/gray"-->
+            <!--                    android:textSize="16sp"-->
+            <!--                    app:layout_constraintStart_toEndOf="@id/rb_comment_small"-->
+            <!--                    app:layout_constraintTop_toBottomOf="@id/circle_comment_image" />-->
 
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="0.6dp"-->
-<!--                    android:layout_marginTop="14dp"-->
-<!--                    android:background="@color/gray"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/tv_comment_body" />-->
+            <!--                <View-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="0.6dp"-->
+            <!--                    android:layout_marginTop="14dp"-->
+            <!--                    android:background="@color/gray"-->
+            <!--                    app:layout_constraintTop_toBottomOf="@id/tv_comment_body" />-->
 
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <com.google.android.material.button.MaterialButton
 
@@ -263,9 +262,9 @@
         android:id="@+id/details_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
+        android:visibility="gone" />
 
 
 </FrameLayout>
