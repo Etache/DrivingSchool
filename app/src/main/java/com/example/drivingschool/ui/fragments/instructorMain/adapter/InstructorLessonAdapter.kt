@@ -55,8 +55,7 @@ class InstructorLessonAdapter(
                 val last = lesson.student?.lastname ?: ""
                 tvTitle.text = context.getString(R.string.person_full_name,
                     lesson.student?.surname,
-                    lesson.student?.name,
-                    last)
+                    lesson.student?.name)
                 tvTime.text = timeWithoutSeconds(lesson.time)
                 tvStatus.text = getStatus(lesson.status, binding.tvStatus, context)
                 tvDate.text = lesson.date?.let { formatDate(it) }

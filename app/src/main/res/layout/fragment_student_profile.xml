@@ -217,6 +217,7 @@
                     android:paddingStart="16dp"
                     android:text="@string/exit"
                     android:paddingVertical="14dp"
+                    app:layout_constraintHorizontal_bias="0"
                     android:textAlignment="textStart"
                     android:textColor="@color/red"
                     android:textSize="16sp"
@@ -226,7 +227,6 @@
                     app:layout_constraintBottom_toTopOf="@+id/made_by_gp"
                     app:layout_constraintTop_toBottomOf="@id/btnChangePassword"
                     app:layout_constraintVertical_bias="0"
-                    tools:layout_editor_absoluteX="16dp"
                     tools:ignore="RtlSymmetry" />
 
                 <TextView
@@ -237,6 +237,7 @@
                     android:text="@string/made_by_geeks_pro"
                     android:textColor="@color/gray_made_by"
                     android:textSize="12sp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@id/btnExit"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

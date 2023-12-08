@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.FeedbackForInstructorRequest
@@ -95,18 +96,22 @@ class PreviousLessonDetailsFragment :
                     detailsProgressBar.viewVisibility(false)
                     btnComment.viewVisibility(true)
                     studentId = it?.student?.id.toString()
-                    val last = it?.instructor?.lastname ?: ""
                     tvUserName.text = getString(
                         R.string.person_full_name,
                         it?.instructor?.surname,
                         it?.instructor?.name
                     )
                     val number = it?.instructor?.phoneNumber
-                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(4, 7) + " " + number?.substring(7, 10) + " " + number?.substring(10)
+                    binding.tvUserNumber.text = number?.substring(0, 4) + " " + number?.substring(
+                        4,
+                        7
+                    ) + " " + number?.substring(7, 10) + " " + number?.substring(10)
                     tvPreviousStartDate.text = formatDate(it?.date)
                     tvScheduleEndDate.text = formatDate(it?.date)
                     tvPreviousStartTime.text = timeWithoutSeconds(it?.time)
                     calculateEndTime(it?.time, tvPreviousEndTime)
+                    Glide.with(requireContext()).load(it?.instructor?.profilePhoto?.big)
+                        .into(binding.circleImageView)
                     circleImageView.showImage(it?.instructor?.profilePhoto?.big)
 
 
@@ -118,8 +123,6 @@ class PreviousLessonDetailsFragment :
 
                     if (it?.feedbackForStudent != null) {
                         containerComment.viewVisibility(true)
-                        val lastILN =
-                            it.feedbackForStudent?.instructor?.lastname ?: ""
                         tvCommentTitle.text =
                             getString(
                                 R.string.person_full_name,
@@ -155,12 +158,25 @@ class PreviousLessonDetailsFragment :
         val btnDismiss = customDialog.findViewById<ImageButton>(R.id.btn_dismiss)
 
         edt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length == 0) {
+                    btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
+                } else {
+                    btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
+                }
+            }
+
 
             @SuppressLint("SetTextI18n")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 counter.text = "(${p0?.length.toString()}/250)"
+                if (p0?.length == 0) {
+                    btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
+                } else {
+                    btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
+                }
             }
+
 
             override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length == 0) {
@@ -175,20 +191,23 @@ class PreviousLessonDetailsFragment :
 
         val dialog = builder.create()
         btnSend.setOnClickListener {
-            createComment(
-                FeedbackForInstructorRequest(
-                    lesson = lessonId.toInt(),
-                    instructor = studentId.toInt(),
-                    text = edt.text.toString(),
-                    mark = rating.rating.toInt()
+            if (edt.text.toString().isNotEmpty()) {
+                createComment(
+                    FeedbackForInstructorRequest(
+                        lesson = lessonId.toInt(),
+                        instructor = studentId.toInt(),
+                        text = edt.text.toString(),
+                        mark = rating.rating.toInt()
+                    )
                 )
-            )
-            dialog.dismiss()
+                dialog.dismiss()
+            }
         }
         btnDismiss.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
+
     }
 
     private fun createComment(comment: FeedbackForInstructorRequest) {
@@ -196,11 +215,12 @@ class PreviousLessonDetailsFragment :
             if (it) viewModel.saveComment(comment)
         }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            it.access?.let {
+            if(it.status == getString(R.string.success)) {
                 showAlert()
+            } else {
+                showToast(getString(R.string.couldnt_create_comment))
             }
         }
-        showAlert()
     }
 
     private fun showAlert() {

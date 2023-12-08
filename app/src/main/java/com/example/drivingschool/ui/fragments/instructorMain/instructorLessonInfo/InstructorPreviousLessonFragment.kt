@@ -185,7 +185,7 @@ class InstructorPreviousLessonFragment :
             if (it) viewModel.saveComment(comment)
         }
         viewModel.commentLiveData.observe(viewLifecycleOwner) {
-            if(it.access == getString(R.string.success)) {
+            if(it.status == getString(R.string.success)) {
                 showAlert()
             } else {
                 showToast(getString(R.string.couldnt_create_comment))

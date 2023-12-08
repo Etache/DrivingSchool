@@ -39,6 +39,11 @@ class EnrollInstructorFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.layoutSwipeRefresh.setOnRefreshListener {
+            getWorkWindows()
+            binding.layoutSwipeRefresh.isRefreshing = false
+        }
     }
 
     override fun initialize() {
@@ -61,6 +66,8 @@ class EnrollInstructorFragment :
                         dialog.cancel()
                     }.create().show()
                 } else if (isFridayOrSaturday()) {
+                    findNavController().navigate(R.id.calendarInstructorFragment)
+                } else {
                     val builder = AlertDialog.Builder(requireContext())
                     builder.setTitle(getString(R.string.cant_make_a_schedule))
                     builder.setMessage(
@@ -69,8 +76,6 @@ class EnrollInstructorFragment :
                     builder.setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                         dialog.cancel()
                     }.create().show()
-                } else {
-                    findNavController().navigate(R.id.calendarInstructorFragment)
                 }
             }
         }
