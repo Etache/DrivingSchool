@@ -77,6 +77,7 @@ class CurrentLessonDetailsFragment :
                 binding.apply {
                     detailsProgressBar.viewVisibility(false)
                     mainContainer.viewVisibility(true)
+                    val last = it?.instructor?.lastname ?: ""
                     tvUserName.text = getString(
                         R.string.person_full_name,
                         it?.instructor?.surname,

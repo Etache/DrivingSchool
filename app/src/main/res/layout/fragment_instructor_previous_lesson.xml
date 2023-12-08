@@ -53,13 +53,14 @@
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@id/circle_image_view"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
-                tools:text="Иванов Иван" />
+                tools:text="Иванов Иван Иванович" />
 
             <TextView
                 android:id="@+id/tv_user_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="2dp"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/dark_gray_text"
                 android:textSize="14sp"

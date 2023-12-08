@@ -52,6 +52,7 @@ class InstructorLessonAdapter(
         fun bind(lesson: LessonsItem, position: Int) {
 
             binding.apply {
+                val last = lesson.student?.lastname ?: ""
                 tvTitle.text = context.getString(R.string.person_full_name,
                     lesson.student?.surname,
                     lesson.student?.name)

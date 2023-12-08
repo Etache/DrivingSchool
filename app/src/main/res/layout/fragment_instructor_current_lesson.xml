@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/roboto_medium"
-                tools:text="Иванов Иван"
+                tools:text="Иванов Иван Иванович"
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@id/iv_profile_image"
