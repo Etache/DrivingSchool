@@ -37,7 +37,7 @@ class InstructorMainFragment : BaseFragment<FragmentInstructorMainBinding, MainE
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vpInstructor.adapter = InstructorViewPagerAdapter(this@InstructorMainFragment)
-        binding.vpInstructor.isSaveEnabled = false
+        binding.vpInstructor.isSaveEnabled = true
 
         if (!pref.isLoginSuccess) {
             findNavController().navigate(R.id.loginFragment)

@@ -28,7 +28,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPagerMain.adapter = MainExploreViewPagerAdapter(this@MainFragment)
-        binding.viewPagerMain.isSaveEnabled = false
+        binding.viewPagerMain.isSaveEnabled = true
 
         if (!pref.isLoginSuccess || pref.accessToken == null) { //check token
             findNavController().navigate(R.id.loginFragment)
