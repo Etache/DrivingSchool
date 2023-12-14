@@ -67,7 +67,7 @@ class NextEnrollInstructorAdapter(
             }
 
             val stringAfterSpannable = SpannableString(spannableStringBuilder)
-            stringAfterSpannable.setSpan(StyleSpan(Typeface.BOLD), 0, 13, 0)
+            stringAfterSpannable.setSpan(StyleSpan(Typeface.BOLD), 0, 14, 0)
             binding.tvDateAndTime.text = stringAfterSpannable
         }
 
