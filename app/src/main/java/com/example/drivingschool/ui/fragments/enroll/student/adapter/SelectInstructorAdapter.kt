@@ -88,7 +88,7 @@ class SelectInstructorAdapter(val onClick : (workWindows: Dates, name : String, 
             }
             itemView.setOnClickListener {
                 if(instructor.workwindows != null){
-                    onClick(Dates(dates = instructor.workwindows!!), "${instructor.name} ${instructor.surname} ${instructor.lastname}", instructor.id.toString())
+                    onClick(Dates(dates = instructor.workwindows!!), "${instructor.name} ${instructor.surname}", instructor.id.toString())
                 } else {
                     Toast.makeText(context,
                         context.getString(R.string.instructor_has_not_created_timetable), Toast.LENGTH_SHORT).show()

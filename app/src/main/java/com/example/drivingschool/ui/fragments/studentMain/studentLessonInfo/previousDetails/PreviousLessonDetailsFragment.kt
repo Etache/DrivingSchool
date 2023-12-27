@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.models.FeedbackForInstructorRequest
@@ -109,12 +110,15 @@ class PreviousLessonDetailsFragment :
                     tvScheduleEndDate.text = formatDate(it?.date)
                     tvPreviousStartTime.text = timeWithoutSeconds(it?.time)
                     calculateEndTime(it?.time, tvPreviousEndTime)
+                    Glide.with(requireContext()).load(it?.instructor?.profilePhoto?.big)
+                        .into(binding.circleImageView)
                     circleImageView.showImage(it?.instructor?.profilePhoto?.big)
 
 
                     if (it?.feedbackForInstructor != null) {
                         isCommentCreated = true
                         binding.btnComment.viewVisibility(false)
+
                     }
 
                     if (it?.feedbackForStudent != null) {
@@ -162,6 +166,7 @@ class PreviousLessonDetailsFragment :
                 }
             }
 
+
             @SuppressLint("SetTextI18n")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 counter.text = "(${p0?.length.toString()}/250)"
@@ -172,10 +177,13 @@ class PreviousLessonDetailsFragment :
                 }
             }
 
+
             override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length == 0) {
+                    btnSend.isClickable = false
                     btnSend.setBackgroundColor(resources.getColor(R.color.gray_btn))
                 } else {
+                    btnSend.isClickable = true
                     btnSend.setBackgroundColor(resources.getColor(R.color.bright_blue))
                 }
             }
@@ -199,6 +207,7 @@ class PreviousLessonDetailsFragment :
             dialog.dismiss()
         }
         dialog.show()
+
     }
 
     private fun createComment(comment: FeedbackForInstructorRequest) {

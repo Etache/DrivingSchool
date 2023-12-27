@@ -21,6 +21,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.drivingschool.R
 import com.example.drivingschool.base.BaseFragment
 import com.example.drivingschool.data.local.sharedpreferences.PreferencesHelper
@@ -101,9 +102,12 @@ class StudentProfileFragment :
 
                         is UiState.Success -> {
                             binding.progressBar.visibility = View.GONE
-                            Picasso.get().load(state.data?.profilePhoto?.big).memoryPolicy(
-                                MemoryPolicy.NO_CACHE
-                            ).networkPolicy(NetworkPolicy.NO_CACHE).into(binding.ivProfile)
+                            Picasso.get().load(state.data?.profilePhoto?.big)
+                                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                                .networkPolicy(NetworkPolicy.NO_CACHE)
+                                .into(binding.ivProfile)
+                            Glide.with(requireContext()).load(imageUri)
+                                .into(binding.ivProfile)
                         }
 
                         else -> {}
@@ -156,6 +160,7 @@ class StudentProfileFragment :
                     1 -> {
                         networkConnection.observe(viewLifecycleOwner) {
                             if (it) viewModel.deleteProfilePhoto()
+                            binding.ivProfile.setImageResource(R.drawable.ic_default_photo)
                         }
 
                     }
